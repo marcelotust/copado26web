@@ -123,5 +123,10 @@
 
   "menu": {
     "logout": "Sair"
+  },
+
+  "sticker": {
+    "shield": "Escudo",
+    "teamPhoto": "Foto do Time"
   }
 }

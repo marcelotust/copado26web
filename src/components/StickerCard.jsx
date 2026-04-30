@@ -1,8 +1,15 @@
+import { useI18n } from "../i18n";
 import { useStickerActions } from "../hooks/useStickerActions";
 import { gradientClasses, ringClass } from "../utils";
 import StickerButtons from "./StickerButtons";
 
+const LABEL_KEYS = {
+  Shield: "sticker.shield",
+  "Team Photo": "sticker.teamPhoto",
+};
+
 export default function StickerCard({ sticker, teamCode }) {
+  const { t } = useI18n();
   const { popping, floats, handleAdd, handleRemove } = useStickerActions(
     sticker.id,
   );
@@ -27,7 +34,9 @@ export default function StickerCard({ sticker, teamCode }) {
         <span
           className={[
             "font-black leading-none tabular-nums",
-            collected ? "text-white text-2xl drop-shadow" : "text-slate-500 text-xl",
+            collected
+              ? "text-white text-2xl drop-shadow"
+              : "text-slate-500 text-xl",
           ].join(" ")}
         >
           {numLabel}
@@ -43,17 +52,22 @@ export default function StickerCard({ sticker, teamCode }) {
         {sticker.label && (
           <span
             className={[
-              "text-[8px] font-medium leading-tight text-center px-0.5 truncate w-full",
+              "text-[14px] font-medium leading-tight text-center px-0.5 truncate w-full",
               collected ? "text-white/80" : "text-slate-500",
             ].join(" ")}
             title={sticker.label}
           >
-            {sticker.label}
+            {sticker.label in LABEL_KEYS ? t(LABEL_KEYS[/** @type {keyof typeof LABEL_KEYS} */ (sticker.label)]) : sticker.label}
           </span>
         )}
       </div>
 
-      <StickerButtons qty={qty} collected={collected} onAdd={handleAdd} onRemove={handleRemove} />
+      <StickerButtons
+        qty={qty}
+        collected={collected}
+        onAdd={handleAdd}
+        onRemove={handleRemove}
+      />
 
       {dupes > 0 && (
         <span className='absolute -top-1 -right-1 bg-red-500 text-white text-[18px] font-black rounded-full min-w-[30px] h-[30px] flex items-center justify-center px-1 shadow-md leading-none'>

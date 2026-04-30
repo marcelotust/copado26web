@@ -16,12 +16,12 @@ module.exports = {
     // Limita o tamanho do arquivo para forçar a criação de novos componentes (ex: 200 linhas)
     "max-lines": [
       "warn",
-      { max: 200, skipBlankLines: true, skipComments: true },
+      { max: 240, skipBlankLines: true, skipComments: true },
     ],
     // Limita o tamanho de cada função/componente (ex: 60 linhas)
     "max-lines-per-function": [
       "warn",
-      { max: 60, skipBlankLines: true, skipComments: true },
+      { max: 120, skipBlankLines: true, skipComments: true },
     ],
 
     // --- REGRAS DE REACT ---

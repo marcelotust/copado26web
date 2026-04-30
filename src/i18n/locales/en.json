@@ -123,5 +123,10 @@
 
   "menu": {
     "logout": "Logout"
+  },
+
+  "sticker": {
+    "shield": "Shield",
+    "teamPhoto": "Team Photo"
   }
 }
