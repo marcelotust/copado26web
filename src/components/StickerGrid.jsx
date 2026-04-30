@@ -52,7 +52,7 @@ export default function StickerGrid({ sectionCode }) {
       </div>
 
       {/* Progress bar */}
-      <div className='h-1 bg-slate-800 shrink-0'>
+      <div className='h-3 bg-slate-800 shrink-0'>
         <div
           className='h-full rounded-full transition-all duration-500'
           style={{
@@ -69,15 +69,12 @@ export default function StickerGrid({ sectionCode }) {
             {t("grid.loading")}
           </div>
         ) : (
-          <div className='grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-8 gap-2'>
+          <div className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2'>
             {stickers.map((s) => (
               <StickerCard key={s.id} sticker={s} teamCode={sectionCode} />
             ))}
           </div>
         )}
-        <p className='text-center text-slate-700 text-[10px] mt-3'>
-          {t("grid.hint")}
-        </p>
       </div>
     </div>
   );
