@@ -32,7 +32,7 @@ export default function StickerCard({ sticker, teamCode }) {
     <div
       aria-label={`Sticker ${sticker.id}, quantity ${qty}`}
       className={[
-        'relative select-none rounded-xl overflow-hidden flex flex-col',
+        'relative select-none rounded-xl flex flex-col',
         'transition-all duration-150',
         collected
           ? `bg-gradient-to-br ${gradientClasses(teamCode)} shadow-lg ${ringClass(teamCode)} ring-2`
@@ -93,7 +93,7 @@ export default function StickerCard({ sticker, teamCode }) {
 
       {/* Duplicate badge */}
       {dupes > 0 && (
-        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-black rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1 shadow-md leading-none">
+        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[18px] font-black rounded-full min-w-[30px] h-[30px] flex items-center justify-center px-1 shadow-md leading-none">
           +{dupes}
         </span>
       )}
