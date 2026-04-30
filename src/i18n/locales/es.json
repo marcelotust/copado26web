@@ -1,0 +1,127 @@
+{
+  "appSubtitle": "Álbum de Cromos",
+  "loading": "Configurando tu álbum…",
+
+  "conf": {
+    "CONMEBOL": "América del Sur",
+    "CONCACAF": "América C/N",
+    "UEFA": "Europa",
+    "CAF": "África",
+    "AFC": "Asia",
+    "OFC": "Oceanía",
+    "PLAYOFF": "Playoffs",
+    "SPECIAL": "Especial",
+    "FWC": "Copa Mundial FIFA"
+  },
+
+  "teams": {
+    "ARG": "Argentina",
+    "BRA": "Brasil",
+    "COL": "Colombia",
+    "URU": "Uruguay",
+    "ECU": "Ecuador",
+    "PAR": "Paraguay",
+    "USA": "Estados Unidos",
+    "MEX": "México",
+    "CAN": "Canadá",
+    "PAN": "Panamá",
+    "CRC": "Costa Rica",
+    "JAM": "Jamaica",
+    "FRA": "Francia",
+    "ENG": "Inglaterra",
+    "ESP": "España",
+    "GER": "Alemania",
+    "POR": "Portugal",
+    "NED": "Países Bajos",
+    "BEL": "Bélgica",
+    "ITA": "Italia",
+    "AUT": "Austria",
+    "SUI": "Suiza",
+    "DEN": "Dinamarca",
+    "SCO": "Escocia",
+    "SRB": "Serbia",
+    "SVK": "Eslovaquia",
+    "CRO": "Croacia",
+    "HUN": "Hungría",
+    "MAR": "Marruecos",
+    "EGY": "Egipto",
+    "SEN": "Senegal",
+    "CMR": "Camerún",
+    "CIV": "Costa de Marfil",
+    "TUN": "Túnez",
+    "GHA": "Ghana",
+    "NGA": "Nigeria",
+    "COD": "R.D. Congo",
+    "JPN": "Japón",
+    "KOR": "Corea del Sur",
+    "IRN": "Irán",
+    "AUS": "Australia",
+    "SAU": "Arabia Saudita",
+    "QAT": "Qatar",
+    "UZB": "Uzbekistán",
+    "IRQ": "Irak",
+    "NZL": "Nueva Zelanda",
+    "PL1": "Playoff 1",
+    "PL2": "Playoff 2",
+    "PL3": "Playoff 3",
+    "STD": "Estadios",
+    "SPC": "Especiales",
+    "FWC": "Copa Mundial FIFA"
+  },
+
+  "sidebar": {
+    "fwc": "Apertura",
+    "group": "Grupo"
+  },
+
+  "header": {
+    "swaps": "Cambios",
+    "scan": "Escanear"
+  },
+
+  "grid": {
+    "loading": "Cargando cromos…",
+    "hint": "Clic para agregar · Clic derecho para quitar"
+  },
+
+  "scanner": {
+    "title": "Scanner",
+    "ocrLoading": "Cargando OCR…",
+    "scanning": "Escaneando…",
+    "ready": "Listo",
+    "capture": "📸 Capturar Ahora",
+    "typeLabel": "✏️ Escribe el código manualmente",
+    "placeholder": "ej: BRA 10",
+    "add": "Agregar",
+    "logTitle": "Registro",
+    "empty": "Nada escaneado aún",
+    "added": "+1 agregado",
+    "notFound": "no encontrado",
+    "showRaw": "▼ Mostrar texto OCR",
+    "hideRaw": "▲ Ocultar",
+    "alignHint": "Alinea el código del cromo en el recuadro · como",
+    "camError": "Cámara no disponible",
+    "useManual": "Usa la entrada manual a continuación."
+  },
+
+  "swaps": {
+    "title": "Cambios",
+    "sticker": "cromo",
+    "stickers": "cromos",
+    "toTrade": "para cambiar",
+    "dupes": "duplicados",
+    "empty": "¡Sin duplicados aún!",
+    "emptyDesc": "Sigue coleccionando y tus extras aparecerán aquí."
+  },
+
+  "login": {
+    "title": "Iniciar Sesión",
+    "username": "Usuario",
+    "password": "Contraseña",
+    "submit": "Iniciar Sesión"
+  },
+
+  "menu": {
+    "logout": "Cerrar Sesión"
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "appSubtitle": "Sticker Album",
+  "loading": "Setting up your album…",
+
+  "conf": {
+    "CONMEBOL": "South America",
+    "CONCACAF": "N/C America",
+    "UEFA": "Europe",
+    "CAF": "Africa",
+    "AFC": "Asia",
+    "OFC": "Oceania",
+    "PLAYOFF": "Playoffs",
+    "SPECIAL": "Special",
+    "FWC": "FIFA World Cup"
+  },
+
+  "teams": {
+    "ARG": "Argentina",
+    "BRA": "Brazil",
+    "COL": "Colombia",
+    "URU": "Uruguay",
+    "ECU": "Ecuador",
+    "PAR": "Paraguay",
+    "USA": "United States",
+    "MEX": "Mexico",
+    "CAN": "Canada",
+    "PAN": "Panama",
+    "CRC": "Costa Rica",
+    "JAM": "Jamaica",
+    "FRA": "France",
+    "ENG": "England",
+    "ESP": "Spain",
+    "GER": "Germany",
+    "POR": "Portugal",
+    "NED": "Netherlands",
+    "BEL": "Belgium",
+    "ITA": "Italy",
+    "AUT": "Austria",
+    "SUI": "Switzerland",
+    "DEN": "Denmark",
+    "SCO": "Scotland",
+    "SRB": "Serbia",
+    "SVK": "Slovakia",
+    "CRO": "Croatia",
+    "HUN": "Hungary",
+    "MAR": "Morocco",
+    "EGY": "Egypt",
+    "SEN": "Senegal",
+    "CMR": "Cameroon",
+    "CIV": "Côte d'Ivoire",
+    "TUN": "Tunisia",
+    "GHA": "Ghana",
+    "NGA": "Nigeria",
+    "COD": "DR Congo",
+    "JPN": "Japan",
+    "KOR": "South Korea",
+    "IRN": "Iran",
+    "AUS": "Australia",
+    "SAU": "Saudi Arabia",
+    "QAT": "Qatar",
+    "UZB": "Uzbekistan",
+    "IRQ": "Iraq",
+    "NZL": "New Zealand",
+    "PL1": "Playoff 1",
+    "PL2": "Playoff 2",
+    "PL3": "Playoff 3",
+    "STD": "Stadiums",
+    "SPC": "Specials",
+    "FWC": "FIFA World Cup"
+  },
+
+  "sidebar": {
+    "fwc": "Opening",
+    "group": "Group"
+  },
+
+  "header": {
+    "swaps": "Swaps",
+    "scan": "Scan"
+  },
+
+  "grid": {
+    "loading": "Loading stickers…",
+    "hint": "Left-click to add · Right-click to remove"
+  },
+
+  "scanner": {
+    "title": "Scanner",
+    "ocrLoading": "Loading OCR…",
+    "scanning": "Scanning…",
+    "ready": "Ready",
+    "capture": "📸 Capture Now",
+    "typeLabel": "✏️ Type code manually",
+    "placeholder": "e.g. BRA 10",
+    "add": "Add",
+    "logTitle": "Scan log",
+    "empty": "Nothing scanned yet",
+    "added": "+1 added",
+    "notFound": "not found",
+    "showRaw": "▼ Show raw OCR text",
+    "hideRaw": "▲ Hide",
+    "alignHint": "Align the sticker code in the box · codes like",
+    "camError": "Camera unavailable",
+    "useManual": "Use the manual input below instead."
+  },
+
+  "swaps": {
+    "title": "Swaps",
+    "sticker": "sticker",
+    "stickers": "stickers",
+    "toTrade": "to trade",
+    "dupes": "dupes",
+    "empty": "No duplicates yet!",
+    "emptyDesc": "Keep collecting stickers and your extras will appear here."
+  },
+
+  "login": {
+    "title": "Sign In",
+    "username": "Username",
+    "password": "Password",
+    "submit": "Sign In"
+  },
+
+  "menu": {
+    "logout": "Logout"
+  }
+}

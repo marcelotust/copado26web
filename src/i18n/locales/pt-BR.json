@@ -1,0 +1,127 @@
+{
+  "appSubtitle": "Álbum de Figurinhas",
+  "loading": "Configurando seu álbum…",
+
+  "conf": {
+    "CONMEBOL": "América do Sul",
+    "CONCACAF": "América C/N",
+    "UEFA": "Europa",
+    "CAF": "África",
+    "AFC": "Ásia",
+    "OFC": "Oceania",
+    "PLAYOFF": "Playoffs",
+    "SPECIAL": "Especial",
+    "FWC": "Copa do Mundo FIFA"
+  },
+
+  "teams": {
+    "ARG": "Argentina",
+    "BRA": "Brasil",
+    "COL": "Colômbia",
+    "URU": "Uruguai",
+    "ECU": "Equador",
+    "PAR": "Paraguai",
+    "USA": "Estados Unidos",
+    "MEX": "México",
+    "CAN": "Canadá",
+    "PAN": "Panamá",
+    "CRC": "Costa Rica",
+    "JAM": "Jamaica",
+    "FRA": "França",
+    "ENG": "Inglaterra",
+    "ESP": "Espanha",
+    "GER": "Alemanha",
+    "POR": "Portugal",
+    "NED": "Países Baixos",
+    "BEL": "Bélgica",
+    "ITA": "Itália",
+    "AUT": "Áustria",
+    "SUI": "Suíça",
+    "DEN": "Dinamarca",
+    "SCO": "Escócia",
+    "SRB": "Sérvia",
+    "SVK": "Eslováquia",
+    "CRO": "Croácia",
+    "HUN": "Hungria",
+    "MAR": "Marrocos",
+    "EGY": "Egito",
+    "SEN": "Senegal",
+    "CMR": "Camarões",
+    "CIV": "Costa do Marfim",
+    "TUN": "Tunísia",
+    "GHA": "Gana",
+    "NGA": "Nigéria",
+    "COD": "RD Congo",
+    "JPN": "Japão",
+    "KOR": "Coreia do Sul",
+    "IRN": "Irã",
+    "AUS": "Austrália",
+    "SAU": "Arábia Saudita",
+    "QAT": "Catar",
+    "UZB": "Uzbequistão",
+    "IRQ": "Iraque",
+    "NZL": "Nova Zelândia",
+    "PL1": "Playoff 1",
+    "PL2": "Playoff 2",
+    "PL3": "Playoff 3",
+    "STD": "Estádios",
+    "SPC": "Especiais",
+    "FWC": "Copa do Mundo FIFA"
+  },
+
+  "sidebar": {
+    "fwc": "Abertura",
+    "group": "Grupo"
+  },
+
+  "header": {
+    "swaps": "Trocas",
+    "scan": "Escanear"
+  },
+
+  "grid": {
+    "loading": "Carregando figurinhas…",
+    "hint": "Clique para adicionar · Clique direito para remover"
+  },
+
+  "scanner": {
+    "title": "Scanner",
+    "ocrLoading": "Carregando OCR…",
+    "scanning": "Escaneando…",
+    "ready": "Pronto",
+    "capture": "📸 Capturar Agora",
+    "typeLabel": "✏️ Digite o código manualmente",
+    "placeholder": "ex: BRA 10",
+    "add": "Adicionar",
+    "logTitle": "Registro",
+    "empty": "Nenhum scan ainda",
+    "added": "+1 adicionada",
+    "notFound": "não encontrada",
+    "showRaw": "▼ Mostrar texto OCR",
+    "hideRaw": "▲ Ocultar",
+    "alignHint": "Alinhe o código da figurinha na caixa · como",
+    "camError": "Câmera indisponível",
+    "useManual": "Use a entrada manual abaixo."
+  },
+
+  "swaps": {
+    "title": "Trocas",
+    "sticker": "figurinha",
+    "stickers": "figurinhas",
+    "toTrade": "para trocar",
+    "dupes": "duplicatas",
+    "empty": "Nenhuma duplicata ainda!",
+    "emptyDesc": "Continue coletando e seus extras aparecerão aqui."
+  },
+
+  "login": {
+    "title": "Entrar",
+    "username": "Usuário",
+    "password": "Senha",
+    "submit": "Entrar"
+  },
+
+  "menu": {
+    "logout": "Sair"
+  }
+}
