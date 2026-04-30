@@ -48,7 +48,7 @@ export default function SwapsPage() {
                       · {byTeam[teamCode].length} {t("swaps.dupes")}
                     </span>
                   </div>
-                  <div className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
+                  <div className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2'>
                     {byTeam[teamCode].map((s) => (
                       <SwapCard key={s.id} sticker={s} />
                     ))}
