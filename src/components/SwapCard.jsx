@@ -3,11 +3,18 @@ import { decrement, increment } from "../hooks/useStickers";
 import { gradientClasses } from "../utils";
 import { useI18n } from "../i18n";
 
+const LABEL_KEYS = {
+  Shield: "sticker.shield",
+  "Team Photo": "sticker.teamPhoto",
+};
+
 export default function SwapCard({ sticker }) {
   const { t } = useI18n();
   const section = SECTIONS.find((s) => s.code === sticker.teamCode);
   const name = t(`teams.${sticker.teamCode}`);
   const dupes = sticker.quantity - 1;
+  const qty = sticker.quantity;
+  const collected = qty > 0;
 
   return (
     <div
@@ -21,12 +28,24 @@ export default function SwapCard({ sticker }) {
           </p>
           <p className='text-white/70 text-xs truncate'>{name}</p>
         </div>
-        {dupes > 1 && (
-          <span className='bg-red-500 text-white text-[16px] font-black rounded-full min-w-[30px] h-[30px] flex items-center justify-center px-1'>
-            +{dupes}
-          </span>
-        )}
       </div>
+      {sticker.label && (
+        <span
+          className={[
+            "text-[14px] font-medium leading-tight text-center px-0.5 truncate w-full",
+            collected ? "text-white/80" : "text-slate-500",
+          ].join(" ")}
+          title={sticker.label}
+        >
+          {sticker.label in LABEL_KEYS
+            ? t(
+                LABEL_KEYS[
+                  /** @type {keyof typeof LABEL_KEYS} */ (sticker.label)
+                ],
+              )
+            : sticker.label}
+        </span>
+      )}
       <div className='flex items-center gap-1.5 shrink-0'>
         <button
           onClick={() => decrement(sticker.id)}
@@ -34,8 +53,8 @@ export default function SwapCard({ sticker }) {
         >
           −
         </button>
-        <span className='text-white font-black tabular-nums text-sm w-5 text-center'>
-          {sticker.quantity}
+        <span className='bg-red-500 text-white text-[16px] font-black rounded-full min-w-[30px] h-[30px] flex items-center justify-center px-1'>
+          {dupes}
         </span>
         <button
           onClick={() => increment(sticker.id)}

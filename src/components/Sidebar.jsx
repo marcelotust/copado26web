@@ -32,7 +32,7 @@ export default function Sidebar({
           ].join(" ")}
         >
           🔄
-          <span className='lg:inline'>{t("header.swaps")}</span>
+          <span>{t("header.swaps")}</span>
           {swaps > 0 && (
             <span className='bg-amber-500 text-white text-[9px] font-black rounded-full min-w-[16px] h-4 flex items-center justify-center px-1'>
               {swaps}
@@ -50,7 +50,7 @@ export default function Sidebar({
           ].join(" ")}
         >
           📷
-          <span className='lg:inline'>{t("header.scan")}</span>
+          <span>{t("header.scan")}</span>
         </button>
       </div>
 
