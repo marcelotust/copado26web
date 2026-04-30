@@ -70,6 +70,15 @@ const en = {
   'swaps.dupes':      'dupes',
   'swaps.empty':      'No duplicates yet!',
   'swaps.emptyDesc':  'Keep collecting stickers and your extras will appear here.',
+
+  // Login
+  'login.title':    'Sign In',
+  'login.username': 'Username',
+  'login.password': 'Password',
+  'login.submit':   'Sign In',
+
+  // Header menu
+  'menu.logout': 'Logout',
 }
 
 const ptBR = {
@@ -134,6 +143,15 @@ const ptBR = {
   'swaps.dupes':      'duplicatas',
   'swaps.empty':      'Nenhuma duplicata ainda!',
   'swaps.emptyDesc':  'Continue coletando e seus extras aparecerão aqui.',
+
+  // Login
+  'login.title':    'Entrar',
+  'login.username': 'Usuário',
+  'login.password': 'Senha',
+  'login.submit':   'Entrar',
+
+  // Header menu
+  'menu.logout': 'Sair',
 }
 
 const es = {
@@ -198,6 +216,15 @@ const es = {
   'swaps.dupes':      'duplicados',
   'swaps.empty':      '¡Sin duplicados aún!',
   'swaps.emptyDesc':  'Sigue coleccionando y tus extras aparecerán aquí.',
+
+  // Login
+  'login.title':    'Iniciar Sesión',
+  'login.username': 'Usuario',
+  'login.password': 'Contraseña',
+  'login.submit':   'Iniciar Sesión',
+
+  // Header menu
+  'menu.logout': 'Cerrar Sesión',
 }
 
 const LOCALES = { en, 'pt-BR': ptBR, es }
