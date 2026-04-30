@@ -13,7 +13,7 @@ export default function Sidebar({ selected, onSelect }) {
   }, {});
 
   return (
-    <aside className='w-14 lg:w-40 shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col overflow-hidden'>
+    <aside className='w-150 shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col overflow-hidden'>
       <nav className='flex-1 overflow-y-auto py-1 px-1'>
         {CONF_ORDER.map((conf) => {
           const items = grouped[conf];
@@ -23,7 +23,6 @@ export default function Sidebar({ selected, onSelect }) {
               <p className='hidden lg:block text-[8px] text-slate-600 font-bold tracking-widest uppercase px-2 pt-2 pb-1'>
                 {t(`conf.${conf}`)}
               </p>
-              <div className='lg:hidden h-px bg-slate-800 mx-1 my-1' />
               {items.map((section) => (
                 <SectionItem
                   key={section.code}

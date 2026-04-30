@@ -23,30 +23,16 @@ export default function SectionItem({ section, active, onClick }) {
         {section.flag}
       </span>
 
-      <div className='hidden lg:flex flex-col flex-1 min-w-0'>
-        <span
-          className={[
-            "text-[11px] font-semibold truncate leading-tight",
-            active ? `text-${teamColor(section.code)}-300` : "text-slate-200",
-          ].join(" ")}
-        >
-          {name}
-        </span>
-        <span className='text-[9px] text-slate-600 font-mono leading-none'>
-          {section.code}
-        </span>
-      </div>
-
       <span
         className={[
-          "lg:hidden text-[9px] font-bold font-mono tracking-wide leading-none",
+          "text-[16px] font-bold font-mono tracking-wide leading-none",
           active ? `text-${teamColor(section.code)}-300` : "text-slate-500",
         ].join(" ")}
       >
         {section.code}
       </span>
 
-      <span className='hidden lg:inline text-[9px] shrink-0'>
+      <span className='text-[14px] shrink-0'>
         {done ? (
           <span className='text-emerald-400 font-bold'>✓</span>
         ) : collected > 0 ? (
