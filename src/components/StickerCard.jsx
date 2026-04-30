@@ -40,15 +40,15 @@ export default function StickerCard({ sticker, teamCode }) {
         >
           {teamCode}
         </span>
-        {sticker.playerName && (
+        {sticker.label && (
           <span
             className={[
               "text-[8px] font-medium leading-tight text-center px-0.5 truncate w-full",
               collected ? "text-white/80" : "text-slate-500",
             ].join(" ")}
-            title={sticker.playerName}
+            title={sticker.label}
           >
-            {sticker.playerName}
+            {sticker.label}
           </span>
         )}
       </div>

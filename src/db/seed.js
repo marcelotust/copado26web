@@ -1,17 +1,21 @@
-// ── Brazil squad: sticker numbers → player name ──────────────────────────────
-// Sticker 1 = Shield (isSpecial), Sticker 2 = Team Photo, 3-20 = Players
+// ── Player maps: sticker number → player name (positions 2-12 and 14-20 only)
+// Position 1  = Shield (isSpecial)
+// Position 13 = Team Photo
+// Positions 2-12, 14-20 = Players
+
+/** @type {Record<number, string>} */
 const BRA_PLAYERS = {
-  3:  'Alisson',
-  4:  'Bento',
-  5:  'Marquinhos',
-  6:  'Militão',
-  7:  'Gabriel Magalhães',
-  8:  'Danilo',
-  9:  'Wesley',
-  10: 'Casemiro',
-  11: 'Paquetá',
-  12: 'Bruno Guimarães',
-  13: 'Luiz Henrique',
+  2:  'Alisson',
+  3:  'Bento',
+  4:  'Marquinhos',
+  5:  'Militão',
+  6:  'Gabriel Magalhães',
+  7:  'Danilo',
+  8:  'Wesley',
+  9:  'Casemiro',
+  10: 'Paquetá',
+  11: 'Bruno Guimarães',
+  12: 'Luiz Henrique',
   14: 'Vini Jr',
   15: 'Rodrygo',
   16: 'João Pedro',
@@ -21,9 +25,36 @@ const BRA_PLAYERS = {
   20: 'Estêvão',
 }
 
+/** @type {Record<number, string>} */
+const MEX_PLAYERS = {
+  12: 'Marcel Ruiz',
+  14: 'Érick Sánchez',
+  15: 'Hirving Lozano',
+  16: 'Santiago Giménez',
+  17: 'Raúl Jiménez',
+  18: 'Alexis Vega',
+  19: 'Roberto Alvarado',
+  20: 'Cesar Huerta',
+}
+
+/** @type {Record<number, string>} */
+const CAN_PLAYERS = {
+  3:  'Alphonso Davies',
+  10: 'Stephen Eustáquio',
+  19: 'Cyle Larin',
+  20: 'Jonathan David',
+}
+
+const RSA_PLAYERS = {
+  2:  'Ronwen Williams',
+  8:  'Siyabonga Ngezana',
+  11: 'Teboho Mokoena',
+  17: 'Lyle Foster',
+}
+
 // ── Sections ──────────────────────────────────────────────────────────────────
-// Each team: 20 stickers (1=Shield isSpecial, 2=Team Photo, 3-20=Players)
-// FWC: 20 stickers (00-08=Intro, 09-19=Stadiums & Moments), startNumber=0
+// Each team: 20 stickers (1=Shield isSpecial, 13=Team Photo, 2-12/14-20=Players)
+// FWC special: 20 stickers (00-19), startNumber=0, no shield/teamPhoto logic
 
 export const SECTIONS = [
   // ── Opening pages ─────────────────────────────────────────────────────────
@@ -37,13 +68,15 @@ export const SECTIONS = [
   { code: 'JPN', name: 'Japan',         flag: '🇯🇵', type: 'team', conf: 'AFC',      group: 'A', count: 20 },
 
   // ── Group B ───────────────────────────────────────────────────────────────
-  { code: 'MEX', name: 'Mexico',        flag: '🇲🇽', type: 'team', conf: 'CONCACAF', group: 'B', count: 20 },
+  { code: 'MEX', name: 'Mexico',        flag: '🇲🇽', type: 'team', conf: 'CONCACAF', group: 'B', count: 20,
+    players: MEX_PLAYERS },
   { code: 'JAM', name: 'Jamaica',       flag: '🇯🇲', type: 'team', conf: 'CONCACAF', group: 'B', count: 20 },
   { code: 'EGY', name: 'Egypt',         flag: '🇪🇬', type: 'team', conf: 'CAF',      group: 'B', count: 20 },
   { code: 'AUS', name: 'Australia',     flag: '🇦🇺', type: 'team', conf: 'AFC',      group: 'B', count: 20 },
 
   // ── Group C ───────────────────────────────────────────────────────────────
-  { code: 'CAN', name: 'Canada',        flag: '🇨🇦', type: 'team', conf: 'CONCACAF', group: 'C', count: 20 },
+  { code: 'CAN', name: 'Canada',        flag: '🇨🇦', type: 'team', conf: 'CONCACAF', group: 'C', count: 20,
+    players: CAN_PLAYERS },
   { code: 'CRC', name: 'Costa Rica',    flag: '🇨🇷', type: 'team', conf: 'CONCACAF', group: 'C', count: 20 },
   { code: 'COD', name: 'DR Congo',      flag: '🇨🇩', type: 'team', conf: 'CAF',      group: 'C', count: 20 },
   { code: 'NZL', name: 'New Zealand',   flag: '🇳🇿', type: 'team', conf: 'OFC',      group: 'C', count: 20 },
@@ -128,18 +161,28 @@ export function buildStickerRows() {
   for (const section of SECTIONS) {
     const start = section.startNumber ?? 1
     const end   = start + section.count - 1
+    const isTeam = section.type === 'team'
 
     for (let n = start; n <= end; n++) {
+      let label = null
+      if (isTeam) {
+        if (n === 1)       label = 'Shield'
+        else if (n === 13) label = 'Team Photo'
+        else               label = section.players?.[n] ?? null
+      }
+
       rows.push({
-        id:         `${section.code}-${String(n).padStart(2, '0')}`,
-        teamCode:   section.code,
-        number:     n,
-        quantity:   0,
-        isSpecial:  section.type === 'team' && n === 1,
-        playerName: section.players?.[n] ?? null,
+        id:        `${section.code}-${String(n).padStart(2, '0')}`,
+        teamCode:  section.code,
+        number:    n,
+        quantity:  0,
+        isSpecial: isTeam && n === 1,
+        label,
       })
     }
   }
 
   return rows
 }
+
+export { RSA_PLAYERS }
