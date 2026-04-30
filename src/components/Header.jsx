@@ -1,26 +1,16 @@
 import { useProgress } from '../hooks/useStickers'
+import { useI18n } from '../i18n'
 
-export default function Header({ onScanClick, onSwapsClick, onMenuClick, view }) {
+export default function Header({ onScanClick, onSwapsClick, view }) {
   const { total, collected, swaps } = useProgress()
+  const { t } = useI18n()
   const pct = total > 0 ? Math.round((collected / total) * 100) : 0
 
   return (
     <header className="shrink-0 flex items-center gap-3 px-4 py-2.5 bg-slate-900/95 backdrop-blur border-b border-slate-800 z-10">
-      {/* Hamburger (mobile) */}
-      <button
-        onClick={onMenuClick}
-        className="lg:hidden text-slate-400 hover:text-white transition-colors p-1 -ml-1"
-        aria-label="Open menu"
-      >
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-
-      {/* Title */}
-      <div className="hidden sm:block shrink-0">
+      {/* Title — hidden on mobile since sidebar logo covers it */}
+      <div className="hidden md:block shrink-0">
         <span className="text-white font-black text-base tracking-tight">WC 2026</span>
-        <span className="text-slate-500 text-xs ml-1.5">Album</span>
       </div>
 
       {/* Progress */}
@@ -50,7 +40,7 @@ export default function Header({ onScanClick, onSwapsClick, onMenuClick, view })
           ].join(' ')}
         >
           🔄
-          <span className="hidden sm:inline">Swaps</span>
+          <span className="hidden sm:inline">{t('header.swaps')}</span>
           {swaps > 0 && (
             <span className="bg-amber-500 text-white text-[9px] font-black rounded-full min-w-[16px] h-4 flex items-center justify-center px-1">
               {swaps}
@@ -68,7 +58,7 @@ export default function Header({ onScanClick, onSwapsClick, onMenuClick, view })
           ].join(' ')}
         >
           📷
-          <span className="hidden sm:inline">Scan</span>
+          <span className="hidden sm:inline">{t('header.scan')}</span>
         </button>
       </div>
     </header>

@@ -80,6 +80,36 @@ export const CONF_LABELS = {
   SPECIAL:  'Special'
 }
 
+// Teams ordered as they appear in the Qatar 2022 Panini album (by group),
+// followed by 2026 qualifiers that weren't in that edition, then specials.
+export const ALBUM_ORDER = [
+  // Group A
+  'QAT', 'ECU', 'SEN', 'NED',
+  // Group B (Wales didn't qualify for 2026)
+  'ENG', 'IRN', 'USA',
+  // Group C (Poland didn't qualify for 2026)
+  'ARG', 'SAU', 'MEX',
+  // Group D
+  'FRA', 'AUS', 'DEN', 'TUN',
+  // Group E
+  'ESP', 'CRC', 'GER', 'JPN',
+  // Group F
+  'BEL', 'CAN', 'MAR', 'CRO',
+  // Group G
+  'BRA', 'SRB', 'SUI', 'CMR',
+  // Group H
+  'POR', 'GHA', 'URU', 'KOR',
+  // 2026 qualifiers not present in Qatar 2022
+  'COL', 'PAR', 'PAN', 'JAM',
+  'ITA', 'AUT', 'SCO', 'SVK', 'HUN',
+  'EGY', 'CIV', 'NGA', 'COD',
+  'UZB', 'IRQ', 'NZL',
+  // Playoffs (TBD)
+  'PL1', 'PL2', 'PL3',
+  // Special sections
+  'STD', 'SPC',
+]
+
 export function buildStickerRows() {
   const rows = []
   for (const section of SECTIONS) {
