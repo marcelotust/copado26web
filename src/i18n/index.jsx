@@ -34,6 +34,14 @@ const en = {
   'teams.QAT': 'Qatar',       'teams.UZB': 'Uzbekistan',    'teams.IRQ': 'Iraq',
   'teams.NZL': 'New Zealand', 'teams.PL1': 'Playoff 1',    'teams.PL2': 'Playoff 2',
   'teams.PL3': 'Playoff 3',   'teams.STD': 'Stadiums',      'teams.SPC': 'Specials',
+  'teams.FWC': 'FIFA World Cup',
+
+  // Sidebar group labels
+  'sidebar.fwc':   'Opening',
+  'sidebar.group': 'Group',
+
+  // Confederation labels (used in StickerGrid section header)
+  'conf.FWC': 'FIFA World Cup',
 
   // Header
   'header.swaps': 'Swaps',
@@ -111,6 +119,14 @@ const ptBR = {
   'teams.QAT': 'Catar',           'teams.UZB': 'Uzbequistão',     'teams.IRQ': 'Iraque',
   'teams.NZL': 'Nova Zelândia',   'teams.PL1': 'Playoff 1',       'teams.PL2': 'Playoff 2',
   'teams.PL3': 'Playoff 3',       'teams.STD': 'Estádios',        'teams.SPC': 'Especiais',
+  'teams.FWC': 'Copa do Mundo FIFA',
+
+  // Sidebar group labels
+  'sidebar.fwc':   'Abertura',
+  'sidebar.group': 'Grupo',
+
+  // Confederation labels
+  'conf.FWC': 'Copa do Mundo FIFA',
 
   'header.swaps': 'Trocas',
   'header.scan':  'Escanear',
@@ -184,6 +200,14 @@ const es = {
   'teams.QAT': 'Qatar',           'teams.UZB': 'Uzbekistán',      'teams.IRQ': 'Irak',
   'teams.NZL': 'Nueva Zelanda',   'teams.PL1': 'Playoff 1',       'teams.PL2': 'Playoff 2',
   'teams.PL3': 'Playoff 3',       'teams.STD': 'Estadios',        'teams.SPC': 'Especiales',
+  'teams.FWC': 'Copa Mundial FIFA',
+
+  // Sidebar group labels
+  'sidebar.fwc':   'Apertura',
+  'sidebar.group': 'Grupo',
+
+  // Confederation labels
+  'conf.FWC': 'Copa Mundial FIFA',
 
   'header.swaps': 'Cambios',
   'header.scan':  'Escanear',
@@ -227,6 +251,7 @@ const es = {
   'menu.logout': 'Cerrar Sesión',
 }
 
+/** @type {Record<string, Record<string, string>>} */
 const LOCALES = { en, 'pt-BR': ptBR, es }
 
 // ── Locale detection ──────────────────────────────────────────────────────────
@@ -240,12 +265,12 @@ export function detectLocale() {
 
 // ── Context ───────────────────────────────────────────────────────────────────
 
-const I18nContext = createContext(null)
+const I18nContext = createContext(/** @type {any} */ (null))
 
 export function I18nProvider({ children }) {
   const [locale, setLocale] = useState(detectLocale)
 
-  const t = useMemo(() => (key) => {
+  const t = useMemo(() => (/** @type {string} */ key) => {
     return LOCALES[locale]?.[key] ?? LOCALES.en[key] ?? key
   }, [locale])
 

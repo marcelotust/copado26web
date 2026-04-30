@@ -1,4 +1,4 @@
-import { SECTIONS, CONF_ORDER } from '../db/seed'
+import { SECTIONS, GROUP_ORDER } from '../db/seed'
 import { useI18n } from '../i18n'
 import { useProgress } from '../hooks/useStickers'
 import SectionItem from './SectionItem'
@@ -7,9 +7,9 @@ export default function Sidebar({ selected, onSelect, view, onScanClick, onSwaps
   const { t } = useI18n()
   const { swaps } = useProgress()
 
-  const grouped = CONF_ORDER.reduce((acc, conf) => {
-    const items = SECTIONS.filter(s => s.conf === conf)
-    if (items.length) acc[conf] = items
+  const grouped = GROUP_ORDER.reduce((acc, group) => {
+    const items = SECTIONS.filter(s => s.group === group)
+    if (items.length) acc[group] = items
     return acc
   }, {})
 
@@ -49,13 +49,16 @@ export default function Sidebar({ selected, onSelect, view, onScanClick, onSwaps
       </div>
 
       <nav className='flex-1 overflow-y-auto py-1 px-1'>
-        {CONF_ORDER.map(conf => {
-          const items = grouped[conf]
+        {GROUP_ORDER.map(group => {
+          const items = grouped[group]
           if (!items) return null
+          const label = group === 'FWC'
+            ? t('sidebar.fwc')
+            : `${t('sidebar.group')} ${group}`
           return (
-            <div key={conf} className='mb-1'>
+            <div key={group} className='mb-1'>
               <p className='hidden lg:block text-[8px] text-slate-600 font-bold tracking-widest uppercase px-2 pt-2 pb-1'>
-                {t(`conf.${conf}`)}
+                {label}
               </p>
               {items.map(section => (
                 <SectionItem

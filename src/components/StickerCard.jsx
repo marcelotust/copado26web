@@ -40,6 +40,17 @@ export default function StickerCard({ sticker, teamCode }) {
         >
           {teamCode}
         </span>
+        {sticker.playerName && (
+          <span
+            className={[
+              "text-[8px] font-medium leading-tight text-center px-0.5 truncate w-full",
+              collected ? "text-white/80" : "text-slate-500",
+            ].join(" ")}
+            title={sticker.playerName}
+          >
+            {sticker.playerName}
+          </span>
+        )}
       </div>
 
       <StickerButtons qty={qty} collected={collected} onAdd={handleAdd} onRemove={handleRemove} />
