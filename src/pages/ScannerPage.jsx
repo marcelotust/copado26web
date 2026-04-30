@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useOCR } from "../hooks/useOCR";
 import { useScannerLog } from "../hooks/useScannerLog";
-import ScannerTopBar from "./ScannerTopBar";
-import ScannerCamera from "./ScannerCamera";
-import ScannerPanel from "./ScannerPanel";
+import ScannerTopBar from "../components/ScannerTopBar";
+import ScannerCamera from "../components/ScannerCamera";
+import ScannerPanel from "../components/ScannerPanel";
 
-export default function OcrScanner({ onClose }) {
+export default function ScannerPage({ onClose }) {
   const [autoScan, setAutoScan] = useState(true);
   const { log, manualCode, setManualCode, addEntry, handleManualSubmit } =
     useScannerLog();

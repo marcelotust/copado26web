@@ -2,9 +2,9 @@ import { SECTIONS } from "../db/seed";
 import { useSwaps } from "../hooks/useSwaps";
 import { teamColor } from "../utils";
 import { useI18n } from "../i18n";
-import SwapCard from "./SwapCard";
+import SwapCard from "../components/SwapCard";
 
-export default function SwapsView() {
+export default function SwapsPage() {
   const { t } = useI18n();
   const { swaps, byTeam, teams } = useSwaps();
 

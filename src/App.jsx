@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { initDB } from './db'
 import { useI18n } from './i18n'
-import LoginPage from './components/LoginPage'
+import LoginPage from './pages/LoginPage'
+import AlbumPage from './pages/AlbumPage'
+import SwapsPage from './pages/SwapsPage'
+import ScannerPage from './pages/ScannerPage'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
-import StickerGrid from './components/StickerGrid'
-import OcrScanner from './components/OcrScanner'
-import SwapsView from './components/SwapsView'
 
 export default function App() {
   const { t } = useI18n()
@@ -56,13 +56,13 @@ export default function App() {
         />
 
         <main className='flex-1 min-w-0 overflow-hidden'>
-          {view === 'album' && <StickerGrid sectionCode={section} />}
-          {view === 'swaps' && <SwapsView />}
+          {view === 'album' && <AlbumPage sectionCode={section} />}
+          {view === 'swaps' && <SwapsPage />}
         </main>
       </div>
 
       {view === 'scanner' && (
-        <OcrScanner onClose={() => setView('album')} />
+        <ScannerPage onClose={() => setView('album')} />
       )}
     </div>
   )

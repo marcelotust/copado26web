@@ -2,7 +2,7 @@ import { useStickers, useSectionProgress } from "../hooks/useStickers";
 import { SECTIONS } from "../db/seed";
 import { textClass, teamColor } from "../utils";
 import { useI18n } from "../i18n";
-import StickerCard from "./StickerCard";
+import StickerCard from "../components/StickerCard";
 
 const COLOR_HEX = {
   emerald: "#10b981",
@@ -17,7 +17,7 @@ const COLOR_HEX = {
   fuchsia: "#d946ef",
 };
 
-export default function StickerGrid({ sectionCode }) {
+export default function AlbumPage({ sectionCode }) {
   const { t } = useI18n();
   const stickers = useStickers(sectionCode);
   const { total, collected } = useSectionProgress(sectionCode);
