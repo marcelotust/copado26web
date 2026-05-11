@@ -1,15 +1,16 @@
 import { SECTIONS } from "../db/seed";
-import { useSwaps } from "../hooks/useSwaps";
+import { useSupabaseSwaps } from "../hooks/useSupabaseSwaps";
 import { teamColors } from "../utils";
 import { useI18n } from "../i18n";
 import StickerCard from "../components/StickerCard";
 
-export default function SwapsPage() {
+/** @param {{ userId: string }} props */
+export default function SwapsPage({ userId }) {
   const { t } = useI18n();
-  const { swaps, byTeam, teams } = useSwaps();
+  const { swapsByTeam, total } = useSupabaseSwaps(userId);
 
   const stickerWord =
-    swaps.length === 1 ? t("swaps.sticker") : t("swaps.stickers");
+    total === 1 ? t("swaps.sticker") : t("swaps.stickers");
 
   return (
     <div className='flex flex-col h-full'>
@@ -18,13 +19,13 @@ export default function SwapsPage() {
         <div>
           <h2 className='text-white font-bold text-lg'>{t("swaps.title")}</h2>
           <p className='text-slate-400 text-xs'>
-            {swaps.length} {stickerWord} {t("swaps.toTrade")}
+            {total} {stickerWord} {t("swaps.toTrade")}
           </p>
         </div>
       </div>
 
       <div className='flex-1 overflow-y-auto p-3'>
-        {swaps.length === 0 ? (
+        {swapsByTeam.length === 0 ? (
           <div className='flex flex-col items-center justify-center h-48 text-center gap-3'>
             <span className='text-5xl'>✨</span>
             <p className='text-slate-400 font-semibold'>{t("swaps.empty")}</p>
@@ -32,11 +33,11 @@ export default function SwapsPage() {
           </div>
         ) : (
           <div className='space-y-6'>
-            {teams.map((teamCode) => {
+            {swapsByTeam.map(({ teamCode, stickers }) => {
               const section = SECTIONS.find((s) => s.code === teamCode);
               const { primary, secondary } = teamColors(teamCode);
               const name = t(`teams.${teamCode}`);
-              const dupeCount = byTeam[teamCode].length;
+              const dupeCount = stickers.length;
 
               return (
                 <div key={teamCode}>
@@ -65,10 +66,10 @@ export default function SwapsPage() {
                     }}
                   />
 
-                  {/* Sticker grid — same as AlbumPage */}
+                  {/* Sticker grid */}
                   <div className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2'>
-                    {byTeam[teamCode].map((s) => (
-                      <StickerCard key={s.id} sticker={s} teamCode={teamCode} />
+                    {stickers.map((s) => (
+                      <StickerCard key={s.id} sticker={s} teamCode={teamCode} userId={userId} />
                     ))}
                   </div>
                 </div>

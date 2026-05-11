@@ -1,13 +1,15 @@
-import { useStickers, useSectionProgress } from "../hooks/useStickers";
+import { useSupabaseStickers } from "../hooks/useSupabaseStickers";
+import { useSupabaseSectionProgress } from "../hooks/useSupabaseProgress";
 import { SECTIONS } from "../db/seed";
 import { teamColors } from "../utils";
 import { useI18n } from "../i18n";
 import StickerCard from "../components/StickerCard";
 
-export default function AlbumPage({ sectionCode }) {
+/** @param {{ userId: string, sectionCode: string }} props */
+export default function AlbumPage({ userId, sectionCode }) {
   const { t } = useI18n();
-  const stickers = useStickers(sectionCode);
-  const { total, collected } = useSectionProgress(sectionCode);
+  const { stickers } = useSupabaseStickers(userId, sectionCode);
+  const { total, collected } = useSupabaseSectionProgress(userId, sectionCode);
 
   const section = SECTIONS.find((s) => s.code === sectionCode);
   if (!section) return null;
@@ -58,7 +60,7 @@ export default function AlbumPage({ sectionCode }) {
         ) : (
           <div className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2'>
             {stickers.map((s) => (
-              <StickerCard key={s.id} sticker={s} teamCode={sectionCode} />
+              <StickerCard key={s.id} sticker={s} teamCode={sectionCode} userId={userId} />
             ))}
           </div>
         )}

@@ -1,10 +1,11 @@
-import { useProgress } from '../hooks/useStickers'
+import { useSupabaseProgress } from '../hooks/useSupabaseProgress'
 import { useI18n } from '../i18n'
 import ProgressBar from './ProgressBar'
 import HeaderMenu from './HeaderMenu'
 
-export default function Header({ onLogout }) {
-  const { total, collected } = useProgress()
+/** @param {{ userId: string, onLogout: () => void }} props */
+export default function Header({ userId, onLogout }) {
+  const { total, collected } = useSupabaseProgress(userId)
   const { t } = useI18n()
 
   return (
