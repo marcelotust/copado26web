@@ -12,21 +12,46 @@ export function useStickerActions(sticker, userId) {
     setTimeout(() => setPopping(false), 200)
     setTimeout(() => setFloats(f => f.slice(1)), 750)
 
-    await supabase
+    const { data: row, error: fetchError } = await supabase
       .from('stickers')
-      .update({ quantity: sticker.quantity + 1 })
+      .select('quantity')
       .eq('id', sticker.id)
       .eq('user_id', userId)
+      .single()
+
+    if (fetchError || !row) {
+      console.error('Failed to fetch sticker for increment:', fetchError)
+      return
+    }
+
+    const { error } = await supabase
+      .from('stickers')
+      .update({ quantity: row.quantity + 1 })
+      .eq('id', sticker.id)
+      .eq('user_id', userId)
+
+    if (error) console.error('Failed to increment sticker:', error)
   }
 
   async function handleRemove(/** @type {React.MouseEvent} */ e) {
     e.stopPropagation()
-    if (sticker.quantity <= 0) return
-    await supabase
+
+    const { data: row, error: fetchError } = await supabase
       .from('stickers')
-      .update({ quantity: sticker.quantity - 1 })
+      .select('quantity')
       .eq('id', sticker.id)
       .eq('user_id', userId)
+      .single()
+
+    if (fetchError || !row || row.quantity <= 0) return
+
+    const { error } = await supabase
+      .from('stickers')
+      .update({ quantity: row.quantity - 1 })
+      .eq('id', sticker.id)
+      .eq('user_id', userId)
+
+    if (error) console.error('Failed to decrement sticker:', error)
   }
 
   return { popping, floats, handleAdd, handleRemove }

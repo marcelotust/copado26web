@@ -16,19 +16,23 @@ export function useScannerLog(userId) {
     const stickerId = parseCodeToStickerId(code);
 
     if (stickerId && userId) {
-      const { data: row } = await supabase
+      const { data: row, error: fetchError } = await supabase
         .from('stickers')
         .select('quantity')
         .eq('id', stickerId)
         .eq('user_id', userId)
         .single()
 
-      if (row) {
-        await supabase
+      if (fetchError) {
+        console.error('Failed to fetch sticker for increment:', fetchError)
+      } else if (row) {
+        const { error } = await supabase
           .from('stickers')
           .update({ quantity: row.quantity + 1 })
           .eq('id', stickerId)
           .eq('user_id', userId)
+
+        if (error) console.error('Failed to increment sticker:', error)
       }
     }
 
