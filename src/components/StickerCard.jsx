@@ -9,7 +9,7 @@ const LABEL_KEYS = {
 };
 
 // Panini-blue strip — same for all teams, like the original card
-const PANINI_BLUE = "#003DA5";
+const PANINI_BLUE = "#1a56c4";
 
 // Stack configs: up to 3 cards behind, with alternating rotations and more spacing
 const STACK_LAYERS = [
@@ -111,7 +111,7 @@ export default function StickerCard({ sticker, teamCode }) {
                   fontSize: "clamp(26px, 8vw, 38px)",
                   color: collected ? "#fff" : "#334155",
                   textShadow: collected
-                    ? "2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0 3px 8px #0009"
+                    ? "0 0 12px #000a, 0 2px 6px #0008, 0 0 24px #0006"
                     : "none",
                 }}
               >
@@ -124,7 +124,7 @@ export default function StickerCard({ sticker, teamCode }) {
                   fontSize: "clamp(9px, 2.5vw, 13px)",
                   color: collected ? "#fff" : "#1e293b",
                   textShadow: collected
-                    ? "1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000"
+                    ? "0 0 8px #000a, 0 1px 4px #0008"
                     : "none",
                 }}
               >
