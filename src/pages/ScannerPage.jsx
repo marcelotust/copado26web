@@ -5,10 +5,10 @@ import ScannerTopBar from "../components/ScannerTopBar";
 import ScannerCamera from "../components/ScannerCamera";
 import ScannerPanel from "../components/ScannerPanel";
 
-export default function ScannerPage({ onClose }) {
+export default function ScannerPage({ onClose, userId }) {
   const [autoScan, setAutoScan] = useState(true);
   const { log, manualCode, setManualCode, addEntry, handleManualSubmit } =
-    useScannerLog();
+    useScannerLog(userId);
   const { ready, scanning, rawText, scan } = useOCR(addEntry);
 
   return (
