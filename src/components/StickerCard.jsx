@@ -108,17 +108,25 @@ export default function StickerCard({ sticker, teamCode }) {
                 className="font-black leading-none tabular-nums"
                 style={{
                   fontFamily: "'Bebas Neue', Impact, sans-serif",
-                  fontSize: "clamp(20px, 6vw, 30px)",
+                  fontSize: "clamp(26px, 8vw, 38px)",
                   color: collected ? "#fff" : "#334155",
-                  textShadow: collected ? "0 1px 6px #0008" : "none",
+                  textShadow: collected
+                    ? "2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0 3px 8px #0009"
+                    : "none",
                 }}
               >
                 {numLabel}
               </span>
               {/* Team code */}
               <span
-                className="text-[8px] font-bold tracking-widest uppercase leading-none"
-                style={{ color: collected ? "#ffffffaa" : "#1e293b" }}
+                className="font-black tracking-widest uppercase leading-none"
+                style={{
+                  fontSize: "clamp(9px, 2.5vw, 13px)",
+                  color: collected ? "#fff" : "#1e293b",
+                  textShadow: collected
+                    ? "1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000"
+                    : "none",
+                }}
               >
                 {teamCode}
               </span>
