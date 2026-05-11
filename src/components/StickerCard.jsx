@@ -8,6 +8,16 @@ const LABEL_KEYS = {
   "Team Photo": "sticker.teamPhoto",
 };
 
+// Panini-blue strip — same for all teams, like the original card
+const PANINI_BLUE = "#003DA5";
+
+// Stack configs: up to 3 cards behind, with alternating rotations
+const STACK_LAYERS = [
+  { rotate:  4, tx:  3, ty:  4, opacity: 0.7 },
+  { rotate: -3, tx: -2, ty:  7, opacity: 0.5 },
+  { rotate:  6, tx:  5, ty: 10, opacity: 0.35 },
+];
+
 /** @param {{ sticker: { id: string, number: number, quantity: number, label?: string|null }, teamCode: string }} props */
 export default function StickerCard({ sticker, teamCode }) {
   const { t } = useI18n();
@@ -25,126 +35,160 @@ export default function StickerCard({ sticker, teamCode }) {
       : rawLabel
     : null;
 
+  const visibleLayers = Math.min(dupes, 3);
+
   return (
+    // Outer wrapper — defines layout slot, no overflow clip so stack can peek out
     <div
-      aria-label={`Sticker ${sticker.id}, quantity ${qty}`}
       className={[
-        "relative select-none rounded-xl overflow-hidden flex flex-col",
-        "aspect-[2/3] transition-all duration-150",
-        collected ? "shadow-lg" : "opacity-55",
+        "relative select-none aspect-[2/3]",
         popping ? "animate-pop" : "",
       ].join(" ")}
-      style={
-        collected
-          ? { boxShadow: `0 0 0 2px ${primary}90, 0 4px 16px ${primary}30` }
-          : { boxShadow: "0 0 0 1px #334155" }
-      }
     >
-      {/* Base background */}
-      <div className="absolute inset-0 bg-slate-900" />
-
-      {/* Gradient wash when collected */}
-      {collected && (
+      {/* ── Stacked cards behind (duplicates) ─────────────────────────── */}
+      {collected && visibleLayers > 0 && STACK_LAYERS.slice(0, visibleLayers).map((layer, i) => (
         <div
-          className="absolute inset-0"
+          key={i}
+          className="absolute inset-0 rounded-xl"
           style={{
-            background: `linear-gradient(160deg, ${primary}28 0%, ${secondary}18 100%)`,
+            background: `linear-gradient(135deg, ${primary}cc, ${secondary}99)`,
+            transform: `rotate(${layer.rotate}deg) translate(${layer.tx}px, ${layer.ty}px)`,
+            opacity: layer.opacity,
+            boxShadow: `0 2px 8px #0006`,
           }}
         />
-      )}
+      ))}
 
-      {/* Dupe badge — top-right inside card */}
-      {dupes > 0 && (
-        <div
-          className="absolute top-1.5 right-1.5 z-20 rounded-full min-w-[20px] h-5 flex items-center justify-center px-1.5 text-[10px] font-black leading-none shadow-lg"
-          style={{ background: primary, color: "#fff", boxShadow: `0 2px 6px ${primary}80` }}
-        >
-          +{dupes}
-        </div>
-      )}
+      {/* ── Main card ─────────────────────────────────────────────────── */}
+      <div
+        className={[
+          "absolute inset-0 rounded-xl overflow-hidden flex flex-col z-10",
+          "transition-all duration-150",
+          collected ? "shadow-lg" : "opacity-55",
+        ].join(" ")}
+        style={
+          collected
+            ? { boxShadow: `0 0 0 2px ${primary}90, 0 4px 20px ${primary}35` }
+            : { boxShadow: "0 0 0 1px #334155" }
+        }
+      >
+        {/* Base background */}
+        <div className="absolute inset-0 bg-slate-900" />
 
-      {/* Content */}
-      <div className="relative z-10 flex flex-col h-full">
-
-        {/* Circle — takes most of the space */}
-        <div className="flex-1 flex items-center justify-center px-3 pt-3 pb-1">
+        {/* Light gradient wash when collected */}
+        {collected && (
           <div
-            className="w-full aspect-square rounded-full flex flex-col items-center justify-center gap-0.5 transition-all duration-150"
-            style={
-              collected
-                ? {
-                    background: `radial-gradient(circle at 35% 30%, ${primary}ff, ${primary}cc)`,
-                    boxShadow: `0 2px 14px ${primary}55, inset 0 1px 0 ${secondary}50`,
-                  }
-                : {
-                    background: "#1e293b",
-                    boxShadow: "inset 0 1px 0 #ffffff08",
-                  }
-            }
-          >
-            {/* Sticker number */}
-            <span
-              className="font-black leading-none tabular-nums"
-              style={{
-                fontFamily: "'Bebas Neue', Impact, sans-serif",
-                fontSize: "clamp(20px, 6vw, 30px)",
-                color: collected ? "#fff" : "#334155",
-                textShadow: collected ? `0 1px 8px ${primary}60` : "none",
-              }}
-            >
-              {numLabel}
-            </span>
+            className="absolute inset-0"
+            style={{ background: `linear-gradient(160deg, ${primary}20 0%, ${secondary}14 100%)` }}
+          />
+        )}
 
-            {/* Team code below number */}
-            <span
-              className="text-[8px] font-bold tracking-widest uppercase leading-none"
-              style={{ color: collected ? "#ffffff99" : "#1e293b" }}
+        {/* Content */}
+        <div className="relative z-10 flex flex-col h-full">
+
+          {/* Circle */}
+          <div className="flex-1 flex items-center justify-center px-3 pt-3 pb-1">
+            <div
+              className="w-full aspect-square rounded-full flex flex-col items-center justify-center gap-0.5 transition-all duration-150"
+              style={
+                collected
+                  ? {
+                      background: `linear-gradient(135deg, ${primary} 0%, ${secondary} 100%)`,
+                      boxShadow: `0 3px 16px ${primary}55, inset 0 1px 0 #ffffff30`,
+                    }
+                  : {
+                      background: "#1e293b",
+                      boxShadow: "inset 0 1px 0 #ffffff08",
+                    }
+              }
             >
-              {teamCode}
-            </span>
+              {/* Number */}
+              <span
+                className="font-black leading-none tabular-nums"
+                style={{
+                  fontFamily: "'Bebas Neue', Impact, sans-serif",
+                  fontSize: "clamp(20px, 6vw, 30px)",
+                  color: collected ? "#fff" : "#334155",
+                  textShadow: collected ? "0 1px 6px #0008" : "none",
+                }}
+              >
+                {numLabel}
+              </span>
+              {/* Team code */}
+              <span
+                className="text-[8px] font-bold tracking-widest uppercase leading-none"
+                style={{ color: collected ? "#ffffffaa" : "#1e293b" }}
+              >
+                {teamCode}
+              </span>
+            </div>
           </div>
-        </div>
 
-        {/* Bottom label: player name or sticker type */}
-        <div
-          className="mx-1.5 mb-1 rounded-lg px-2 py-1 text-center"
-          style={{ background: collected ? `${secondary}dd` : "#1e293b" }}
-        >
-          <p
-            className="text-[11px] font-bold leading-tight truncate"
-            style={{ color: collected ? primary : "#334155" }}
-            title={displayLabel ?? teamCode}
+          {/* Bottom strip — Panini blue, white text */}
+          <div
+            className="mx-1.5 mb-1 rounded-lg px-2 py-1 text-center"
+            style={{ background: collected ? PANINI_BLUE : "#1e293b" }}
           >
-            {displayLabel ?? teamCode}
-          </p>
+            <p
+              className="text-[11px] font-bold leading-tight truncate"
+              style={{ color: collected ? "#fff" : "#334155" }}
+              title={displayLabel ?? teamCode}
+            >
+              {displayLabel ?? teamCode}
+            </p>
+          </div>
+
+          {/* Buttons */}
+          <StickerButtons
+            qty={qty}
+            collected={collected}
+            onAdd={handleAdd}
+            onRemove={handleRemove}
+          />
         </div>
 
-        {/* Buttons */}
-        <StickerButtons
-          qty={qty}
-          collected={collected}
-          onAdd={handleAdd}
-          onRemove={handleRemove}
-        />
+        {/* Float +1 */}
+        {floats.map((key) => (
+          <span
+            key={key}
+            className="absolute pointer-events-none animate-floatUp font-black z-30"
+            style={{
+              top: "50%",
+              left: "50%",
+              fontSize: "clamp(18px, 5vw, 24px)",
+              color: "#fff",
+              textShadow: `0 0 12px ${primary}, 0 2px 4px #000a`,
+            }}
+          >
+            +1
+          </span>
+        ))}
       </div>
 
-      {/* Float +1 — big, centered, punchy */}
-      {floats.map((key) => (
-        <span
-          key={key}
-          className="absolute pointer-events-none animate-floatUp font-black z-30"
-          style={{
-            top: "50%",
-            left: "50%",
-            fontSize: "clamp(18px, 5vw, 24px)",
-            color: collected ? "#fff" : primary,
-            textShadow: `0 0 12px ${primary}, 0 2px 4px #000a`,
-            letterSpacing: "-0.5px",
-          }}
+      {/* ── Dupe badge — sits above the stack ─────────────────────────── */}
+      {collected && dupes > 0 && (
+        <div
+          className="absolute z-20 flex flex-col items-center"
+          style={{ top: "-6px", right: "-6px" }}
         >
-          +1
-        </span>
-      ))}
+          {/* Badge circle — grows slightly with count */}
+          <div
+            className="rounded-full flex items-center justify-center font-black leading-none shadow-lg transition-all duration-200"
+            style={{
+              background: primary,
+              color: "#fff",
+              border: `2px solid ${secondary}`,
+              boxShadow: `0 2px 8px ${primary}80`,
+              // Size grows: 1→24px, 2→26px, 3→28px, 4+→30px
+              width:  `${Math.min(24 + (dupes - 1) * 2, 30)}px`,
+              height: `${Math.min(24 + (dupes - 1) * 2, 30)}px`,
+              fontSize: dupes >= 10 ? "9px" : "11px",
+            }}
+          >
+            {dupes > 9 ? "9+" : `+${dupes}`}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
