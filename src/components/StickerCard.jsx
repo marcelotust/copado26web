@@ -11,11 +11,11 @@ const LABEL_KEYS = {
 // Panini-blue strip — same for all teams, like the original card
 const PANINI_BLUE = "#003DA5";
 
-// Stack configs: up to 3 cards behind, with alternating rotations
+// Stack configs: up to 3 cards behind, with alternating rotations and more spacing
 const STACK_LAYERS = [
-  { rotate:  4, tx:  3, ty:  4, opacity: 0.7 },
-  { rotate: -3, tx: -2, ty:  7, opacity: 0.5 },
-  { rotate:  6, tx:  5, ty: 10, opacity: 0.35 },
+  { rotate:  5, tx:  6, ty:  8, opacity: 0.75 },
+  { rotate: -4, tx: -5, ty: 14, opacity: 0.5  },
+  { rotate:  7, tx:  9, ty: 20, opacity: 0.32 },
 ];
 
 /** @param {{ sticker: { id: string, number: number, quantity: number, label?: string|null }, teamCode: string }} props */
@@ -38,12 +38,13 @@ export default function StickerCard({ sticker, teamCode }) {
   const visibleLayers = Math.min(dupes, 3);
 
   return (
-    // Outer wrapper — defines layout slot, no overflow clip so stack can peek out
+    // Outer wrapper — defines layout slot, padding-bottom gives room for the stack to peek out
     <div
       className={[
         "relative select-none aspect-[2/3]",
         popping ? "animate-pop" : "",
       ].join(" ")}
+      style={{ paddingBottom: collected && dupes > 0 ? "6px" : undefined }}
     >
       {/* ── Stacked cards behind (duplicates) ─────────────────────────── */}
       {collected && visibleLayers > 0 && STACK_LAYERS.slice(0, visibleLayers).map((layer, i) => (
@@ -93,7 +94,7 @@ export default function StickerCard({ sticker, teamCode }) {
               style={
                 collected
                   ? {
-                      background: `linear-gradient(135deg, ${primary} 0%, ${secondary} 100%)`,
+                      background: `linear-gradient(135deg, ${primary} 50%, ${secondary} 50%)`,
                       boxShadow: `0 3px 16px ${primary}55, inset 0 1px 0 #ffffff30`,
                     }
                   : {
