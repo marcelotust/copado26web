@@ -160,6 +160,8 @@ export const CONF_LABELS = {
   FWC:      'FIFA World Cup',
 }
 
+export const SEED_DATA = SECTIONS
+
 // ── Sticker row builder ───────────────────────────────────────────────────────
 export function buildStickerRows() {
   const rows = []
