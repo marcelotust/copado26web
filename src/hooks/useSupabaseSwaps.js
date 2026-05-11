@@ -8,6 +8,7 @@ export function useSupabaseSwaps(userId) {
 
   useEffect(() => {
     if (!userId) return
+    let cancelled = false
 
     async function fetchSwaps() {
       const { data } = await supabase
@@ -18,6 +19,7 @@ export function useSupabaseSwaps(userId) {
         .order('team_code', { ascending: true })
         .order('number', { ascending: true })
 
+      if (cancelled) return
       if (!data) return
 
       setTotal(data.reduce((acc, s) => acc + s.quantity - 1, 0))
@@ -42,7 +44,10 @@ export function useSupabaseSwaps(userId) {
       }, () => fetchSwaps())
       .subscribe()
 
-    return () => supabase.removeChannel(channel)
+    return () => {
+      cancelled = true
+      supabase.removeChannel(channel)
+    }
   }, [userId])
 
   return { swapsByTeam, total }

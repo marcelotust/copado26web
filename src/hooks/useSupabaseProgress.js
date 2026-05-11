@@ -7,6 +7,7 @@ export function useSupabaseProgress(userId) {
 
   useEffect(() => {
     if (!userId) return
+    let cancelled = false
 
     async function fetchProgress() {
       const { data } = await supabase
@@ -14,6 +15,7 @@ export function useSupabaseProgress(userId) {
         .select('quantity')
         .eq('user_id', userId)
 
+      if (cancelled) return
       if (!data) return
       const total = data.length
       const collected = data.filter(s => s.quantity >= 1).length
@@ -33,7 +35,10 @@ export function useSupabaseProgress(userId) {
       }, () => fetchProgress())
       .subscribe()
 
-    return () => supabase.removeChannel(channel)
+    return () => {
+      cancelled = true
+      supabase.removeChannel(channel)
+    }
   }, [userId])
 
   return progress
@@ -44,6 +49,7 @@ export function useSupabaseSectionProgress(userId, teamCode) {
 
   useEffect(() => {
     if (!userId || !teamCode) return
+    let cancelled = false
 
     async function fetchProgress() {
       const { data } = await supabase
@@ -52,6 +58,7 @@ export function useSupabaseSectionProgress(userId, teamCode) {
         .eq('user_id', userId)
         .eq('team_code', teamCode)
 
+      if (cancelled) return
       if (!data) return
       setProgress({
         total: data.length,
@@ -71,7 +78,10 @@ export function useSupabaseSectionProgress(userId, teamCode) {
       }, () => fetchProgress())
       .subscribe()
 
-    return () => supabase.removeChannel(channel)
+    return () => {
+      cancelled = true
+      supabase.removeChannel(channel)
+    }
   }, [userId, teamCode])
 
   return progress
