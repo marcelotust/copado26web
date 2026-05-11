@@ -10,11 +10,15 @@ export default function SettingsPage({ userId, onSignOut }) {
 
   async function handleReset() {
     setResetting(true)
-    await supabase
+    const { error } = await supabase
       .from('stickers')
       .update({ quantity: 0 })
       .eq('user_id', userId)
     setResetting(false)
+    if (error) {
+      console.error('Reset failed:', error)
+      return
+    }
     setResetDone(true)
     setShowResetConfirm(false)
     setTimeout(() => setResetDone(false), 3000)
