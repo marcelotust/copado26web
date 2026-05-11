@@ -3,23 +3,20 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { SEED_DATA } from '../db/seed'
 
+/** @typedef {import('@supabase/supabase-js').Session} Session */
+
 export function useAuth() {
-  const [session, setSession] = useState(null)
+  const [session, setSession] = useState(/** @type {Session|null} */ (null))
   const [loading, setLoading] = useState(true)
   const [magicLinkSent, setMagicLinkSent] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(/** @type {string|null} */ (null))
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-      setLoading(false)
-    })
-
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         setSession(session)
         setLoading(false)
-        if (session?.user) {
+        if (_event === 'SIGNED_IN' && session?.user) {
           await seedAlbumIfEmpty(session.user.id)
         }
       }
@@ -28,7 +25,7 @@ export function useAuth() {
     return () => subscription.unsubscribe()
   }, [])
 
-  async function sendMagicLink(email) {
+  async function sendMagicLink(/** @type {string} */ email) {
     setError(null)
     const { error } = await supabase.auth.signInWithOtp({
       email,
@@ -43,26 +40,32 @@ export function useAuth() {
 
   async function signOut() {
     await supabase.auth.signOut()
-    setSession(null)
+    // session is cleared by onAuthStateChange (SIGNED_OUT event)
   }
 
   return { session, loading, magicLinkSent, error, sendMagicLink, signOut }
 }
 
+/** @param {string} userId */
 async function seedAlbumIfEmpty(userId) {
-  const { count } = await supabase
+  const { count, error } = await supabase
     .from('stickers')
     .select('*', { count: 'exact', head: true })
     .eq('user_id', userId)
 
+  if (error || count === null) throw new Error('Could not check sticker count')
   if (count > 0) return
 
   const rows = buildSeedRows(userId)
   for (let i = 0; i < rows.length; i += 200) {
-    await supabase.from('stickers').upsert(rows.slice(i, i + 200))
+    const { error: upsertError } = await supabase
+      .from('stickers')
+      .upsert(rows.slice(i, i + 200))
+    if (upsertError) throw upsertError
   }
 }
 
+/** @param {string} userId */
 function buildSeedRows(userId) {
   const rows = []
 
