@@ -1,21 +1,8 @@
 import { useStickers, useSectionProgress } from "../hooks/useStickers";
 import { SECTIONS } from "../db/seed";
-import { textClass, teamColor } from "../utils";
+import { teamColors } from "../utils";
 import { useI18n } from "../i18n";
 import StickerCard from "../components/StickerCard";
-
-const COLOR_HEX = {
-  emerald: "#10b981",
-  sky: "#0ea5e9",
-  indigo: "#6366f1",
-  amber: "#f59e0b",
-  rose: "#f43f5e",
-  teal: "#14b8a6",
-  orange: "#f97316",
-  cyan: "#06b6d4",
-  violet: "#8b5cf6",
-  fuchsia: "#d946ef",
-};
 
 export default function AlbumPage({ sectionCode }) {
   const { t } = useI18n();
@@ -26,7 +13,7 @@ export default function AlbumPage({ sectionCode }) {
   if (!section) return null;
 
   const pct = total > 0 ? Math.round((collected / total) * 100) : 0;
-  const color = COLOR_HEX[teamColor(sectionCode)] ?? "#10b981";
+  const { primary, secondary } = teamColors(sectionCode);
   const name = t(`teams.${sectionCode}`);
   const conf = t(`conf.${section.conf}`);
 
@@ -44,7 +31,7 @@ export default function AlbumPage({ sectionCode }) {
           </p>
         </div>
         <div className='text-right shrink-0'>
-          <p className={`font-bold text-sm ${textClass(sectionCode)}`}>
+          <p className='font-bold text-sm' style={{ color: primary }}>
             {collected}/{total}
           </p>
           <p className='text-slate-500 text-xs'>{pct}%</p>
@@ -52,12 +39,12 @@ export default function AlbumPage({ sectionCode }) {
       </div>
 
       {/* Progress bar */}
-      <div className='h-3 bg-slate-800 shrink-0'>
+      <div className='h-2 bg-slate-800 shrink-0'>
         <div
-          className='h-full rounded-full transition-all duration-500'
+          className='h-full transition-all duration-500'
           style={{
             width: `${pct}%`,
-            background: `linear-gradient(to right, ${color}, ${color}cc)`,
+            background: `linear-gradient(to right, ${primary}, ${secondary})`,
           }}
         />
       </div>

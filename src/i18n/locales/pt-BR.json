@@ -11,6 +11,7 @@
     "OFC": "Oceania",
     "PLAYOFF": "Playoffs",
     "SPECIAL": "Especial",
+    "LEG": "Lendas",
     "FWC": "Copa do Mundo FIFA"
   },
 
@@ -61,11 +62,15 @@
     "UZB": "Uzbequistão",
     "IRQ": "Iraque",
     "NZL": "Nova Zelândia",
-    "PL1": "Playoff 1",
-    "PL2": "Playoff 2",
-    "PL3": "Playoff 3",
-    "STD": "Estádios",
-    "SPC": "Especiais",
+    "HAI": "Haiti",
+    "RSA": "África do Sul",
+    "MLI": "Mali",
+    "KSA": "Arábia Saudita",
+    "ALG": "Argélia",
+    "UKR": "Ucrânia",
+    "TUR": "Turquia",
+    "CHI": "Chile",
+    "LEG": "Lendas",
     "FWC": "Copa do Mundo FIFA"
   },
 

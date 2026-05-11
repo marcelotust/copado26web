@@ -1,6 +1,6 @@
 import { useI18n } from "../i18n";
 import { useStickerActions } from "../hooks/useStickerActions";
-import { gradientClasses, ringClass } from "../utils";
+import { teamColors } from "../utils";
 import StickerButtons from "./StickerButtons";
 
 const LABEL_KEYS = {
@@ -8,77 +8,139 @@ const LABEL_KEYS = {
   "Team Photo": "sticker.teamPhoto",
 };
 
+/** @param {{ sticker: { id: string, number: number, quantity: number, label?: string|null }, teamCode: string }} props */
 export default function StickerCard({ sticker, teamCode }) {
   const { t } = useI18n();
-  const { popping, floats, handleAdd, handleRemove } = useStickerActions(
-    sticker.id,
-  );
+  const { popping, floats, handleAdd, handleRemove } = useStickerActions(sticker.id);
   const qty = sticker.quantity;
   const collected = qty > 0;
   const dupes = qty - 1;
   const numLabel = String(sticker.number).padStart(2, "0");
+  const { primary, secondary } = teamColors(teamCode);
+
+  const rawLabel = sticker.label;
+  const displayLabel = rawLabel
+    ? rawLabel in LABEL_KEYS
+      ? t(LABEL_KEYS[/** @type {keyof typeof LABEL_KEYS} */ (rawLabel)])
+      : rawLabel
+    : null;
 
   return (
     <div
       aria-label={`Sticker ${sticker.id}, quantity ${qty}`}
       className={[
-        "relative select-none rounded-xl flex flex-col",
-        "transition-all duration-150",
-        collected
-          ? `bg-gradient-to-br ${gradientClasses(teamCode)} shadow-lg ${ringClass(teamCode)} ring-2`
-          : "bg-slate-800 ring-1 ring-slate-700",
+        "relative select-none rounded-xl overflow-hidden flex flex-col",
+        "aspect-[2/3] transition-all duration-150",
+        collected ? "shadow-lg" : "opacity-55",
         popping ? "animate-pop" : "",
       ].join(" ")}
+      style={
+        collected
+          ? { boxShadow: `0 0 0 2px ${primary}90, 0 4px 16px ${primary}30` }
+          : { boxShadow: "0 0 0 1px #334155" }
+      }
     >
-      <div className='flex flex-col items-center justify-center py-2 px-1 gap-0.5 flex-1'>
-        <span
-          className={[
-            "font-black leading-none tabular-nums",
-            collected
-              ? "text-white text-2xl drop-shadow"
-              : "text-slate-500 text-xl",
-          ].join(" ")}
-        >
-          {numLabel}
-        </span>
-        <span
-          className={[
-            "text-[9px] font-semibold tracking-widest uppercase",
-            collected ? "text-white/70" : "text-slate-600",
-          ].join(" ")}
-        >
-          {teamCode}
-        </span>
-        {sticker.label && (
-          <span
-            className={[
-              "text-[14px] font-medium leading-tight text-center px-0.5 truncate w-full",
-              collected ? "text-white/80" : "text-slate-500",
-            ].join(" ")}
-            title={sticker.label}
-          >
-            {sticker.label in LABEL_KEYS ? t(LABEL_KEYS[/** @type {keyof typeof LABEL_KEYS} */ (sticker.label)]) : sticker.label}
-          </span>
-        )}
-      </div>
+      {/* Base background */}
+      <div className="absolute inset-0 bg-slate-900" />
 
-      <StickerButtons
-        qty={qty}
-        collected={collected}
-        onAdd={handleAdd}
-        onRemove={handleRemove}
-      />
-
-      {dupes > 0 && (
-        <span className='absolute -top-1 -right-1 bg-red-500 text-white text-[18px] font-black rounded-full min-w-[30px] h-[30px] flex items-center justify-center px-1 shadow-md leading-none'>
-          +{dupes}
-        </span>
+      {/* Gradient wash when collected */}
+      {collected && (
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(160deg, ${primary}28 0%, ${secondary}18 100%)`,
+          }}
+        />
       )}
 
+      {/* Dupe badge — top-right inside card */}
+      {dupes > 0 && (
+        <div
+          className="absolute top-1.5 right-1.5 z-20 rounded-full min-w-[20px] h-5 flex items-center justify-center px-1.5 text-[10px] font-black leading-none shadow-lg"
+          style={{ background: primary, color: "#fff", boxShadow: `0 2px 6px ${primary}80` }}
+        >
+          +{dupes}
+        </div>
+      )}
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col h-full">
+
+        {/* Circle — takes most of the space */}
+        <div className="flex-1 flex items-center justify-center px-3 pt-3 pb-1">
+          <div
+            className="w-full aspect-square rounded-full flex flex-col items-center justify-center gap-0.5 transition-all duration-150"
+            style={
+              collected
+                ? {
+                    background: `radial-gradient(circle at 35% 30%, ${primary}ff, ${primary}cc)`,
+                    boxShadow: `0 2px 14px ${primary}55, inset 0 1px 0 ${secondary}50`,
+                  }
+                : {
+                    background: "#1e293b",
+                    boxShadow: "inset 0 1px 0 #ffffff08",
+                  }
+            }
+          >
+            {/* Sticker number */}
+            <span
+              className="font-black leading-none tabular-nums"
+              style={{
+                fontFamily: "'Bebas Neue', Impact, sans-serif",
+                fontSize: "clamp(20px, 6vw, 30px)",
+                color: collected ? "#fff" : "#334155",
+                textShadow: collected ? `0 1px 8px ${primary}60` : "none",
+              }}
+            >
+              {numLabel}
+            </span>
+
+            {/* Team code below number */}
+            <span
+              className="text-[8px] font-bold tracking-widest uppercase leading-none"
+              style={{ color: collected ? "#ffffff99" : "#1e293b" }}
+            >
+              {teamCode}
+            </span>
+          </div>
+        </div>
+
+        {/* Bottom label: player name or sticker type */}
+        <div
+          className="mx-1.5 mb-1 rounded-lg px-2 py-1 text-center"
+          style={{ background: collected ? `${secondary}dd` : "#1e293b" }}
+        >
+          <p
+            className="text-[11px] font-bold leading-tight truncate"
+            style={{ color: collected ? primary : "#334155" }}
+            title={displayLabel ?? teamCode}
+          >
+            {displayLabel ?? teamCode}
+          </p>
+        </div>
+
+        {/* Buttons */}
+        <StickerButtons
+          qty={qty}
+          collected={collected}
+          onAdd={handleAdd}
+          onRemove={handleRemove}
+        />
+      </div>
+
+      {/* Float +1 — big, centered, punchy */}
       {floats.map((key) => (
         <span
           key={key}
-          className='absolute inset-0 flex items-center justify-center pointer-events-none animate-floatUp text-white font-black text-sm'
+          className="absolute pointer-events-none animate-floatUp font-black z-30"
+          style={{
+            top: "50%",
+            left: "50%",
+            fontSize: "clamp(18px, 5vw, 24px)",
+            color: collected ? "#fff" : primary,
+            textShadow: `0 0 12px ${primary}, 0 2px 4px #000a`,
+            letterSpacing: "-0.5px",
+          }}
         >
           +1
         </span>

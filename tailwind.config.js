@@ -5,8 +5,9 @@ export default {
     extend: {
       keyframes: {
         floatUp: {
-          '0%': { opacity: '1', transform: 'translateY(0) scale(1)' },
-          '100%': { opacity: '0', transform: 'translateY(-32px) scale(1.4)' }
+          '0%':   { opacity: '1',   transform: 'translate(-50%, -50%) scale(1.2)' },
+          '25%':  { opacity: '1',   transform: 'translate(-50%, -70%) scale(2)'   },
+          '100%': { opacity: '0',   transform: 'translate(-50%, -120%) scale(1.4)' }
         },
         pop: {
           '0%': { transform: 'scale(1)' },
@@ -19,7 +20,7 @@ export default {
         }
       },
       animation: {
-        floatUp: 'floatUp 0.6s ease-out forwards',
+        floatUp: 'floatUp 0.75s cubic-bezier(0.22,1,0.36,1) forwards',
         pop: 'pop 0.2s ease-out',
         shimmer: 'shimmer 1.8s linear infinite'
       }
