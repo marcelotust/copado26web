@@ -17,7 +17,9 @@ export function useAuth() {
         setSession(session)
         setLoading(false)
         if (_event === 'SIGNED_IN' && session?.user) {
-          await seedAlbumIfEmpty(session.user.id)
+          seedAlbumIfEmpty(session.user.id).catch(err => {
+            console.error('Album seeding failed:', err)
+          })
         }
       }
     )
