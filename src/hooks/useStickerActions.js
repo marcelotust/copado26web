@@ -1,8 +1,12 @@
 import { useState, useRef, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { emitStickerChanged } from '../lib/stickerEvents'
+import { useFeedback } from '../components/FeedbackProvider'
+import { useI18n } from '../i18n'
 
 export function useStickerActions(sticker, userId, onPatch) {
+  const { push } = useFeedback()
+  const { t } = useI18n()
   const [popping, setPopping] = useState(false)
   const [floats, setFloats] = useState(/** @type {number[]} */ ([]))
   const [removals, setRemovals] = useState(/** @type {number[]} */ ([]))
@@ -12,6 +16,7 @@ export function useStickerActions(sticker, userId, onPatch) {
 
   // Tracks optimistic quantity synchronously — bypasses React batching for rapid clicks
   const localQtyRef = useRef(sticker.quantity)
+  const lastPersistedQtyRef = useRef(sticker.quantity)
   const pendingWriteRef = useRef(false)
   const timerRef = useRef(/** @type {ReturnType<typeof setTimeout>|null} */ (null))
 
@@ -19,6 +24,7 @@ export function useStickerActions(sticker, userId, onPatch) {
   useEffect(() => {
     if (!pendingWriteRef.current) {
       localQtyRef.current = sticker.quantity
+      lastPersistedQtyRef.current = sticker.quantity
       setOptimisticQty(sticker.quantity)
     }
   }, [sticker.quantity])
@@ -34,7 +40,15 @@ export function useStickerActions(sticker, userId, onPatch) {
       .eq('user_id', userId)
       .then(({ error }) => {
         pendingWriteRef.current = false
-        if (error) console.error('Failed to update sticker:', error)
+        if (error) {
+          localQtyRef.current = lastPersistedQtyRef.current
+          setOptimisticQty(lastPersistedQtyRef.current)
+          onPatch?.(id, { quantity: lastPersistedQtyRef.current })
+          emitStickerChanged()
+          push(t('errors.stickerUpdateFailed'), { variant: 'error' })
+          return
+        }
+        lastPersistedQtyRef.current = qty
       })
   }
 

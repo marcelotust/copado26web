@@ -155,6 +155,10 @@
     "loggedInAs": "Logado como"
   },
 
+  "errors": {
+    "stickerUpdateFailed": "Não foi possível salvar essa figurinha. Restauramos a quantidade anterior."
+  },
+
   "feedback": {
     "dismiss": "Fechar"
   },

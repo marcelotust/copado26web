@@ -154,6 +154,10 @@
     "loggedInAs": "Logged in as"
   },
 
+  "errors": {
+    "stickerUpdateFailed": "Could not save that sticker change. We restored the previous quantity."
+  },
+
   "feedback": {
     "dismiss": "Dismiss"
   },

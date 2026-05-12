@@ -154,6 +154,10 @@
     "loggedInAs": "Conectado como"
   },
 
+  "errors": {
+    "stickerUpdateFailed": "No pudimos guardar ese cambio. Restauramos la cantidad anterior."
+  },
+
   "feedback": {
     "dismiss": "Cerrar"
   },
