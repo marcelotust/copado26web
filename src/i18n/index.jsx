@@ -1,12 +1,14 @@
+// @ts-nocheck
 import { createContext, useContext, useState, useMemo } from 'react'
-import en    from './locales/en.json'
-import ptBR  from './locales/pt-BR.json'
-import es    from './locales/es.json'
+import en   from './locales/en.json'
+import ptBR from './locales/pt-BR.json'
+import es   from './locales/es.json'
 
 // Flatten { "conf": { "UEFA": "Europe" } } → { "conf.UEFA": "Europe" }
-/** @param {Record<string, any>} obj @param {string} [prefix] @returns {Record<string, string>} */
+// Arrays are stored as-is (not flattened)
+/** @param {Record<string, any>} obj @param {string} [prefix] @returns {Record<string, any>} */
 function flatten(obj, prefix = '') {
-  /** @type {Record<string, string>} */
+  /** @type {Record<string, any>} */
   const acc = {}
   for (const [key, value] of Object.entries(obj)) {
     const fullKey = prefix ? `${prefix}.${key}` : key
@@ -19,20 +21,34 @@ function flatten(obj, prefix = '') {
   return acc
 }
 
-/** @type {Record<string, Record<string, string>>} */
+/** @type {Record<string, Record<string, any>>} */
 const LOCALES = {
-  en:     flatten(en),
+  en:      flatten(en),
   'pt-BR': flatten(ptBR),
-  es:     flatten(es),
+  es:      flatten(es),
 }
+
+// Raw locale data (for arrays like login.features)
+const RAW = { en, 'pt-BR': ptBR, es }
 
 // ── Locale detection ──────────────────────────────────────────────────────────
 
-export function detectLocale() {
-  const lang = (navigator.languages?.[0] || navigator.language || 'en').toLowerCase()
-  if (lang.startsWith('pt')) return 'pt-BR'
-  if (lang.startsWith('es')) return 'es'
-  return 'en'
+const STORAGE_KEY = 'copado26_locale'
+
+function detectLocale() {
+  // Respect user's explicit choice stored in localStorage
+  const saved = localStorage.getItem(STORAGE_KEY)
+  if (saved && LOCALES[saved]) return saved
+
+  // Check all browser languages, not just the first one
+  const langs = navigator.languages?.length ? navigator.languages : [navigator.language || '']
+  for (const lang of langs) {
+    const l = lang.toLowerCase()
+    if (l.startsWith('pt')) return 'pt-BR'
+    if (l.startsWith('es')) return 'es'
+    if (l.startsWith('en')) return 'en'
+  }
+  return 'pt-BR'
 }
 
 // ── Context ───────────────────────────────────────────────────────────────────
@@ -40,14 +56,30 @@ export function detectLocale() {
 const I18nContext = createContext(/** @type {any} */ (null))
 
 export function I18nProvider({ children }) {
-  const [locale, setLocale] = useState(detectLocale)
+  const [locale, setLocaleState] = useState(detectLocale)
+
+  function setLocale(code) {
+    localStorage.setItem(STORAGE_KEY, code)
+    setLocaleState(code)
+  }
 
   const t = useMemo(() => (/** @type {string} */ key) => {
     return LOCALES[locale]?.[key] ?? LOCALES.en[key] ?? key
   }, [locale])
 
+  // Access raw nested values (e.g. arrays like login.features)
+  function tRaw(/** @type {string} */ key) {
+    const parts = key.split('.')
+    let val = RAW[locale]
+    for (const p of parts) val = val?.[p]
+    if (val !== undefined) return val
+    val = RAW.en
+    for (const p of parts) val = val?.[p]
+    return val
+  }
+
   return (
-    <I18nContext.Provider value={{ locale, setLocale, t }}>
+    <I18nContext.Provider value={{ locale, setLocale, t, tRaw }}>
       {children}
     </I18nContext.Provider>
   )
@@ -58,7 +90,7 @@ export function useI18n() {
 }
 
 export const LOCALE_META = {
-  en:      { label: 'EN', flag: '🇺🇸' },
   'pt-BR': { label: 'PT', flag: '🇧🇷' },
+  en:      { label: 'EN', flag: '🇺🇸' },
   es:      { label: 'ES', flag: '🇪🇸' },
 }

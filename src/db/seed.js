@@ -160,33 +160,4 @@ export const CONF_LABELS = {
   FWC:      'FIFA World Cup',
 }
 
-// ── Sticker row builder ───────────────────────────────────────────────────────
-export function buildStickerRows() {
-  const rows = []
-
-  for (const section of SECTIONS) {
-    const start = section.startNumber ?? 1
-    const end   = start + section.count - 1
-    const isTeam = section.type === 'team'
-
-    for (let n = start; n <= end; n++) {
-      let label = null
-      if (isTeam) {
-        if (n === 1)       label = 'Shield'
-        else if (n === 13) label = 'Team Photo'
-        else               label = section.players?.[n] ?? null
-      }
-
-      rows.push({
-        id:        `${section.code}-${String(n).padStart(2, '0')}`,
-        teamCode:  section.code,
-        number:    n,
-        quantity:  0,
-        isSpecial: isTeam && n === 1,
-        label,
-      })
-    }
-  }
-
-  return rows
-}
+export const SEED_DATA = SECTIONS

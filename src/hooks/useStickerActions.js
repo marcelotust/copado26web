@@ -1,30 +1,58 @@
-import { useState, useCallback } from "react";
-import { increment, decrement } from "./useStickers";
+import { useState } from 'react'
+import { supabase } from '../lib/supabase'
 
-export function useStickerActions(stickerId) {
-  const [popping, setPopping] = useState(false);
-  const [floats, setFloats] = useState(/** @type {number[]} */ ([]));
+export function useStickerActions(sticker, userId) {
+  const [popping, setPopping] = useState(false)
+  const [floats, setFloats] = useState([])
 
-  const handleAdd = useCallback(
-    async (/** @type {React.MouseEvent} */ e) => {
-      e.stopPropagation();
-      await increment(stickerId);
-      setPopping(true);
-      const key = Date.now();
-      setFloats(/** @type {function(number[]): number[]} */ (f) => [...f, key]);
-      setTimeout(() => setPopping(false), 200);
-      setTimeout(() => setFloats((f) => f.filter((k) => k !== key)), 600);
-    },
-    [stickerId],
-  );
+  async function handleAdd(/** @type {React.MouseEvent} */ e) {
+    e.stopPropagation()
+    setPopping(true)
+    setFloats(f => [...f, Date.now()])
+    setTimeout(() => setPopping(false), 200)
+    setTimeout(() => setFloats(f => f.slice(1)), 750)
 
-  const handleRemove = useCallback(
-    async (/** @type {React.MouseEvent} */ e) => {
-      e.stopPropagation();
-      await decrement(stickerId);
-    },
-    [stickerId],
-  );
+    const { data: row, error: fetchError } = await supabase
+      .from('stickers')
+      .select('quantity')
+      .eq('id', sticker.id)
+      .eq('user_id', userId)
+      .single()
 
-  return { popping, floats, handleAdd, handleRemove };
+    if (fetchError || !row) {
+      console.error('Failed to fetch sticker for increment:', fetchError)
+      return
+    }
+
+    const { error } = await supabase
+      .from('stickers')
+      .update({ quantity: row.quantity + 1 })
+      .eq('id', sticker.id)
+      .eq('user_id', userId)
+
+    if (error) console.error('Failed to increment sticker:', error)
+  }
+
+  async function handleRemove(/** @type {React.MouseEvent} */ e) {
+    e.stopPropagation()
+
+    const { data: row, error: fetchError } = await supabase
+      .from('stickers')
+      .select('quantity')
+      .eq('id', sticker.id)
+      .eq('user_id', userId)
+      .single()
+
+    if (fetchError || !row || row.quantity <= 0) return
+
+    const { error } = await supabase
+      .from('stickers')
+      .update({ quantity: row.quantity - 1 })
+      .eq('id', sticker.id)
+      .eq('user_id', userId)
+
+    if (error) console.error('Failed to decrement sticker:', error)
+  }
+
+  return { popping, floats, handleAdd, handleRemove }
 }

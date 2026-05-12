@@ -18,10 +18,10 @@ const STACK_LAYERS = [
   { rotate:  7, tx:  9, ty: 20, opacity: 0.32 },
 ];
 
-/** @param {{ sticker: { id: string, number: number, quantity: number, label?: string|null }, teamCode: string }} props */
-export default function StickerCard({ sticker, teamCode }) {
+/** @param {{ sticker: { id: string, number: number, quantity: number, label?: string|null }, teamCode: string, userId?: string }} props */
+export default function StickerCard({ sticker, teamCode, userId }) {
   const { t } = useI18n();
-  const { popping, floats, handleAdd, handleRemove } = useStickerActions(sticker.id);
+  const { popping, floats, handleAdd, handleRemove } = useStickerActions(sticker, userId);
   const qty = sticker.quantity;
   const collected = qty > 0;
   const dupes = qty - 1;

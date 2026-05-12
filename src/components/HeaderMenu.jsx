@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useI18n, LOCALE_META } from '../i18n'
 
 export default function HeaderMenu({ onLogout }) {
@@ -27,7 +28,7 @@ export default function HeaderMenu({ onLogout }) {
       </button>
 
       {open && (
-        <div className='absolute right-0 top-full mt-1.5 w-44 bg-slate-900 border border-slate-700 rounded-xl shadow-xl z-50 overflow-hidden'>
+        <div className='absolute right-0 top-full mt-1.5 w-44 bg-slate-900 border border-slate-700 rounded-xl shadow-xl z-[200] overflow-hidden'>
           <div className='p-2 border-b border-slate-800'>
             <p className='text-[9px] text-slate-500 font-bold uppercase tracking-widest px-1 mb-1.5'>
               Language
@@ -49,6 +50,17 @@ export default function HeaderMenu({ onLogout }) {
                 </button>
               ))}
             </div>
+          </div>
+
+          <div className='p-2 border-b border-slate-800'>
+            <Link
+              to='/settings'
+              onClick={() => setOpen(false)}
+              className='flex items-center gap-2 px-2 py-1.5 rounded-lg text-left transition-colors w-full text-xs text-slate-300 hover:text-white hover:bg-slate-700'
+            >
+              <span>⚙</span>
+              <span>Settings</span>
+            </Link>
           </div>
 
           <div className='p-2'>

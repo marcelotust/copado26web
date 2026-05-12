@@ -1,10 +1,13 @@
-import { useSectionCollected } from "../hooks/useSectionCollected";
 import { teamColor } from "../utils";
 import { useI18n } from "../i18n";
+import { useAuth } from "../hooks/useAuth";
+import { useSupabaseSectionProgress } from "../hooks/useSupabaseProgress";
 
 export default function SectionItem({ section, active, onClick }) {
   const { t } = useI18n();
-  const collected = useSectionCollected(section.code);
+  const { session } = useAuth();
+  const userId = session?.user?.id;
+  const { collected } = useSupabaseSectionProgress(userId, section.code);
   const total = section.count;
   const done = collected === total && total > 0;
   const name = t(`teams.${section.code}`);

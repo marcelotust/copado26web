@@ -1,6 +1,7 @@
 import { SECTIONS, GROUP_ORDER } from "../db/seed";
 import { useI18n } from "../i18n";
-import { useProgress } from "../hooks/useStickers";
+import { useAuth } from "../hooks/useAuth";
+import { useSupabaseProgress } from "../hooks/useSupabaseProgress";
 import SectionItem from "./SectionItem";
 
 export default function Sidebar({
@@ -11,7 +12,9 @@ export default function Sidebar({
   onSwapsClick,
 }) {
   const { t } = useI18n();
-  const { swaps } = useProgress();
+  const { session } = useAuth();
+  const userId = session?.user?.id;
+  const { swaps } = useSupabaseProgress(userId);
 
   const grouped = GROUP_ORDER.reduce((acc, group) => {
     const items = SECTIONS.filter((s) => s.group === group);
