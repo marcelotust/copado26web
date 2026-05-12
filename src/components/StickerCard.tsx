@@ -3,20 +3,16 @@ import { useStickerActions } from "../hooks/useStickerActions";
 import { teamColors } from "../utils";
 import StickerButtons from "./StickerButtons";
 import ConfirmModal from "./ConfirmModal";
+import DuplicatesBadge from "./DuplicatesBadge";
+import FloatPopups from "./FloatPopups";
 import type { Sticker } from "../types/database";
 
 const PANINI_BLUE = "#1a56c4";
 
-// Mini card stack shown in the top-right corner when duplicates exist
-const CORNER_LAYERS = [
-  { rotate:  6, tx:  5, ty: -5, opacity: 0.65 },
-  { rotate: -4, tx: -4, ty: -9, opacity: 0.4  },
-];
-
 type StickerCardProps = {
-  sticker: Sticker
-  teamCode: string
-}
+  sticker: Sticker;
+  teamCode: string;
+};
 
 export default function StickerCard({ sticker, teamCode }: StickerCardProps) {
   const { t } = useI18n();
@@ -34,8 +30,6 @@ export default function StickerCard({ sticker, teamCode }: StickerCardProps) {
     ?? (sticker.is_special && sticker.number === 1  ? t("sticker.shield")    : null)
     ?? (sticker.is_special && sticker.number === 13 ? t("sticker.teamPhoto") : null);
 
-  const visibleLayers = Math.min(dupes, 2);
-
   return (
     <div
       className={[
@@ -43,7 +37,6 @@ export default function StickerCard({ sticker, teamCode }: StickerCardProps) {
         popping ? "animate-pop" : "",
       ].join(" ")}
     >
-      {/* ── Main card ─────────────────────────────────────────────────── */}
       <div
         className={[
           "absolute inset-0 overflow-hidden flex flex-col z-10 transition-all duration-150",
@@ -55,10 +48,8 @@ export default function StickerCard({ sticker, teamCode }: StickerCardProps) {
             : { boxShadow: `0 0 0 1px ${primary}50` }
         }
       >
-        {/* Base background */}
         <div className="absolute inset-0 bg-slate-900" />
 
-        {/* Color wash */}
         <div
           className="absolute inset-0"
           style={{
@@ -68,10 +59,7 @@ export default function StickerCard({ sticker, teamCode }: StickerCardProps) {
           }}
         />
 
-        {/* Content */}
         <div className="relative z-10 flex flex-col h-full">
-
-          {/* Circle */}
           <div className="flex-1 flex items-center justify-center px-3 pt-3 pb-1">
             <div
               className="w-full aspect-square rounded-full flex flex-col items-center justify-center gap-0.5 transition-all duration-150"
@@ -93,9 +81,7 @@ export default function StickerCard({ sticker, teamCode }: StickerCardProps) {
                   fontFamily: "'Bebas Neue', Impact, sans-serif",
                   fontSize: "clamp(26px, 8vw, 38px)",
                   color: collected ? "#fff" : "#64748b",
-                  textShadow: collected
-                    ? "0 1px 4px #0007, 0 0 10px #0004"
-                    : "none",
+                  textShadow: collected ? "0 1px 4px #0007, 0 0 10px #0004" : "none",
                 }}
               >
                 {numLabel}
@@ -105,9 +91,7 @@ export default function StickerCard({ sticker, teamCode }: StickerCardProps) {
                 style={{
                   fontSize: "clamp(9px, 2.5vw, 13px)",
                   color: collected ? "#fff" : "#475569",
-                  textShadow: collected
-                    ? "0 1px 3px #0006"
-                    : "none",
+                  textShadow: collected ? "0 1px 3px #0006" : "none",
                 }}
               >
                 {teamCode}
@@ -115,7 +99,6 @@ export default function StickerCard({ sticker, teamCode }: StickerCardProps) {
             </div>
           </div>
 
-          {/* Bottom strip */}
           <div
             className="mx-1.5 mb-1 rounded-lg px-2 py-1 text-center"
             style={{ background: collected ? PANINI_BLUE : `${primary}25` }}
@@ -129,7 +112,6 @@ export default function StickerCard({ sticker, teamCode }: StickerCardProps) {
             </p>
           </div>
 
-          {/* Buttons */}
           <StickerButtons
             qty={qty}
             collected={collected}
@@ -138,41 +120,9 @@ export default function StickerCard({ sticker, teamCode }: StickerCardProps) {
           />
         </div>
 
-        {/* Float +1 */}
-        {floats.map((key) => (
-          <span
-            key={key}
-            className="absolute pointer-events-none animate-floatUp font-black z-30"
-            style={{
-              top: "50%",
-              left: "50%",
-              fontSize: "clamp(18px, 5vw, 24px)",
-              color: "#4ade80",
-              textShadow: `0 0 12px #16a34a, 0 2px 4px #000a`,
-            }}
-          >
-            +1
-          </span>
-        ))}
-        {/* Float -1 */}
-        {removals.map((key) => (
-          <span
-            key={key}
-            className="absolute pointer-events-none animate-floatUp font-black z-30"
-            style={{
-              top: "50%",
-              left: "50%",
-              fontSize: "clamp(18px, 5vw, 24px)",
-              color: "#f87171",
-              textShadow: `0 0 12px #dc2626, 0 2px 4px #000a`,
-            }}
-          >
-            −1
-          </span>
-        ))}
+        <FloatPopups floats={floats} removals={removals} />
       </div>
 
-      {/* ── Remove confirmation modal ─────────────────────────────────── */}
       <ConfirmModal
         isOpen={showRemoveConfirm}
         title={t("sticker.removeTitle")}
@@ -183,46 +133,8 @@ export default function StickerCard({ sticker, teamCode }: StickerCardProps) {
         onCancel={handleCancelRemove}
       />
 
-      {/* ── Corner stack + badge (top-right, outside main card) ─────── */}
       {collected && dupes > 0 && (
-        <div
-          className="absolute z-20"
-          style={{ top: "-4px", right: "-4px" }}
-        >
-          {/* Mini ghost cards fanning out behind the badge */}
-          {CORNER_LAYERS.slice(0, visibleLayers).map((layer, i) => (
-            <div
-              key={i}
-              className="absolute rounded-md"
-              style={{
-                width: "18px",
-                height: "26px",
-                background: `linear-gradient(135deg, ${primary}cc, ${secondary}99)`,
-                transform: `rotate(${layer.rotate}deg) translate(${layer.tx}px, ${layer.ty}px)`,
-                opacity: layer.opacity,
-                boxShadow: `0 1px 4px #0006`,
-                top: 0,
-                right: 0,
-              }}
-            />
-          ))}
-
-          {/* Count badge */}
-          <div
-            className="relative rounded-full flex items-center justify-center font-black leading-none shadow-lg"
-            style={{
-              background: primary,
-              color: "#fff",
-              border: `2px solid ${secondary}`,
-              boxShadow: `0 2px 8px ${primary}80`,
-              width:  `${Math.min(24 + (dupes - 1) * 2, 30)}px`,
-              height: `${Math.min(24 + (dupes - 1) * 2, 30)}px`,
-              fontSize: dupes >= 10 ? "9px" : "11px",
-            }}
-          >
-            {dupes > 9 ? "9+" : `+${dupes}`}
-          </div>
-        </div>
+        <DuplicatesBadge dupes={dupes} primary={primary} secondary={secondary} />
       )}
     </div>
   );
