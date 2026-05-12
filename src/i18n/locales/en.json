@@ -158,6 +158,12 @@
     "dismiss": "Dismiss"
   },
 
+  "errors": {
+    "seedFailed": "We could not prepare your album. Try signing in again.",
+    "exportFailed": "Could not export your album right now.",
+    "resetFailed": "Could not reset your album right now."
+  },
+
   "settings": {
     "title": "Settings",
     "account": "Account",

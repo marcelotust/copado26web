@@ -10,6 +10,7 @@ export function useAuth() {
   const [loading, setLoading] = useState(true)
   const [magicLinkSent, setMagicLinkSent] = useState(false)
   const [error, setError] = useState(/** @type {string|null} */ (null))
+  const [seedError, setSeedError] = useState(false)
 
   useEffect(() => {
     // getSession processes any magic link token present in the URL on redirect
@@ -22,8 +23,8 @@ export function useAuth() {
       async (_event, session) => {
         setSession(session)
         if (_event === 'SIGNED_IN' && session?.user) {
-          seedAlbumIfEmpty(session.user.id).catch(err => {
-            console.error('Album seeding failed:', err)
+          seedAlbumIfEmpty(session.user.id).catch(() => {
+            setSeedError(true)
           })
         }
       }
@@ -62,7 +63,17 @@ export function useAuth() {
     // session is cleared by onAuthStateChange (SIGNED_OUT event)
   }
 
-  return { session, loading, magicLinkSent, error, sendMagicLink, signInWithGoogle, signOut }
+  return {
+    session,
+    loading,
+    magicLinkSent,
+    error,
+    seedError,
+    clearSeedError: () => setSeedError(false),
+    sendMagicLink,
+    signInWithGoogle,
+    signOut,
+  }
 }
 
 /** @param {string} userId */

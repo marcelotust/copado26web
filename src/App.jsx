@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from './hooks/useAuth'
@@ -11,13 +11,31 @@ import MissingPage from './pages/MissingPage'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import TabNav from './components/TabNav'
+import { useFeedback } from './components/FeedbackProvider'
 
 export default function App() {
   const { t } = useI18n()
-  const { session, loading, magicLinkSent, error, sendMagicLink, signInWithGoogle, signOut } = useAuth()
+  const { push } = useFeedback()
+  const {
+    session,
+    loading,
+    magicLinkSent,
+    error,
+    seedError,
+    clearSeedError,
+    sendMagicLink,
+    signInWithGoogle,
+    signOut,
+  } = useAuth()
   const [section, setSection] = useState('ARG')
   const navigate  = useNavigate()
   const location  = useLocation()
+
+  useEffect(() => {
+    if (!seedError) return
+    push(t('errors.seedFailed'), { variant: 'error' })
+    clearSeedError()
+  }, [seedError, push, t, clearSeedError])
 
   if (loading) {
     return (

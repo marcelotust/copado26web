@@ -4,9 +4,11 @@ import { supabase } from '../lib/supabase'
 import { useI18n } from '../i18n'
 import { emitStickerChanged } from '../lib/stickerEvents'
 import ConfirmModal from '../components/ConfirmModal'
+import { useFeedback } from '../components/FeedbackProvider'
 
 export default function SettingsPage({ userId, email, onSignOut }) {
   const { t } = useI18n()
+  const { push } = useFeedback()
   const [showResetConfirm, setShowResetConfirm] = useState(false)
   const [resetting, setResetting] = useState(false)
   const [resetDone, setResetDone] = useState(false)
@@ -20,7 +22,7 @@ export default function SettingsPage({ userId, email, onSignOut }) {
       .eq('user_id', userId)
     setResetting(false)
     if (error) {
-      console.error('Reset failed:', error)
+      push(t('errors.resetFailed'), { variant: 'error' })
       return
     }
     emitStickerChanged()
@@ -31,14 +33,18 @@ export default function SettingsPage({ userId, email, onSignOut }) {
 
   async function handleExportCSV() {
     setExporting(true)
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('stickers')
       .select('id, team_code, number, label, quantity, is_special')
       .eq('user_id', userId)
       .order('team_code', { ascending: true })
       .order('number', { ascending: true })
 
-    if (!data) { setExporting(false); return }
+    if (error || !data) {
+      setExporting(false)
+      push(t('errors.exportFailed'), { variant: 'error' })
+      return
+    }
 
     const header = 'id,team_code,number,label,quantity,is_special'
     const rows = data.map(s =>

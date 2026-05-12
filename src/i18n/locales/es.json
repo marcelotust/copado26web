@@ -158,6 +158,12 @@
     "dismiss": "Cerrar"
   },
 
+  "errors": {
+    "seedFailed": "No pudimos preparar tu álbum. Intenta iniciar sesión de nuevo.",
+    "exportFailed": "No pudimos exportar tu álbum ahora.",
+    "resetFailed": "No pudimos restablecer tu álbum ahora."
+  },
+
   "settings": {
     "title": "Ajustes",
     "account": "Cuenta",
