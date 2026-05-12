@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { useState } from 'react'
 import { useI18n, LOCALE_META } from '../i18n/index.jsx'
+import AppLogo from '../components/AppLogo'
 
 export default function LoginPage({ onSendLink, onGoogleLogin, magicLinkSent, error }) {
   const { t, tRaw, locale, setLocale } = useI18n()
@@ -27,10 +28,9 @@ export default function LoginPage({ onSendLink, onGoogleLogin, magicLinkSent, er
       <div className="w-full max-w-md bg-slate-800 rounded-2xl shadow-xl overflow-hidden">
 
         {/* Header */}
-        <div className="bg-gradient-to-br from-blue-700 to-blue-900 px-6 py-8 text-center">
-          <div className="text-5xl mb-3">⚽</div>
-          <h1 className="text-2xl font-bold text-white">Meu Album 2026</h1>
-          <p className="text-blue-200 text-sm mt-1">{t('login.tagline')}</p>
+        <div className="bg-gradient-to-br from-blue-800 via-blue-900 to-slate-900 px-6 py-10 text-center flex flex-col items-center gap-3">
+          <AppLogo size='lg' />
+          <p className="text-blue-200/80 text-sm max-w-xs leading-relaxed">{t('login.tagline')}</p>
         </div>
 
         {/* Features */}
