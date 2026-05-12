@@ -12,10 +12,15 @@ export function useAuth() {
   const [error, setError] = useState(/** @type {string|null} */ (null))
 
   useEffect(() => {
+    // getSession processes any magic link token present in the URL on redirect
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+      setLoading(false)
+    })
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         setSession(session)
-        setLoading(false)
         if (_event === 'SIGNED_IN' && session?.user) {
           seedAlbumIfEmpty(session.user.id).catch(err => {
             console.error('Album seeding failed:', err)

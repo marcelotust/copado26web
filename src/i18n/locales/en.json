@@ -2,6 +2,25 @@
   "appSubtitle": "Sticker Album",
   "loading": "Setting up your album…",
 
+  "login": {
+    "tagline": "Your digital sticker album for the 2026 World Cup",
+    "description": "Track your sticker collection for free. No passwords — just your email.",
+    "features": [
+      "Register every sticker you have",
+      "See which stickers are duplicates to trade",
+      "Scan stickers with your camera (OCR)",
+      "Syncs across all your devices",
+      "100% free, no ads"
+    ],
+    "emailPlaceholder": "your@email.com",
+    "sendLink": "Send login link",
+    "sending": "Sending…",
+    "checkEmail": "Check your email",
+    "linkSentTo": "We sent a login link to",
+    "clickToSignIn": "Click it to sign in — no password needed.",
+    "linkExpires": "The link expires in 1 hour."
+  },
+
   "conf": {
     "CONMEBOL": "South America",
     "CONCACAF": "N/C America",

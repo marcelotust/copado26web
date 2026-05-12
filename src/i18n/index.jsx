@@ -29,10 +29,10 @@ const LOCALES = {
 // ── Locale detection ──────────────────────────────────────────────────────────
 
 export function detectLocale() {
-  const lang = (navigator.languages?.[0] || navigator.language || 'en').toLowerCase()
-  if (lang.startsWith('pt')) return 'pt-BR'
+  const lang = (navigator.languages?.[0] || navigator.language || 'pt').toLowerCase()
   if (lang.startsWith('es')) return 'es'
-  return 'en'
+  if (lang.startsWith('en')) return 'en'
+  return 'pt-BR'
 }
 
 // ── Context ───────────────────────────────────────────────────────────────────
