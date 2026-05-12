@@ -131,15 +131,11 @@
     "description": "Acompanhe sua coleção de figurinhas gratuitamente. Sem senhas — só o seu e-mail.",
     "features": [
       "Registre cada figurinha que você tem",
-      "Veja a lista de figurinhas faltando — compartilhe com amigos pelo WhatsApp",
+      "Veja a lista completa de figurinhas faltando",
+      "Compartilhe o que está faltando com amigos pelo WhatsApp",
       "Veja suas repetidas e organize suas trocas",
       "Sincroniza em todos os seus dispositivos",
       "100% gratuito, sem anúncios"
-    ],
-    "featureHighlights": [
-      { "icon": "📋", "title": "Faltando", "desc": "Lista de figurinhas que você ainda não tem" },
-      { "icon": "🔄", "title": "Repetidas", "desc": "Organize suas trocas com amigos" },
-      { "icon": "📤", "title": "Compartilhe", "desc": "Envie sua lista de faltando pelo WhatsApp" }
     ],
     "continueWithGoogle": "Continuar com Google",
     "orEmail": "ou use seu e-mail",

@@ -130,15 +130,11 @@
     "description": "Track your sticker collection for free. No passwords — just your email.",
     "features": [
       "Register every sticker you have",
-      "See your missing stickers list — share it with friends via WhatsApp",
+      "See your full list of missing stickers",
+      "Share what you're missing with friends via WhatsApp",
       "See your duplicates and organize your swaps",
       "Syncs across all your devices",
       "100% free, no ads"
-    ],
-    "featureHighlights": [
-      { "icon": "📋", "title": "Missing", "desc": "List of stickers you still need" },
-      { "icon": "🔄", "title": "Duplicates", "desc": "Organize your swaps with friends" },
-      { "icon": "📤", "title": "Share", "desc": "Send your missing list via WhatsApp" }
     ],
     "continueWithGoogle": "Continue with Google",
     "orEmail": "or use your email",

@@ -130,15 +130,11 @@
     "description": "Lleva el control de tu colección de cromos gratis. Sin contraseñas — solo tu correo.",
     "features": [
       "Registra cada cromo que tienes",
-      "Ve la lista de cromos faltantes — compártela con amigos por WhatsApp",
+      "Ve la lista completa de cromos faltantes",
+      "Comparte lo que te falta con amigos por WhatsApp",
       "Mira tus repetidos y organiza los intercambios",
       "Se sincroniza en todos tus dispositivos",
       "100% gratis, sin anuncios"
-    ],
-    "featureHighlights": [
-      { "icon": "📋", "title": "Faltantes", "desc": "Lista de cromos que aún no tienes" },
-      { "icon": "🔄", "title": "Repetidos", "desc": "Organiza tus intercambios con amigos" },
-      { "icon": "📤", "title": "Comparte", "desc": "Envía tu lista de faltantes por WhatsApp" }
     ],
     "continueWithGoogle": "Continuar con Google",
     "orEmail": "o usa tu correo",
