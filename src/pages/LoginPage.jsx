@@ -1,7 +1,8 @@
 // @ts-nocheck
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useI18n, LOCALE_META } from '../i18n/index.jsx'
 import AppLogo from '../components/AppLogo'
+import { SECTIONS } from '../db/seed'
 
 export default function LoginPage({ onSendLink, onGoogleLogin, magicLinkSent, error }) {
   const { t, tRaw, locale, setLocale } = useI18n()
@@ -21,11 +22,29 @@ export default function LoginPage({ onSendLink, onGoogleLogin, magicLinkSent, er
 
   const features = tRaw('login.features')
 
+  const mosaic = useMemo(() => {
+    const flags = SECTIONS.filter(s => s.type === 'team').map(s => s.flag)
+    return Array.from({ length: 180 }, (_, i) => flags[i % flags.length])
+  }, [])
+
   return (
-    <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center px-4 py-10">
+    <div className="relative min-h-screen bg-slate-950 flex flex-col items-center justify-center px-4 py-10 overflow-hidden">
+
+      {/* Flag mosaic background */}
+      <div className="absolute inset-0 grid pointer-events-none select-none"
+        style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(48px, 1fr))', alignContent: 'start', opacity: 0.18 }}>
+        {mosaic.map((flag, i) => (
+          <div key={i} className="flex items-center justify-center" style={{ height: '48px', fontSize: '28px', lineHeight: 1 }}>
+            {flag}
+          </div>
+        ))}
+      </div>
+
+      {/* Dark overlay so card stays readable */}
+      <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to bottom, #03071280 0%, #020617cc 40%, #020617 100%)' }} />
 
       {/* Card */}
-      <div className="w-full max-w-md bg-slate-800 rounded-2xl shadow-xl overflow-hidden">
+      <div className="relative z-10 w-full max-w-md bg-slate-800/90 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden">
 
         {/* Header */}
         <div className="px-6 py-10 text-center flex flex-col items-center gap-3" style={{ background: 'linear-gradient(135deg, #1e3a5f 0%, #1a1a2e 60%, #0d2818 100%)' }}>
@@ -112,7 +131,7 @@ export default function LoginPage({ onSendLink, onGoogleLogin, magicLinkSent, er
       </div>
 
       {/* Language switcher — bottom */}
-      <div className="flex gap-2 mt-6">
+      <div className="relative z-10 flex gap-2 mt-6">
         {Object.entries(LOCALE_META).map(([key, { label, flag }]) => (
           <button
             key={key}
