@@ -1,12 +1,14 @@
 // src/pages/SettingsPage.jsx
 import { useState } from 'react'
-import { supabase } from '../lib/supabase'
 import { useI18n } from '../i18n'
-import { emitStickerChanged } from '../lib/stickerEvents'
+import { useResetAlbum, useCatalogSnapshot } from '../state/stickersStore'
 import ConfirmModal from '../components/ConfirmModal'
 
-export default function SettingsPage({ userId, email, onSignOut }) {
+export default function SettingsPage({ email, onSignOut }) {
   const { t } = useI18n()
+  const resetAlbum = useResetAlbum()
+  const { catalog, quantities } = useCatalogSnapshot()
+
   const [showResetConfirm, setShowResetConfirm] = useState(false)
   const [resetting, setResetting] = useState(false)
   const [resetDone, setResetDone] = useState(false)
@@ -14,52 +16,45 @@ export default function SettingsPage({ userId, email, onSignOut }) {
 
   async function handleReset() {
     setResetting(true)
-    const { error } = await supabase
-      .from('stickers')
-      .update({ quantity: 0 })
-      .eq('user_id', userId)
-    setResetting(false)
-    if (error) {
-      console.error('Reset failed:', error)
-      return
+    try {
+      await resetAlbum()
+      setResetDone(true)
+      setShowResetConfirm(false)
+      setTimeout(() => setResetDone(false), 3000)
+    } catch (err) {
+      console.error('Reset failed:', err)
+    } finally {
+      setResetting(false)
     }
-    emitStickerChanged()
-    setResetDone(true)
-    setShowResetConfirm(false)
-    setTimeout(() => setResetDone(false), 3000)
   }
 
-  async function handleExportCSV() {
+  function handleExportCSV() {
     setExporting(true)
-    const { data } = await supabase
-      .from('stickers')
-      .select('id, team_code, number, label, quantity, is_special')
-      .eq('user_id', userId)
-      .order('team_code', { ascending: true })
-      .order('number', { ascending: true })
-
-    if (!data) { setExporting(false); return }
-
-    const header = 'id,team_code,number,label,quantity,is_special'
-    const rows = data.map(s =>
-      `${s.id},${s.team_code},${s.number},"${s.label ?? ''}",${s.quantity},${s.is_special}`
-    )
-    const csv = [header, ...rows].join('\n')
-    const blob = new Blob([csv], { type: 'text/csv' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'meualbum2026.csv'
-    a.click()
-    URL.revokeObjectURL(url)
-    setExporting(false)
+    try {
+      const rows = []
+      for (const sticker of catalog.values()) {
+        const qty = quantities.get(sticker.id) ?? 0
+        const label = sticker.player_name ?? ''
+        rows.push(`${sticker.id},${sticker.team_code},${sticker.number},"${label}",${qty},${sticker.is_special}`)
+      }
+      rows.sort()
+      const csv = ['id,team_code,number,label,quantity,is_special', ...rows].join('\n')
+      const blob = new Blob([csv], { type: 'text/csv' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'meualbum2026.csv'
+      a.click()
+      URL.revokeObjectURL(url)
+    } finally {
+      setExporting(false)
+    }
   }
 
   return (
     <div className="p-6 max-w-md mx-auto flex flex-col gap-6">
       <h1 className="text-xl font-bold text-white">{t('settings.title')}</h1>
 
-      {/* Account */}
       <section className="flex flex-col gap-2">
         <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">{t('settings.account')}</h2>
         {email && (
@@ -76,7 +71,6 @@ export default function SettingsPage({ userId, email, onSignOut }) {
         </button>
       </section>
 
-      {/* Export CSV */}
       <section className="flex flex-col gap-2">
         <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">{t('settings.data')}</h2>
         <button
@@ -88,17 +82,14 @@ export default function SettingsPage({ userId, email, onSignOut }) {
         </button>
       </section>
 
-      {/* Reset Album */}
       <section className="flex flex-col gap-2">
         <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">{t('settings.dangerZone')}</h2>
-
         <button
           onClick={() => setShowResetConfirm(true)}
           className="px-4 py-3 rounded-lg bg-red-900/40 hover:bg-red-900/60 text-red-400 text-left border border-red-800 transition-colors"
         >
           {t('settings.resetAlbum')}
         </button>
-
         {resetDone && (
           <p className="text-green-400 text-sm">{t('settings.resetDone')}</p>
         )}

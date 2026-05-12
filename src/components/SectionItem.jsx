@@ -1,67 +1,57 @@
-import { teamColor } from "../utils";
-import { useI18n } from "../i18n";
-import { useAuth } from "../hooks/useAuth";
-import { useSupabaseSectionProgress } from "../hooks/useSupabaseProgress";
+import { teamColor } from '../utils'
+import { useI18n } from '../i18n'
+import { useSectionProgress } from '../state/stickersStore'
 
-const RADIUS = 11;
-const CIRC = 2 * Math.PI * RADIUS;
+const RADIUS = 11
+const CIRC = 2 * Math.PI * RADIUS
 
-/** @param {{ section: { code: string, flag: string, count: number }, active: boolean, onClick: () => void }} props */
-export default function SectionItem({ section, active, onClick }) {
-  const { t } = useI18n();
-  const { session } = useAuth();
-  const userId = session?.user?.id;
-  const { collected } = useSupabaseSectionProgress(userId, section.code);
-  const total = section.count;
-  const pct = total > 0 ? collected / total : 0;
-  const dash = pct * CIRC;
-  const done = collected === total && total > 0;
-  const name = t(`teams.${section.code}`);
-  const color = teamColor(section.code);
+/** @param {{ team: { code: string, flag: string, name_key: string }, active: boolean, onClick: () => void }} props */
+export default function SectionItem({ team, active, onClick }) {
+  const { t } = useI18n()
+  const { total, collected } = useSectionProgress(team.code)
+  const pct = total > 0 ? collected / total : 0
+  const dash = pct * CIRC
+  const done = collected === total && total > 0
+  const name = t(team.name_key)
+  const color = teamColor(team.code)
 
   return (
     <button
       onClick={onClick}
       title={name}
       className={[
-        "w-full flex items-center rounded-lg text-left transition-all duration-100",
-        "hover:bg-slate-700/60 active:scale-95",
-        active ? "bg-slate-700 ring-1 ring-slate-600" : "",
-        // mobile: compact centered column; sm+: full row
-        "flex-col justify-center gap-0.5 px-1 py-2 sm:flex-row sm:gap-3 sm:px-3 sm:py-2.5",
-      ].join(" ")}
+        'w-full flex items-center rounded-lg text-left transition-all duration-100',
+        'hover:bg-slate-700/60 active:scale-95',
+        active ? 'bg-slate-700 ring-1 ring-slate-600' : '',
+        'flex-col justify-center gap-0.5 px-1 py-2 sm:flex-row sm:gap-3 sm:px-3 sm:py-2.5',
+      ].join(' ')}
     >
-      <span className='text-xl shrink-0 leading-none w-7 text-center'>
-        {section.flag}
-      </span>
+      <span className='text-xl shrink-0 leading-none w-7 text-center'>{team.flag}</span>
 
-      {/* code — always visible */}
       <span
         className={[
-          "font-bold font-mono tracking-wide leading-none block text-center sm:hidden",
-          "text-[10px]",
-          active ? `text-${color}-300` : "text-slate-500",
-        ].join(" ")}
+          'font-bold font-mono tracking-wide leading-none block text-center sm:hidden',
+          'text-[10px]',
+          active ? `text-${color}-300` : 'text-slate-500',
+        ].join(' ')}
       >
-        {section.code}
+        {team.code}
       </span>
 
-      {/* full name + code column — sm+ only */}
       <div className='hidden sm:flex flex-1 min-w-0 flex-col'>
         <span
           className={[
-            "text-[13px] font-bold font-mono tracking-wide leading-none block",
-            active ? `text-${color}-300` : "text-slate-400",
-          ].join(" ")}
+            'text-[13px] font-bold font-mono tracking-wide leading-none block',
+            active ? `text-${color}-300` : 'text-slate-400',
+          ].join(' ')}
         >
-          {section.code}
+          {team.code}
         </span>
         <span className='text-[11px] text-slate-600 truncate block leading-tight mt-0.5'>
           {name}
         </span>
       </div>
 
-      {/* progress ring — sm+ only */}
       <svg
         width='28'
         height='28'
@@ -90,5 +80,5 @@ export default function SectionItem({ section, active, onClick }) {
         )}
       </svg>
     </button>
-  );
+  )
 }

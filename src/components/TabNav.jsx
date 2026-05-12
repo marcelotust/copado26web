@@ -1,13 +1,11 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useI18n } from '../i18n'
-import { useAuth } from '../hooks/useAuth'
-import { useSupabaseProgress } from '../hooks/useSupabaseProgress'
+import { useAlbumProgress } from '../state/stickersStore'
 
 export default function TabNav() {
   const { t } = useI18n()
   const { pathname } = useLocation()
-  const { session } = useAuth()
-  const { swaps } = useSupabaseProgress(session?.user?.id)
+  const { swaps } = useAlbumProgress()
 
   return (
     <nav className='shrink-0 relative flex justify-center gap-1 px-4 py-2 bg-slate-900'>
