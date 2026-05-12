@@ -2,24 +2,6 @@
   "appSubtitle": "Álbum de Cromos",
   "loading": "Configurando tu álbum…",
 
-  "login": {
-    "tagline": "Tu álbum digital del Mundial 2026",
-    "description": "Lleva el control de tu colección de cromos gratis. Sin contraseñas — solo tu correo.",
-    "features": [
-      "Registra cada cromo que tienes",
-      "Mira qué cromos están duplicados para intercambiar",
-      "Escanea cromos con la cámara (OCR)",
-      "Se sincroniza en todos tus dispositivos",
-      "100% gratis, sin anuncios"
-    ],
-    "emailPlaceholder": "tu@correo.com",
-    "sendLink": "Enviar enlace de acceso",
-    "sending": "Enviando…",
-    "checkEmail": "Revisa tu correo",
-    "linkSentTo": "Enviamos un enlace de acceso a",
-    "clickToSignIn": "Haz clic en él para entrar — sin necesidad de contraseña.",
-    "linkExpires": "El enlace expira en 1 hora."
-  },
 
   "conf": {
     "CONMEBOL": "América del Sur",
@@ -138,10 +120,22 @@
   },
 
   "login": {
-    "title": "Iniciar Sesión",
-    "username": "Usuario",
-    "password": "Contraseña",
-    "submit": "Iniciar Sesión"
+    "tagline": "Tu álbum digital del Mundial 2026",
+    "description": "Lleva el control de tu colección de cromos gratis. Sin contraseñas — solo tu correo.",
+    "features": [
+      "Registra cada cromo que tienes",
+      "Mira qué cromos están duplicados para intercambiar",
+      "Escanea cromos con la cámara (OCR)",
+      "Se sincroniza en todos tus dispositivos",
+      "100% gratis, sin anuncios"
+    ],
+    "emailPlaceholder": "tu@correo.com",
+    "sendLink": "Enviar enlace de acceso",
+    "sending": "Enviando…",
+    "checkEmail": "Revisa tu correo",
+    "linkSentTo": "Enviamos un enlace de acceso a",
+    "clickToSignIn": "Haz clic en él para entrar — sin necesidad de contraseña.",
+    "linkExpires": "El enlace expira en 1 hora."
   },
 
   "menu": {

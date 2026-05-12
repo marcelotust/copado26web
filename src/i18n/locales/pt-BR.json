@@ -2,24 +2,6 @@
   "appSubtitle": "Álbum de Figurinhas",
   "loading": "Configurando seu álbum…",
 
-  "login": {
-    "tagline": "Seu álbum digital da Copa do Mundo 2026",
-    "description": "Acompanhe sua coleção de figurinhas gratuitamente. Sem senhas — só o seu e-mail.",
-    "features": [
-      "Registre cada figurinha que você tem",
-      "Veja quais figurinhas estão duplicadas para trocar",
-      "Escaneie figurinhas com a câmera (OCR)",
-      "Sincroniza em todos os seus dispositivos",
-      "100% gratuito, sem anúncios"
-    ],
-    "emailPlaceholder": "seu@email.com",
-    "sendLink": "Enviar link de acesso",
-    "sending": "Enviando…",
-    "checkEmail": "Verifique seu e-mail",
-    "linkSentTo": "Enviamos um link de acesso para",
-    "clickToSignIn": "Clique nele para entrar — sem precisar de senha.",
-    "linkExpires": "O link expira em 1 hora."
-  },
 
   "conf": {
     "CONMEBOL": "América do Sul",
@@ -139,10 +121,22 @@
   },
 
   "login": {
-    "title": "Entrar",
-    "username": "Usuário",
-    "password": "Senha",
-    "submit": "Entrar"
+    "tagline": "Seu álbum digital da Copa do Mundo 2026",
+    "description": "Acompanhe sua coleção de figurinhas gratuitamente. Sem senhas — só o seu e-mail.",
+    "features": [
+      "Registre cada figurinha que você tem",
+      "Veja quais figurinhas estão duplicadas para trocar",
+      "Escaneie figurinhas com a câmera (OCR)",
+      "Sincroniza em todos os seus dispositivos",
+      "100% gratuito, sem anúncios"
+    ],
+    "emailPlaceholder": "seu@email.com",
+    "sendLink": "Enviar link de acesso",
+    "sending": "Enviando…",
+    "checkEmail": "Verifique seu e-mail",
+    "linkSentTo": "Enviamos um link de acesso para",
+    "clickToSignIn": "Clique nele para entrar — sem precisar de senha.",
+    "linkExpires": "O link expira em 1 hora."
   },
 
   "menu": {
