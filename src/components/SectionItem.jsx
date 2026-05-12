@@ -24,16 +24,30 @@ export default function SectionItem({ section, active, onClick }) {
       onClick={onClick}
       title={name}
       className={[
-        "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all duration-100",
+        "w-full flex items-center rounded-lg text-left transition-all duration-100",
         "hover:bg-slate-700/60 active:scale-95",
         active ? "bg-slate-700 ring-1 ring-slate-600" : "",
+        // mobile: compact centered column; sm+: full row
+        "flex-col justify-center gap-0.5 px-1 py-2 sm:flex-row sm:gap-3 sm:px-3 sm:py-2.5",
       ].join(" ")}
     >
       <span className='text-xl shrink-0 leading-none w-7 text-center'>
         {section.flag}
       </span>
 
-      <div className='flex flex-1 min-w-0 flex-col'>
+      {/* code — always visible */}
+      <span
+        className={[
+          "font-bold font-mono tracking-wide leading-none block text-center sm:hidden",
+          "text-[10px]",
+          active ? `text-${color}-300` : "text-slate-500",
+        ].join(" ")}
+      >
+        {section.code}
+      </span>
+
+      {/* full name + code column — sm+ only */}
+      <div className='hidden sm:flex flex-1 min-w-0 flex-col'>
         <span
           className={[
             "text-[13px] font-bold font-mono tracking-wide leading-none block",
@@ -47,11 +61,12 @@ export default function SectionItem({ section, active, onClick }) {
         </span>
       </div>
 
+      {/* progress ring — sm+ only */}
       <svg
         width='28'
         height='28'
         viewBox='0 0 28 28'
-        className='shrink-0'
+        className='shrink-0 hidden sm:block'
         style={{ transform: 'rotate(-90deg)' }}
       >
         <circle cx='14' cy='14' r={RADIUS} fill='none' stroke='#1e293b' strokeWidth='3' />

@@ -21,11 +21,10 @@ const CORNER_LAYERS = [
 export default function StickerCard({ sticker, teamCode, userId, onPatch }) {
   const { t } = useI18n();
   const {
-    popping, floats, removals,
+    qty, popping, floats, removals,
     showRemoveConfirm, handleAdd, handleRemove,
     handleConfirmRemove, handleCancelRemove,
   } = useStickerActions(sticker, userId, onPatch);
-  const qty = sticker.quantity;
   const collected = qty > 0;
   const dupes = qty - 1;
   const numLabel = String(sticker.number).padStart(2, "0");

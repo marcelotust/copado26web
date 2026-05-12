@@ -7,6 +7,8 @@ export function useStickerActions(sticker, userId, onPatch) {
   const [floats, setFloats] = useState(/** @type {number[]} */ ([]))
   const [removals, setRemovals] = useState(/** @type {number[]} */ ([]))
   const [showRemoveConfirm, setShowRemoveConfirm] = useState(false)
+  // Drives the card display — insulated from stale server re-fetches during pending writes
+  const [optimisticQty, setOptimisticQty] = useState(sticker.quantity)
 
   // Tracks optimistic quantity synchronously — bypasses React batching for rapid clicks
   const localQtyRef = useRef(sticker.quantity)
@@ -17,6 +19,7 @@ export function useStickerActions(sticker, userId, onPatch) {
   useEffect(() => {
     if (!pendingWriteRef.current) {
       localQtyRef.current = sticker.quantity
+      setOptimisticQty(sticker.quantity)
     }
   }, [sticker.quantity])
 
@@ -59,6 +62,7 @@ export function useStickerActions(sticker, userId, onPatch) {
     setTimeout(() => setFloats(f => f.slice(1)), 750)
 
     localQtyRef.current += 1
+    setOptimisticQty(localQtyRef.current)
     onPatch?.(sticker.id, { quantity: localQtyRef.current })
     emitStickerChanged()
     scheduleFlush()
@@ -81,6 +85,7 @@ export function useStickerActions(sticker, userId, onPatch) {
     setTimeout(() => setRemovals(f => f.slice(1)), 750)
 
     localQtyRef.current -= 1
+    setOptimisticQty(localQtyRef.current)
     onPatch?.(sticker.id, { quantity: localQtyRef.current })
     emitStickerChanged()
     scheduleFlush()
@@ -96,6 +101,7 @@ export function useStickerActions(sticker, userId, onPatch) {
   }
 
   return {
+    qty: optimisticQty,
     popping,
     floats,
     removals,
