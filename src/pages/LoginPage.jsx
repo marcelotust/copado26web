@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useI18n, LOCALE_META } from '../i18n/index.jsx'
 
 export default function LoginPage({ onSendLink, magicLinkSent, error }) {
-  const { t, locale, setLocale } = useI18n()
+  const { t, tRaw, locale, setLocale } = useI18n()
   const [email, setEmail] = useState('')
   const [sending, setSending] = useState(false)
   const [submittedEmail, setSubmittedEmail] = useState('')
@@ -18,27 +18,10 @@ export default function LoginPage({ onSendLink, magicLinkSent, error }) {
     setSending(false)
   }
 
-  const features = t('login.features')
+  const features = tRaw('login.features')
 
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center px-4 py-10">
-
-      {/* Language switcher */}
-      <div className="flex gap-2 mb-8">
-        {Object.entries(LOCALE_META).map(([key, { label, flag }]) => (
-          <button
-            key={key}
-            onClick={() => setLocale(key)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors
-              ${locale === key
-                ? 'bg-blue-600 text-white'
-                : 'bg-slate-700 text-slate-300 hover:bg-slate-600'}`}
-          >
-            <span>{flag}</span>
-            <span>{label}</span>
-          </button>
-        ))}
-      </div>
 
       {/* Card */}
       <div className="w-full max-w-md bg-slate-800 rounded-2xl shadow-xl overflow-hidden">
@@ -54,14 +37,12 @@ export default function LoginPage({ onSendLink, magicLinkSent, error }) {
         <div className="px-6 py-5 border-b border-slate-700">
           <p className="text-slate-400 text-sm mb-3">{t('login.description')}</p>
           <ul className="flex flex-col gap-2">
-            {Array.isArray(features)
-              ? features.map((f, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                    <span className="text-green-400 mt-0.5">✓</span>
-                    {f}
-                  </li>
-                ))
-              : null}
+            {Array.isArray(features) && features.map((f, i) => (
+              <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
+                <span className="text-green-400 mt-0.5 shrink-0">✓</span>
+                {f}
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -102,6 +83,24 @@ export default function LoginPage({ onSendLink, magicLinkSent, error }) {
           )}
         </div>
       </div>
+
+      {/* Language switcher — bottom */}
+      <div className="flex gap-2 mt-6">
+        {Object.entries(LOCALE_META).map(([key, { label, flag }]) => (
+          <button
+            key={key}
+            onClick={() => setLocale(key)}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors
+              ${locale === key
+                ? 'bg-blue-600 text-white'
+                : 'bg-slate-700 text-slate-300 hover:bg-slate-600'}`}
+          >
+            <span>{flag}</span>
+            <span>{label}</span>
+          </button>
+        ))}
+      </div>
+
     </div>
   )
 }
