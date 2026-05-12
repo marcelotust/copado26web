@@ -154,6 +154,10 @@
     "loggedInAs": "Conectado como"
   },
 
+  "feedback": {
+    "dismiss": "Cerrar"
+  },
+
   "settings": {
     "title": "Ajustes",
     "account": "Cuenta",

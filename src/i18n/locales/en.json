@@ -154,6 +154,10 @@
     "loggedInAs": "Logged in as"
   },
 
+  "feedback": {
+    "dismiss": "Dismiss"
+  },
+
   "settings": {
     "title": "Settings",
     "account": "Account",
