@@ -9,9 +9,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'pwa-192.png', 'pwa-512.png'],
       manifest: {
-        name: 'WC 2026 Sticker Album',
-        short_name: 'WC2026',
-        description: 'FIFA World Cup 2026 Sticker Album Manager',
+        name: 'Meu Album 2026',
+        short_name: 'MeuAlbum',
+        description: 'Seu álbum digital de figurinhas da Copa do Mundo 2026',
         theme_color: '#0f172a',
         background_color: '#0f172a',
         display: 'standalone',

@@ -33,7 +33,7 @@ const RAW = { en, 'pt-BR': ptBR, es }
 
 // ── Locale detection ──────────────────────────────────────────────────────────
 
-const STORAGE_KEY = 'copado26_locale'
+const STORAGE_KEY = 'meualbum2026_locale'
 
 function detectLocale() {
   // Respect user's explicit choice stored in localStorage

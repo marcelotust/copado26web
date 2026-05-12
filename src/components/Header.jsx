@@ -14,7 +14,7 @@ export default function Header({ userId, onLogout }) {
         <span className='text-xl shrink-0'>⚽</span>
         <div className='lg:block min-w-0'>
           <p className='text-white font-black text-x leading-none tracking-tight'>
-            COPADO26
+            MEU ALBUM 2026
           </p>
           <p className='text-slate-600 text-[9px] leading-none mt-0.5'>
             {t('appSubtitle')}

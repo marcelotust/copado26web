@@ -29,7 +29,7 @@ export default function LoginPage({ onSendLink, magicLinkSent, error }) {
         {/* Header */}
         <div className="bg-gradient-to-br from-blue-700 to-blue-900 px-6 py-8 text-center">
           <div className="text-5xl mb-3">⚽</div>
-          <h1 className="text-2xl font-bold text-white">WC 2026 Album</h1>
+          <h1 className="text-2xl font-bold text-white">Meu Album 2026</h1>
           <p className="text-blue-200 text-sm mt-1">{t('login.tagline')}</p>
         </div>
 

@@ -12,7 +12,7 @@ export function MagicLinkForm({ onSubmit, error, loading }) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-sm">
       <div className="text-center mb-2">
-        <h1 className="text-2xl font-bold text-white">WC 2026 Album</h1>
+        <h1 className="text-2xl font-bold text-white">Meu Album 2026</h1>
         <p className="text-slate-400 text-sm mt-1">Enter your email to receive a login link</p>
       </div>
 
