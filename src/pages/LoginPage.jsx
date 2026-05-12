@@ -19,6 +19,7 @@ export default function LoginPage({ onSendLink, onGoogleLogin, magicLinkSent, er
   }
 
   const features = tRaw('login.features')
+  const highlights = tRaw('login.featureHighlights')
 
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center px-4 py-10">
@@ -32,6 +33,19 @@ export default function LoginPage({ onSendLink, onGoogleLogin, magicLinkSent, er
           <h1 className="text-2xl font-bold text-white">Meu Album 2026</h1>
           <p className="text-blue-200 text-sm mt-1">{t('login.tagline')}</p>
         </div>
+
+        {/* Feature highlight cards */}
+        {Array.isArray(highlights) && (
+          <div className="grid grid-cols-3 gap-2 px-4 py-4 border-b border-slate-700">
+            {highlights.map((h, i) => (
+              <div key={i} className="flex flex-col items-center gap-1.5 bg-slate-700/50 rounded-xl px-2 py-3 text-center">
+                <span className="text-2xl leading-none">{h.icon}</span>
+                <span className="text-white text-xs font-bold leading-tight">{h.title}</span>
+                <span className="text-slate-400 text-[10px] leading-tight">{h.desc}</span>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Features */}
         <div className="px-6 py-5 border-b border-slate-700">
