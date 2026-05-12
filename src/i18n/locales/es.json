@@ -141,7 +141,26 @@
   },
 
   "menu": {
-    "logout": "Cerrar Sesión"
+    "logout": "Cerrar Sesión",
+    "settings": "Ajustes",
+    "language": "Idioma"
+  },
+
+  "settings": {
+    "title": "Ajustes",
+    "account": "Cuenta",
+    "signOut": "Cerrar sesión",
+    "data": "Datos",
+    "exportCSV": "Exportar álbum a CSV",
+    "exportingCSV": "Preparando CSV…",
+    "dangerZone": "Zona de peligro",
+    "resetAlbum": "Reiniciar álbum",
+    "resetConfirmTitle": "¿Estás absolutamente seguro?",
+    "resetConfirmDesc": "Esto pondrá a cero todas las cantidades de cromos. Tu cuenta e inicio de sesión seguirán activos. No se puede deshacer.",
+    "resetConfirmYes": "Sí, reiniciar todo",
+    "resetConfirmNo": "Cancelar",
+    "resetting": "Reiniciando…",
+    "resetDone": "Álbum reiniciado con éxito."
   },
 
   "sticker": {

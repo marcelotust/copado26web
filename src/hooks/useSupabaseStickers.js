@@ -24,7 +24,7 @@ export function useSupabaseStickers(userId, teamCode) {
       })
 
     const channel = supabase
-      .channel(`stickers-${userId}-${teamCode}`)
+      .channel(`stickers-${userId}-${teamCode}-${Date.now()}`)
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
