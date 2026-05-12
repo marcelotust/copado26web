@@ -1,69 +1,6 @@
-// src/pages/MissingPage.jsx
-import { useState, useEffect } from 'react'
-import { supabase } from '../lib/supabase'
+import { useState } from 'react'
 import { useI18n } from '../i18n'
-import { SECTIONS } from '../db/seed'
-import { onStickerChanged } from '../lib/stickerEvents'
-
-/** @param {string|undefined} userId */
-function useMissingStickers(userId) {
-  const [groups, setGroups] = useState(/** @type {{ teamCode: string, numbers: number[] }[]} */ ([]))
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    if (!userId) return
-    let cancelled = false
-
-    async function fetch() {
-      const { data } = await supabase
-        .from('stickers')
-        .select('team_code, number')
-        .eq('user_id', userId)
-        .eq('quantity', 0)
-        .order('team_code', { ascending: true })
-        .order('number', { ascending: true })
-
-      if (cancelled) return
-      if (!data) { setLoading(false); return }
-
-      // Group by team, preserving SECTIONS order
-      const byTeam = /** @type {Record<string, number[]>} */ ({})
-      for (const s of data) {
-        if (!byTeam[s.team_code]) byTeam[s.team_code] = []
-        byTeam[s.team_code].push(s.number)
-      }
-
-      const ordered = SECTIONS
-        .map(s => s.code)
-        .filter(code => byTeam[code]?.length)
-        .map(code => ({ teamCode: code, numbers: byTeam[code] }))
-
-      setGroups(ordered)
-      setLoading(false)
-    }
-
-    fetch()
-    const unsubscribe = onStickerChanged(fetch)
-
-    const channel = supabase
-      .channel(`missing-${userId}-${Date.now()}`)
-      .on('postgres_changes', {
-        event: 'UPDATE',
-        schema: 'public',
-        table: 'stickers',
-        filter: `user_id=eq.${userId}`,
-      }, () => fetch())
-      .subscribe()
-
-    return () => {
-      cancelled = true
-      unsubscribe()
-      supabase.removeChannel(channel)
-    }
-  }, [userId])
-
-  return { groups, loading }
-}
+import { useMissing, useTeams } from '../state/stickersStore'
 
 /** @param {number} n */
 function pad(n) {
@@ -80,21 +17,21 @@ function buildShareText(groups, teamName) {
   return `🎴 Copa 2026 — Figurinhas faltando\n\n${lines.join('\n').trim()}`
 }
 
-/** @param {{ userId: string }} props */
-export default function MissingPage({ userId }) {
+export default function MissingPage() {
   const { t } = useI18n()
-  const { groups, loading } = useMissingStickers(userId)
+  const groups = useMissing()
+  const teams  = useTeams()
   const [copied, setCopied] = useState(false)
 
   const totalMissing = groups.reduce((acc, g) => acc + g.numbers.length, 0)
 
   function teamName(code) {
-    return t(`teams.${code}`)
+    const team = teams.find(team => team.code === code)
+    return team ? t(team.name_key) : code
   }
 
   async function handleShare() {
     const text = buildShareText(groups, teamName)
-
     if (navigator.share) {
       try {
         await navigator.share({ text })
@@ -103,14 +40,11 @@ export default function MissingPage({ userId }) {
         // user cancelled or share failed — fall through to copy
       }
     }
-
-    // Fallback: copy to clipboard
     try {
       await navigator.clipboard.writeText(text)
       setCopied(true)
       setTimeout(() => setCopied(false), 2500)
     } catch {
-      // Last resort: open WhatsApp with pre-filled text
       const url = `https://wa.me/?text=${encodeURIComponent(text)}`
       window.open(url, '_blank')
     }
@@ -120,14 +54,6 @@ export default function MissingPage({ userId }) {
     const text = buildShareText(groups, teamName)
     const url = `https://wa.me/?text=${encodeURIComponent(text)}`
     window.open(url, '_blank')
-  }
-
-  if (loading) {
-    return (
-      <div className='flex-1 flex items-center justify-center text-slate-500 text-sm'>
-        {t('grid.loading')}
-      </div>
-    )
   }
 
   if (groups.length === 0) {
@@ -142,7 +68,6 @@ export default function MissingPage({ userId }) {
 
   return (
     <div className='flex flex-col h-full'>
-      {/* Sticky header with count + share buttons */}
       <div className='shrink-0 flex items-center justify-between gap-3 px-4 py-3 bg-slate-900 border-b border-slate-800'>
         <p className='text-slate-400 text-sm'>
           <span className='text-white font-bold'>{totalMissing}</span>{' '}
@@ -165,13 +90,10 @@ export default function MissingPage({ userId }) {
         </div>
       </div>
 
-      {/* Scrollable list */}
       <div className='flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-5'>
         {groups.map(({ teamCode, numbers }) => (
           <div key={teamCode}>
-            <p className='text-white font-bold text-sm mb-1'>
-              {teamName(teamCode)}
-            </p>
+            <p className='text-white font-bold text-sm mb-1'>{teamName(teamCode)}</p>
             <p className='text-slate-400 text-sm font-mono leading-relaxed'>
               {numbers.map(n => `${teamCode} ${pad(n)}`).join(' · ')}
             </p>

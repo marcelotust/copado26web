@@ -4,11 +4,6 @@ import { teamColors } from "../utils";
 import StickerButtons from "./StickerButtons";
 import ConfirmModal from "./ConfirmModal";
 
-const LABEL_KEYS = {
-  Shield: "sticker.shield",
-  "Team Photo": "sticker.teamPhoto",
-};
-
 const PANINI_BLUE = "#1a56c4";
 
 // Mini card stack shown in the top-right corner when duplicates exist
@@ -17,25 +12,22 @@ const CORNER_LAYERS = [
   { rotate: -4, tx: -4, ty: -9, opacity: 0.4  },
 ];
 
-/** @param {{ sticker: { id: string, number: number, quantity: number, label?: string|null }, teamCode: string, userId?: string, onPatch?: (id: string, changes: object) => void }} props */
-export default function StickerCard({ sticker, teamCode, userId, onPatch }) {
+/** @param {{ sticker: { id: string, number: number, quantity: number, is_special?: boolean, player_name?: string|null }, teamCode: string }} props */
+export default function StickerCard({ sticker, teamCode }) {
   const { t } = useI18n();
   const {
     qty, popping, floats, removals,
     showRemoveConfirm, handleAdd, handleRemove,
     handleConfirmRemove, handleCancelRemove,
-  } = useStickerActions(sticker, userId, onPatch);
+  } = useStickerActions(sticker);
   const collected = qty > 0;
   const dupes = qty - 1;
   const numLabel = String(sticker.number).padStart(2, "0");
   const { primary, secondary } = teamColors(teamCode);
 
-  const rawLabel = sticker.label;
-  const displayLabel = rawLabel
-    ? rawLabel in LABEL_KEYS
-      ? t(LABEL_KEYS[/** @type {keyof typeof LABEL_KEYS} */ (rawLabel)])
-      : rawLabel
-    : null;
+  const displayLabel = sticker.player_name
+    ?? (sticker.is_special && sticker.number === 1  ? t("sticker.shield")    : null)
+    ?? (sticker.is_special && sticker.number === 13 ? t("sticker.teamPhoto") : null);
 
   const visibleLayers = Math.min(dupes, 2);
 

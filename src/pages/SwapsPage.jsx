@@ -1,25 +1,21 @@
-import { SECTIONS } from "../db/seed";
-import { useSupabaseSwaps } from "../hooks/useSupabaseSwaps";
-import { teamColors } from "../utils";
-import { useI18n } from "../i18n";
-import StickerCard from "../components/StickerCard";
+import { useSwaps, useTeam } from '../state/stickersStore'
+import { teamColors } from '../utils'
+import { useI18n } from '../i18n'
+import StickerCard from '../components/StickerCard'
 
-/** @param {{ userId: string }} props */
-export default function SwapsPage({ userId }) {
-  const { t } = useI18n();
-  const { swapsByTeam, total, patchSticker } = useSupabaseSwaps(userId);
-
-  const stickerWord =
-    total === 1 ? t("swaps.sticker") : t("swaps.stickers");
+export default function SwapsPage() {
+  const { t } = useI18n()
+  const { swapsByTeam, total } = useSwaps()
+  const stickerWord = total === 1 ? t('swaps.sticker') : t('swaps.stickers')
 
   return (
     <div className='flex flex-col h-full'>
       <div className='flex items-center gap-3 px-4 pt-4 pb-3 border-b border-slate-800 shrink-0'>
         <span className='text-3xl'>🔄</span>
         <div>
-          <h2 className='text-white font-bold text-lg'>{t("nav.swaps")}</h2>
+          <h2 className='text-white font-bold text-lg'>{t('nav.swaps')}</h2>
           <p className='text-slate-400 text-xs'>
-            {total} {stickerWord} {t("swaps.toTrade")}
+            {total} {stickerWord} {t('swaps.toTrade')}
           </p>
         </div>
       </div>
@@ -28,56 +24,55 @@ export default function SwapsPage({ userId }) {
         {swapsByTeam.length === 0 ? (
           <div className='flex flex-col items-center justify-center h-48 text-center gap-3'>
             <span className='text-5xl'>✨</span>
-            <p className='text-slate-400 font-semibold'>{t("swaps.empty")}</p>
-            <p className='text-slate-600 text-sm'>{t("swaps.emptyDesc")}</p>
+            <p className='text-slate-400 font-semibold'>{t('swaps.empty')}</p>
+            <p className='text-slate-600 text-sm'>{t('swaps.emptyDesc')}</p>
           </div>
         ) : (
           <div className='space-y-6'>
-            {swapsByTeam.map(({ teamCode, stickers }) => {
-              const section = SECTIONS.find((s) => s.code === teamCode);
-              const { primary, secondary } = teamColors(teamCode);
-              const name = t(`teams.${teamCode}`);
-              const dupeCount = stickers.length;
-
-              return (
-                <div key={teamCode}>
-                  {/* Team header */}
-                  <div className='flex items-center gap-2 mb-1'>
-                    <span className='text-lg'>{section?.flag ?? "🏳️"}</span>
-                    <span className='font-bold text-sm text-white truncate'>
-                      {name}
-                    </span>
-                    <span className='text-slate-500 text-xs shrink-0'>
-                      · {dupeCount} {t("swaps.dupes")}
-                    </span>
-                    <span
-                      className='ml-auto font-bold text-xs shrink-0'
-                      style={{ color: primary }}
-                    >
-                      {teamCode}
-                    </span>
-                  </div>
-
-                  {/* Color accent bar */}
-                  <div
-                    className='h-0.5 rounded mb-2'
-                    style={{
-                      background: `linear-gradient(to right, ${primary}, ${secondary})`,
-                    }}
-                  />
-
-                  {/* Sticker grid */}
-                  <div className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2'>
-                    {stickers.map((s) => (
-                      <StickerCard key={s.id} sticker={s} teamCode={teamCode} userId={userId} onPatch={patchSticker} />
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+            {swapsByTeam.map(({ teamCode, stickers }) => (
+              <SwapTeamGroup key={teamCode} teamCode={teamCode} stickers={stickers} />
+            ))}
           </div>
         )}
       </div>
     </div>
-  );
+  )
+}
+
+/** @param {{ teamCode: string, stickers: any[] }} props */
+function SwapTeamGroup({ teamCode, stickers }) {
+  const { t } = useI18n()
+  const team = useTeam(teamCode)
+  const { primary, secondary } = teamColors(teamCode)
+  const name = team ? t(team.name_key) : teamCode
+  const dupeCount = stickers.length
+
+  return (
+    <div>
+      <div className='flex items-center gap-2 mb-1'>
+        <span className='text-lg'>{team?.flag ?? '🏳️'}</span>
+        <span className='font-bold text-sm text-white truncate'>{name}</span>
+        <span className='text-slate-500 text-xs shrink-0'>
+          · {dupeCount} {t('swaps.dupes')}
+        </span>
+        <span
+          className='ml-auto font-bold text-xs shrink-0'
+          style={{ color: primary }}
+        >
+          {teamCode}
+        </span>
+      </div>
+
+      <div
+        className='h-0.5 rounded mb-2'
+        style={{ background: `linear-gradient(to right, ${primary}, ${secondary})` }}
+      />
+
+      <div className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2'>
+        {stickers.map((s) => (
+          <StickerCard key={s.id} sticker={s} teamCode={teamCode} />
+        ))}
+      </div>
+    </div>
+  )
 }

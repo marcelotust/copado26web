@@ -1,43 +1,49 @@
-import { SECTIONS, GROUP_ORDER } from "../db/seed";
-import { useI18n } from "../i18n";
-import SectionItem from "./SectionItem";
+import { useTeams } from '../state/stickersStore'
+import { useI18n } from '../i18n'
+import SectionItem from './SectionItem'
+
+/** Groups consecutive teams that share the same group_letter; virtual sections
+ * (group_letter === null) form their own one-team group keyed by team code. */
+function groupTeams(teams) {
+  const out = []
+  for (const team of teams) {
+    const key = team.group_letter ?? team.code
+    const last = out[out.length - 1]
+    if (last && last.key === key) last.teams.push(team)
+    else out.push({ key, teams: [team] })
+  }
+  return out
+}
 
 export default function Sidebar({ selected, onSelect }) {
-  const { t } = useI18n();
-
-  const grouped = GROUP_ORDER.reduce((acc, group) => {
-    const items = SECTIONS.filter((s) => s.group === group);
-    if (items.length) acc[group] = items;
-    return acc;
-  }, {});
+  const { t } = useI18n()
+  const teams = useTeams()
+  const grouped = groupTeams(teams)
 
   return (
     <aside className='w-14 sm:w-52 shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col overflow-hidden'>
       <nav className='flex-1 overflow-y-auto py-1 px-1'>
-        {GROUP_ORDER.map((group) => {
-          const items = grouped[group];
-          if (!items) return null;
-          const label =
-            group === "FWC"
-              ? t("sidebar.fwc")
-              : `${t("sidebar.group")} ${group}`;
+        {grouped.map(({ key, teams }) => {
+          const label = key.length === 1
+            ? `${t('sidebar.group')} ${key}`
+            : t(`sections.${key.toLowerCase()}`)
           return (
-            <div key={group} className='mb-1'>
+            <div key={key} className='mb-1'>
               <p className='hidden sm:block text-[10px] text-slate-600 font-bold tracking-widest uppercase px-2 pt-2 pb-1'>
                 {label}
               </p>
-              {items.map((section) => (
+              {teams.map((team) => (
                 <SectionItem
-                  key={section.code}
-                  section={section}
-                  active={selected === section.code}
-                  onClick={() => onSelect(section.code)}
+                  key={team.code}
+                  team={team}
+                  active={selected === team.code}
+                  onClick={() => onSelect(team.code)}
                 />
               ))}
             </div>
-          );
+          )
         })}
       </nav>
     </aside>
-  );
+  )
 }

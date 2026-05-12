@@ -2,7 +2,17 @@
 import { useState, useMemo } from "react";
 import { useI18n, LOCALE_META } from "../i18n/index.jsx";
 import AppLogo from "../components/AppLogo";
-import { SECTIONS } from "../db/seed";
+
+// Decorative background mosaic only — kept static so this page can render
+// before the catalog has loaded from Supabase.
+const FLAG_EMOJIS = [
+  "🇲🇽","🇿🇦","🇰🇷","🇨🇿","🇨🇦","🇧🇦","🇶🇦","🇨🇭",
+  "🇧🇷","🇲🇦","🇭🇹","🏴󠁧󠁢󠁳󠁣󠁴󠁿","🇺🇸","🇵🇾","🇦🇺","🇹🇷",
+  "🇩🇪","🇨🇼","🇨🇮","🇪🇨","🇳🇱","🇯🇵","🇸🇪","🇹🇳",
+  "🇧🇪","🇪🇬","🇮🇷","🇳🇿","🇪🇸","🇨🇻","🇸🇦","🇺🇾",
+  "🇫🇷","🇸🇳","🇮🇶","🇳🇴","🇦🇷","🇩🇿","🇦🇹","🇯🇴",
+  "🇵🇹","🇨🇩","🇺🇿","🇨🇴","🏴󠁧󠁢󠁥󠁮󠁧󠁿","🇭🇷","🇬🇭","🇵🇦",
+];
 
 export default function LoginPage({
   onSendLink,
@@ -33,10 +43,10 @@ export default function LoginPage({
   );
   const mosaicStartOpacity = isMobile ? 0.3 : 0.8;
 
-  const mosaic = useMemo(() => {
-    const flags = SECTIONS.filter((s) => s.type === "team").map((s) => s.flag);
-    return Array.from({ length: 540 }, (_, i) => flags[i % flags.length]);
-  }, []);
+  const mosaic = useMemo(
+    () => Array.from({ length: 540 }, (_, i) => FLAG_EMOJIS[i % FLAG_EMOJIS.length]),
+    [],
+  );
 
   return (
     <div className='relative min-h-screen bg-slate-950 flex flex-col items-center justify-center px-4 py-10 overflow-hidden'>

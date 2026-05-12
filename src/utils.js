@@ -52,8 +52,21 @@ export const TEAM_COLORS = {
   IRQ: { primary: '#CE1126', secondary: '#007A3D' },
   KSA: { primary: '#165016', secondary: '#FFFFFF' },
   NZL: { primary: '#1a1a1a', secondary: '#FFFFFF' },
-  // Special
+  // WC 2026 additions
+  CZE: { primary: '#11457E', secondary: '#D7141A' },
+  BIH: { primary: '#002F6C', secondary: '#FECB00' },
+  QAT: { primary: '#8A1538', secondary: '#FFFFFF' },
+  CUW: { primary: '#002B7F', secondary: '#FFD100' },
+  CIV: { primary: '#F77F00', secondary: '#009E60' },
+  SWE: { primary: '#005293', secondary: '#FECB00' },
+  CPV: { primary: '#003893', secondary: '#FFFFFF' },
+  NOR: { primary: '#BA0C2F', secondary: '#00205B' },
+  JOR: { primary: '#000000', secondary: '#CE1126' },
+  COD: { primary: '#007FFF', secondary: '#F7D618' },
+  // Special / virtual sections
+  WAP: { primary: '#0F172A', secondary: '#1E3A5F' },
   FWC: { primary: '#1E3A5F', secondary: '#C9A84C' },
+  CC:  { primary: '#F40009', secondary: '#FFFFFF' },
   LEG: { primary: '#C9A84C', secondary: '#8B6914' },
 }
 
