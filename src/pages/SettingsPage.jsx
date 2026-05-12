@@ -1,8 +1,10 @@
 // src/pages/SettingsPage.jsx
 import { useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { useI18n } from '../i18n'
 
 export default function SettingsPage({ userId, onSignOut }) {
+  const { t } = useI18n()
   const [showResetConfirm, setShowResetConfirm] = useState(false)
   const [resetting, setResetting] = useState(false)
   const [resetDone, setResetDone] = useState(false)
@@ -52,69 +54,66 @@ export default function SettingsPage({ userId, onSignOut }) {
 
   return (
     <div className="p-6 max-w-md mx-auto flex flex-col gap-6">
-      <h1 className="text-xl font-bold text-white">Settings</h1>
+      <h1 className="text-xl font-bold text-white">{t('settings.title')}</h1>
 
       {/* Logout */}
       <section className="flex flex-col gap-2">
-        <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">Account</h2>
+        <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">{t('settings.account')}</h2>
         <button
           onClick={onSignOut}
           className="px-4 py-3 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-left transition-colors"
         >
-          Sign out
+          {t('settings.signOut')}
         </button>
       </section>
 
       {/* Export CSV */}
       <section className="flex flex-col gap-2">
-        <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">Data</h2>
+        <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">{t('settings.data')}</h2>
         <button
           onClick={handleExportCSV}
           disabled={exporting}
           className="px-4 py-3 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-left transition-colors disabled:opacity-50"
         >
-          {exporting ? 'Preparing CSV…' : 'Export album to CSV'}
+          {exporting ? t('settings.exportingCSV') : t('settings.exportCSV')}
         </button>
       </section>
 
       {/* Reset Album */}
       <section className="flex flex-col gap-2">
-        <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">Danger zone</h2>
+        <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">{t('settings.dangerZone')}</h2>
 
         {!showResetConfirm ? (
           <button
             onClick={() => setShowResetConfirm(true)}
             className="px-4 py-3 rounded-lg bg-red-900/40 hover:bg-red-900/60 text-red-400 text-left border border-red-800 transition-colors"
           >
-            Reset album
+            {t('settings.resetAlbum')}
           </button>
         ) : (
           <div className="rounded-lg border border-red-700 bg-red-950/50 p-4 flex flex-col gap-3">
-            <p className="text-red-300 font-semibold">Are you absolutely sure?</p>
-            <p className="text-slate-400 text-sm">
-              This will set all sticker quantities to zero. Your account and login will remain.
-              This cannot be undone.
-            </p>
+            <p className="text-red-300 font-semibold">{t('settings.resetConfirmTitle')}</p>
+            <p className="text-slate-400 text-sm">{t('settings.resetConfirmDesc')}</p>
             <div className="flex gap-3">
               <button
                 onClick={handleReset}
                 disabled={resetting}
                 className="flex-1 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white font-semibold disabled:opacity-50 transition-colors"
               >
-                {resetting ? 'Resetting…' : 'Yes, reset everything'}
+                {resetting ? t('settings.resetting') : t('settings.resetConfirmYes')}
               </button>
               <button
                 onClick={() => setShowResetConfirm(false)}
                 className="flex-1 px-4 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white transition-colors"
               >
-                Cancel
+                {t('settings.resetConfirmNo')}
               </button>
             </div>
           </div>
         )}
 
         {resetDone && (
-          <p className="text-green-400 text-sm">Album has been reset.</p>
+          <p className="text-green-400 text-sm">{t('settings.resetDone')}</p>
         )}
       </section>
     </div>

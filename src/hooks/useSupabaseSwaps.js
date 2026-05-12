@@ -35,7 +35,7 @@ export function useSupabaseSwaps(userId) {
     fetchSwaps()
 
     const channel = supabase
-      .channel(`swaps-${userId}`)
+      .channel(`swaps-${userId}-${Date.now()}`)
       .on('postgres_changes', {
         event: 'UPDATE',
         schema: 'public',

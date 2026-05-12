@@ -26,7 +26,7 @@ export function useSupabaseProgress(userId) {
     fetchProgress()
 
     const channel = supabase
-      .channel(`progress-${userId}`)
+      .channel(`progress-${userId}-${Date.now()}`)
       .on('postgres_changes', {
         event: 'UPDATE',
         schema: 'public',
@@ -69,7 +69,7 @@ export function useSupabaseSectionProgress(userId, teamCode) {
     fetchProgress()
 
     const channel = supabase
-      .channel(`section-progress-${userId}-${teamCode}`)
+      .channel(`section-progress-${userId}-${teamCode}-${Date.now()}`)
       .on('postgres_changes', {
         event: 'UPDATE',
         schema: 'public',

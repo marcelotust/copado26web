@@ -130,6 +130,8 @@
       "Sincroniza em todos os seus dispositivos",
       "100% gratuito, sem anúncios"
     ],
+    "continueWithGoogle": "Continuar com Google",
+    "orEmail": "ou use seu e-mail",
     "emailPlaceholder": "seu@email.com",
     "sendLink": "Enviar link de acesso",
     "sending": "Enviando…",
@@ -140,7 +142,26 @@
   },
 
   "menu": {
-    "logout": "Sair"
+    "logout": "Sair",
+    "settings": "Configurações",
+    "language": "Idioma"
+  },
+
+  "settings": {
+    "title": "Configurações",
+    "account": "Conta",
+    "signOut": "Sair",
+    "data": "Dados",
+    "exportCSV": "Exportar álbum em CSV",
+    "exportingCSV": "Preparando CSV…",
+    "dangerZone": "Zona de perigo",
+    "resetAlbum": "Reiniciar álbum",
+    "resetConfirmTitle": "Tem certeza absoluta?",
+    "resetConfirmDesc": "Isso vai zerar a quantidade de todas as figurinhas. Sua conta e login continuam. Não tem como desfazer.",
+    "resetConfirmYes": "Sim, reiniciar tudo",
+    "resetConfirmNo": "Cancelar",
+    "resetting": "Reiniciando…",
+    "resetDone": "Álbum reiniciado com sucesso."
   },
 
   "sticker": {

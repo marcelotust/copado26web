@@ -31,7 +31,7 @@ export default function HeaderMenu({ onLogout }) {
         <div className='absolute right-0 top-full mt-1.5 w-44 bg-slate-900 border border-slate-700 rounded-xl shadow-xl z-[200] overflow-hidden'>
           <div className='p-2 border-b border-slate-800'>
             <p className='text-[9px] text-slate-500 font-bold uppercase tracking-widest px-1 mb-1.5'>
-              Language
+              {t('menu.language')}
             </p>
             <div className='flex flex-col gap-0.5'>
               {Object.entries(LOCALE_META).map(([code, meta]) => (
@@ -59,7 +59,7 @@ export default function HeaderMenu({ onLogout }) {
               className='flex items-center gap-2 px-2 py-1.5 rounded-lg text-left transition-colors w-full text-xs text-slate-300 hover:text-white hover:bg-slate-700'
             >
               <span>⚙</span>
-              <span>Settings</span>
+              <span>{t('menu.settings')}</span>
             </Link>
           </div>
 

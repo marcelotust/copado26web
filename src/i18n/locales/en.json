@@ -129,6 +129,8 @@
       "Syncs across all your devices",
       "100% free, no ads"
     ],
+    "continueWithGoogle": "Continue with Google",
+    "orEmail": "or use your email",
     "emailPlaceholder": "your@email.com",
     "sendLink": "Send login link",
     "sending": "Sending…",
@@ -139,7 +141,26 @@
   },
 
   "menu": {
-    "logout": "Logout"
+    "logout": "Logout",
+    "settings": "Settings",
+    "language": "Language"
+  },
+
+  "settings": {
+    "title": "Settings",
+    "account": "Account",
+    "signOut": "Sign out",
+    "data": "Data",
+    "exportCSV": "Export album to CSV",
+    "exportingCSV": "Preparing CSV…",
+    "dangerZone": "Danger zone",
+    "resetAlbum": "Reset album",
+    "resetConfirmTitle": "Are you absolutely sure?",
+    "resetConfirmDesc": "This will set all sticker quantities to zero. Your account and login will remain. This cannot be undone.",
+    "resetConfirmYes": "Yes, reset everything",
+    "resetConfirmNo": "Cancel",
+    "resetting": "Resetting…",
+    "resetDone": "Album has been reset."
   },
 
   "sticker": {

@@ -12,7 +12,7 @@ import Sidebar from './components/Sidebar'
 
 export default function App() {
   const { t } = useI18n()
-  const { session, loading, magicLinkSent, error, sendMagicLink, signOut } = useAuth()
+  const { session, loading, magicLinkSent, error, sendMagicLink, signInWithGoogle, signOut } = useAuth()
   const [section, setSection] = useState('ARG')
   const navigate  = useNavigate()
   const location  = useLocation()
@@ -30,6 +30,7 @@ export default function App() {
     return (
       <LoginPage
         onSendLink={sendMagicLink}
+        onGoogleLogin={signInWithGoogle}
         magicLinkSent={magicLinkSent}
         error={error}
       />
