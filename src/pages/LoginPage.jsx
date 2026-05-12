@@ -27,6 +27,12 @@ export default function LoginPage({
 
   const features = tRaw("login.features");
 
+  const isMobile = useMemo(
+    () => window.matchMedia("(max-width: 639px)").matches,
+    [],
+  );
+  const mosaicStartOpacity = isMobile ? 0.3 : 0.8;
+
   const mosaic = useMemo(() => {
     const flags = SECTIONS.filter((s) => s.type === "team").map((s) => s.flag);
     return Array.from({ length: 540 }, (_, i) => flags[i % flags.length]);
@@ -40,14 +46,18 @@ export default function LoginPage({
         style={{
           gridTemplateColumns: "repeat(auto-fill, minmax(48px, 1fr))",
           alignContent: "start",
-          opacity: 0.7,
         }}
       >
         {mosaic.map((flag, i) => (
           <div
             key={i}
             className='flex items-center justify-center'
-            style={{ height: "48px", fontSize: "28px", lineHeight: 1 }}
+            style={{
+              height: "48px",
+              fontSize: "28px",
+              lineHeight: 1,
+              opacity: mosaicStartOpacity * (1 - i / (mosaic.length - 1)),
+            }}
           >
             {flag}
           </div>

@@ -2,6 +2,7 @@ import { useI18n } from "../i18n";
 import { useStickerActions } from "../hooks/useStickerActions";
 import { teamColors } from "../utils";
 import StickerButtons from "./StickerButtons";
+import ConfirmModal from "./ConfirmModal";
 
 const LABEL_KEYS = {
   Shield: "sticker.shield",
@@ -19,7 +20,11 @@ const CORNER_LAYERS = [
 /** @param {{ sticker: { id: string, number: number, quantity: number, label?: string|null }, teamCode: string, userId?: string, onPatch?: (id: string, changes: object) => void }} props */
 export default function StickerCard({ sticker, teamCode, userId, onPatch }) {
   const { t } = useI18n();
-  const { popping, floats, removals, handleAdd, handleRemove } = useStickerActions(sticker, userId, onPatch);
+  const {
+    popping, floats, removals,
+    showRemoveConfirm, handleAdd, handleRemove,
+    handleConfirmRemove, handleCancelRemove,
+  } = useStickerActions(sticker, userId, onPatch);
   const qty = sticker.quantity;
   const collected = qty > 0;
   const dupes = qty - 1;
@@ -93,7 +98,7 @@ export default function StickerCard({ sticker, teamCode, userId, onPatch }) {
                   fontSize: "clamp(26px, 8vw, 38px)",
                   color: collected ? "#fff" : "#64748b",
                   textShadow: collected
-                    ? "0 0 12px #000a, 0 2px 6px #0008, 0 0 24px #0006"
+                    ? "0 1px 4px #0007, 0 0 10px #0004"
                     : "none",
                 }}
               >
@@ -105,7 +110,7 @@ export default function StickerCard({ sticker, teamCode, userId, onPatch }) {
                   fontSize: "clamp(9px, 2.5vw, 13px)",
                   color: collected ? "#fff" : "#475569",
                   textShadow: collected
-                    ? "0 0 8px #000a, 0 1px 4px #0008"
+                    ? "0 1px 3px #0006"
                     : "none",
                 }}
               >
@@ -170,6 +175,17 @@ export default function StickerCard({ sticker, teamCode, userId, onPatch }) {
           </span>
         ))}
       </div>
+
+      {/* ── Remove confirmation modal ─────────────────────────────────── */}
+      <ConfirmModal
+        isOpen={showRemoveConfirm}
+        title={t("sticker.removeTitle")}
+        description={t("sticker.removeDesc")}
+        confirmLabel={t("sticker.removeConfirm")}
+        cancelLabel={t("sticker.removeCancel")}
+        onConfirm={handleConfirmRemove}
+        onCancel={handleCancelRemove}
+      />
 
       {/* ── Corner stack + badge (top-right, outside main card) ─────── */}
       {collected && dupes > 0 && (

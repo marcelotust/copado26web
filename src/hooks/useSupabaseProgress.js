@@ -13,14 +13,16 @@ export function useSupabaseProgress(userId) {
   useEffect(() => {
     if (!userId) return
     let cancelled = false
+    let seq = 0
 
     async function fetchProgress() {
+      const mySeq = ++seq
       const { data } = await supabase
         .from('stickers')
         .select('quantity')
         .eq('user_id', userId)
 
-      if (cancelled) return
+      if (cancelled || mySeq !== seq) return
       if (!data) return
       const collected = data.filter(s => s.quantity >= 1).length
       const swaps = data.reduce((acc, s) => acc + Math.max(0, s.quantity - 1), 0)
@@ -59,15 +61,17 @@ export function useSupabaseSectionProgress(userId, teamCode) {
   useEffect(() => {
     if (!userId || !teamCode) return
     let cancelled = false
+    let seq = 0
 
     async function fetchProgress() {
+      const mySeq = ++seq
       const { data } = await supabase
         .from('stickers')
         .select('quantity')
         .eq('user_id', userId)
         .eq('team_code', teamCode)
 
-      if (cancelled) return
+      if (cancelled || mySeq !== seq) return
       if (!data) return
       setProgress({
         total: sectionTotal,
