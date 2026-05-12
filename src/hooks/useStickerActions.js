@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 
-export function useStickerActions(sticker, userId) {
+export function useStickerActions(sticker, userId, onPatch) {
   const [popping, setPopping] = useState(false)
   const [floats, setFloats] = useState([])
 
@@ -11,6 +11,8 @@ export function useStickerActions(sticker, userId) {
     setFloats(f => [...f, Date.now()])
     setTimeout(() => setPopping(false), 200)
     setTimeout(() => setFloats(f => f.slice(1)), 750)
+
+    onPatch?.(sticker.id, { quantity: sticker.quantity + 1 })
 
     const { data: row, error: fetchError } = await supabase
       .from('stickers')
@@ -44,6 +46,8 @@ export function useStickerActions(sticker, userId) {
       .single()
 
     if (fetchError || !row || row.quantity <= 0) return
+
+    onPatch?.(sticker.id, { quantity: sticker.quantity - 1 })
 
     const { error } = await supabase
       .from('stickers')

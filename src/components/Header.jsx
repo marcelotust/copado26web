@@ -1,16 +1,17 @@
+import { Link } from 'react-router-dom'
 import { useSupabaseProgress } from '../hooks/useSupabaseProgress'
 import { useI18n } from '../i18n'
 import ProgressBar from './ProgressBar'
 import HeaderMenu from './HeaderMenu'
 
-/** @param {{ userId: string, onLogout: () => void }} props */
-export default function Header({ userId, onLogout }) {
+/** @param {{ userId: string, email?: string, onLogout: () => void }} props */
+export default function Header({ userId, email, onLogout }) {
   const { total, collected } = useSupabaseProgress(userId)
   const { t } = useI18n()
 
   return (
     <header className='shrink-0 flex items-center gap-3 px-4 py-2.5 bg-slate-900/95 backdrop-blur border-b border-slate-800 z-40 relative'>
-      <div className='flex items-center gap-2 px-2 lg:px-3 py-3 shrink-0'>
+      <Link to='/album' className='flex items-center gap-2 px-2 lg:px-3 py-3 shrink-0'>
         <span className='text-xl shrink-0'>⚽</span>
         <div className='lg:block min-w-0'>
           <p className='text-white font-black text-x leading-none tracking-tight'>
@@ -20,11 +21,11 @@ export default function Header({ userId, onLogout }) {
             {t('appSubtitle')}
           </p>
         </div>
-      </div>
+      </Link>
 
       <ProgressBar collected={collected} total={total} />
 
-      <HeaderMenu onLogout={onLogout} />
+      <HeaderMenu onLogout={onLogout} email={email} />
     </header>
   )
 }

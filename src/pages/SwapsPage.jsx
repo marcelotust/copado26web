@@ -17,7 +17,7 @@ export default function SwapsPage({ userId }) {
       <div className='flex items-center gap-3 px-4 pt-4 pb-3 border-b border-slate-800 shrink-0'>
         <span className='text-3xl'>🔄</span>
         <div>
-          <h2 className='text-white font-bold text-lg'>{t("swaps.title")}</h2>
+          <h2 className='text-white font-bold text-lg'>{t("nav.swaps")}</h2>
           <p className='text-slate-400 text-xs'>
             {total} {stickerWord} {t("swaps.toTrade")}
           </p>

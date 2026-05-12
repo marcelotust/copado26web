@@ -8,7 +8,7 @@ import StickerCard from "../components/StickerCard";
 /** @param {{ userId: string, sectionCode: string }} props */
 export default function AlbumPage({ userId, sectionCode }) {
   const { t } = useI18n();
-  const { stickers } = useSupabaseStickers(userId, sectionCode);
+  const { stickers, patchSticker } = useSupabaseStickers(userId, sectionCode);
   const { total, collected } = useSupabaseSectionProgress(userId, sectionCode);
 
   const section = SECTIONS.find((s) => s.code === sectionCode);
@@ -60,7 +60,7 @@ export default function AlbumPage({ userId, sectionCode }) {
         ) : (
           <div className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2'>
             {stickers.map((s) => (
-              <StickerCard key={s.id} sticker={s} teamCode={sectionCode} userId={userId} />
+              <StickerCard key={s.id} sticker={s} teamCode={sectionCode} userId={userId} onPatch={patchSticker} />
             ))}
           </div>
         )}

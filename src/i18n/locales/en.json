@@ -74,6 +74,11 @@
     "FWC": "FIFA World Cup"
   },
 
+  "nav": {
+    "album": "My Album",
+    "swaps": "Duplicate Stickers"
+  },
+
   "sidebar": {
     "fwc": "Opening",
     "group": "Group"
@@ -125,7 +130,6 @@
     "features": [
       "Register every sticker you have",
       "See which stickers are duplicates to trade",
-      "Scan stickers with your camera (OCR)",
       "Syncs across all your devices",
       "100% free, no ads"
     ],
@@ -143,7 +147,8 @@
   "menu": {
     "logout": "Logout",
     "settings": "Settings",
-    "language": "Language"
+    "language": "Language",
+    "loggedInAs": "Logged in as"
   },
 
   "settings": {

@@ -75,6 +75,11 @@
     "FWC": "Copa do Mundo FIFA"
   },
 
+  "nav": {
+    "album": "Meu Álbum",
+    "swaps": "Figurinhas Repetidas"
+  },
+
   "sidebar": {
     "fwc": "Abertura",
     "group": "Grupo"
@@ -126,7 +131,6 @@
     "features": [
       "Registre cada figurinha que você tem",
       "Veja quais figurinhas estão duplicadas para trocar",
-      "Escaneie figurinhas com a câmera (OCR)",
       "Sincroniza em todos os seus dispositivos",
       "100% gratuito, sem anúncios"
     ],
@@ -144,7 +148,8 @@
   "menu": {
     "logout": "Sair",
     "settings": "Configurações",
-    "language": "Idioma"
+    "language": "Idioma",
+    "loggedInAs": "Logado como"
   },
 
   "settings": {
