@@ -28,7 +28,7 @@ export default function LoginPage({ onSendLink, onGoogleLogin, magicLinkSent, er
       <div className="w-full max-w-md bg-slate-800 rounded-2xl shadow-xl overflow-hidden">
 
         {/* Header */}
-        <div className="bg-gradient-to-br from-blue-800 via-blue-900 to-slate-900 px-6 py-10 text-center flex flex-col items-center gap-3">
+        <div className="px-6 py-10 text-center flex flex-col items-center gap-3" style={{ background: 'linear-gradient(135deg, #1e3a5f 0%, #1a1a2e 60%, #0d2818 100%)' }}>
           <AppLogo size='lg' />
           <p className="text-blue-200/80 text-sm max-w-xs leading-relaxed">{t('login.tagline')}</p>
         </div>

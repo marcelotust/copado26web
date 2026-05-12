@@ -14,7 +14,7 @@ export default function AppLogo({ size = 'md' }) {
           fontFamily: "'Bebas Neue', sans-serif",
           fontSize: s.title,
           letterSpacing: '0.08em',
-          background: 'linear-gradient(135deg, #60a5fa 0%, #ffffff 50%, #93c5fd 100%)',
+          background: 'linear-gradient(90deg, #3B82F6 0%, #F43F5E 50%, #10B981 100%)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text',
