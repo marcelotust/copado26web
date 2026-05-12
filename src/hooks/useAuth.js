@@ -36,7 +36,10 @@ export function useAuth() {
     setError(null)
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { shouldCreateUser: true }
+      options: {
+        shouldCreateUser: true,
+        emailRedirectTo: window.location.origin,
+      }
     })
     if (error) {
       setError(error.message)
