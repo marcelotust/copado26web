@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage'
 import AlbumPage from './pages/AlbumPage'
 import SwapsPage from './pages/SwapsPage'
 import SettingsPage from './pages/SettingsPage'
+import MissingPage from './pages/MissingPage'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import TabNav from './components/TabNav'
@@ -41,6 +42,7 @@ export default function App() {
   const email  = session.user.email
 
   const view = location.pathname === '/swaps'    ? 'swaps'
+             : location.pathname === '/missing'  ? 'missing'
              : location.pathname === '/scanner'  ? 'scanner'
              : location.pathname === '/settings' ? 'settings'
              : 'album'
@@ -60,8 +62,9 @@ export default function App() {
 
         <main className='flex-1 min-w-0 overflow-hidden'>
           <Routes>
-            <Route path='/album'    element={<AlbumPage   sectionCode={section} userId={userId} />} />
-            <Route path='/swaps'    element={<SwapsPage   userId={userId} />} />
+            <Route path='/album'    element={<AlbumPage    sectionCode={section} userId={userId} />} />
+            <Route path='/missing'  element={<MissingPage  userId={userId} />} />
+            <Route path='/swaps'    element={<SwapsPage    userId={userId} />} />
             <Route path='/settings' element={<SettingsPage userId={userId} email={email} onSignOut={signOut} />} />
             <Route path='*'         element={<Navigate to='/album' replace />} />
           </Routes>
