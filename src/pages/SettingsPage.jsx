@@ -44,7 +44,7 @@ export default function SettingsPage({ userId, onSignOut }) {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = 'wc2026-album.csv'
+    a.download = 'meualbum2026.csv'
     a.click()
     URL.revokeObjectURL(url)
     setExporting(false)
