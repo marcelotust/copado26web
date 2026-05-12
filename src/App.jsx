@@ -5,10 +5,10 @@ import { useI18n } from './i18n'
 import LoginPage from './pages/LoginPage'
 import AlbumPage from './pages/AlbumPage'
 import SwapsPage from './pages/SwapsPage'
-import ScannerPage from './pages/ScannerPage'
 import SettingsPage from './pages/SettingsPage'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
+import TabNav from './components/TabNav'
 
 export default function App() {
   const { t } = useI18n()
@@ -47,30 +47,25 @@ export default function App() {
   return (
     <div className='fixed inset-0 flex flex-col bg-slate-950 text-white'>
       <Header onLogout={signOut} />
+      <TabNav />
 
       <div className='flex flex-1 min-h-0'>
-        <Sidebar
-          selected={section}
-          onSelect={code => { setSection(code); navigate('/album') }}
-          view={view}
-          onScanClick={() => navigate(view === 'scanner' ? '/album' : '/scanner')}
-          onSwapsClick={() => navigate(view === 'swaps' ? '/album' : '/swaps')}
-        />
+        {view === 'album' && (
+          <Sidebar
+            selected={section}
+            onSelect={code => { setSection(code); navigate('/album') }}
+          />
+        )}
 
         <main className='flex-1 min-w-0 overflow-hidden'>
           <Routes>
             <Route path='/album'    element={<AlbumPage   sectionCode={section} userId={userId} />} />
             <Route path='/swaps'    element={<SwapsPage   userId={userId} />} />
-            <Route path='/scanner'  element={<AlbumPage   sectionCode={section} userId={userId} />} />
             <Route path='/settings' element={<SettingsPage userId={userId} onSignOut={signOut} />} />
             <Route path='*'         element={<Navigate to='/album' replace />} />
           </Routes>
         </main>
       </div>
-
-      {view === 'scanner' && (
-        <ScannerPage onClose={() => navigate('/album')} userId={userId} />
-      )}
     </div>
   )
 }
