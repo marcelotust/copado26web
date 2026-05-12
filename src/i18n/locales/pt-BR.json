@@ -184,6 +184,10 @@
 
   "sticker": {
     "shield": "Escudo",
-    "teamPhoto": "Foto do Time"
+    "teamPhoto": "Foto do Time",
+    "removeTitle": "Remover figurinha?",
+    "removeDesc": "Isso vai marcá-la como não coletada.",
+    "removeConfirm": "Remover",
+    "removeCancel": "Cancelar"
   }
 }

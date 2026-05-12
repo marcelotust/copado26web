@@ -6,6 +6,9 @@ export function useStickerActions(sticker, userId, onPatch) {
   const [popping, setPopping] = useState(false)
   const [floats, setFloats] = useState(/** @type {number[]} */ ([]))
   const [removals, setRemovals] = useState(/** @type {number[]} */ ([]))
+  const [showRemoveConfirm, setShowRemoveConfirm] = useState(false)
+  // Drives the card display — insulated from stale server re-fetches during pending writes
+  const [optimisticQty, setOptimisticQty] = useState(sticker.quantity)
 
   // Tracks optimistic quantity synchronously — bypasses React batching for rapid clicks
   const localQtyRef = useRef(sticker.quantity)
@@ -16,6 +19,7 @@ export function useStickerActions(sticker, userId, onPatch) {
   useEffect(() => {
     if (!pendingWriteRef.current) {
       localQtyRef.current = sticker.quantity
+      setOptimisticQty(sticker.quantity)
     }
   }, [sticker.quantity])
 
@@ -58,6 +62,7 @@ export function useStickerActions(sticker, userId, onPatch) {
     setTimeout(() => setFloats(f => f.slice(1)), 750)
 
     localQtyRef.current += 1
+    setOptimisticQty(localQtyRef.current)
     onPatch?.(sticker.id, { quantity: localQtyRef.current })
     emitStickerChanged()
     scheduleFlush()
@@ -65,22 +70,45 @@ export function useStickerActions(sticker, userId, onPatch) {
 
   function handleRemove(/** @type {React.MouseEvent} */ e) {
     e.stopPropagation()
-
-    if (localQtyRef.current === 1) {
-      const ok = window.confirm('Remove this sticker from your album? This will mark it as not collected.')
-      if (!ok) return
-    }
-
     if (localQtyRef.current <= 0) return
 
+    if (localQtyRef.current === 1) {
+      setShowRemoveConfirm(true)
+      return
+    }
+
+    doRemove()
+  }
+
+  function doRemove() {
     setRemovals(f => [...f, Date.now()])
     setTimeout(() => setRemovals(f => f.slice(1)), 750)
 
     localQtyRef.current -= 1
+    setOptimisticQty(localQtyRef.current)
     onPatch?.(sticker.id, { quantity: localQtyRef.current })
     emitStickerChanged()
     scheduleFlush()
   }
 
-  return { popping, floats, removals, handleAdd, handleRemove }
+  function handleConfirmRemove() {
+    setShowRemoveConfirm(false)
+    doRemove()
+  }
+
+  function handleCancelRemove() {
+    setShowRemoveConfirm(false)
+  }
+
+  return {
+    qty: optimisticQty,
+    popping,
+    floats,
+    removals,
+    showRemoveConfirm,
+    handleAdd,
+    handleRemove,
+    handleConfirmRemove,
+    handleCancelRemove,
+  }
 }

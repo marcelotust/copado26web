@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useI18n } from '../i18n'
 import { emitStickerChanged } from '../lib/stickerEvents'
+import ConfirmModal from '../components/ConfirmModal'
 
 export default function SettingsPage({ userId, email, onSignOut }) {
   const { t } = useI18n()
@@ -91,39 +92,28 @@ export default function SettingsPage({ userId, email, onSignOut }) {
       <section className="flex flex-col gap-2">
         <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">{t('settings.dangerZone')}</h2>
 
-        {!showResetConfirm ? (
-          <button
-            onClick={() => setShowResetConfirm(true)}
-            className="px-4 py-3 rounded-lg bg-red-900/40 hover:bg-red-900/60 text-red-400 text-left border border-red-800 transition-colors"
-          >
-            {t('settings.resetAlbum')}
-          </button>
-        ) : (
-          <div className="rounded-lg border border-red-700 bg-red-950/50 p-4 flex flex-col gap-3">
-            <p className="text-red-300 font-semibold">{t('settings.resetConfirmTitle')}</p>
-            <p className="text-slate-400 text-sm">{t('settings.resetConfirmDesc')}</p>
-            <div className="flex gap-3">
-              <button
-                onClick={handleReset}
-                disabled={resetting}
-                className="flex-1 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white font-semibold disabled:opacity-50 transition-colors"
-              >
-                {resetting ? t('settings.resetting') : t('settings.resetConfirmYes')}
-              </button>
-              <button
-                onClick={() => setShowResetConfirm(false)}
-                className="flex-1 px-4 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white transition-colors"
-              >
-                {t('settings.resetConfirmNo')}
-              </button>
-            </div>
-          </div>
-        )}
+        <button
+          onClick={() => setShowResetConfirm(true)}
+          className="px-4 py-3 rounded-lg bg-red-900/40 hover:bg-red-900/60 text-red-400 text-left border border-red-800 transition-colors"
+        >
+          {t('settings.resetAlbum')}
+        </button>
 
         {resetDone && (
           <p className="text-green-400 text-sm">{t('settings.resetDone')}</p>
         )}
       </section>
+
+      <ConfirmModal
+        isOpen={showResetConfirm}
+        title={t('settings.resetConfirmTitle')}
+        description={t('settings.resetConfirmDesc')}
+        confirmLabel={resetting ? t('settings.resetting') : t('settings.resetConfirmYes')}
+        cancelLabel={t('settings.resetConfirmNo')}
+        onConfirm={handleReset}
+        onCancel={() => setShowResetConfirm(false)}
+        loading={resetting}
+      />
     </div>
   )
 }

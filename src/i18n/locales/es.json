@@ -183,6 +183,10 @@
 
   "sticker": {
     "shield": "Escudo",
-    "teamPhoto": "Foto del Equipo"
+    "teamPhoto": "Foto del Equipo",
+    "removeTitle": "¿Quitar cromo?",
+    "removeDesc": "Esto lo marcará como no coleccionado.",
+    "removeConfirm": "Quitar",
+    "removeCancel": "Cancelar"
   }
 }

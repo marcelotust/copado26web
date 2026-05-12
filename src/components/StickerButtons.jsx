@@ -18,7 +18,7 @@ export default function StickerButtons({ qty, collected, onAdd, onRemove }) {
   return (
     <div
       className={[
-        "flex shrink-0 border-t",
+        "flex items-center shrink-0 border-t",
         collected ? "border-white/20" : "border-slate-700",
       ].join(" ")}
     >
@@ -36,7 +36,7 @@ export default function StickerButtons({ qty, collected, onAdd, onRemove }) {
         −
       </button>
       <div
-        className={["w-px", collected ? "bg-white/20" : "bg-slate-700"].join(" ")}
+        className={["w-px self-stretch", collected ? "bg-white/20" : "bg-slate-700"].join(" ")}
       />
       <button
         onClick={onAdd}

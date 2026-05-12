@@ -183,6 +183,10 @@
 
   "sticker": {
     "shield": "Shield",
-    "teamPhoto": "Team Photo"
+    "teamPhoto": "Team Photo",
+    "removeTitle": "Remove sticker?",
+    "removeDesc": "This will mark it as not collected.",
+    "removeConfirm": "Remove",
+    "removeCancel": "Cancel"
   }
 }
