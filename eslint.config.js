@@ -38,8 +38,7 @@ export default tseslint.config(
       'react/prop-types': 'off',
       'react/self-closing-comp': 'warn',
       'react/no-array-index-key': 'warn',
-      // Allow small stateless helper components co-located with their parent
-      'react/no-multi-comp': ['warn', { ignoreStateless: true }],
+      'react/no-multi-comp': ['error', { ignoreStateless: false }],
 
       // Hooks
       'react-hooks/rules-of-hooks': 'error',
