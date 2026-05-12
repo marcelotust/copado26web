@@ -9,12 +9,11 @@ export default function TabNav() {
   const { session } = useAuth()
   const { swaps } = useSupabaseProgress(session?.user?.id)
 
-  if (swaps === 0) return null
-
   return (
     <nav className='shrink-0 flex justify-center gap-1 px-4 py-2 bg-slate-900 border-b border-slate-800'>
-      <NavTab to='/album' label={t('nav.album')} active={pathname === '/album' || pathname === '/'} />
-      <NavTab to='/swaps' label={t('nav.swaps')} active={pathname === '/swaps'} badge={swaps} />
+      <NavTab to='/album'   label={t('nav.album')}   active={pathname === '/album' || pathname === '/'} />
+      <NavTab to='/missing' label={t('nav.missing')} active={pathname === '/missing'} />
+      <NavTab to='/swaps'   label={t('nav.swaps')}   active={pathname === '/swaps'} badge={swaps > 0 ? swaps : undefined} />
     </nav>
   )
 }

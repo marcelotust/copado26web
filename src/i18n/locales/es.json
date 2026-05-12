@@ -76,7 +76,8 @@
 
   "nav": {
     "album": "Mi Álbum",
-    "swaps": "Cromos Repetidos"
+    "missing": "Faltantes",
+    "swaps": "Repetidos"
   },
 
   "sidebar": {
@@ -166,6 +167,16 @@
     "resetConfirmNo": "Cancelar",
     "resetting": "Reiniciando…",
     "resetDone": "Álbum reiniciado con éxito."
+  },
+
+  "missing": {
+    "sticker": "cromo",
+    "stickers": "cromos",
+    "missing": "faltantes",
+    "emptyTitle": "¡Álbum completo!",
+    "emptyDesc": "Felicitaciones, tienes todos los cromos.",
+    "share": "Compartir",
+    "copied": "¡Copiado!"
   },
 
   "sticker": {

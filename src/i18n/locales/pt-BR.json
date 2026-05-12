@@ -77,7 +77,8 @@
 
   "nav": {
     "album": "Meu Álbum",
-    "swaps": "Figurinhas Repetidas"
+    "missing": "Faltando",
+    "swaps": "Repetidas"
   },
 
   "sidebar": {
@@ -167,6 +168,16 @@
     "resetConfirmNo": "Cancelar",
     "resetting": "Reiniciando…",
     "resetDone": "Álbum reiniciado com sucesso."
+  },
+
+  "missing": {
+    "sticker": "figurinha",
+    "stickers": "figurinhas",
+    "missing": "faltando",
+    "emptyTitle": "Álbum completo!",
+    "emptyDesc": "Parabéns, você tem todas as figurinhas.",
+    "share": "Compartilhar",
+    "copied": "Copiado!"
   },
 
   "sticker": {

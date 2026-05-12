@@ -76,7 +76,8 @@
 
   "nav": {
     "album": "My Album",
-    "swaps": "Duplicate Stickers"
+    "missing": "Missing",
+    "swaps": "Duplicates"
   },
 
   "sidebar": {
@@ -166,6 +167,16 @@
     "resetConfirmNo": "Cancel",
     "resetting": "Resetting…",
     "resetDone": "Album has been reset."
+  },
+
+  "missing": {
+    "sticker": "sticker",
+    "stickers": "stickers",
+    "missing": "missing",
+    "emptyTitle": "Album complete!",
+    "emptyDesc": "Congratulations, you have all the stickers.",
+    "share": "Share",
+    "copied": "Copied!"
   },
 
   "sticker": {
