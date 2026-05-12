@@ -188,5 +188,22 @@
     "removeDesc": "This will mark it as not collected.",
     "removeConfirm": "Remove",
     "removeCancel": "Cancel"
+  },
+
+  "legal": {
+    "back": "Back to app",
+    "version": "Version 2026-05-12. Placeholder copy pending legal review.",
+    "privacy": {
+      "title": "Privacy policy",
+      "intro": "Meu Album 2026 stores your account email and sticker collection progress in Supabase to sync your album across devices.",
+      "data": "Anonymous usage analytics are collected only after you grant consent. Error monitoring may use Sentry with sanitized technical context when enabled.",
+      "rights": "You can export your album from Settings and request account deletion as described in the product documentation."
+    },
+    "terms": {
+      "title": "Terms of use",
+      "intro": "The service is provided as-is for personal sticker collection management during the MVP phase.",
+      "use": "Do not misuse the service, attempt unauthorized access, or upload unlawful content through support channels.",
+      "liability": "The operator is not liable for album data loss beyond reasonable efforts to maintain cloud availability."
+    }
   }
 }

@@ -8,6 +8,7 @@ import AlbumPage from './pages/AlbumPage'
 import SwapsPage from './pages/SwapsPage'
 import SettingsPage from './pages/SettingsPage'
 import MissingPage from './pages/MissingPage'
+import LegalPage from './pages/LegalPage'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import TabNav from './components/TabNav'
@@ -18,6 +19,14 @@ export default function App() {
   const [section, setSection] = useState('ARG')
   const navigate  = useNavigate()
   const location  = useLocation()
+
+  if (location.pathname === '/privacidade') {
+    return <LegalPage kind='privacy' />
+  }
+
+  if (location.pathname === '/termos') {
+    return <LegalPage kind='terms' />
+  }
 
   if (loading) {
     return (
