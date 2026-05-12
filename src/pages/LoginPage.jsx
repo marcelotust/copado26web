@@ -32,7 +32,7 @@ export default function LoginPage({ onSendLink, onGoogleLogin, magicLinkSent, er
 
       {/* Flag mosaic background */}
       <div className="absolute inset-0 grid pointer-events-none select-none"
-        style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(48px, 1fr))', alignContent: 'start', opacity: 0.18 }}>
+        style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(48px, 1fr))', alignContent: 'start', opacity: 0.4 }}>
         {mosaic.map((flag, i) => (
           <div key={i} className="flex items-center justify-center" style={{ height: '48px', fontSize: '28px', lineHeight: 1 }}>
             {flag}
