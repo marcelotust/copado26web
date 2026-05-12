@@ -154,6 +154,13 @@
     "loggedInAs": "Logged in as"
   },
 
+  "consent": {
+    "analyticsMessage": "We use anonymous usage analytics to improve the app.",
+    "privacyLink": "Privacy policy",
+    "accept": "Accept analytics",
+    "reject": "Reject"
+  },
+
   "settings": {
     "title": "Settings",
     "account": "Account",
