@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useI18n } from '../i18n'
+import { emitStickerChanged } from '../lib/stickerEvents'
 
 export default function SettingsPage({ userId, email, onSignOut }) {
   const { t } = useI18n()
@@ -21,6 +22,7 @@ export default function SettingsPage({ userId, email, onSignOut }) {
       console.error('Reset failed:', error)
       return
     }
+    emitStickerChanged()
     setResetDone(true)
     setShowResetConfirm(false)
     setTimeout(() => setResetDone(false), 3000)

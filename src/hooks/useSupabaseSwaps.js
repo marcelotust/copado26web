@@ -2,9 +2,13 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 
+/** @typedef {{ id: string, team_code: string, number: number, quantity: number, label?: string|null }} Sticker */
+/** @typedef {{ teamCode: string, stickers: Sticker[] }} SwapGroup */
+
+/** @param {string|undefined} userId */
 export function useSupabaseSwaps(userId) {
-  const [swapsByTeam, setSwapsByTeam] = useState([])
-  const [total, setTotal] = useState(0)
+  /** @type {[SwapGroup[], React.Dispatch<React.SetStateAction<SwapGroup[]>>]} */
+  const [swapsByTeam, setSwapsByTeam] = useState(/** @type {SwapGroup[]} */ ([]))
 
   useEffect(() => {
     if (!userId) return
@@ -22,8 +26,7 @@ export function useSupabaseSwaps(userId) {
       if (cancelled) return
       if (!data) return
 
-      setTotal(data.reduce((acc, s) => acc + s.quantity - 1, 0))
-
+      /** @type {Record<string, Sticker[]>} */
       const grouped = {}
       for (const sticker of data) {
         if (!grouped[sticker.team_code]) grouped[sticker.team_code] = []
@@ -50,5 +53,24 @@ export function useSupabaseSwaps(userId) {
     }
   }, [userId])
 
-  return { swapsByTeam, total }
+  /** @param {string} id @param {Partial<Sticker>} changes */
+  function patchSticker(id, changes) {
+    setSwapsByTeam(prev => {
+      const updated = prev.map(group => ({
+        ...group,
+        stickers: group.stickers.map(s => s.id === id ? { ...s, ...changes } : s),
+      }))
+      return updated
+        .map(group => ({ ...group, stickers: group.stickers.filter(s => s.quantity > 1) }))
+        .filter(group => group.stickers.length > 0)
+    })
+  }
+
+  // Derive total from local state so it stays in sync with every patch
+  const total = swapsByTeam.reduce(
+    (acc, { stickers }) => acc + stickers.reduce((a, s) => a + s.quantity - 1, 0),
+    0
+  )
+
+  return { swapsByTeam, total, patchSticker }
 }

@@ -8,20 +8,18 @@ const LABEL_KEYS = {
   "Team Photo": "sticker.teamPhoto",
 };
 
-// Panini-blue strip — same for all teams, like the original card
 const PANINI_BLUE = "#1a56c4";
 
-// Stack configs: up to 3 cards behind, with alternating rotations and more spacing
-const STACK_LAYERS = [
-  { rotate:  5, tx:  6, ty:  8, opacity: 0.75 },
-  { rotate: -4, tx: -5, ty: 14, opacity: 0.5  },
-  { rotate:  7, tx:  9, ty: 20, opacity: 0.32 },
+// Mini card stack shown in the top-right corner when duplicates exist
+const CORNER_LAYERS = [
+  { rotate:  6, tx:  5, ty: -5, opacity: 0.65 },
+  { rotate: -4, tx: -4, ty: -9, opacity: 0.4  },
 ];
 
 /** @param {{ sticker: { id: string, number: number, quantity: number, label?: string|null }, teamCode: string, userId?: string, onPatch?: (id: string, changes: object) => void }} props */
 export default function StickerCard({ sticker, teamCode, userId, onPatch }) {
   const { t } = useI18n();
-  const { popping, floats, handleAdd, handleRemove } = useStickerActions(sticker, userId, onPatch);
+  const { popping, floats, removals, handleAdd, handleRemove } = useStickerActions(sticker, userId, onPatch);
   const qty = sticker.quantity;
   const collected = qty > 0;
   const dupes = qty - 1;
@@ -35,48 +33,31 @@ export default function StickerCard({ sticker, teamCode, userId, onPatch }) {
       : rawLabel
     : null;
 
-  const visibleLayers = Math.min(dupes, 3);
+  const visibleLayers = Math.min(dupes, 2);
 
   return (
-    // Outer wrapper — defines layout slot, padding-bottom gives room for the stack to peek out
     <div
       className={[
         "relative select-none aspect-[2/3]",
         popping ? "animate-pop" : "",
       ].join(" ")}
-      style={{ paddingBottom: collected && dupes > 0 ? "6px" : undefined }}
     >
-      {/* ── Stacked cards behind (duplicates) ─────────────────────────── */}
-      {collected && visibleLayers > 0 && STACK_LAYERS.slice(0, visibleLayers).map((layer, i) => (
-        <div
-          key={i}
-          className="absolute inset-0 rounded-xl"
-          style={{
-            background: `linear-gradient(135deg, ${primary}cc, ${secondary}99)`,
-            transform: `rotate(${layer.rotate}deg) translate(${layer.tx}px, ${layer.ty}px)`,
-            opacity: layer.opacity,
-            boxShadow: `0 2px 8px #0006`,
-          }}
-        />
-      ))}
-
       {/* ── Main card ─────────────────────────────────────────────────── */}
       <div
         className={[
-          "absolute inset-0 rounded-xl overflow-hidden flex flex-col z-10",
-          "transition-all duration-150",
-          collected ? "shadow-lg" : "",
+          "absolute inset-0 overflow-hidden flex flex-col z-10 transition-all duration-150",
+          collected ? "shadow-lg rounded-none" : "rounded-xl",
         ].join(" ")}
         style={
           collected
-            ? { boxShadow: `0 0 0 2px ${primary}90, 0 4px 20px ${primary}35` }
+            ? { boxShadow: `0 0 0 3px ${primary}, 0 4px 20px ${primary}35` }
             : { boxShadow: `0 0 0 1px ${primary}50` }
         }
       >
         {/* Base background */}
         <div className="absolute inset-0 bg-slate-900" />
 
-        {/* Color wash — stronger when collected, subtle hint when not */}
+        {/* Color wash */}
         <div
           className="absolute inset-0"
           style={{
@@ -105,7 +86,6 @@ export default function StickerCard({ sticker, teamCode, userId, onPatch }) {
                     }
               }
             >
-              {/* Number */}
               <span
                 className="font-black leading-none tabular-nums"
                 style={{
@@ -119,7 +99,6 @@ export default function StickerCard({ sticker, teamCode, userId, onPatch }) {
               >
                 {numLabel}
               </span>
-              {/* Team code */}
               <span
                 className="font-black tracking-widest uppercase leading-none"
                 style={{
@@ -135,7 +114,7 @@ export default function StickerCard({ sticker, teamCode, userId, onPatch }) {
             </div>
           </div>
 
-          {/* Bottom strip — Panini blue, white text */}
+          {/* Bottom strip */}
           <div
             className="mx-1.5 mb-1 rounded-lg px-2 py-1 text-center"
             style={{ background: collected ? PANINI_BLUE : `${primary}25` }}
@@ -167,30 +146,63 @@ export default function StickerCard({ sticker, teamCode, userId, onPatch }) {
               top: "50%",
               left: "50%",
               fontSize: "clamp(18px, 5vw, 24px)",
-              color: "#fff",
-              textShadow: `0 0 12px ${primary}, 0 2px 4px #000a`,
+              color: "#4ade80",
+              textShadow: `0 0 12px #16a34a, 0 2px 4px #000a`,
             }}
           >
             +1
           </span>
         ))}
+        {/* Float -1 */}
+        {removals.map((key) => (
+          <span
+            key={key}
+            className="absolute pointer-events-none animate-floatUp font-black z-30"
+            style={{
+              top: "50%",
+              left: "50%",
+              fontSize: "clamp(18px, 5vw, 24px)",
+              color: "#f87171",
+              textShadow: `0 0 12px #dc2626, 0 2px 4px #000a`,
+            }}
+          >
+            −1
+          </span>
+        ))}
       </div>
 
-      {/* ── Dupe badge — sits above the stack ─────────────────────────── */}
+      {/* ── Corner stack + badge (top-right, outside main card) ─────── */}
       {collected && dupes > 0 && (
         <div
-          className="absolute z-20 flex flex-col items-center"
-          style={{ top: "-6px", right: "-6px" }}
+          className="absolute z-20"
+          style={{ top: "-4px", right: "-4px" }}
         >
-          {/* Badge circle — grows slightly with count */}
+          {/* Mini ghost cards fanning out behind the badge */}
+          {CORNER_LAYERS.slice(0, visibleLayers).map((layer, i) => (
+            <div
+              key={i}
+              className="absolute rounded-md"
+              style={{
+                width: "18px",
+                height: "26px",
+                background: `linear-gradient(135deg, ${primary}cc, ${secondary}99)`,
+                transform: `rotate(${layer.rotate}deg) translate(${layer.tx}px, ${layer.ty}px)`,
+                opacity: layer.opacity,
+                boxShadow: `0 1px 4px #0006`,
+                top: 0,
+                right: 0,
+              }}
+            />
+          ))}
+
+          {/* Count badge */}
           <div
-            className="rounded-full flex items-center justify-center font-black leading-none shadow-lg transition-all duration-200"
+            className="relative rounded-full flex items-center justify-center font-black leading-none shadow-lg"
             style={{
               background: primary,
               color: "#fff",
               border: `2px solid ${secondary}`,
               boxShadow: `0 2px 8px ${primary}80`,
-              // Size grows: 1→24px, 2→26px, 3→28px, 4+→30px
               width:  `${Math.min(24 + (dupes - 1) * 2, 30)}px`,
               height: `${Math.min(24 + (dupes - 1) * 2, 30)}px`,
               fontSize: dupes >= 10 ? "9px" : "11px",

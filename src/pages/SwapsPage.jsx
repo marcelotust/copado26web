@@ -7,7 +7,7 @@ import StickerCard from "../components/StickerCard";
 /** @param {{ userId: string }} props */
 export default function SwapsPage({ userId }) {
   const { t } = useI18n();
-  const { swapsByTeam, total } = useSupabaseSwaps(userId);
+  const { swapsByTeam, total, patchSticker } = useSupabaseSwaps(userId);
 
   const stickerWord =
     total === 1 ? t("swaps.sticker") : t("swaps.stickers");
@@ -69,7 +69,7 @@ export default function SwapsPage({ userId }) {
                   {/* Sticker grid */}
                   <div className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2'>
                     {stickers.map((s) => (
-                      <StickerCard key={s.id} sticker={s} teamCode={teamCode} userId={userId} />
+                      <StickerCard key={s.id} sticker={s} teamCode={teamCode} userId={userId} onPatch={patchSticker} />
                     ))}
                   </div>
                 </div>

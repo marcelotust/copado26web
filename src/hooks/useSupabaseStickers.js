@@ -2,26 +2,32 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 
+/** @typedef {{ id: string, team_code: string, number: number, quantity: number, label?: string|null }} Sticker */
+
+/** @param {string|undefined} userId @param {string|undefined} teamCode */
 export function useSupabaseStickers(userId, teamCode) {
-  const [stickers, setStickers] = useState([])
+  /** @type {[Sticker[], React.Dispatch<React.SetStateAction<Sticker[]>>]} */
+  const [stickers, setStickers] = useState(/** @type {Sticker[]} */ ([]))
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (!userId || !teamCode) return
     let cancelled = false
 
-    supabase
-      .from('stickers')
-      .select('*')
-      .eq('user_id', userId)
-      .eq('team_code', teamCode)
-      .order('number', { ascending: true })
-      .then(({ data }) => {
-        if (!cancelled) {
-          setStickers(data ?? [])
-          setLoading(false)
-        }
-      })
+    async function fetchStickers() {
+      const { data } = await supabase
+        .from('stickers')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('team_code', teamCode)
+        .order('number', { ascending: true })
+      if (!cancelled) {
+        setStickers(data ?? [])
+        setLoading(false)
+      }
+    }
+
+    fetchStickers()
 
     const channel = supabase
       .channel(`stickers-${userId}-${teamCode}-${Date.now()}`)
@@ -30,11 +36,7 @@ export function useSupabaseStickers(userId, teamCode) {
         schema: 'public',
         table: 'stickers',
         filter: `user_id=eq.${userId}`,
-      }, payload => {
-        setStickers(prev => prev.map(s =>
-          s.id === payload.new.id ? { ...s, ...payload.new } : s
-        ))
-      })
+      }, () => fetchStickers())
       .subscribe()
 
     return () => {
@@ -43,6 +45,7 @@ export function useSupabaseStickers(userId, teamCode) {
     }
   }, [userId, teamCode])
 
+  /** @param {string} id @param {Partial<Sticker>} changes */
   function patchSticker(id, changes) {
     setStickers(prev => prev.map(s => s.id === id ? { ...s, ...changes } : s))
   }
