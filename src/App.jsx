@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from './hooks/useAuth'
 import { useI18n } from './i18n'
@@ -70,6 +71,7 @@ export default function App() {
           </Routes>
         </main>
       </div>
+      <Analytics />
     </div>
   )
 }

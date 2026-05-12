@@ -1,5 +1,5 @@
 {
-  "appSubtitle": "Álbum de Figurinhas",
+  "appSubtitle": "Álbum Digital Copa 2026",
   "loading": "Configurando seu álbum…",
 
 
@@ -127,11 +127,13 @@
   },
 
   "login": {
-    "tagline": "Seu álbum digital da Copa do Mundo 2026",
+    "tagline": "Seu assistente para completar o maior álbum de Copa do Mundo de todos os tempos",
     "description": "Acompanhe sua coleção de figurinhas gratuitamente. Sem senhas — só o seu e-mail.",
     "features": [
       "Registre cada figurinha que você tem",
-      "Veja quais figurinhas estão duplicadas para trocar",
+      "Veja a lista completa de figurinhas faltando",
+      "Compartilhe o que está faltando com amigos pelo WhatsApp",
+      "Veja suas repetidas e organize suas trocas",
       "Sincroniza em todos os seus dispositivos",
       "100% gratuito, sem anúncios"
     ],
