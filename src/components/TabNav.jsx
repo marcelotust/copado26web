@@ -15,8 +15,12 @@ export default function TabNav() {
       <NavTab to='/missing' label={t('nav.missing')} active={pathname === '/missing'}                   color='#10B981' />
       <NavTab to='/swaps'   label={t('nav.swaps')}   active={pathname === '/swaps'} badge={swaps > 0 ? swaps : undefined} color='#F43F5E' />
 
-      {/* Tricolor accent line */}
-      <div className='absolute bottom-0 left-0 right-0 h-px' style={{ background: 'linear-gradient(90deg, #3B82F6, #F43F5E, #10B981)' }} />
+      {/* Tricolor accent line — 3 solid segments */}
+      <div className='absolute bottom-0 left-0 right-0 h-px flex'>
+        <div className='flex-1' style={{ backgroundColor: '#3B82F6' }} />
+        <div className='flex-1' style={{ backgroundColor: '#F43F5E' }} />
+        <div className='flex-1' style={{ backgroundColor: '#10B981' }} />
+      </div>
     </nav>
   )
 }
