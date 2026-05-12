@@ -12,7 +12,7 @@ export default function Sidebar({ selected, onSelect }) {
   }, {});
 
   return (
-    <aside className='w-150 shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col overflow-hidden'>
+    <aside className='w-40 sm:w-52 shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col overflow-hidden'>
       <nav className='flex-1 overflow-y-auto py-1 px-1'>
         {GROUP_ORDER.map((group) => {
           const items = grouped[group];
