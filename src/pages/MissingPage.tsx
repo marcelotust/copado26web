@@ -1,57 +1,17 @@
-import { useState } from 'react'
 import { useI18n } from '../i18n'
-import { useMissing, useTeams, type MissingGroup } from '../state/stickersStore'
-
-function pad(n: number): string {
-  return String(n).padStart(2, '0')
-}
-
-function buildShareText(groups: MissingGroup[], teamName: (code: string) => string): string {
-  const lines = groups.flatMap(({ teamCode, numbers }) => [
-    teamName(teamCode),
-    numbers.map(n => `${teamCode} ${pad(n)}`).join(' · '),
-    '',
-  ])
-  return `🎴 Copa 2026 — Figurinhas faltando\n\n${lines.join('\n').trim()}`
-}
+import { useMissing, useTeams } from '../state/stickersStore'
+import MissingShareButtons, { pad } from '../components/MissingShareButtons'
 
 export default function MissingPage() {
   const { t } = useI18n()
   const groups = useMissing()
   const teams  = useTeams()
-  const [copied, setCopied] = useState(false)
 
   const totalMissing = groups.reduce((acc, g) => acc + g.numbers.length, 0)
 
   function teamName(code: string): string {
     const team = teams.find(team => team.code === code)
     return team ? t(team.name_key) : code
-  }
-
-  async function handleShare() {
-    const text = buildShareText(groups, teamName)
-    if (navigator.share) {
-      try {
-        await navigator.share({ text })
-        return
-      } catch {
-        // user cancelled or share failed — fall through to copy
-      }
-    }
-    try {
-      await navigator.clipboard.writeText(text)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2500)
-    } catch {
-      const url = `https://wa.me/?text=${encodeURIComponent(text)}`
-      window.open(url, '_blank')
-    }
-  }
-
-  function handleWhatsApp() {
-    const text = buildShareText(groups, teamName)
-    const url = `https://wa.me/?text=${encodeURIComponent(text)}`
-    window.open(url, '_blank')
   }
 
   if (groups.length === 0) {
@@ -72,20 +32,7 @@ export default function MissingPage() {
           {totalMissing === 1 ? t('missing.sticker') : t('missing.stickers')}{' '}
           {t('missing.missing')}
         </p>
-        <div className='flex gap-2'>
-          <button
-            onClick={handleWhatsApp}
-            className='flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-700 hover:bg-green-600 text-white text-sm font-semibold transition-colors'
-          >
-            <span>WhatsApp</span>
-          </button>
-          <button
-            onClick={handleShare}
-            className='flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold transition-colors'
-          >
-            {copied ? t('missing.copied') : t('missing.share')}
-          </button>
-        </div>
+        <MissingShareButtons groups={groups} teamName={teamName} />
       </div>
 
       <div className='flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-5'>

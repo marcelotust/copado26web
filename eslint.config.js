@@ -44,9 +44,9 @@ export default tseslint.config(
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
 
-      // Size guardrails (kept from .eslintrc.cjs)
-      'max-lines': ['warn', { max: 280, skipBlankLines: true, skipComments: true }],
-      'max-lines-per-function': ['warn', { max: 160, skipBlankLines: true, skipComments: true }],
+      // Size guardrails — cap files at 100 LOC and functions at 100 LOC.
+      'max-lines': ['warn', { max: 100, skipBlankLines: true, skipComments: true }],
+      'max-lines-per-function': ['warn', { max: 100, skipBlankLines: true, skipComments: true }],
 
       // Cleanliness
       'no-unused-vars': 'off', // delegated to @typescript-eslint/no-unused-vars below
