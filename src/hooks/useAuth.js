@@ -48,12 +48,21 @@ export function useAuth() {
     }
   }
 
+  async function signInWithGoogle() {
+    setError(null)
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin },
+    })
+    if (error) setError(error.message)
+  }
+
   async function signOut() {
     await supabase.auth.signOut()
     // session is cleared by onAuthStateChange (SIGNED_OUT event)
   }
 
-  return { session, loading, magicLinkSent, error, sendMagicLink, signOut }
+  return { session, loading, magicLinkSent, error, sendMagicLink, signInWithGoogle, signOut }
 }
 
 /** @param {string} userId */

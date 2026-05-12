@@ -129,6 +129,8 @@
       "Se sincroniza en todos tus dispositivos",
       "100% gratis, sin anuncios"
     ],
+    "continueWithGoogle": "Continuar con Google",
+    "orEmail": "o usa tu correo",
     "emailPlaceholder": "tu@correo.com",
     "sendLink": "Enviar enlace de acceso",
     "sending": "Enviando…",

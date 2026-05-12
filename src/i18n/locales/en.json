@@ -129,6 +129,8 @@
       "Syncs across all your devices",
       "100% free, no ads"
     ],
+    "continueWithGoogle": "Continue with Google",
+    "orEmail": "or use your email",
     "emailPlaceholder": "your@email.com",
     "sendLink": "Send login link",
     "sending": "Sending…",
