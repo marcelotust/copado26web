@@ -147,7 +147,8 @@
   "menu": {
     "logout": "Cerrar Sesión",
     "settings": "Ajustes",
-    "language": "Idioma"
+    "language": "Idioma",
+    "loggedInAs": "Conectado como"
   },
 
   "settings": {

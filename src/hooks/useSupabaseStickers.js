@@ -43,5 +43,9 @@ export function useSupabaseStickers(userId, teamCode) {
     }
   }, [userId, teamCode])
 
-  return { stickers, loading }
+  function patchSticker(id, changes) {
+    setStickers(prev => prev.map(s => s.id === id ? { ...s, ...changes } : s))
+  }
+
+  return { stickers, loading, patchSticker }
 }

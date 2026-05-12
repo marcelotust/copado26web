@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useI18n } from '../i18n'
 
-export default function SettingsPage({ userId, onSignOut }) {
+export default function SettingsPage({ userId, email, onSignOut }) {
   const { t } = useI18n()
   const [showResetConfirm, setShowResetConfirm] = useState(false)
   const [resetting, setResetting] = useState(false)
@@ -56,9 +56,15 @@ export default function SettingsPage({ userId, onSignOut }) {
     <div className="p-6 max-w-md mx-auto flex flex-col gap-6">
       <h1 className="text-xl font-bold text-white">{t('settings.title')}</h1>
 
-      {/* Logout */}
+      {/* Account */}
       <section className="flex flex-col gap-2">
         <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">{t('settings.account')}</h2>
+        {email && (
+          <div className="px-4 py-3 rounded-lg bg-slate-800 border border-slate-700">
+            <p className="text-[10px] text-slate-500 uppercase tracking-widest mb-0.5">{t('menu.loggedInAs')}</p>
+            <p className="text-white text-sm truncate">{email}</p>
+          </div>
+        )}
         <button
           onClick={onSignOut}
           className="px-4 py-3 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-left transition-colors"

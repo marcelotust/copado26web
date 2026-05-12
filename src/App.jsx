@@ -38,6 +38,7 @@ export default function App() {
   }
 
   const userId = session.user.id
+  const email  = session.user.email
 
   const view = location.pathname === '/swaps'    ? 'swaps'
              : location.pathname === '/scanner'  ? 'scanner'
@@ -46,7 +47,7 @@ export default function App() {
 
   return (
     <div className='fixed inset-0 flex flex-col bg-slate-950 text-white'>
-      <Header onLogout={signOut} />
+      <Header onLogout={signOut} userId={userId} email={email} />
       <TabNav />
 
       <div className='flex flex-1 min-h-0'>
@@ -61,7 +62,7 @@ export default function App() {
           <Routes>
             <Route path='/album'    element={<AlbumPage   sectionCode={section} userId={userId} />} />
             <Route path='/swaps'    element={<SwapsPage   userId={userId} />} />
-            <Route path='/settings' element={<SettingsPage userId={userId} onSignOut={signOut} />} />
+            <Route path='/settings' element={<SettingsPage userId={userId} email={email} onSignOut={signOut} />} />
             <Route path='*'         element={<Navigate to='/album' replace />} />
           </Routes>
         </main>

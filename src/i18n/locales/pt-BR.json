@@ -148,7 +148,8 @@
   "menu": {
     "logout": "Sair",
     "settings": "Configurações",
-    "language": "Idioma"
+    "language": "Idioma",
+    "loggedInAs": "Logado como"
   },
 
   "settings": {

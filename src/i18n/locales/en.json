@@ -147,7 +147,8 @@
   "menu": {
     "logout": "Logout",
     "settings": "Settings",
-    "language": "Language"
+    "language": "Language",
+    "loggedInAs": "Logged in as"
   },
 
   "settings": {

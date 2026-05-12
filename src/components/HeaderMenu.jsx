@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useI18n, LOCALE_META } from '../i18n'
 
-export default function HeaderMenu({ onLogout }) {
+export default function HeaderMenu({ onLogout, email }) {
   const { locale, setLocale, t } = useI18n()
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
@@ -28,7 +28,15 @@ export default function HeaderMenu({ onLogout }) {
       </button>
 
       {open && (
-        <div className='absolute right-0 top-full mt-1.5 w-44 bg-slate-900 border border-slate-700 rounded-xl shadow-xl z-[200] overflow-hidden'>
+        <div className='absolute right-0 top-full mt-1.5 w-52 bg-slate-900 border border-slate-700 rounded-xl shadow-xl z-[200] overflow-hidden'>
+          {email && (
+            <div className='px-3 py-2.5 border-b border-slate-800'>
+              <p className='text-[9px] text-slate-500 font-bold uppercase tracking-widest mb-0.5'>
+                {t('menu.loggedInAs')}
+              </p>
+              <p className='text-xs text-slate-300 truncate'>{email}</p>
+            </div>
+          )}
           <div className='p-2 border-b border-slate-800'>
             <p className='text-[9px] text-slate-500 font-bold uppercase tracking-widest px-1 mb-1.5'>
               {t('menu.language')}
