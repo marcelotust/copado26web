@@ -9,7 +9,7 @@ export default function Header({ userId, onLogout }) {
   const { t } = useI18n()
 
   return (
-    <header className='shrink-0 flex items-center gap-3 px-4 py-2.5 bg-slate-900/95 backdrop-blur border-b border-slate-800 z-10'>
+    <header className='shrink-0 flex items-center gap-3 px-4 py-2.5 bg-slate-900/95 backdrop-blur border-b border-slate-800 z-40 relative'>
       <div className='flex items-center gap-2 px-2 lg:px-3 py-3 shrink-0'>
         <span className='text-xl shrink-0'>⚽</span>
         <div className='lg:block min-w-0'>

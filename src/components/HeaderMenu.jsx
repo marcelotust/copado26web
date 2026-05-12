@@ -28,7 +28,7 @@ export default function HeaderMenu({ onLogout }) {
       </button>
 
       {open && (
-        <div className='absolute right-0 top-full mt-1.5 w-44 bg-slate-900 border border-slate-700 rounded-xl shadow-xl z-50 overflow-hidden'>
+        <div className='absolute right-0 top-full mt-1.5 w-44 bg-slate-900 border border-slate-700 rounded-xl shadow-xl z-[200] overflow-hidden'>
           <div className='p-2 border-b border-slate-800'>
             <p className='text-[9px] text-slate-500 font-bold uppercase tracking-widest px-1 mb-1.5'>
               Language
