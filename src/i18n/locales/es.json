@@ -2,6 +2,12 @@
   "appSubtitle": "Álbum de Cromos",
   "loading": "Configurando tu álbum…",
 
+  "share": {
+    "appName": "Mi Álbum 2026",
+    "cta": "¡Organiza tu álbum de cromos en la app — gratis!",
+    "missingHeadline": "⚽ Copa 2026 — me faltan {{count}} cromos!",
+    "swapsHeadline": "⚽ Copa 2026 — tengo {{count}} cromos repetidos para cambiar!"
+  },
 
   "conf": {
     "CONMEBOL": "América del Sur",
@@ -128,7 +134,9 @@
     "toTrade": "para cambiar",
     "dupes": "duplicados",
     "empty": "¡Sin duplicados aún!",
-    "emptyDesc": "Sigue coleccionando y tus extras aparecerán aquí."
+    "emptyDesc": "Sigue coleccionando y tus extras aparecerán aquí.",
+    "share": "Compartir",
+    "copied": "¡Copiado!"
   },
 
   "login": {

@@ -2,7 +2,7 @@ import { useI18n } from '../i18n'
 import { useMissing, useSwaps, useTeams } from '../state/stickersStore'
 import MissingShareButtons from '../components/MissingShareButtons'
 import MissingTradeChecker from '../components/MissingTradeChecker'
-import { pad } from '../lib/missingShareBuilders'
+import { pad } from '../lib/shareText'
 
 export default function MissingPage() {
   const { t } = useI18n()
