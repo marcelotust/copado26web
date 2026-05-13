@@ -13,15 +13,15 @@ update public.stickers_catalog set player_name = 'Canadá — sedes e cidades' w
 update public.stickers_catalog set player_name = 'México — sedes e cidades' where id = 'WAP-07';
 update public.stickers_catalog set player_name = 'EUA — sedes e cidades' where id = 'WAP-08';
 
--- FWC — FIFA Museum / World Cup History (FWC 09–19)
-update public.stickers_catalog set player_name = 'Itália 1934' where id = 'FWC-09';
-update public.stickers_catalog set player_name = 'Uruguai 1950' where id = 'FWC-10';
-update public.stickers_catalog set player_name = 'Alemanha Ocidental 1954' where id = 'FWC-11';
-update public.stickers_catalog set player_name = 'Brasil 1962' where id = 'FWC-12';
-update public.stickers_catalog set player_name = 'Alemanha Ocidental 1974' where id = 'FWC-13';
-update public.stickers_catalog set player_name = 'Argentina 1986' where id = 'FWC-14';
-update public.stickers_catalog set player_name = 'Brasil 1994' where id = 'FWC-15';
-update public.stickers_catalog set player_name = 'Brasil 2002' where id = 'FWC-16';
-update public.stickers_catalog set player_name = 'Itália 2006' where id = 'FWC-17';
-update public.stickers_catalog set player_name = 'Alemanha 2014' where id = 'FWC-18';
-update public.stickers_catalog set player_name = 'Argentina 2022' where id = 'FWC-19';
+-- FWC — FIFA Museum / World Cup History (FWC 09–19); seleção campeã · ano da Copa
+update public.stickers_catalog set player_name = 'Itália · 1934' where id = 'FWC-09';
+update public.stickers_catalog set player_name = 'Uruguai · 1950' where id = 'FWC-10';
+update public.stickers_catalog set player_name = 'Alemanha Ocidental · 1954' where id = 'FWC-11';
+update public.stickers_catalog set player_name = 'Brasil · 1962' where id = 'FWC-12';
+update public.stickers_catalog set player_name = 'Alemanha Ocidental · 1974' where id = 'FWC-13';
+update public.stickers_catalog set player_name = 'Argentina · 1986' where id = 'FWC-14';
+update public.stickers_catalog set player_name = 'Brasil · 1994' where id = 'FWC-15';
+update public.stickers_catalog set player_name = 'Brasil · 2002' where id = 'FWC-16';
+update public.stickers_catalog set player_name = 'Itália · 2006' where id = 'FWC-17';
+update public.stickers_catalog set player_name = 'Alemanha · 2014' where id = 'FWC-18';
+update public.stickers_catalog set player_name = 'Argentina · 2022' where id = 'FWC-19';
