@@ -1,4 +1,3 @@
-import type { CSSProperties } from 'react'
 import { useTeam, useSectionStickers, useSectionProgress } from '../state/stickersStore'
 import { teamColors } from '../utils'
 import { useI18n } from '../i18n'
@@ -16,13 +15,12 @@ function albumStickerWrapperClass(s: Sticker, sectionCode: string): string {
   const bits = ['min-h-0 h-full']
   if (isVirtualAlbumSection(sectionCode)) return bits.join(' ')
   if (s.is_special && s.number === 1) bits.push('col-start-1 row-start-1 row-span-2')
+  // #13: no mobile (3 col) ancora nas duas últimas colunas pra ficar na mesma linha que a #12;
+  // a partir de sm, só ocupa 2 colunas no fluxo normal (sem colar na direita da página).
+  if (s.is_special && s.number === 13) {
+    bits.push('max-sm:[grid-column:span_2/-1] sm:col-span-2')
+  }
   return bits.join(' ')
-}
-
-function albumStickerWrapperStyle(s: Sticker, sectionCode: string): CSSProperties | undefined {
-  if (isVirtualAlbumSection(sectionCode)) return undefined
-  if (s.is_special && s.number === 13) return { gridColumn: 'span 2 / -1' }
-  return undefined
 }
 
 function albumStickerCell(sectionCode: string, s: Sticker): 'featured-tall' | 'featured-wide' | undefined {
@@ -83,7 +81,6 @@ export default function AlbumPage({ sectionCode }: { sectionCode: string }) {
               <div
                 key={s.id}
                 className={albumStickerWrapperClass(s, sectionCode)}
-                style={albumStickerWrapperStyle(s, sectionCode)}
               >
                 <StickerCard
                   sticker={s}
