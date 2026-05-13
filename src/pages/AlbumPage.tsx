@@ -2,6 +2,30 @@ import { useTeam, useSectionStickers, useSectionProgress } from '../state/sticke
 import { teamColors } from '../utils'
 import { useI18n } from '../i18n'
 import StickerCard from '../components/StickerCard'
+import type { Sticker } from '../types/database'
+
+const ALBUM_GRID_CLASS =
+  'grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2'
+
+function isVirtualAlbumSection(code: string): boolean {
+  return code === 'WAP' || code === 'FWC' || code === 'CC'
+}
+
+function albumStickerWrapperClass(s: Sticker, sectionCode: string): string {
+  const bits = ['min-h-0 h-full']
+  if (isVirtualAlbumSection(sectionCode)) return bits.join(' ')
+  if (s.is_special && s.number === 1) bits.push('row-span-2')
+  if (s.is_special && s.number === 13) bits.push('col-span-2')
+  return bits.join(' ')
+}
+
+function albumStickerCell(sectionCode: string, s: Sticker): 'featured-tall' | 'featured-wide' | undefined {
+  if (isVirtualAlbumSection(sectionCode)) return undefined
+  if (!s.is_special) return undefined
+  if (s.number === 1) return 'featured-tall'
+  if (s.number === 13) return 'featured-wide'
+  return undefined
+}
 
 export default function AlbumPage({ sectionCode }: { sectionCode: string }) {
   const { t } = useI18n()
@@ -48,9 +72,15 @@ export default function AlbumPage({ sectionCode }: { sectionCode: string }) {
             {t('grid.loading')}
           </div>
         ) : (
-          <div className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2'>
+          <div className={ALBUM_GRID_CLASS}>
             {stickers.map((s) => (
-              <StickerCard key={s.id} sticker={s} teamCode={sectionCode} />
+              <div key={s.id} className={albumStickerWrapperClass(s, sectionCode)}>
+                <StickerCard
+                  sticker={s}
+                  teamCode={sectionCode}
+                  albumCell={albumStickerCell(sectionCode, s)}
+                />
+              </div>
             ))}
           </div>
         )}

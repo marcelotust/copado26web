@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { Session } from '@supabase/supabase-js'
 import { Analytics } from '@vercel/analytics/react'
 import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
 import { useI18n } from './i18n'
-import { useStickersStatus } from './state/stickersStore'
+import { useStickersStatus, useTeams } from './state/stickersStore'
+import { readLastAlbumSection, writeLastAlbumSection } from './lib/lastAlbumSectionStorage'
 import AlbumPage from './pages/AlbumPage'
 import SwapsPage from './pages/SwapsPage'
 import SettingsPage from './pages/SettingsPage'
@@ -22,9 +23,22 @@ type AuthenticatedAppProps = { session: Session; signOut: () => Promise<void> }
 export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppProps) {
   const { t } = useI18n()
   const { status, error } = useStickersStatus()
-  const [section, setSection] = useState(DEFAULT_SECTION)
+  const teams = useTeams()
+  const [section, setSection] = useState(() => readLastAlbumSection() ?? DEFAULT_SECTION)
   const navigate = useNavigate()
   const location = useLocation()
+
+  useEffect(() => {
+    if (teams.length === 0) return
+    setSection((prev) => {
+      if (teams.some((t) => t.code === prev)) return prev
+      return DEFAULT_SECTION
+    })
+  }, [teams])
+
+  useEffect(() => {
+    writeLastAlbumSection(section)
+  }, [section])
 
   const email = session.user.email
 
