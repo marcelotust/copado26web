@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import { teamColor } from '../utils'
 import { useI18n } from '../i18n'
 import { useSectionProgress } from '../state/stickersStore'
@@ -12,7 +13,10 @@ type SectionItemProps = {
   onClick: () => void
 }
 
-export default function SectionItem({ team, active, onClick }: SectionItemProps) {
+const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function SectionItem(
+  { team, active, onClick },
+  ref,
+) {
   const { t } = useI18n()
   const { total, collected } = useSectionProgress(team.code)
   const pct = total > 0 ? collected / total : 0
@@ -26,6 +30,7 @@ export default function SectionItem({ team, active, onClick }: SectionItemProps)
 
   return (
     <button
+      ref={ref}
       onClick={onClick}
       title={`${name} (${collected}/${total})`}
       className={[
@@ -104,4 +109,6 @@ export default function SectionItem({ team, active, onClick }: SectionItemProps)
       </svg>
     </button>
   )
-}
+})
+
+export default SectionItem

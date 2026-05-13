@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef } from 'react'
 import { useTeams } from '../state/stickersStore'
 import { useI18n } from '../i18n'
 import SectionItem from './SectionItem'
@@ -27,6 +28,20 @@ export default function Sidebar({ selected, onSelect }: SidebarProps) {
   const { t } = useI18n()
   const teams = useTeams()
   const grouped = groupTeams(teams)
+  const selectedBtnRef = useRef<HTMLButtonElement>(null)
+
+  useLayoutEffect(() => {
+    const el = selectedBtnRef.current
+    if (!el) return
+    const reduce =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    el.scrollIntoView({
+      block: 'center',
+      inline: 'nearest',
+      behavior: reduce ? 'auto' : 'smooth',
+    })
+  }, [selected])
 
   return (
     <aside className='w-14 sm:w-52 shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col overflow-hidden'>
@@ -50,6 +65,7 @@ export default function Sidebar({ selected, onSelect }: SidebarProps) {
               {teams.map((team) => (
                 <SectionItem
                   key={team.code}
+                  ref={selected === team.code ? selectedBtnRef : undefined}
                   team={team}
                   active={selected === team.code}
                   onClick={() => onSelect(team.code)}
