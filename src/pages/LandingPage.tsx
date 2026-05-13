@@ -227,14 +227,30 @@ export default function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer className='border-t border-slate-800 px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600 max-w-5xl mx-auto w-full'>
-        <p>Feito por fãs, para fãs · Copa do Mundo FIFA 2026</p>
-        <nav aria-label='Links legais'>
-          <ul className='flex gap-4 list-none'>
-            <li><Link to='/privacidade' className={`hover:text-slate-400 transition-colors ${FOCUS_RING}`}>Privacidade</Link></li>
-            <li><Link to='/termos'      className={`hover:text-slate-400 transition-colors ${FOCUS_RING}`}>Termos</Link></li>
-          </ul>
-        </nav>
+      <footer className='border-t border-slate-800 px-6 py-6 max-w-5xl mx-auto w-full flex flex-col gap-4'>
+        <div className='flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600'>
+          <div className='flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left'>
+            <p>© 2026 Meu Álbum 2026</p>
+            <span className='hidden sm:inline text-slate-800'>·</span>
+            <p>Feito por fãs, para fãs</p>
+            <span className='hidden sm:inline text-slate-800'>·</span>
+            <a
+              href='mailto:contato@meualbum2026.com.br'
+              className={`hover:text-slate-400 transition-colors ${FOCUS_RING}`}
+            >
+              contato@meualbum2026.com.br
+            </a>
+          </div>
+          <nav aria-label='Links legais'>
+            <ul className='flex gap-4 list-none'>
+              <li><Link to='/privacidade' className={`hover:text-slate-400 transition-colors ${FOCUS_RING}`}>Privacidade</Link></li>
+              <li><Link to='/termos'      className={`hover:text-slate-400 transition-colors ${FOCUS_RING}`}>Termos</Link></li>
+            </ul>
+          </nav>
+        </div>
+        <p className='text-[10px] text-slate-800 text-center'>
+          Não afiliado com FIFA™, Panini™ ou qualquer de suas subsidiárias. Projeto independente de fãs.
+        </p>
       </footer>
 
     </div>
