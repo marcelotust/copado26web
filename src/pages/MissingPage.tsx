@@ -14,6 +14,10 @@ export default function MissingPage() {
     return team ? t(team.name_key) : code
   }
 
+  function teamFlag(code: string): string {
+    return teams.find(team => team.code === code)?.flag ?? ''
+  }
+
   if (groups.length === 0) {
     return (
       <div className='flex-1 flex flex-col items-center justify-center gap-2 px-6 text-center'>
@@ -32,13 +36,13 @@ export default function MissingPage() {
           {totalMissing === 1 ? t('missing.sticker') : t('missing.stickers')}{' '}
           {t('missing.missing')}
         </p>
-        <MissingShareButtons groups={groups} teamName={teamName} />
+        <MissingShareButtons groups={groups} total={totalMissing} teamName={teamName} teamFlag={teamFlag} />
       </div>
 
       <div className='flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-5'>
         {groups.map(({ teamCode, numbers }) => (
           <div key={teamCode}>
-            <p className='text-white font-bold text-sm mb-1'>{teamName(teamCode)}</p>
+            <p className='text-white font-bold text-sm mb-1'>{teamFlag(teamCode)} {teamName(teamCode)}</p>
             <p className='text-slate-400 text-sm font-mono leading-relaxed'>
               {numbers.map(n => `${teamCode} ${pad(n)}`).join(' · ')}
             </p>
