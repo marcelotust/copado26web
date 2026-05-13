@@ -99,10 +99,24 @@
   },
 
   "nav": {
-    "album": "Mi Álbum",
+    "home": "Inicio",
+    "album": "Álbum",
     "missing": "Faltantes",
     "swaps": "Repetidos",
     "challenges": "Desafíos"
+  },
+
+  "dashboard": {
+    "globalProgress": "Progreso general",
+    "byGroup": "Por grupo",
+    "topTeams": "Más completos",
+    "nearComplete": "Casi listos",
+    "shortcuts": "Accesos rápidos",
+    "seeAll": "Ver todos",
+    "challengesPreview": "Desafíos en curso",
+    "recentBadges": "Logros recientes",
+    "noMilestones": "Sin logros aún",
+    "leastComplete": "Menos completos"
   },
 
   "challenges": {

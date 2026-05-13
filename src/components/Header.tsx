@@ -17,6 +17,14 @@ export default function Header({ email, onLogout }: HeaderProps) {
 
       <ProgressBar collected={collected} total={total} />
 
+      <Link
+        to='/challenges'
+        className='shrink-0 flex items-center justify-center w-8 h-8 rounded-lg text-amber-400 hover:bg-amber-500/20 transition-colors text-lg'
+        aria-label='Desafios'
+      >
+        🏆
+      </Link>
+
       <HeaderMenu onLogout={onLogout} email={email} />
 
       <div className='absolute bottom-0 left-0 right-0 h-px flex'>
