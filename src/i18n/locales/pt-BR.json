@@ -195,5 +195,22 @@
     "removeDesc": "Isso vai marcá-la como não coletada.",
     "removeConfirm": "Remover",
     "removeCancel": "Cancelar"
+  },
+
+  "legal": {
+    "back": "Voltar ao app",
+    "version": "Versão 2026-05-12. Texto provisório sujeito à revisão jurídica.",
+    "privacy": {
+      "title": "Política de privacidade",
+      "intro": "O Meu Álbum 2026 armazena seu e-mail de conta e o progresso do álbum no Supabase para sincronizar sua coleção entre dispositivos.",
+      "data": "Analytics anônimos de uso só são coletados após consentimento. Monitoramento de erros pode usar Sentry com contexto técnico sanitizado quando habilitado.",
+      "rights": "Você pode exportar o álbum em Configurações e solicitar exclusão de conta conforme a documentação do produto."
+    },
+    "terms": {
+      "title": "Termos de uso",
+      "intro": "O serviço é oferecido no estado atual para gestão pessoal do álbum durante o MVP.",
+      "use": "Não utilize o serviço de forma abusiva, não tente acesso não autorizado e não envie conteúdo ilícito por canais de suporte.",
+      "liability": "O operador não se responsabiliza por perda de dados além de esforços razoáveis para manter a disponibilidade na nuvem."
+    }
   }
 }

@@ -8,6 +8,7 @@ import AlbumPage from './pages/AlbumPage'
 import SwapsPage from './pages/SwapsPage'
 import SettingsPage from './pages/SettingsPage'
 import MissingPage from './pages/MissingPage'
+import LegalPage from './pages/LegalPage'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import TabNav from './components/TabNav'
@@ -26,6 +27,13 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
   const location = useLocation()
 
   const email = session.user.email
+
+  if (location.pathname === '/privacidade') {
+    return <LegalPage kind='privacy' />
+  }
+  if (location.pathname === '/termos') {
+    return <LegalPage kind='terms' />
+  }
 
   if (status === 'idle' || status === 'loading') {
     return <LoadingScreen label={t('loading')} />
