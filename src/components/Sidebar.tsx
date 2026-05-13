@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef } from 'react'
 import { useTeams } from '../state/stickersStore'
 import { useI18n } from '../i18n'
 import SectionItem from './SectionItem'
@@ -27,22 +28,44 @@ export default function Sidebar({ selected, onSelect }: SidebarProps) {
   const { t } = useI18n()
   const teams = useTeams()
   const grouped = groupTeams(teams)
+  const selectedBtnRef = useRef<HTMLButtonElement>(null)
+
+  useLayoutEffect(() => {
+    const el = selectedBtnRef.current
+    if (!el) return
+    const reduce =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    el.scrollIntoView({
+      block: 'center',
+      inline: 'nearest',
+      behavior: reduce ? 'auto' : 'smooth',
+    })
+  }, [selected])
 
   return (
     <aside className='w-14 sm:w-52 shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col overflow-hidden'>
       <nav className='flex-1 overflow-y-auto py-1 px-1'>
-        {grouped.map(({ key, teams }) => {
+        {grouped.map(({ key, teams }, index) => {
           const label = key.length === 1
             ? `${t('sidebar.group')} ${key}`
             : t(`sections.${key.toLowerCase()}`)
           return (
-            <div key={key} className='mb-1'>
+            <div
+              key={key}
+              className={[
+                'mb-1',
+                index > 0 &&
+                  'border-t border-slate-800 pt-2 mt-1.5 sm:border-t-0 sm:pt-0 sm:mt-0',
+              ].filter(Boolean).join(' ')}
+            >
               <p className='hidden sm:block text-[10px] text-slate-600 font-bold tracking-widest uppercase px-2 pt-2 pb-1'>
                 {label}
               </p>
               {teams.map((team) => (
                 <SectionItem
                   key={team.code}
+                  ref={selected === team.code ? selectedBtnRef : undefined}
                   team={team}
                   active={selected === team.code}
                   onClick={() => onSelect(team.code)}

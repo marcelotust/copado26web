@@ -40,8 +40,8 @@ export default function MissingPage() {
 
   return (
     <div className='flex flex-col h-full'>
-      <div className='shrink-0 flex items-center justify-between gap-3 px-4 py-3 bg-slate-900 border-b border-slate-800'>
-        <p className='text-slate-400 text-sm'>
+      <div className='shrink-0 flex flex-col gap-2 px-4 py-3 bg-slate-900 border-b border-slate-800 sm:flex-row sm:items-center sm:justify-between sm:gap-3'>
+        <p className='text-slate-400 text-sm min-w-0 leading-snug'>
           <span className='text-white font-bold'>{totalMissing}</span>{' '}
           {totalMissing === 1 ? t('missing.sticker') : t('missing.stickers')}{' '}
           {t('missing.missing')}

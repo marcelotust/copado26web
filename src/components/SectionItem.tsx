@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import { teamColor } from '../utils'
 import { useI18n } from '../i18n'
 import { useSectionProgress } from '../state/stickersStore'
@@ -12,7 +13,10 @@ type SectionItemProps = {
   onClick: () => void
 }
 
-export default function SectionItem({ team, active, onClick }: SectionItemProps) {
+const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function SectionItem(
+  { team, active, onClick },
+  ref,
+) {
   const { t } = useI18n()
   const { total, collected } = useSectionProgress(team.code)
   const pct = total > 0 ? collected / total : 0
@@ -21,10 +25,14 @@ export default function SectionItem({ team, active, onClick }: SectionItemProps)
   const name = t(team.name_key)
   const color = teamColor(team.code)
 
+  const pctRounded = Math.round(pct * 100)
+  const barFill = done ? '#34d399' : pct > 0 ? '#94a3b8' : undefined
+
   return (
     <button
+      ref={ref}
       onClick={onClick}
-      title={name}
+      title={`${name} (${collected}/${total})`}
       className={[
         'w-full flex items-center rounded-lg text-left transition-all duration-100',
         'hover:bg-slate-700/60 active:scale-95',
@@ -32,7 +40,21 @@ export default function SectionItem({ team, active, onClick }: SectionItemProps)
         'flex-col justify-center gap-0.5 px-1 py-2 sm:flex-row sm:gap-3 sm:px-3 sm:py-2.5',
       ].join(' ')}
     >
-      <span className='text-xl shrink-0 leading-none w-7 text-center'>{team.flag}</span>
+      <div className='flex flex-row items-center justify-center gap-1.5 w-full sm:contents'>
+        <span className='text-xl shrink-0 leading-none w-7 text-center'>{team.flag}</span>
+        <div
+          className='flex h-7 w-[3px] shrink-0 flex-col justify-end overflow-hidden rounded-full bg-slate-800 sm:hidden'
+          aria-hidden
+        >
+          <div
+            className='w-full min-h-0 rounded-full transition-[height] duration-300 ease-out'
+            style={{
+              height: `${pctRounded}%`,
+              backgroundColor: barFill,
+            }}
+          />
+        </div>
+      </div>
 
       <span
         className={[
@@ -87,4 +109,6 @@ export default function SectionItem({ team, active, onClick }: SectionItemProps)
       </svg>
     </button>
   )
-}
+})
+
+export default SectionItem

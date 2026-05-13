@@ -1,7 +1,24 @@
 import { useState } from 'react'
 import { useI18n } from '../i18n'
 import type { MissingGroup } from '../state/stickersStore'
-import { buildShareImage, buildShareText } from '../lib/missingShareBuilders'
+
+function pad(n: number): string {
+  return String(n).padStart(2, '0')
+}
+
+function buildShareText(
+  groups: MissingGroup[],
+  teamName: (code: string) => string,
+  teamFlag: (code: string) => string,
+  total: number,
+): string {
+  const lines = groups.flatMap(({ teamCode, numbers }) => [
+    `${teamFlag(teamCode)} ${teamName(teamCode)} (${numbers.length})`,
+    numbers.map(n => `${teamCode} ${pad(n)}`).join(' · '),
+    '',
+  ])
+  return `⚽ Copa 2026 — me faltam ${total} figurinhas!\n\n${lines.join('\n').trim()}`
+}
 
 type Props = {
   groups: MissingGroup[]
@@ -13,7 +30,6 @@ type Props = {
 export default function MissingShareButtons({ groups, total, teamName, teamFlag }: Props) {
   const { t } = useI18n()
   const [copied, setCopied] = useState(false)
-  const [sharing, setSharing] = useState(false)
 
   async function handleShare() {
     const text = buildShareText(groups, teamName, teamFlag, total)
@@ -34,49 +50,21 @@ export default function MissingShareButtons({ groups, total, teamName, teamFlag 
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank')
   }
 
-  async function handleImage() {
-    setSharing(true)
-    try {
-      const blob = await buildShareImage(groups, teamName, teamFlag, total)
-      const file = new File([blob], 'meu-album-2026.png', { type: 'image/png' })
-      if (navigator.canShare?.({ files: [file] })) {
-        await navigator.share({ files: [file] })
-      } else {
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = 'meu-album-2026.png'
-        a.click()
-        URL.revokeObjectURL(url)
-      }
-    } finally {
-      setSharing(false)
-    }
-  }
-
   return (
-    <div className='flex gap-2'>
+    <div className='flex flex-wrap gap-1.5 justify-end w-full min-w-0 sm:w-auto sm:flex-nowrap sm:gap-2'>
       <button
         type='button'
         onClick={handleWhatsApp}
-        className='flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-700 hover:bg-green-600 text-white text-sm font-semibold transition-colors'
+        className='flex flex-1 min-w-[6.5rem] max-w-[11rem] sm:flex-initial sm:max-w-none items-center justify-center gap-1 px-2 py-1.5 rounded-lg bg-green-700 hover:bg-green-600 text-white text-xs font-semibold transition-colors sm:px-3 sm:text-sm'
       >
-        <span>WhatsApp</span>
-      </button>
-      <button
-        type='button'
-        onClick={handleImage}
-        disabled={sharing}
-        className='flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-700 hover:bg-indigo-600 disabled:opacity-50 text-white text-sm font-semibold transition-colors'
-      >
-        {sharing ? '...' : '🖼️'}
+        <span className='truncate'>WhatsApp</span>
       </button>
       <button
         type='button'
         onClick={handleShare}
-        className='flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold transition-colors'
+        className='flex flex-1 min-w-[6.5rem] max-w-[11rem] sm:flex-initial sm:max-w-none items-center justify-center gap-1 px-2 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-xs font-semibold transition-colors sm:px-3 sm:text-sm'
       >
-        {copied ? t('missing.copied') : t('missing.share')}
+        <span className='truncate'>{copied ? t('missing.copied') : t('missing.share')}</span>
       </button>
     </div>
   )
