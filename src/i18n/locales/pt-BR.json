@@ -2,6 +2,13 @@
   "appSubtitle": "Álbum Digital Copa 2026",
   "loading": "Configurando seu álbum…",
 
+  "share": {
+    "appName": "Meu Álbum 2026",
+    "cta": "Organize seu álbum de figurinhas no app — grátis!",
+    "missingHeadline": "⚽ Copa 2026 — me faltam {{count}} figurinhas!",
+    "swapsHeadline": "⚽ Copa 2026 — tenho {{count}} figurinhas repetidas para trocar!"
+  },
+
 
   "conf": {
     "CONMEBOL": "América do Sul",
@@ -129,7 +136,9 @@
     "toTrade": "para trocar",
     "dupes": "duplicatas",
     "empty": "Nenhuma duplicata ainda!",
-    "emptyDesc": "Continue coletando e seus extras aparecerão aqui."
+    "emptyDesc": "Continue coletando e seus extras aparecerão aqui.",
+    "share": "Compartilhar",
+    "copied": "Copiado!"
   },
 
   "login": {

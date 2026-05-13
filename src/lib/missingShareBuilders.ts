@@ -1,22 +1,7 @@
 import type { MissingGroup } from '../state/stickersStore'
+import { getPublicAppUrl, pad } from './shareText'
 
-export function pad(n: number): string {
-  return String(n).padStart(2, '0')
-}
-
-export function buildShareText(
-  groups: MissingGroup[],
-  teamName: (code: string) => string,
-  teamFlag: (code: string) => string,
-  total: number,
-): string {
-  const lines = groups.flatMap(({ teamCode, numbers }) => [
-    `${teamFlag(teamCode)} ${teamName(teamCode)} (${numbers.length})`,
-    numbers.map(n => `${teamCode} ${pad(n)}`).join(' · '),
-    '',
-  ])
-  return `⚽ Copa 2026 — me faltam ${total} figurinhas!\n\n${lines.join('\n').trim()}`
-}
+export { pad } from './shareText'
 
 export async function buildShareImage(
   groups: MissingGroup[],
@@ -67,9 +52,13 @@ export async function buildShareImage(
   }
 
   ctx.textAlign = 'center'
-  ctx.font = '36px system-ui, sans-serif'
-  ctx.fillStyle = '#334155'
-  ctx.fillText('Meu Álbum 2026 • Copa do Mundo 2026', W / 2, H - 60)
+  const url = getPublicAppUrl()
+  ctx.font = '30px system-ui, sans-serif'
+  ctx.fillStyle = '#64748b'
+  ctx.fillText(url || 'Meu Álbum 2026', W / 2, H - 95)
+  ctx.font = '28px system-ui, sans-serif'
+  ctx.fillStyle = '#475569'
+  ctx.fillText('Copa do Mundo FIFA 2026', W / 2, H - 55)
 
   return new Promise(resolve => canvas.toBlob(b => resolve(b!), 'image/png'))
 }

@@ -2,6 +2,12 @@
   "appSubtitle": "Sticker Album",
   "loading": "Setting up your album…",
 
+  "share": {
+    "appName": "My Album 2026",
+    "cta": "Track your sticker album in the app — it's free!",
+    "missingHeadline": "⚽ World Cup 2026 — I'm missing {{count}} stickers!",
+    "swapsHeadline": "⚽ World Cup 2026 — I have {{count}} duplicate stickers to swap!"
+  },
 
   "conf": {
     "CONMEBOL": "South America",
@@ -128,7 +134,9 @@
     "toTrade": "to trade",
     "dupes": "dupes",
     "empty": "No duplicates yet!",
-    "emptyDesc": "Keep collecting stickers and your extras will appear here."
+    "emptyDesc": "Keep collecting stickers and your extras will appear here.",
+    "share": "Share",
+    "copied": "Copied!"
   },
 
   "login": {
