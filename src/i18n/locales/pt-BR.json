@@ -27,8 +27,7 @@
     "MEX": "México",
     "CAN": "Canadá",
     "PAN": "Panamá",
-    "CRC": "Costa Rica",
-    "JAM": "Jamaica",
+    "HAI": "Haiti",
     "FRA": "França",
     "ENG": "Inglaterra",
     "ESP": "Espanha",
@@ -36,43 +35,50 @@
     "POR": "Portugal",
     "NED": "Países Baixos",
     "BEL": "Bélgica",
-    "ITA": "Itália",
     "AUT": "Áustria",
     "SUI": "Suíça",
-    "DEN": "Dinamarca",
     "SCO": "Escócia",
-    "SRB": "Sérvia",
-    "SVK": "Eslováquia",
     "CRO": "Croácia",
-    "HUN": "Hungria",
+    "CZE": "Tchéquia",
+    "BIH": "Bósnia e Herzegovina",
+    "NOR": "Noruega",
+    "SWE": "Suécia",
+    "TUR": "Turquia",
     "MAR": "Marrocos",
     "EGY": "Egito",
     "SEN": "Senegal",
-    "CMR": "Camarões",
     "CIV": "Costa do Marfim",
     "TUN": "Tunísia",
     "GHA": "Gana",
-    "NGA": "Nigéria",
     "COD": "RD Congo",
+    "ALG": "Argélia",
+    "CPV": "Cabo Verde",
+    "RSA": "África do Sul",
     "JPN": "Japão",
     "KOR": "Coreia do Sul",
     "IRN": "Irã",
     "AUS": "Austrália",
-    "SAU": "Arábia Saudita",
     "QAT": "Catar",
     "UZB": "Uzbequistão",
     "IRQ": "Iraque",
-    "NZL": "Nova Zelândia",
-    "HAI": "Haiti",
-    "RSA": "África do Sul",
-    "MLI": "Mali",
+    "JOR": "Jordânia",
     "KSA": "Arábia Saudita",
-    "ALG": "Argélia",
-    "UKR": "Ucrânia",
-    "TUR": "Turquia",
-    "CHI": "Chile",
-    "LEG": "Lendas",
-    "FWC": "Copa do Mundo FIFA"
+    "NZL": "Nova Zelândia",
+    "CUW": "Curaçao"
+  },
+
+  "sections": {
+    "wap": "Abertura",
+    "fwc": "Copas do Mundo",
+    "cc":  "Coca-Cola"
+  },
+
+  "errors": {
+    "offlineTitle": "Sem conexão",
+    "offlineDesc":  "Você precisa estar online na primeira vez que abrir o app. Conecte-se à internet e tente novamente.",
+    "catalogTitle": "Não foi possível carregar o álbum",
+    "catalogDesc":  "Tente novamente em alguns instantes.",
+    "retry":        "Tentar novamente"
   },
 
   "nav": {
@@ -189,5 +195,22 @@
     "removeDesc": "Isso vai marcá-la como não coletada.",
     "removeConfirm": "Remover",
     "removeCancel": "Cancelar"
+  },
+
+  "legal": {
+    "back": "Voltar ao app",
+    "version": "Versão 2026-05-12. Texto provisório sujeito à revisão jurídica.",
+    "privacy": {
+      "title": "Política de privacidade",
+      "intro": "O Meu Álbum 2026 armazena seu e-mail de conta e o progresso do álbum no Supabase para sincronizar sua coleção entre dispositivos.",
+      "data": "Analytics anônimos de uso só são coletados após consentimento. Monitoramento de erros pode usar Sentry com contexto técnico sanitizado quando habilitado.",
+      "rights": "Você pode exportar o álbum em Configurações e solicitar exclusão de conta conforme a documentação do produto."
+    },
+    "terms": {
+      "title": "Termos de uso",
+      "intro": "O serviço é oferecido no estado atual para gestão pessoal do álbum durante o MVP.",
+      "use": "Não utilize o serviço de forma abusiva, não tente acesso não autorizado e não envie conteúdo ilícito por canais de suporte.",
+      "liability": "O operador não se responsabiliza por perda de dados além de esforços razoáveis para manter a disponibilidade na nuvem."
+    }
   }
 }

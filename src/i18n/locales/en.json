@@ -26,8 +26,7 @@
     "MEX": "Mexico",
     "CAN": "Canada",
     "PAN": "Panama",
-    "CRC": "Costa Rica",
-    "JAM": "Jamaica",
+    "HAI": "Haiti",
     "FRA": "France",
     "ENG": "England",
     "ESP": "Spain",
@@ -35,43 +34,50 @@
     "POR": "Portugal",
     "NED": "Netherlands",
     "BEL": "Belgium",
-    "ITA": "Italy",
     "AUT": "Austria",
     "SUI": "Switzerland",
-    "DEN": "Denmark",
     "SCO": "Scotland",
-    "SRB": "Serbia",
-    "SVK": "Slovakia",
     "CRO": "Croatia",
-    "HUN": "Hungary",
+    "CZE": "Czechia",
+    "BIH": "Bosnia & Herzegovina",
+    "NOR": "Norway",
+    "SWE": "Sweden",
+    "TUR": "Türkiye",
     "MAR": "Morocco",
     "EGY": "Egypt",
     "SEN": "Senegal",
-    "CMR": "Cameroon",
     "CIV": "Côte d'Ivoire",
     "TUN": "Tunisia",
     "GHA": "Ghana",
-    "NGA": "Nigeria",
     "COD": "DR Congo",
+    "ALG": "Algeria",
+    "CPV": "Cape Verde",
+    "RSA": "South Africa",
     "JPN": "Japan",
     "KOR": "South Korea",
     "IRN": "Iran",
     "AUS": "Australia",
-    "SAU": "Saudi Arabia",
     "QAT": "Qatar",
     "UZB": "Uzbekistan",
     "IRQ": "Iraq",
-    "NZL": "New Zealand",
-    "HAI": "Haiti",
-    "RSA": "South Africa",
-    "MLI": "Mali",
+    "JOR": "Jordan",
     "KSA": "Saudi Arabia",
-    "ALG": "Algeria",
-    "UKR": "Ukraine",
-    "TUR": "Turkey",
-    "CHI": "Chile",
-    "LEG": "Legends",
-    "FWC": "FIFA World Cup"
+    "NZL": "New Zealand",
+    "CUW": "Curaçao"
+  },
+
+  "sections": {
+    "wap": "Opening",
+    "fwc": "World Cup History",
+    "cc":  "Coca-Cola"
+  },
+
+  "errors": {
+    "offlineTitle": "You're offline",
+    "offlineDesc":  "The app needs an internet connection the first time it opens. Connect and try again.",
+    "catalogTitle": "Could not load the album",
+    "catalogDesc":  "Please try again in a moment.",
+    "retry":        "Try again"
   },
 
   "nav": {
@@ -188,5 +194,22 @@
     "removeDesc": "This will mark it as not collected.",
     "removeConfirm": "Remove",
     "removeCancel": "Cancel"
+  },
+
+  "legal": {
+    "back": "Back to app",
+    "version": "Version 2026-05-12. Placeholder copy pending legal review.",
+    "privacy": {
+      "title": "Privacy policy",
+      "intro": "Meu Album 2026 stores your account email and sticker collection progress in Supabase to sync your album across devices.",
+      "data": "Anonymous usage analytics are collected only after you grant consent. Error monitoring may use Sentry with sanitized technical context when enabled.",
+      "rights": "You can export your album from Settings and request account deletion as described in the product documentation."
+    },
+    "terms": {
+      "title": "Terms of use",
+      "intro": "The service is provided as-is for personal sticker collection management during the MVP phase.",
+      "use": "Do not misuse the service, attempt unauthorized access, or upload unlawful content through support channels.",
+      "liability": "The operator is not liable for album data loss beyond reasonable efforts to maintain cloud availability."
+    }
   }
 }
