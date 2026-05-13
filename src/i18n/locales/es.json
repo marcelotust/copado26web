@@ -115,7 +115,8 @@
     "seeAll": "Ver todos",
     "challengesPreview": "Desafíos en curso",
     "recentBadges": "Logros recientes",
-    "noMilestones": "Sin logros aún"
+    "noMilestones": "Sin logros aún",
+    "leastComplete": "Menos completos"
   },
 
   "challenges": {

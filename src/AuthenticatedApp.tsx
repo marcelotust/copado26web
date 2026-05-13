@@ -29,7 +29,7 @@ type AuthenticatedAppProps = { session: Session; signOut: () => Promise<void> }
 export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppProps) {
   const { t } = useI18n()
   const { status, error } = useStickersStatus()
-  const { activeMilestone, dismissMilestone } = useMilestoneDetector({
+  const { activeMilestone, dismissMilestone, showMilestone } = useMilestoneDetector({
     userId: session.user.id,
     t,
   })
@@ -89,7 +89,7 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
 
         <main className='flex-1 min-w-0 overflow-hidden'>
           <Routes>
-            <Route path='/dashboard'  element={<DashboardPage  userId={session.user.id} />} />
+            <Route path='/dashboard'  element={<DashboardPage  userId={session.user.id} onShowMilestone={showMilestone} />} />
             <Route path='/album'      element={<AlbumPage      sectionCode={section} />} />
             <Route path='/missing'    element={<MissingPage    />} />
             <Route path='/swaps'      element={<SwapsPage      />} />

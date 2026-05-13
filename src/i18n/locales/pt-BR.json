@@ -116,7 +116,8 @@
     "seeAll": "Ver todos",
     "challengesPreview": "Desafios em destaque",
     "recentBadges": "Conquistas recentes",
-    "noMilestones": "Nenhuma conquista ainda"
+    "noMilestones": "Nenhuma conquista ainda",
+    "leastComplete": "Menos completos"
   },
 
   "challenges": {

@@ -12,6 +12,7 @@ export type UseMilestoneDetectorArgs = { userId: string; t: (key: string) => str
 export function useMilestoneDetector({ userId, t }: UseMilestoneDetectorArgs): {
   activeMilestone: Milestone | null
   dismissMilestone: () => void
+  showMilestone: (m: Milestone) => void
   earnedMilestones: Milestone[]
 } {
   const { status, teams, byTeam, quantities } = useStickersContext()
@@ -83,9 +84,18 @@ export function useMilestoneDetector({ userId, t }: UseMilestoneDetectorArgs): {
     setQueue((q) => q.slice(1))
   }, [])
 
+  const showMilestone = useCallback((m: Milestone) => {
+    setQueue((q) => {
+      const k = milestoneQueueKey(m)
+      if (q.some((x) => milestoneQueueKey(x) === k)) return q
+      return [m, ...q]
+    })
+  }, [])
+
   return {
     activeMilestone: queue[0] ?? null,
     dismissMilestone,
+    showMilestone,
     earnedMilestones,
   }
 }

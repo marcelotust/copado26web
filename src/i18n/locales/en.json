@@ -115,7 +115,8 @@
     "seeAll": "See all",
     "challengesPreview": "Challenges in progress",
     "recentBadges": "Recent milestones",
-    "noMilestones": "No milestones yet"
+    "noMilestones": "No milestones yet",
+    "leastComplete": "Least complete"
   },
 
   "challenges": {
