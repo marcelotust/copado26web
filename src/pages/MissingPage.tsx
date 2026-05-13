@@ -1,13 +1,23 @@
 import { useI18n } from '../i18n'
-import { useMissing, useTeams } from '../state/stickersStore'
-import MissingShareButtons, { pad } from '../components/MissingShareButtons'
+import { useMissing, useSwaps, useTeams } from '../state/stickersStore'
+import MissingShareButtons from '../components/MissingShareButtons'
+import MissingTradeChecker from '../components/MissingTradeChecker'
+import { pad } from '../lib/missingShareBuilders'
 
 export default function MissingPage() {
   const { t } = useI18n()
   const groups = useMissing()
   const teams  = useTeams()
+  const { swapsByTeam } = useSwaps()
 
   const totalMissing = groups.reduce((acc, g) => acc + g.numbers.length, 0)
+
+  const missingIds = new Set(
+    groups.flatMap(({ teamCode, numbers }) => numbers.map(n => `${teamCode}-${pad(n)}`))
+  )
+  const swapIds = new Set(
+    swapsByTeam.flatMap(({ stickers }) => stickers.map(s => s.id))
+  )
 
   function teamName(code: string): string {
     const team = teams.find(team => team.code === code)
@@ -40,6 +50,8 @@ export default function MissingPage() {
       </div>
 
       <div className='flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-5'>
+        <MissingTradeChecker missingIds={missingIds} swapIds={swapIds} teamName={teamName} teamFlag={teamFlag} />
+
         {groups.map(({ teamCode, numbers }) => (
           <div key={teamCode}>
             <p className='text-white font-bold text-sm mb-1'>{teamFlag(teamCode)} {teamName(teamCode)}</p>

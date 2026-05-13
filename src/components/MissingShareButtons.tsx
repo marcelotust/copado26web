@@ -70,4 +70,4 @@ export default function MissingShareButtons({ groups, total, teamName, teamFlag 
   )
 }
 
-export { pad }
+export { pad } from '../lib/missingShareBuilders'

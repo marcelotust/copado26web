@@ -33,3 +33,10 @@ export function ringClass(code: string): string {
 export function textClass(code: string): string {
   return `text-${teamColor(code)}-300`
 }
+
+// Parses a pasted trade list (e.g. "BRA 03 · ESP-12 FRA 7") into normalized
+// sticker IDs like ["BRA-03", "ESP-12", "FRA-07"].
+export function parseTradeList(text: string): string[] {
+  const matches = text.toUpperCase().matchAll(/([A-Z]{2,3})[\s-](\d{1,2})/g)
+  return [...matches].map(([, team, num]) => `${team}-${num.padStart(2, '0')}`)
+}
