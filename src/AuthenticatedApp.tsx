@@ -7,6 +7,7 @@ import { useMilestoneDetector } from './hooks/useMilestoneDetector'
 import MilestoneModal from './components/MilestoneModal'
 import { useStickersStatus, useTeams } from './state/stickersStore'
 import { readLastAlbumSection, writeLastAlbumSection } from './lib/lastAlbumSectionStorage'
+import DashboardPage from './pages/DashboardPage'
 import AlbumPage from './pages/AlbumPage'
 import SwapsPage from './pages/SwapsPage'
 import SettingsPage from './pages/SettingsPage'
@@ -66,7 +67,8 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
     return <CatalogErrorScreen error={error} />
   }
 
-  const view = location.pathname === '/swaps'    ? 'swaps'
+  const view = location.pathname === '/dashboard' ? 'dashboard'
+             : location.pathname === '/swaps'    ? 'swaps'
              : location.pathname === '/missing'  ? 'missing'
              : location.pathname === '/scanner'  ? 'scanner'
              : location.pathname === '/settings' ? 'settings'
@@ -87,12 +89,13 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
 
         <main className='flex-1 min-w-0 overflow-hidden'>
           <Routes>
+            <Route path='/dashboard'  element={<DashboardPage  userId={session.user.id} />} />
             <Route path='/album'      element={<AlbumPage      sectionCode={section} />} />
             <Route path='/missing'    element={<MissingPage    />} />
             <Route path='/swaps'      element={<SwapsPage      />} />
             <Route path='/challenges' element={<ChallengesPage />} />
             <Route path='/settings'   element={<SettingsPage   email={email} onSignOut={signOut} />} />
-            <Route path='*'           element={<Navigate to='/album' replace />} />
+            <Route path='*'           element={<Navigate to='/dashboard' replace />} />
           </Routes>
         </main>
       </div>

@@ -99,10 +99,23 @@
   },
 
   "nav": {
+    "home": "Home",
     "album": "My Album",
     "missing": "Missing",
     "swaps": "Duplicates",
     "challenges": "Challenges"
+  },
+
+  "dashboard": {
+    "globalProgress": "Overall progress",
+    "byGroup": "By group",
+    "topTeams": "Most complete",
+    "nearComplete": "Almost there",
+    "shortcuts": "Quick links",
+    "seeAll": "See all",
+    "challengesPreview": "Challenges in progress",
+    "recentBadges": "Recent milestones",
+    "noMilestones": "No milestones yet"
   },
 
   "challenges": {
