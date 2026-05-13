@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { useTeam, useSectionStickers, useSectionProgress } from '../state/stickersStore'
 import { teamColors } from '../utils'
 import { useI18n } from '../i18n'
@@ -5,7 +6,7 @@ import StickerCard from '../components/StickerCard'
 import type { Sticker } from '../types/database'
 
 const ALBUM_GRID_CLASS =
-  'grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2'
+  'grid grid-flow-dense grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2'
 
 function isVirtualAlbumSection(code: string): boolean {
   return code === 'WAP' || code === 'FWC' || code === 'CC'
@@ -14,9 +15,14 @@ function isVirtualAlbumSection(code: string): boolean {
 function albumStickerWrapperClass(s: Sticker, sectionCode: string): string {
   const bits = ['min-h-0 h-full']
   if (isVirtualAlbumSection(sectionCode)) return bits.join(' ')
-  if (s.is_special && s.number === 1) bits.push('row-span-2')
-  if (s.is_special && s.number === 13) bits.push('col-span-2')
+  if (s.is_special && s.number === 1) bits.push('col-start-1 row-start-1 row-span-2')
   return bits.join(' ')
+}
+
+function albumStickerWrapperStyle(s: Sticker, sectionCode: string): CSSProperties | undefined {
+  if (isVirtualAlbumSection(sectionCode)) return undefined
+  if (s.is_special && s.number === 13) return { gridColumn: 'span 2 / -1' }
+  return undefined
 }
 
 function albumStickerCell(sectionCode: string, s: Sticker): 'featured-tall' | 'featured-wide' | undefined {
@@ -74,7 +80,11 @@ export default function AlbumPage({ sectionCode }: { sectionCode: string }) {
         ) : (
           <div className={ALBUM_GRID_CLASS}>
             {stickers.map((s) => (
-              <div key={s.id} className={albumStickerWrapperClass(s, sectionCode)}>
+              <div
+                key={s.id}
+                className={albumStickerWrapperClass(s, sectionCode)}
+                style={albumStickerWrapperStyle(s, sectionCode)}
+              >
                 <StickerCard
                   sticker={s}
                   teamCode={sectionCode}
