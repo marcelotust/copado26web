@@ -6,11 +6,14 @@ import { LANDING_FEATURES, LANDING_PRIVACY, LANDING_STATS } from '../data/landin
 
 const FOCUS_RING = 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950'
 
+const tier1 = LANDING_FEATURES.filter(f => f.tier === 1)
+const tier2 = LANDING_FEATURES.filter(f => f.tier === 2)
+
 export default function LandingPage() {
   return (
     <div className='min-h-screen bg-slate-950 text-white flex flex-col overflow-x-hidden'>
 
-      {/* Skip-to-content link for keyboard users */}
+      {/* Skip-to-content */}
       <a
         href='#main-content'
         className='sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:rounded-lg focus:bg-blue-600 focus:text-white focus:text-sm focus:font-semibold'
@@ -38,7 +41,6 @@ export default function LandingPage() {
           className='relative flex flex-col items-center text-center px-6 pt-10 pb-20 overflow-hidden'
           aria-labelledby='hero-heading'
         >
-          {/* Decorative glow — hidden from assistive tech */}
           <div className='pointer-events-none absolute inset-0 flex items-center justify-center' aria-hidden='true'>
             <div
               className='w-[700px] h-[700px] rounded-full opacity-[0.08]'
@@ -46,7 +48,6 @@ export default function LandingPage() {
             />
           </div>
 
-          {/* Floating stickers — decorative, hidden from assistive tech and mobile */}
           <div className='pointer-events-none hidden md:block absolute inset-0' aria-hidden='true'>
             <LandingStickerMock code='BRA' flag='🇧🇷' num='10' collected style={{ top: 110, left: 'calc(50% - 360px)', transform: 'rotate(-10deg) scale(1.1)' }} />
             <LandingStickerMock code='ARG' flag='🇦🇷' num='01' collected style={{ top: 220, left: 'calc(50% - 280px)', transform: 'rotate(5deg)' }} />
@@ -82,11 +83,13 @@ export default function LandingPage() {
               >
                 <span aria-hidden='true'>⚽</span> Começar grátis
               </Link>
-              <p className='text-xs text-slate-600'>Sem cartão · Sem anúncios · 100% grátis</p>
+              <div className='flex flex-col items-center gap-1'>
+                <p className='text-xs text-slate-600'>Sem cartão · Sem anúncios · 100% grátis</p>
+                <p className='text-xs text-slate-700'>Funciona no celular sem precisar instalar</p>
+              </div>
             </div>
           </div>
 
-          {/* Stats */}
           <dl className='relative z-10 mt-14 flex items-center gap-6 sm:gap-10 px-6 sm:px-10 py-4 sm:py-5 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-sm'>
             {LANDING_STATS.map((s, i) => (
               <>
@@ -99,35 +102,69 @@ export default function LandingPage() {
 
         {/* ── Features ───────────────────────────────────────────────────── */}
         <section className='px-6 py-20 bg-slate-900/40' aria-labelledby='features-heading'>
-          <div className='max-w-4xl mx-auto flex flex-col gap-12'>
-            <div className='text-center flex flex-col gap-2'>
+          <div className='max-w-4xl mx-auto flex flex-col gap-14'>
+
+            <div className='text-center flex flex-col gap-3'>
+              <p className='text-xs font-bold uppercase tracking-widest text-slate-600'>Por que o Meu Álbum 2026?</p>
               <h2 id='features-heading' className='text-2xl sm:text-4xl font-black'>
-                Tudo que você precisa, num app só
+                Chega de planilha.<br />
+                <span className='text-slate-400 font-semibold text-xl sm:text-3xl'>Tudo organizado num toque.</span>
               </h2>
-              <p className='text-slate-500 text-sm'>Construído por fãs, para fãs — sem complicação.</p>
             </div>
 
-            <ul className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 list-none'>
-              {LANDING_FEATURES.map(f => (
+            {/* Tier 1 — destaque */}
+            <ul className='grid grid-cols-1 sm:grid-cols-3 gap-5 list-none' aria-label='Funcionalidades principais'>
+              {tier1.map(f => (
                 <li
                   key={f.title}
-                  className='flex flex-col gap-3 rounded-2xl p-5 border border-slate-800 bg-slate-900 hover:border-slate-700 hover:-translate-y-0.5 transition-all duration-200'
+                  className='relative flex flex-col gap-4 rounded-2xl p-6 bg-slate-900 border border-slate-800 overflow-hidden hover:-translate-y-1 transition-transform duration-200'
+                  style={{ borderTopColor: f.accent, borderTopWidth: 3 }}
                 >
+                  {/* Soft glow at top */}
                   <div
-                    className='w-10 h-10 rounded-xl flex items-center justify-center text-xl'
-                    style={{ background: `${f.accent}18`, border: `1px solid ${f.accent}30` }}
+                    className='pointer-events-none absolute top-0 left-0 right-0 h-24 opacity-10'
+                    aria-hidden='true'
+                    style={{ background: `linear-gradient(to bottom, ${f.accent}, transparent)` }}
+                  />
+                  <div
+                    className='relative w-12 h-12 rounded-2xl flex items-center justify-center text-2xl'
+                    style={{ background: `${f.accent}20`, border: `1px solid ${f.accent}40` }}
                     role='img'
                     aria-label={f.iconLabel}
                   >
                     <span aria-hidden='true'>{f.icon}</span>
                   </div>
-                  <div className='flex flex-col gap-1'>
-                    <p className='font-bold text-white text-sm'>{f.title}</p>
-                    <p className='text-slate-400 text-xs leading-relaxed'>{f.desc}</p>
+                  <div className='flex flex-col gap-2'>
+                    <p className='font-black text-white text-base'>{f.title}</p>
+                    <p className='text-slate-400 text-sm leading-relaxed'>{f.detail}</p>
                   </div>
                 </li>
               ))}
             </ul>
+
+            {/* Tier 2 — complementares */}
+            <ul className='grid grid-cols-1 sm:grid-cols-3 gap-4 list-none' aria-label='Mais funcionalidades'>
+              {tier2.map(f => (
+                <li
+                  key={f.title}
+                  className='flex items-start gap-4 rounded-xl p-4 border border-slate-800 bg-slate-900/60 hover:border-slate-700 transition-colors'
+                >
+                  <div
+                    className='shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-lg'
+                    style={{ background: `${f.accent}15`, border: `1px solid ${f.accent}25` }}
+                    role='img'
+                    aria-label={f.iconLabel}
+                  >
+                    <span aria-hidden='true'>{f.icon}</span>
+                  </div>
+                  <div className='flex flex-col gap-0.5'>
+                    <p className='font-bold text-white text-sm'>{f.title}</p>
+                    <p className='text-slate-500 text-xs leading-relaxed'>{f.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
           </div>
         </section>
 
@@ -159,17 +196,11 @@ export default function LandingPage() {
 
             <p className='text-center text-xs text-slate-600'>
               Leia a nossa{' '}
-              <Link
-                to='/privacidade'
-                className={`text-slate-400 hover:text-white underline underline-offset-2 transition-colors ${FOCUS_RING}`}
-              >
+              <Link to='/privacidade' className={`text-slate-400 hover:text-white underline underline-offset-2 transition-colors ${FOCUS_RING}`}>
                 Política de Privacidade
               </Link>
               {' '}e os{' '}
-              <Link
-                to='/termos'
-                className={`text-slate-400 hover:text-white underline underline-offset-2 transition-colors ${FOCUS_RING}`}
-              >
+              <Link to='/termos' className={`text-slate-400 hover:text-white underline underline-offset-2 transition-colors ${FOCUS_RING}`}>
                 Termos de Uso
               </Link>
               {' '}para mais detalhes.

@@ -1,47 +1,69 @@
-export const LANDING_FEATURES = [
+export type LandingFeature = {
+  icon: string
+  iconLabel: string
+  title: string
+  desc: string
+  detail: string        // longer copy for tier-1 cards
+  accent: string
+  tier: 1 | 2
+}
+
+export const LANDING_FEATURES: LandingFeature[] = [
   {
     icon: '⚡',
     iconLabel: 'Raio',
     title: 'Marque em segundos',
-    desc: 'Toque pra colar, toque pra desmarcar. Tudo salvo na nuvem instantaneamente.',
+    desc: 'Toque pra colar, toque pra desmarcar.',
+    detail: 'Chega de planilha, foto do caderno ou grupo de WhatsApp desatualizado. Um toque marca, dois removem. Tudo sincronizado na nuvem em tempo real — em qualquer dispositivo.',
     accent: '#3b82f6',
-  },
-  {
-    icon: '📊',
-    iconLabel: 'Gráfico de barras',
-    title: 'Dashboard de progresso',
-    desc: 'Veja de uma vez seu avanço global, por grupo e por time — e onde estão suas maiores lacunas.',
-    accent: '#f59e0b',
+    tier: 1,
   },
   {
     icon: '📤',
     iconLabel: 'Compartilhar',
     title: 'Compartilhe no WhatsApp',
-    desc: 'Mande sua lista de faltando e de repetidas pro grupo com um único toque.',
+    desc: 'Sua lista formatada, pronta pra mandar.',
+    detail: 'Com um toque você manda pro grupo exatamente o que está faltando — com as bandeirinhas de cada seleção, organizadas por time. Ninguém mais precisa adivinhar o que você precisa.',
     accent: '#10b981',
+    tier: 1,
   },
   {
     icon: '🔄',
     iconLabel: 'Setas de troca',
     title: 'Cole a lista de trocas',
-    desc: 'Recebeu a lista de repetidas de um amigo? Cole aqui e veja o match bilateral na hora.',
+    desc: 'Match instantâneo com as sobras do amigo.',
+    detail: 'Recebeu a lista de repetidas de alguém no WhatsApp? Cole aqui. O app cruza com o que você precisa e mostra exatamente quem dá o quê pra quem — sem spreadsheet, sem confusão.',
     accent: '#f43f5e',
+    tier: 1,
+  },
+  {
+    icon: '📊',
+    iconLabel: 'Gráfico de barras',
+    title: 'Dashboard de progresso',
+    desc: 'Visão geral do álbum num relance.',
+    detail: '',
+    accent: '#f59e0b',
+    tier: 2,
   },
   {
     icon: '🏆',
     iconLabel: 'Troféu',
     title: 'Desafios temáticos',
-    desc: 'Países-sede, campeão vigente, pelos 5 continentes — metas que tornam a coleção mais divertida.',
+    desc: 'Metas que tornam a coleção mais divertida.',
+    detail: '',
     accent: '#f59e0b',
+    tier: 2,
   },
   {
     icon: '🎉',
     iconLabel: 'Festa',
     title: 'Milestones e conquistas',
-    desc: 'Complete um time ou alcance 50% do álbum e ganhe um card especial para compartilhar.',
+    desc: 'Cards especiais para compartilhar suas vitórias.',
+    detail: '',
     accent: '#a855f7',
+    tier: 2,
   },
-] as const
+]
 
 export const LANDING_PRIVACY = [
   { icon: '🔒', iconLabel: 'Cadeado', text: 'Seus dados ficam no Supabase, com criptografia em trânsito e repouso' },
