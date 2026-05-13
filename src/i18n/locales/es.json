@@ -9,6 +9,18 @@
     "swapsHeadline": "⚽ Copa 2026 — tengo {{count}} cromos repetidos para cambiar!"
   },
 
+  "milestone": {
+    "tagline": "Copa Mundial FIFA 2026",
+    "teamHeadline": "¡Equipo completo! 🎉",
+    "albumHeadline": "¡{{pct}}% del álbum!",
+    "albumSubline": "Comparte el logro y sigue completando.",
+    "modalTitleAlbum": "¡{{pct}}% del álbum!",
+    "modalTitleTeam": "¡Logro desbloqueado!",
+    "close": "Cerrar",
+    "share": "Compartir",
+    "sharing": "Generando…"
+  },
+
   "conf": {
     "CONMEBOL": "América del Sur",
     "CONCACAF": "América C/N",
