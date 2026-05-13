@@ -9,6 +9,17 @@
     "swapsHeadline": "⚽ Copa 2026 — tenho {{count}} figurinhas repetidas para trocar!"
   },
 
+  "milestone": {
+    "tagline": "Copa do Mundo FIFA 2026",
+    "teamHeadline": "Time completo! 🎉",
+    "albumHeadline": "{{pct}}% do álbum!",
+    "albumSubline": "Compartilhe com a galera e continue completando!",
+    "modalTitleAlbum": "{{pct}}% do álbum!",
+    "modalTitleTeam": "Conquista!",
+    "close": "Fechar",
+    "share": "Compartilhar",
+    "sharing": "Gerando…"
+  },
 
   "conf": {
     "CONMEBOL": "América do Sul",

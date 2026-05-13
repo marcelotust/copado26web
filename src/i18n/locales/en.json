@@ -9,6 +9,18 @@
     "swapsHeadline": "⚽ World Cup 2026 — I have {{count}} duplicate stickers to swap!"
   },
 
+  "milestone": {
+    "tagline": "FIFA World Cup 2026",
+    "teamHeadline": "Squad complete! 🎉",
+    "albumHeadline": "{{pct}}% of the album!",
+    "albumSubline": "Share the moment and keep collecting!",
+    "modalTitleAlbum": "{{pct}}% of the album!",
+    "modalTitleTeam": "Milestone unlocked!",
+    "close": "Close",
+    "share": "Share",
+    "sharing": "Preparing…"
+  },
+
   "conf": {
     "CONMEBOL": "South America",
     "CONCACAF": "N/C America",
