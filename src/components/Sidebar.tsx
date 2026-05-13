@@ -31,12 +31,19 @@ export default function Sidebar({ selected, onSelect }: SidebarProps) {
   return (
     <aside className='w-14 sm:w-52 shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col overflow-hidden'>
       <nav className='flex-1 overflow-y-auto py-1 px-1'>
-        {grouped.map(({ key, teams }) => {
+        {grouped.map(({ key, teams }, index) => {
           const label = key.length === 1
             ? `${t('sidebar.group')} ${key}`
             : t(`sections.${key.toLowerCase()}`)
           return (
-            <div key={key} className='mb-1'>
+            <div
+              key={key}
+              className={[
+                'mb-1',
+                index > 0 &&
+                  'border-t border-slate-800 pt-2 mt-1.5 sm:border-t-0 sm:pt-0 sm:mt-0',
+              ].filter(Boolean).join(' ')}
+            >
               <p className='hidden sm:block text-[10px] text-slate-600 font-bold tracking-widest uppercase px-2 pt-2 pb-1'>
                 {label}
               </p>
