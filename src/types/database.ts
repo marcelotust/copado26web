@@ -46,6 +46,19 @@ export type Database = {
         }
         Update: Partial<Database['public']['Tables']['user_stickers']['Insert']>
       }
+      user_challenge_completions: {
+        Row: {
+          user_id: string
+          challenge_id: string
+          completed_at: string
+        }
+        Insert: {
+          user_id: string
+          challenge_id: string
+          completed_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['user_challenge_completions']['Insert']>
+      }
     }
     Views: { [_ in never]: never }
     Functions: {

@@ -101,7 +101,20 @@
   "nav": {
     "album": "My Album",
     "missing": "Missing",
-    "swaps": "Duplicates"
+    "swaps": "Duplicates",
+    "challenges": "Challenges"
+  },
+
+  "challenges": {
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard",
+    "completed": "Completed",
+    "progress": "{{owned}} of {{total}}",
+    "modalTitle": "Challenge completed! 🎉",
+    "modalShare": "Share",
+    "modalClose": "Close",
+    "shareText": "I completed the «{{title}}» challenge on Meu Álbum 2026! ⚽"
   },
 
   "sidebar": {

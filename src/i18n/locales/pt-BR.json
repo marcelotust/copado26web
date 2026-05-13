@@ -102,7 +102,20 @@
   "nav": {
     "album": "Meu Álbum",
     "missing": "Faltando",
-    "swaps": "Repetidas"
+    "swaps": "Repetidas",
+    "challenges": "Desafios"
+  },
+
+  "challenges": {
+    "easy": "Fáceis",
+    "medium": "Médios",
+    "hard": "Difíceis",
+    "completed": "Concluído",
+    "progress": "{{owned}} de {{total}}",
+    "modalTitle": "Desafio concluído! 🎉",
+    "modalShare": "Compartilhar",
+    "modalClose": "Fechar",
+    "shareText": "Completei o desafio «{{title}}» no Meu Álbum 2026! ⚽"
   },
 
   "sidebar": {

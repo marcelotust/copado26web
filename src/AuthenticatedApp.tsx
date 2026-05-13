@@ -11,12 +11,15 @@ import AlbumPage from './pages/AlbumPage'
 import SwapsPage from './pages/SwapsPage'
 import SettingsPage from './pages/SettingsPage'
 import MissingPage from './pages/MissingPage'
+import ChallengesPage from './pages/ChallengesPage'
 import LegalPage from './pages/LegalPage'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import TabNav from './components/TabNav'
 import LoadingScreen from './components/LoadingScreen'
 import CatalogErrorScreen from './components/CatalogErrorScreen'
+import ChallengeCompletedModal from './components/ChallengeCompletedModal'
+import { useChallengeCompletion } from './hooks/useChallengeCompletion'
 
 const DEFAULT_SECTION = 'BRA'
 
@@ -29,6 +32,7 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
     userId: session.user.id,
     t,
   })
+  const { activeCompletion, dismissCompletion } = useChallengeCompletion(session.user.id)
   const teams = useTeams()
   const [section, setSection] = useState(() => readLastAlbumSection() ?? DEFAULT_SECTION)
   const navigate = useNavigate()
@@ -83,16 +87,18 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
 
         <main className='flex-1 min-w-0 overflow-hidden'>
           <Routes>
-            <Route path='/album'    element={<AlbumPage    sectionCode={section} />} />
-            <Route path='/missing'  element={<MissingPage  />} />
-            <Route path='/swaps'    element={<SwapsPage    />} />
-            <Route path='/settings' element={<SettingsPage email={email} onSignOut={signOut} />} />
-            <Route path='*'         element={<Navigate to='/album' replace />} />
+            <Route path='/album'      element={<AlbumPage      sectionCode={section} />} />
+            <Route path='/missing'    element={<MissingPage    />} />
+            <Route path='/swaps'      element={<SwapsPage      />} />
+            <Route path='/challenges' element={<ChallengesPage />} />
+            <Route path='/settings'   element={<SettingsPage   email={email} onSignOut={signOut} />} />
+            <Route path='*'           element={<Navigate to='/album' replace />} />
           </Routes>
         </main>
       </div>
       <Analytics />
       <MilestoneModal milestone={activeMilestone} onDismiss={dismissMilestone} />
+      <ChallengeCompletedModal challenge={activeCompletion} onDismiss={dismissCompletion} />
     </div>
   )
 }
