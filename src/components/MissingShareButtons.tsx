@@ -6,23 +6,33 @@ function pad(n: number): string {
   return String(n).padStart(2, '0')
 }
 
-function buildShareText(groups: MissingGroup[], teamName: (code: string) => string): string {
+function buildShareText(
+  groups: MissingGroup[],
+  teamName: (code: string) => string,
+  teamFlag: (code: string) => string,
+  total: number,
+): string {
   const lines = groups.flatMap(({ teamCode, numbers }) => [
-    teamName(teamCode),
+    `${teamFlag(teamCode)} ${teamName(teamCode)} (${numbers.length})`,
     numbers.map(n => `${teamCode} ${pad(n)}`).join(' · '),
     '',
   ])
-  return `🎴 Copa 2026 — Figurinhas faltando\n\n${lines.join('\n').trim()}`
+  return `⚽ Copa 2026 — me faltam ${total} figurinhas!\n\n${lines.join('\n').trim()}`
 }
 
-type Props = { groups: MissingGroup[]; teamName: (code: string) => string }
+type Props = {
+  groups: MissingGroup[]
+  total: number
+  teamName: (code: string) => string
+  teamFlag: (code: string) => string
+}
 
-export default function MissingShareButtons({ groups, teamName }: Props) {
+export default function MissingShareButtons({ groups, total, teamName, teamFlag }: Props) {
   const { t } = useI18n()
   const [copied, setCopied] = useState(false)
 
   async function handleShare() {
-    const text = buildShareText(groups, teamName)
+    const text = buildShareText(groups, teamName, teamFlag, total)
     if (navigator.share) {
       try { await navigator.share({ text }); return } catch { /* fall through */ }
     }
@@ -36,23 +46,25 @@ export default function MissingShareButtons({ groups, teamName }: Props) {
   }
 
   function handleWhatsApp() {
-    const text = buildShareText(groups, teamName)
+    const text = buildShareText(groups, teamName, teamFlag, total)
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank')
   }
 
   return (
-    <div className='flex gap-2'>
+    <div className='flex flex-wrap gap-1.5 justify-end w-full min-w-0 sm:w-auto sm:flex-nowrap sm:gap-2'>
       <button
+        type='button'
         onClick={handleWhatsApp}
-        className='flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-700 hover:bg-green-600 text-white text-sm font-semibold transition-colors'
+        className='flex flex-1 min-w-[6.5rem] max-w-[11rem] sm:flex-initial sm:max-w-none items-center justify-center gap-1 px-2 py-1.5 rounded-lg bg-green-700 hover:bg-green-600 text-white text-xs font-semibold transition-colors sm:px-3 sm:text-sm'
       >
-        <span>WhatsApp</span>
+        <span className='truncate'>WhatsApp</span>
       </button>
       <button
+        type='button'
         onClick={handleShare}
-        className='flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold transition-colors'
+        className='flex flex-1 min-w-[6.5rem] max-w-[11rem] sm:flex-initial sm:max-w-none items-center justify-center gap-1 px-2 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-xs font-semibold transition-colors sm:px-3 sm:text-sm'
       >
-        {copied ? t('missing.copied') : t('missing.share')}
+        <span className='truncate'>{copied ? t('missing.copied') : t('missing.share')}</span>
       </button>
     </div>
   )
