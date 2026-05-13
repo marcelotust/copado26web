@@ -235,10 +235,10 @@ export default function LandingPage() {
             <p>Feito por fãs, para fãs</p>
             <span className='hidden sm:inline text-slate-800'>·</span>
             <a
-              href='mailto:contato@meualbum2026.com.br'
+              href='mailto:hello@copa26web.app'
               className={`hover:text-slate-400 transition-colors ${FOCUS_RING}`}
             >
-              contato@meualbum2026.com.br
+              hello@copa26web.app
             </a>
           </div>
           <nav aria-label='Links legais'>

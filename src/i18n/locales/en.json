@@ -250,7 +250,7 @@
       "title": "Privacy policy",
       "intro": "Meu Álbum 2026 stores your account email and sticker collection progress in Supabase to sync your album across devices. We do not sell, rent, or share your data with third parties for commercial purposes.",
       "data": "Sub-processors used: Supabase (database and authentication — US/EU), Vercel (hosting — US), Google OAuth (authentication — optional). Anonymous usage analytics are collected only after explicit consent. Error monitoring may use Sentry with sanitized technical context when enabled.",
-      "rights": "You have the right to access, correct, and export your data (Settings → Export CSV); request account and data deletion; and withdraw analytics consent at any time. To exercise these rights or for any privacy questions, contact us: contato@meualbum2026.com.br"
+      "rights": "You have the right to access, correct, and export your data (Settings → Export CSV); request account and data deletion; and withdraw analytics consent at any time. To exercise these rights or for any privacy questions, contact us: hello@copa26web.app"
     },
     "terms": {
       "title": "Terms of use",

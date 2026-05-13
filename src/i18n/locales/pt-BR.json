@@ -251,7 +251,7 @@
       "title": "Política de privacidade",
       "intro": "O Meu Álbum 2026 armazena seu e-mail de conta e o progresso do álbum no Supabase para sincronizar sua coleção entre dispositivos. Não vendemos, alugamos nem compartilhamos seus dados com terceiros para fins comerciais.",
       "data": "Subprocessadores utilizados: Supabase (banco de dados e autenticação — EUA/EU), Vercel (hospedagem — EUA), Google OAuth (autenticação — opcional). Analytics anônimos de uso são coletados somente após consentimento explícito. Monitoramento de erros pode usar Sentry com contexto técnico sanitizado quando habilitado.",
-      "rights": "Em conformidade com a LGPD (Lei 13.709/2018), você tem direito a: acessar, corrigir e exportar seus dados (via Configurações → Exportar CSV); solicitar a exclusão da conta e de todos os dados associados; revogar consentimento para analytics a qualquer momento. Para exercer esses direitos ou tirar dúvidas, entre em contato: contato@meualbum2026.com.br"
+      "rights": "Em conformidade com a LGPD (Lei 13.709/2018), você tem direito a: acessar, corrigir e exportar seus dados (via Configurações → Exportar CSV); solicitar a exclusão da conta e de todos os dados associados; revogar consentimento para analytics a qualquer momento. Para exercer esses direitos ou tirar dúvidas, entre em contato: hello@copa26web.app"
     },
     "terms": {
       "title": "Termos de uso",
