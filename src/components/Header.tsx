@@ -17,14 +17,6 @@ export default function Header({ email, onLogout }: HeaderProps) {
 
       <ProgressBar collected={collected} total={total} />
 
-      <Link
-        to='/challenges'
-        className='shrink-0 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-amber-600 hover:text-white transition-colors text-xs font-semibold'
-      >
-        <span>🏆</span>
-        <span className='hidden sm:inline'>Desafios</span>
-      </Link>
-
       <HeaderMenu onLogout={onLogout} email={email} />
 
       <div className='absolute bottom-0 left-0 right-0 h-px flex'>
