@@ -114,12 +114,12 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
   const nearComplete = useMemo(() => teamStats.filter(s => s.total > 0 && s.total - s.collected <= 3 && s.collected < s.total), [teamStats])
 
   const topChallenges = useMemo(
-    () => challengeResults.filter(r => !r.completed).sort((a, b) => b.pct - a.pct).slice(0, 3),
+    () => challengeResults.filter(r => !r.completed).sort((a, b) => b.pct - a.pct).slice(0, 5),
     [challengeResults],
   )
 
   const earnedMilestones = useMemo(() =>
-    loadPersistedMilestones(userId).slice(-3).reverse().map(m => {
+    loadPersistedMilestones(userId).slice(-5).reverse().map(m => {
       if (m.kind === 'album') {
         const milestone: Milestone = { kind: 'album', pct: m.pct }
         return { icon: '🏆', label: `${m.pct}% do álbum`, milestone }
