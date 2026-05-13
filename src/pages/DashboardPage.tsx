@@ -53,15 +53,18 @@ function groupRow(key: string, label: string, collected: number, total: number) 
   )
 }
 
-function teamCard(team: Team, pct: number, collected: number, total: number) {
+function teamCard(
+  team: Team, pct: number, collected: number, total: number,
+  barColor = 'bg-emerald-500', accentColor = 'text-emerald-400',
+) {
   return (
     <div key={team.code} className='flex items-center gap-2.5 rounded-xl bg-slate-900 border border-slate-800 px-3 py-2'>
       <span className='text-xl'>{team.flag}</span>
       <div className='flex min-w-0 flex-1 flex-col gap-1'>
         <p className='truncate text-xs font-semibold text-white'>{team.code}</p>
-        {progressBar(pct, 'bg-emerald-500', 'bg-slate-700')}
+        {progressBar(pct, barColor, 'bg-slate-700')}
       </div>
-      <span className='shrink-0 text-xs font-bold tabular-nums text-emerald-400'>{pct}%</span>
+      <span className={`shrink-0 text-xs font-bold tabular-nums ${accentColor}`}>{pct}%</span>
       <span className='shrink-0 text-[10px] text-slate-500'>{collected}/{total}</span>
     </div>
   )
@@ -240,7 +243,7 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
             <>
               <p className='px-1 text-xs font-semibold text-slate-500 mt-1'>{t('dashboard.leastComplete')}</p>
               <div className='flex flex-col gap-2'>
-                {bottomTeams.map(s => teamCard(s.team, s.pct, s.collected, s.total))}
+                {bottomTeams.map(s => teamCard(s.team, s.pct, s.collected, s.total, 'bg-rose-500', 'text-rose-400'))}
               </div>
             </>
           )}

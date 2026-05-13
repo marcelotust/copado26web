@@ -19,10 +19,10 @@ export default function Header({ email, onLogout }: HeaderProps) {
 
       <Link
         to='/challenges'
-        className='shrink-0 flex items-center justify-center w-8 h-8 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors text-base'
-        aria-label='Desafios'
+        className='shrink-0 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-amber-600 hover:text-white transition-colors text-xs font-semibold'
       >
-        🏆
+        <span>🏆</span>
+        <span className='hidden sm:inline'>Desafios</span>
       </Link>
 
       <HeaderMenu onLogout={onLogout} email={email} />
