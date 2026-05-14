@@ -1,20 +1,16 @@
 import { useState, useEffect } from 'react'
 import type { Session } from '@supabase/supabase-js'
 import { Analytics } from '@vercel/analytics/react'
-import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useAnalyticsConsent } from './hooks/useAnalyticsConsent'
+import { useTelemetryConsentSync, useTelemetrySignOut } from './hooks/useTelemetry'
 import ConsentBanner from './components/ConsentBanner'
 import { useI18n } from './i18n'
 import { useMilestoneDetector } from './hooks/useMilestoneDetector'
 import MilestoneModal from './components/MilestoneModal'
 import { useStickersStatus, useTeams } from './state/stickersStore'
 import { readLastAlbumSection, writeLastAlbumSection } from './lib/lastAlbumSectionStorage'
-import DashboardPage from './pages/DashboardPage'
-import AlbumPage from './pages/AlbumPage'
-import SwapsPage from './pages/SwapsPage'
-import SettingsPage from './pages/SettingsPage'
-import MissingPage from './pages/MissingPage'
-import ChallengesPage from './pages/ChallengesPage'
+import AuthenticatedRoutes from './AuthenticatedRoutes'
 import LegalPage from './pages/LegalPage'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
@@ -32,6 +28,8 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
   const { t } = useI18n()
   const { status, error } = useStickersStatus()
   const { consent, grant, decline } = useAnalyticsConsent(session.user.id)
+  useTelemetryConsentSync(session.user.id, consent)
+  const handleSignOut = useTelemetrySignOut(signOut)
   const { activeMilestone, dismissMilestone, showMilestone } = useMilestoneDetector({
     userId: session.user.id,
     t,
@@ -79,7 +77,7 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
 
   return (
     <div className='fixed inset-0 flex flex-col bg-slate-950 text-white'>
-      <Header onLogout={signOut} email={email} />
+      <Header onLogout={handleSignOut} email={email} />
       <TabNav />
 
       <div className='flex flex-1 min-h-0'>
@@ -91,15 +89,13 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
         )}
 
         <main className='flex-1 min-w-0 overflow-hidden'>
-          <Routes>
-            <Route path='/dashboard'  element={<DashboardPage  userId={session.user.id} onShowMilestone={showMilestone} />} />
-            <Route path='/album'      element={<AlbumPage      sectionCode={section} />} />
-            <Route path='/missing'    element={<MissingPage    />} />
-            <Route path='/swaps'      element={<SwapsPage      />} />
-            <Route path='/challenges' element={<ChallengesPage />} />
-            <Route path='/settings'   element={<SettingsPage   email={email} onSignOut={signOut} />} />
-            <Route path='*'           element={<Navigate to='/dashboard' replace />} />
-          </Routes>
+          <AuthenticatedRoutes
+            userId={session.user.id}
+            section={section}
+            email={email}
+            onShowMilestone={showMilestone}
+            onSignOut={handleSignOut}
+          />
         </main>
       </div>
       {consent === 'granted' && <Analytics />}
