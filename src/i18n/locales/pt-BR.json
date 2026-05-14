@@ -99,6 +99,14 @@
     "retry":        "Tentar novamente"
   },
 
+  "consent": {
+    "label": "Banner de consentimento de analytics",
+    "message": "Usamos dados anônimos de uso para melhorar o app. Nenhum dado pessoal identificável é coletado.",
+    "learnMore": "Saiba mais",
+    "accept": "Aceitar",
+    "decline": "Recusar"
+  },
+
   "nav": {
     "home": "Início",
     "album": "Álbum",

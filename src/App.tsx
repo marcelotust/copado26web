@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 import { useAuth } from './hooks/useAuth'
 import { useI18n } from './i18n'
 import { StickersProvider } from './state/stickersStore'
@@ -13,12 +14,16 @@ export default function App() {
 
   if (!session) {
     return (
-      <LoginPage
-        onSendLink={sendMagicLink}
-        onGoogleLogin={signInWithGoogle}
-        magicLinkSent={magicLinkSent}
-        error={error}
-      />
+      <>
+        {/* Anonymous visitors: cookie-less, no PII — no consent required */}
+        <Analytics />
+        <LoginPage
+          onSendLink={sendMagicLink}
+          onGoogleLogin={signInWithGoogle}
+          magicLinkSent={magicLinkSent}
+          error={error}
+        />
+      </>
     )
   }
 
