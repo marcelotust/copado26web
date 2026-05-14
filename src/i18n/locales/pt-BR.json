@@ -112,7 +112,30 @@
     "album": "Álbum",
     "missing": "Faltando",
     "swaps": "Repetidas",
-    "challenges": "Desafios"
+    "challenges": "Desafios",
+    "tradeByQr": "Trocar por QR code"
+  },
+
+  "trade": {
+    "pageTitle": "Trocar por QR code",
+    "backHome": "Início",
+    "backApp": "Voltar ao app",
+    "invalidTitle": "Link não funcionou",
+    "invalidDesc": "Este link de troca é inválido ou está corrompido.",
+    "missingParam": "Falta o dado da troca no link. Peça para a pessoa gerar o QR de novo.",
+    "payloadTooLong": "Suas listas de repetidas e faltando são grandes demais para um único QR. Tente de novo depois de atualizar o álbum.",
+    "loginTitle": "Entre para ver a troca",
+    "loginDesc": "Comparamos a lista da outra pessoa com o seu álbum. Os dados ficam neste aparelho.",
+    "loginCta": "Entrar",
+    "youReceive": "Você recebe",
+    "youGive": "Você dá",
+    "emptyMatch": "Sem match direto agora — as listas não se cruzam para esta troca.",
+    "generateTitle": "Seu código QR",
+    "generateHint": "A outra pessoa escaneia com a câmera do celular. Nada é enviado a um servidor.",
+    "copyLink": "Copiar link",
+    "copied": "Copiado!",
+    "close": "Fechar",
+    "emptyLists": "Marque repetidas e faltantes no álbum primeiro, depois abra de novo."
   },
 
   "dashboard": {

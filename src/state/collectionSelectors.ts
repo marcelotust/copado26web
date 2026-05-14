@@ -37,6 +37,24 @@ export function useSwaps(): { swapsByTeam: SwapGroup[]; total: number } {
   }, [teams, catalog, byTeam, quantities])
 }
 
+/** Flat sticker IDs for QR trade payload: extras (qty > 1) and missing (qty === 0). */
+export function useTradeIdLists(): { swapIds: string[]; missingIds: string[] } {
+  const { teams, catalog, byTeam, quantities } = useStickersContext()
+  return useMemo(() => {
+    const swapIds: string[] = []
+    const missingIds: string[] = []
+    for (const team of teams) {
+      const ids = byTeam.get(team.code) ?? []
+      for (const id of ids) {
+        const qty = quantities.get(id) ?? 0
+        if (qty > 1) swapIds.push(id)
+        if (qty === 0 && catalog.get(id)) missingIds.push(id)
+      }
+    }
+    return { swapIds, missingIds }
+  }, [teams, catalog, byTeam, quantities])
+}
+
 export function useMissing(): MissingGroup[] {
   const { teams, catalog, byTeam, quantities } = useStickersContext()
   return useMemo(() => {
