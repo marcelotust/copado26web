@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useI18n, LOCALE_META, type Locale } from '../i18n'
 import AppLogo from '../components/AppLogo'
 import LoginBackgroundMosaic from '../components/LoginBackgroundMosaic'
@@ -55,7 +56,11 @@ export default function LoginPage({ onSendLink, onGoogleLogin, magicLinkSent, er
         </div>
       </div>
 
-      <div className='relative z-10 flex gap-2 mt-6'>
+      <Link to='/' className='relative z-10 mt-4 text-xs text-slate-600 hover:text-slate-400 transition-colors'>
+        ← Voltar
+      </Link>
+
+      <div className='relative z-10 flex gap-2 mt-3'>
         {Object.entries(LOCALE_META).map(([key, { label, flag }]) => (
           <button
             key={key}
