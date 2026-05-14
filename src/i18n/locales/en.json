@@ -122,19 +122,20 @@
     "invalidTitle": "Link did not work",
     "invalidDesc": "This trade link is invalid or corrupted.",
     "missingParam": "This link is missing trade data. Ask your friend to generate the QR again.",
-    "payloadTooLong": "Your duplicate and missing lists are too large for one QR code. Try again after updating your album.",
+    "payloadTooLong": "Even with only your duplicates in the link, the list is still too long for one QR. Use Copy link instead, or trim extras in your album and try again.",
     "loginTitle": "Log in to see the trade",
     "loginDesc": "We compare the other person's list with your album. Your data stays on this device.",
     "loginCta": "Log in",
     "youReceive": "You receive",
     "youGive": "You give",
     "emptyMatch": "No direct match right now — your lists do not overlap for this swap.",
+    "swapsOnlyBanner": "This link only includes their duplicate stickers (keeps the QR small). You'll see what you can get from them; agree in person what you give back.",
     "generateTitle": "Your QR code",
-    "generateHint": "The other person scans this with their phone camera. Nothing is uploaded to a server.",
+    "generateHint": "Only your duplicate stickers go in the QR so it stays scannable. The other person scans with their camera. Nothing is uploaded.",
     "copyLink": "Copy link",
     "copied": "Copied!",
     "close": "Close",
-    "emptyLists": "Mark duplicates and missing stickers in your album first, then open this again."
+    "emptyLists": "Mark at least one duplicate sticker in your album first, then open this again."
   },
 
   "dashboard": {

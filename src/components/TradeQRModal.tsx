@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import { QRCodeSVG } from 'qrcode.react'
 import { useI18n } from '../i18n'
 import { useTradeIdLists } from '../state/stickersStore'
-import { encodeTradePayload, MAX_TRADE_PARAM_LENGTH } from '../lib/tradePayload'
+import { encodeTradeSwapsOnly, MAX_TRADE_PARAM_LENGTH } from '../lib/tradePayload'
 
 type TradeQRModalProps = {
   open: boolean
@@ -12,21 +12,21 @@ type TradeQRModalProps = {
 
 export default function TradeQRModal({ open, onClose }: TradeQRModalProps) {
   const { t } = useI18n()
-  const { swapIds, missingIds } = useTradeIdLists()
+  const { swapIds } = useTradeIdLists()
   const [copied, setCopied] = useState(false)
 
   const { tradeUrl, tooLong, empty } = useMemo(() => {
-    if (swapIds.length === 0 && missingIds.length === 0) {
+    if (swapIds.length === 0) {
       return { tradeUrl: '', tooLong: false, empty: true }
     }
-    const d = encodeTradePayload({ swaps: swapIds, missing: missingIds })
+    const d = encodeTradeSwapsOnly(swapIds)
     if (d.length > MAX_TRADE_PARAM_LENGTH) {
       return { tradeUrl: '', tooLong: true, empty: false }
     }
     const u = new URL('/trade', typeof window !== 'undefined' ? window.location.origin : 'https://example.invalid')
     u.searchParams.set('d', d)
     return { tradeUrl: u.toString(), tooLong: false, empty: false }
-  }, [swapIds, missingIds])
+  }, [swapIds])
 
   useEffect(() => {
     if (!open) setCopied(false)

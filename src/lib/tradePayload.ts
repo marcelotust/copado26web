@@ -1,12 +1,18 @@
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string'
 
-export type TradePayload = { swaps: string[]; missing: string[] }
+export type TradePayload = {
+  swaps: string[]
+  missing: string[]
+  /** False when the QR/link only carried the other person's duplicates (smaller payload). */
+  hasPeerMissingList: boolean
+}
 
 /** Compressed payload grows with list size; QR scanners struggle beyond ~2k chars. */
 export const MAX_TRADE_PARAM_LENGTH = 1800
 
-export function encodeTradePayload(payload: TradePayload): string {
-  return compressToEncodedURIComponent(JSON.stringify(payload))
+/** QR / share link: only duplicates — enough to compute what you receive from them. */
+export function encodeTradeSwapsOnly(swaps: string[]): string {
+  return compressToEncodedURIComponent(JSON.stringify({ swaps }))
 }
 
 export function decodeTradePayload(d: string | null | undefined): TradePayload | null {
@@ -16,12 +22,19 @@ export function decodeTradePayload(d: string | null | undefined): TradePayload |
     if (!json) return null
     const o = JSON.parse(json) as unknown
     if (!o || typeof o !== 'object') return null
-    const { swaps, missing } = o as Partial<TradePayload>
-    if (!Array.isArray(swaps) || !Array.isArray(missing)) return null
-    if (!swaps.every((x) => typeof x === 'string') || !missing.every((x) => typeof x === 'string')) {
+    const raw = o as Record<string, unknown>
+    const swaps = raw.swaps
+    if (!Array.isArray(swaps) || !swaps.every((x): x is string => typeof x === 'string')) return null
+
+    if (!Object.hasOwn(raw, 'missing')) {
+      return { swaps, missing: [], hasPeerMissingList: false }
+    }
+
+    const missing = raw.missing
+    if (!Array.isArray(missing) || !missing.every((x): x is string => typeof x === 'string')) {
       return null
     }
-    return { swaps, missing }
+    return { swaps, missing, hasPeerMissingList: true }
   } catch {
     return null
   }

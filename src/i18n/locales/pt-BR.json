@@ -123,19 +123,20 @@
     "invalidTitle": "Link não funcionou",
     "invalidDesc": "Este link de troca é inválido ou está corrompido.",
     "missingParam": "Falta o dado da troca no link. Peça para a pessoa gerar o QR de novo.",
-    "payloadTooLong": "Suas listas de repetidas e faltando são grandes demais para um único QR. Tente de novo depois de atualizar o álbum.",
+    "payloadTooLong": "Mesmo só com suas repetidas no link, a lista ainda é grande demais para um QR. Use Copiar link ou reduza extras no álbum e tente de novo.",
     "loginTitle": "Entre para ver a troca",
     "loginDesc": "Comparamos a lista da outra pessoa com o seu álbum. Os dados ficam neste aparelho.",
     "loginCta": "Entrar",
     "youReceive": "Você recebe",
     "youGive": "Você dá",
     "emptyMatch": "Sem match direto agora — as listas não se cruzam para esta troca.",
+    "swapsOnlyBanner": "Este link só traz as repetidas da outra pessoa (QR menor). Você vê o que pode receber; combinem na hora o que você devolve.",
     "generateTitle": "Seu código QR",
-    "generateHint": "A outra pessoa escaneia com a câmera do celular. Nada é enviado a um servidor.",
+    "generateHint": "Só entram suas figurinhas repetidas no QR para caber no scan. A outra pessoa usa a câmera. Nada é enviado a um servidor.",
     "copyLink": "Copiar link",
     "copied": "Copiado!",
     "close": "Fechar",
-    "emptyLists": "Marque repetidas e faltantes no álbum primeiro, depois abra de novo."
+    "emptyLists": "Marque pelo menos uma repetida no álbum primeiro e abra de novo."
   },
 
   "dashboard": {

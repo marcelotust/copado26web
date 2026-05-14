@@ -20,10 +20,10 @@ export default function TradeMatchPanel({ payload }: { payload: TradePayload }) 
     () => sortStickerIds(payload.swaps.filter((id) => bMissingSet.has(id)), catalog),
     [payload.swaps, bMissingSet, catalog],
   )
-  const youGive = useMemo(
-    () => sortStickerIds(bSwaps.filter((id) => aMissing.has(id)), catalog),
-    [bSwaps, aMissing, catalog],
-  )
+  const youGive = useMemo(() => {
+    if (!payload.hasPeerMissingList) return [] as string[]
+    return sortStickerIds(bSwaps.filter((id) => aMissing.has(id)), catalog)
+  }, [payload.hasPeerMissingList, bSwaps, aMissing, catalog])
 
   if (status === 'idle' || status === 'loading') {
     return (
@@ -42,15 +42,27 @@ export default function TradeMatchPanel({ payload }: { payload: TradePayload }) 
 
   return (
     <div className='flex flex-col gap-6'>
+      {!payload.hasPeerMissingList && (
+        <p className='text-center text-sky-200/85 text-sm bg-sky-950/40 border border-sky-800/60 rounded-xl px-4 py-3 leading-relaxed'>
+          {t('trade.swapsOnlyBanner')}
+        </p>
+      )}
+
       {empty && (
         <p className='text-center text-slate-400 text-sm bg-slate-900/80 border border-slate-800 rounded-xl px-4 py-3'>
           {t('trade.emptyMatch')}
         </p>
       )}
 
-      <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+      <div
+        className={
+          payload.hasPeerMissingList ? 'grid grid-cols-1 sm:grid-cols-2 gap-4' : 'grid grid-cols-1 gap-4'
+        }
+      >
         <TradeStickerListColumn title={t('trade.youReceive')} ids={youReceive} catalog={catalog} />
-        <TradeStickerListColumn title={t('trade.youGive')} ids={youGive} catalog={catalog} />
+        {payload.hasPeerMissingList && (
+          <TradeStickerListColumn title={t('trade.youGive')} ids={youGive} catalog={catalog} />
+        )}
       </div>
     </div>
   )
