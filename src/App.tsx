@@ -1,4 +1,5 @@
 import { Analytics } from '@vercel/analytics/react'
+import { useLocation } from 'react-router-dom'
 import { useAuth } from './hooks/useAuth'
 import { useI18n } from './i18n'
 import { StickersProvider } from './state/stickersStore'
@@ -20,16 +21,24 @@ export default function App() {
   if (loading) return <LoadingScreen label={t('loading')} />
 
   if (!session) {
+    if (pathname === '/login') {
+      return (
+        <>
+          {/* Anonymous visitors: cookie-less, no PII — no consent required */}
+          <Analytics />
+          <LoginPage
+            onSendLink={sendMagicLink}
+            onGoogleLogin={signInWithGoogle}
+            magicLinkSent={magicLinkSent}
+            error={error}
+          />
+        </>
+      )
+    }
     return (
       <>
-        {/* Anonymous visitors: cookie-less, no PII — no consent required */}
         <Analytics />
-        <LoginPage
-          onSendLink={sendMagicLink}
-          onGoogleLogin={signInWithGoogle}
-          magicLinkSent={magicLinkSent}
-          error={error}
-        />
+        <LandingPage />
       </>
     )
   }
