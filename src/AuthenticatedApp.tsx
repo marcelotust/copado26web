@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import type { Session } from '@supabase/supabase-js'
 import { Analytics } from '@vercel/analytics/react'
 import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
+import { useAnalyticsConsent } from './hooks/useAnalyticsConsent'
+import ConsentBanner from './components/ConsentBanner'
 import { useI18n } from './i18n'
 import { useMilestoneDetector } from './hooks/useMilestoneDetector'
 import MilestoneModal from './components/MilestoneModal'
@@ -29,6 +31,7 @@ type AuthenticatedAppProps = { session: Session; signOut: () => Promise<void> }
 export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppProps) {
   const { t } = useI18n()
   const { status, error } = useStickersStatus()
+  const { consent, grant, decline } = useAnalyticsConsent(session.user.id)
   const { activeMilestone, dismissMilestone, showMilestone } = useMilestoneDetector({
     userId: session.user.id,
     t,
@@ -99,7 +102,8 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
           </Routes>
         </main>
       </div>
-      <Analytics />
+      {consent === 'granted' && <Analytics />}
+      {consent === null && <ConsentBanner onAccept={grant} onDecline={decline} />}
       <MilestoneModal milestone={activeMilestone} onDismiss={dismissMilestone} />
       <ChallengeCompletedModal challenge={activeCompletion} onDismiss={dismissCompletion} />
     </div>

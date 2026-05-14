@@ -98,6 +98,14 @@
     "retry":        "Try again"
   },
 
+  "consent": {
+    "label": "Analytics consent banner",
+    "message": "We use anonymous usage data to improve the app. No personally identifiable information is collected.",
+    "learnMore": "Learn more",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+
   "nav": {
     "home": "Home",
     "album": "Album",
