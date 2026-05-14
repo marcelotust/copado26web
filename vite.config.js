@@ -3,6 +3,10 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  // Bind dev server to localhost explicitly — prevents GHSA-67mh-4wv8-2f99 (esbuild SSRF).
+  // Vite 5.x cannot be upgraded to a fixed esbuild without a major version bump; mitigation
+  // is to never expose the dev server to the network (no --host flag in CI or local scripts).
+  server: { host: '127.0.0.1' },
   plugins: [
     react(),
     VitePWA({
@@ -26,11 +30,13 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
         runtimeCaching: [
           {
+            // StaleWhileRevalidate (was CacheFirst) — supply chain: revalida contra CDN
+            // a cada request em vez de servir silenciosamente por 30 dias (#52)
             urlPattern: /^https:\/\/cdn\.jsdelivr\.net\/.*/i,
-            handler: 'CacheFirst',
+            handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'cdn-cache',
-              expiration: { maxEntries: 50, maxAgeSeconds: 30 * 24 * 60 * 60 }
+              expiration: { maxEntries: 20, maxAgeSeconds: 24 * 60 * 60 }
             }
           }
         ]
