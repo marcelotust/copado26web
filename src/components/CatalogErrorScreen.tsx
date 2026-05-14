@@ -19,7 +19,8 @@ export default function CatalogErrorScreen({ error }: { error: Error | null }) {
       >
         {t('errors.retry')}
       </button>
-      {error?.message && (
+      {/* Show raw error only in development — never expose internals in production */}
+      {!import.meta.env.PROD && error?.message && (
         <p className='text-slate-600 text-xs font-mono mt-1'>{error.message}</p>
       )}
     </div>
