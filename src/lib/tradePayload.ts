@@ -1,4 +1,5 @@
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string'
+export { AUTH_POST_LOGIN_PATH_KEY } from './tradeAuthStorage'
 
 export type TradePayload = {
   swaps: string[]
@@ -39,5 +40,3 @@ export function decodeTradePayload(d: string | null | undefined): TradePayload |
     return null
   }
 }
-
-export const AUTH_POST_LOGIN_PATH_KEY = 'meualbum2026_post_login_path'

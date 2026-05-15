@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useI18n, LOCALE_META, type Locale } from '../i18n'
 import AppLogo from '../components/AppLogo'
-import LoginBackgroundMosaic from '../components/LoginBackgroundMosaic'
 import LoginMagicLinkPanel from '../components/LoginMagicLinkPanel'
 import LoginEmailForm from '../components/LoginEmailForm'
+
+const LoginBackgroundMosaic = lazy(() => import('../components/LoginBackgroundMosaic'))
 
 type LoginPageProps = {
   onSendLink: (email: string) => Promise<void>
@@ -26,7 +27,9 @@ export default function LoginPage({ onSendLink, onGoogleLogin, magicLinkSent, er
 
   return (
     <div className='relative min-h-screen bg-slate-950 flex flex-col items-center justify-center px-4 py-10 overflow-hidden'>
-      <LoginBackgroundMosaic />
+      <Suspense fallback={null}>
+        <LoginBackgroundMosaic />
+      </Suspense>
 
       <div className='relative z-10 w-full max-w-md bg-slate-800/90 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden'>
         <div
