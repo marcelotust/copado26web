@@ -142,6 +142,7 @@ vercel --prod       # production
 ## Quality and privacy docs
 
 See [docs/mvp-quality-and-observability.md](docs/mvp-quality-and-observability.md) for the MVP backlog around analytics, logging, errors, LGPD, and tests.
+See [docs/supabase-production-security.md](docs/supabase-production-security.md) for the production Supabase security checklist around redirects, OTP abuse controls, API keys, Realtime/RLS, logs, and quarterly review ownership.
 
 ## OCR tips
 
