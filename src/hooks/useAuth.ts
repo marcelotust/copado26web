@@ -22,11 +22,24 @@ export function useAuth() {
       .then(({ supabase }) => {
         if (!active) return
 
-        supabase.auth.getSession().then(({ data: { session } }) => {
-          if (!active) return
-          setSession(session)
-          setLoading(false)
-        })
+        const finishLoading = () => {
+          if (active) setLoading(false)
+        }
+
+        const sessionTimeout = window.setTimeout(finishLoading, 5_000)
+
+        supabase.auth
+          .getSession()
+          .then(({ data: { session } }) => {
+            if (!active) return
+            setSession(session)
+            finishLoading()
+          })
+          .catch((err: unknown) => {
+            reportError('getSession failed', err, { feature: 'auth', action: 'get_session' })
+            finishLoading()
+          })
+          .finally(() => window.clearTimeout(sessionTimeout))
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
           (event, session) => {
