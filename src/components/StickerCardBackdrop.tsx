@@ -18,6 +18,7 @@ type StickerCardBackdropProps = {
   numLabel: string
   albumFace: AlbumFace
   silhouetteType: SilhouetteType
+  labelColor: string
   displayLabel: string | null
   qty: number
   floats: number[]
@@ -36,6 +37,7 @@ export default function StickerCardBackdrop({
   numLabel,
   albumFace,
   silhouetteType,
+  labelColor,
   displayLabel,
   qty,
   floats,
@@ -86,6 +88,7 @@ export default function StickerCardBackdrop({
         numLabel={numLabel}
         albumFace={albumFace}
         silhouetteType={silhouetteType}
+        labelColor={labelColor}
         displayLabel={displayLabel}
         qty={qty}
         onAdd={onAdd}
