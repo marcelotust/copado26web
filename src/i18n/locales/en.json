@@ -339,7 +339,15 @@
     "emptyTitle": "Album complete!",
     "emptyDesc": "Congratulations, you have all the stickers.",
     "share": "Share",
-    "copied": "Copied!"
+    "copied": "Copied!",
+    "tradeChecker": {
+      "hint": "Paste the WhatsApp list or type codes as AAA 00 (e.g. BRA 03 · ESP 12).",
+      "placeholder": "BRA 03 · ESP 12 · FRA 07...",
+      "analyze": "Analyze",
+      "invalidFormat": "No stickers found in AAA 00 format (e.g. BRA 03 or BRA-03). Paste a duplicate list or codes separated by spaces or ·",
+      "unknownTeams": "Unrecognized team codes: {{teams}}. Check your paste.",
+      "shareDetected": "App share list detected — we only use sticker codes."
+    }
   },
 
   "sticker": {
