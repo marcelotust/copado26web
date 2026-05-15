@@ -38,7 +38,18 @@ export const AnalyticsEvent = {
   TRADE_MATCH_VIEWED: 'trade_match_viewed',
   TRADE_LINK_INVALID: 'trade_link_invalid',
   TRADE_LOGIN_REQUIRED: 'trade_login_required',
+  LANDING_VIEWED: 'landing_viewed',
+  LANDING_CTA_CLICKED: 'landing_cta_clicked',
+  GUEST_ALBUM_VIEWED: 'guest_album_viewed',
+  GUEST_STICKER_TAPPED: 'guest_sticker_tapped',
 } as const
+
+/** PostHog feature-flag keys used by the app. Centralized so search-by-key works. */
+export const FeatureFlag = {
+  LANDING_HERO_CTA: 'landing_hero_cta',
+} as const
+
+export type FeatureFlagKey = (typeof FeatureFlag)[keyof typeof FeatureFlag]
 
 export type AnalyticsEventName = (typeof AnalyticsEvent)[keyof typeof AnalyticsEvent]
 

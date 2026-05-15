@@ -1,15 +1,41 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AppLogo from '../components/AppLogo'
 import LandingStickerCard from '../components/LandingStickerCard'
 import LandingStatPill from '../components/LandingStatPill'
 import { LANDING_FEATURES, LANDING_PRIVACY, LANDING_STATS } from '../data/landingContent'
+import { AnalyticsEvent, FeatureFlag, telemetry } from '../lib/telemetry'
 
 const FOCUS_RING = 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950'
 
 const tier1 = LANDING_FEATURES.filter(f => f.tier === 1)
 const tier2 = LANDING_FEATURES.filter(f => f.tier === 2)
 
+type HeroCtaId = 'header_login' | 'hero_primary' | 'hero_explore_album' | 'bottom_signup'
+
 export default function LandingPage() {
+  const [heroVariant, setHeroVariant] = useState<string | null>(null)
+
+  useEffect(() => {
+    telemetry.track(AnalyticsEvent.LANDING_VIEWED)
+  }, [])
+
+  useEffect(() => {
+    const update = () => setHeroVariant(telemetry.variant(FeatureFlag.LANDING_HERO_CTA))
+    update()
+    return telemetry.onFeatureFlags(update)
+  }, [])
+
+  const heroPrimaryCopy = heroVariant === 'treatment' ? 'Experimente o álbum' : 'Começar grátis'
+  const resolvedHeroVariant = heroVariant ?? 'control'
+
+  const trackCta = (ctaId: HeroCtaId) => () => {
+    telemetry.track(AnalyticsEvent.LANDING_CTA_CLICKED, {
+      cta_id: ctaId,
+      ...(ctaId === 'hero_primary' ? { cta_variant: resolvedHeroVariant } : {}),
+    })
+  }
+
   return (
     <div className='min-h-screen bg-slate-950 text-white flex flex-col overflow-x-hidden'>
 
@@ -28,6 +54,7 @@ export default function LandingPage() {
         </Link>
         <Link
           to='/login'
+          onClick={trackCta('header_login')}
           className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-colors ${FOCUS_RING}`}
         >
           Entrar →
@@ -77,15 +104,17 @@ export default function LandingPage() {
             <div className='flex flex-col sm:flex-row items-center gap-3 mt-2'>
               <Link
                 to='/login'
+                onClick={trackCta('hero_primary')}
                 className={`inline-flex items-center gap-2 px-8 py-4 rounded-2xl font-bold text-base active:scale-95 transition-all ${FOCUS_RING}`}
                 style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #10b981 100%)', boxShadow: '0 0 48px #3b82f640' }}
               >
-                <span aria-hidden='true'>⚽</span> Começar grátis
+                <span aria-hidden='true'>⚽</span> {heroPrimaryCopy}
               </Link>
               <div className='flex flex-col items-center gap-1.5'>
                 <p className='text-xs text-slate-600'>Sem cartão · Sem anúncios · 100% grátis</p>
                 <Link
                   to='/album'
+                  onClick={trackCta('hero_explore_album')}
                   className={`text-xs text-slate-500 hover:text-slate-300 underline underline-offset-4 transition-colors ${FOCUS_RING}`}
                 >
                   Explorar o álbum →
@@ -222,6 +251,7 @@ export default function LandingPage() {
           </p>
           <Link
             to='/login'
+            onClick={trackCta('bottom_signup')}
             className={`inline-flex items-center gap-2 px-8 py-4 rounded-2xl font-bold text-base border border-slate-700 hover:bg-slate-800 hover:border-slate-600 active:scale-95 transition-all ${FOCUS_RING}`}
           >
             Criar conta grátis →

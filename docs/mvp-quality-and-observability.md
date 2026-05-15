@@ -76,6 +76,16 @@ Convenção: `snake_case`, propriedades estáveis, sem dados pessoais.
 | `trade_match_viewed` | Painel de match aberto com payload válido | `you_receive`, `you_give`, `has_peer_missing_list` |
 | `trade_link_invalid` | Link de troca inválido / parâmetro ausente | `reason` (`missing_param`, `invalid_payload`) |
 | `trade_login_required` | Visitante abre link de troca válido sem sessão | — |
+| `landing_viewed` | Landing pública exibida | — |
+| `landing_cta_clicked` | Clique em CTA da landing | `cta_id` (`header_login`, `hero_primary`, `hero_explore_album`, `bottom_signup`), `cta_variant` (apenas em `hero_primary`) |
+| `guest_album_viewed` | Visitante abre `/album` sem login | — |
+| `guest_sticker_tapped` | Visitante clica em uma figurinha (dispara paywall) | — |
+
+### Feature flags
+
+| Flag | Variantes | Uso |
+|------|-----------|-----|
+| `landing_hero_cta` | `control` (cópia padrão "Começar grátis"), `treatment` (cópia alternativa "Experimente o álbum") | A/B test do CTA principal da landing. A variante atribuída pelo PostHog é refletida no `cta_variant` do evento `landing_cta_clicked` quando `cta_id = hero_primary`. |
 
 Eventos de ativação/retenção derivados no analytics (primeiro `sticker_quantity_changed`, retorno em D1/D7) usam os eventos acima; não exigem SDK extra no MVP. Definições operacionais e leitura na Vercel: [`mvp-activation-retention.md`](./mvp-activation-retention.md).
 
