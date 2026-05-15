@@ -95,7 +95,22 @@
     "offlineDesc":  "The app needs an internet connection the first time it opens. Connect and try again.",
     "catalogTitle": "Could not load the album",
     "catalogDesc":  "Please try again in a moment.",
-    "retry":        "Try again"
+    "retry":        "Try again",
+    "authGeneric": "Could not sign in. Please try again in a moment.",
+    "authRateLimit": "Too many attempts. Wait a few minutes and try again.",
+    "authInvalid": "Invalid email or credentials.",
+    "authBanned": "This account cannot access the app.",
+    "authInitFailed": "Could not start sign-in. Reload the page."
+  },
+
+  "feedback": {
+    "dismiss": "Close",
+    "exportSuccess": "CSV exported successfully.",
+    "exportFailed": "Could not export the album. Please try again.",
+    "resetFailed": "Could not reset the album. Check your connection.",
+    "importFailed": "Could not import the album. Please try again.",
+    "restoreFailed": "Could not restore the backup. Please try again.",
+    "stickerUpdateFailed": "Could not save the sticker. Try again."
   },
 
   "consent": {
@@ -226,6 +241,7 @@
     "emailPlaceholder": "your@email.com",
     "sendLink": "Send login link",
     "sending": "Sending…",
+    "signingIn": "Opening Google…",
     "checkEmail": "Check your email",
     "linkSentTo": "We sent a login link to",
     "clickToSignIn": "Click it to sign in — no password needed.",

@@ -11,10 +11,10 @@ type LoginPageProps = {
   onSendLink: (email: string) => Promise<void>
   onGoogleLogin: () => Promise<void>
   magicLinkSent: boolean
-  error: string | null
+  errorKey: string | null
 }
 
-export default function LoginPage({ onSendLink, onGoogleLogin, magicLinkSent, error }: LoginPageProps) {
+export default function LoginPage({ onSendLink, onGoogleLogin, magicLinkSent, errorKey }: LoginPageProps) {
   const { t, tRaw, locale, setLocale } = useI18n()
   const [submittedEmail, setSubmittedEmail] = useState('')
 
@@ -55,7 +55,7 @@ export default function LoginPage({ onSendLink, onGoogleLogin, magicLinkSent, er
         <div className='px-6 py-6'>
           {magicLinkSent
             ? <LoginMagicLinkPanel email={submittedEmail} />
-            : <LoginEmailForm onSendLink={handleSendLink} onGoogleLogin={onGoogleLogin} error={error} />}
+            : <LoginEmailForm onSendLink={handleSendLink} onGoogleLogin={onGoogleLogin} errorKey={errorKey} />}
         </div>
       </div>
 

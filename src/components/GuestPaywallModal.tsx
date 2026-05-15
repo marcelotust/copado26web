@@ -12,7 +12,7 @@ const LoginBackgroundMosaic = lazy(() => import('./LoginBackgroundMosaic'))
 type Props = { onClose: () => void }
 
 export default function GuestPaywallModal({ onClose }: Props) {
-  const { sendMagicLink, signInWithGoogle, magicLinkSent, error } = useAuth()
+  const { sendMagicLink, signInWithGoogle, magicLinkSent, errorKey } = useAuth()
   const [submittedEmail, setSubmittedEmail] = useState('')
   const navigate = useNavigate()
 
@@ -69,7 +69,7 @@ export default function GuestPaywallModal({ onClose }: Props) {
               <LoginEmailForm
                 onSendLink={handleSendLink}
                 onGoogleLogin={handleGoogleLogin}
-                error={error}
+                errorKey={errorKey}
               />
             )
           }

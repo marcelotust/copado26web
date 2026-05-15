@@ -7,13 +7,14 @@ import { detectLocale } from '../i18n/localeData'
 type LoginEmailFormProps = {
   onSendLink: (email: string) => Promise<void>
   onGoogleLogin: () => Promise<void>
-  error: string | null
+  errorKey: string | null
 }
 
-export default function LoginEmailForm({ onSendLink, onGoogleLogin, error }: LoginEmailFormProps) {
+export default function LoginEmailForm({ onSendLink, onGoogleLogin, errorKey }: LoginEmailFormProps) {
   const { t } = useI18n()
   const [email, setEmail] = useState('')
   const [sending, setSending] = useState(false)
+  const [googleLoading, setGoogleLoading] = useState(false)
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -27,7 +28,12 @@ export default function LoginEmailForm({ onSendLink, onGoogleLogin, error }: Log
 
   async function handleGoogleLogin() {
     telemetry.track(AnalyticsEvent.AUTH_GOOGLE_STARTED, { locale: detectLocale() })
-    await onGoogleLogin()
+    setGoogleLoading(true)
+    try {
+      await onGoogleLogin()
+    } finally {
+      setGoogleLoading(false)
+    }
   }
 
   return (
@@ -35,10 +41,11 @@ export default function LoginEmailForm({ onSendLink, onGoogleLogin, error }: Log
       <button
         type='button'
         onClick={handleGoogleLogin}
-        className='flex items-center justify-center gap-3 px-4 py-3 rounded-lg bg-white hover:bg-gray-100 text-gray-800 font-semibold transition-colors'
+        disabled={googleLoading || sending}
+        className='flex items-center justify-center gap-3 px-4 py-3 rounded-lg bg-white hover:bg-gray-100 text-gray-800 font-semibold transition-colors disabled:opacity-50'
       >
         <GoogleIcon />
-        {t('login.continueWithGoogle')}
+        {googleLoading ? t('login.signingIn') : t('login.continueWithGoogle')}
       </button>
 
       <div className='flex items-center gap-3 my-1'>
@@ -55,7 +62,7 @@ export default function LoginEmailForm({ onSendLink, onGoogleLogin, error }: Log
         placeholder={t('login.emailPlaceholder')}
         className='px-4 py-3 rounded-lg bg-slate-700 text-white placeholder-slate-400 border border-slate-600 focus:outline-none focus:border-blue-500'
       />
-      {error && <p className='text-red-400 text-sm text-center'>{error}</p>}
+      {errorKey && <p className='text-red-400 text-sm text-center' role='alert'>{t(errorKey)}</p>}
       <button
         type='submit'
         disabled={sending}
