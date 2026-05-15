@@ -4,7 +4,7 @@ import StickerCardCaptionColumn from './StickerCardCaptionColumn'
 import StickerCardSheens from './StickerCardSheens'
 import { stickerCardShellStyle } from './stickerCardShellStyle'
 
-type AlbumFace = 'featured-wide' | 'featured-tall' | 'default'
+type AlbumFace = 'featured-wide' | 'default'
 
 type SilhouetteType = 'player' | 'team-photo' | 'shield' | 'none'
 
