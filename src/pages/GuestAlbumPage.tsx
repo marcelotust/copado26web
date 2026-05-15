@@ -5,7 +5,7 @@ import { PaywallContext, type PaywallReason } from '../contexts/PaywallContext'
 import GuestAlbumContent from '../components/GuestAlbumContent'
 import GuestPaywallModal from '../components/GuestPaywallModal'
 import AppLogo from '../components/AppLogo'
-import { telemetry } from '../lib/telemetry'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 
 const DEFAULT_SECTION = 'BRA'
 
@@ -14,7 +14,7 @@ export default function GuestAlbumPage() {
   const [paywallOpen, setPaywallOpen] = useState(false)
 
   const openPaywall = useCallback((reason: PaywallReason) => {
-    telemetry.track('paywall_open', { reason })
+    telemetry.track(AnalyticsEvent.PAYWALL_SHOWN, { reason })
     setPaywallOpen(true)
   }, [])
 

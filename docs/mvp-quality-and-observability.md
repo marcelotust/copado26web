@@ -51,9 +51,14 @@ Convenção: `snake_case`, propriedades estáveis, sem dados pessoais.
 | `auth_signed_out` | Logout | — |
 | `album_seeded` | Seed concluído no primeiro login | `sticker_count` |
 | `album_seed_failed` | Falha no seed | `error_code` |
+| `album_imported` | Importação CSV concluída | `changed`, `added`, `removed` |
+| `album_restored` | Restauração de save point | `date` |
 | `sticker_quantity_changed` | +/− quantidade | `team_code`, `delta`, `source` (`ui_click`, `keyboard`, `sync`) |
 | `sticker_update_failed` | Falha ao persistir | `action`, `error_code` |
-| `nav_tab_selected` | Troca de aba principal | `tab` (`album`, `missing`, `swaps`, `settings`) |
+| `stickers_shared` | Share da lista de figurinhas | `channel` (`whatsapp`, `clipboard`) |
+| `milestone_shared` | Share do card de marco | `kind` (`album`, `team`), `pct` ou `team_code` |
+| `challenge_completed` | Desafio concluído pela 1ª vez | `challenge_id`, `challenge_title`, `difficulty` |
+| `nav_tab_selected` | Troca de aba principal | `tab` (`dashboard`, `album`, `missing`, `swaps`, `settings`) |
 | `export_csv_completed` | Download iniciado com sucesso | `row_count` |
 | `export_csv_failed` | Falha na exportação | `error_code` |
 | `reset_album_confirmed` | Reset concluído | — |
@@ -61,6 +66,11 @@ Convenção: `snake_case`, propriedades estáveis, sem dados pessoais.
 | `account_deletion_requested` | Usuário confirma exclusão | — |
 | `account_deletion_completed` | Conta removida | — |
 | `consent_analytics_updated` | Banner de consentimento | `granted` (boolean) |
+| `onboarding_started` | Overlay tutorial ativado | — |
+| `onboarding_completed` | Tutorial finalizado pelo usuário | — |
+| `onboarding_skipped` | Tutorial pulado | — |
+| `paywall_shown` | Modal de paywall aberto no modo visitante | `reason` |
+| `paywall_dismissed` | Paywall fechado sem login | — |
 
 Eventos de ativação/retenção derivados no analytics (primeiro `sticker_quantity_changed`, retorno em D1/D7) usam os eventos acima; não exigem SDK extra no MVP. Definições operacionais e leitura na Vercel: [`mvp-activation-retention.md`](./mvp-activation-retention.md).
 

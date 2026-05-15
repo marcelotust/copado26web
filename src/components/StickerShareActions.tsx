@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { telemetry } from '../lib/telemetry'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 
 type Props = {
   getShareText: () => string
@@ -17,18 +17,18 @@ export default function StickerShareActions({ getShareText, shareLabel, copiedLa
     }
     try {
       await navigator.clipboard.writeText(text)
-      telemetry.track('stickers_shared_clipboard')
+      telemetry.track(AnalyticsEvent.STICKERS_SHARED, { channel: 'clipboard' })
       setCopied(true)
       setTimeout(() => setCopied(false), 2500)
     } catch {
-      telemetry.track('stickers_shared_whatsapp')
+      telemetry.track(AnalyticsEvent.STICKERS_SHARED, { channel: 'whatsapp' })
       window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank')
     }
   }
 
   function handleWhatsApp() {
     const text = getShareText()
-    telemetry.track('stickers_shared_whatsapp')
+    telemetry.track(AnalyticsEvent.STICKERS_SHARED, { channel: 'whatsapp' })
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank')
   }
 

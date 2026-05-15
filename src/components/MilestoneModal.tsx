@@ -5,7 +5,7 @@ import { drawMilestoneCard, milestoneCardToBlob } from '../lib/milestoneCardCanv
 import type { MilestoneDrawInput } from '../lib/milestoneCardTypes'
 import { shareOrDownloadPng } from '../lib/milestoneSharePng'
 import type { Milestone } from '../hooks/useMilestoneDetector'
-import { telemetry } from '../lib/telemetry'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 
 type Props = { milestone: Milestone | null; onDismiss: () => void }
 
@@ -43,7 +43,7 @@ export default function MilestoneModal({ milestone, onDismiss }: Props) {
     try {
       const blob = await milestoneCardToBlob(cardInput(milestone, t))
       await shareOrDownloadPng(blob, t('share.appName'))
-      telemetry.track('milestone_shared', {
+      telemetry.track(AnalyticsEvent.MILESTONE_SHARED, {
         kind: milestone.kind,
         ...(milestone.kind === 'album' ? { pct: milestone.pct } : { team_code: milestone.teamCode }),
       })
