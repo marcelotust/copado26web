@@ -14,6 +14,7 @@ export {
   useTradeIdLists,
   useAdjustSticker,
   useResetAlbum,
+  useReplaceAllQuantities,
   useCatalogSnapshot,
 } from './selectors'
 export type { SwapGroup, MissingGroup, Status } from './stickersTypes'

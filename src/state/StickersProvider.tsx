@@ -2,10 +2,12 @@
 // One realtime channel, optimistic writes via adjust_sticker RPC.
 
 import {
-  createContext, useCallback, useContext, useMemo, useReducer, useRef,
+  createContext, useCallback, useContext, useEffect, useMemo, useReducer, useRef,
   type ReactNode,
 } from 'react'
 import { supabase, adjustStickerRpc } from '../lib/supabase'
+import { buildAlbumCsv } from '../lib/albumCsv'
+import { upsertTodayAlbumBackup } from '../lib/albumBackupStorage'
 import { initialState, reducer } from './stickersReducer'
 import { useStickersLoad } from './useStickersLoad'
 import { useStickersRealtime } from './useStickersRealtime'
@@ -23,6 +25,26 @@ export function StickersProvider({ userId, children }: { userId: string; childre
   const [state, dispatch] = useReducer(reducer, initialState)
   // Pending optimistic writes: sticker_id → ignore conflicting realtime echoes
   const pendingRef = useRef<Map<string, number>>(new Map())
+  const backupTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => () => {
+    if (backupTimerRef.current) clearTimeout(backupTimerRef.current)
+  }, [])
+
+  const scheduleLocalDailyBackup = useCallback(
+    (catalog: typeof state.catalog, quantities: Map<string, number>) => {
+      if (backupTimerRef.current) clearTimeout(backupTimerRef.current)
+      backupTimerRef.current = setTimeout(() => {
+        backupTimerRef.current = null
+        try {
+          upsertTodayAlbumBackup(userId, buildAlbumCsv(catalog, quantities))
+        } catch (e) {
+          console.warn('[album backup] save failed', e)
+        }
+      }, 900)
+    },
+    [userId],
+  )
 
   useStickersLoad(userId, dispatch)
   useStickersRealtime(userId, pendingRef, dispatch)
@@ -44,11 +66,20 @@ export function StickersProvider({ userId, children }: { userId: string; childre
       dispatch({ type: 'SET_QUANTITY', id: stickerId, qty: previous })
       throw error
     }
+    const resolved = typeof data === 'number' ? data : optimistic
     if (typeof data === 'number' && data !== optimistic) {
       dispatch({ type: 'SET_QUANTITY', id: stickerId, qty: data })
     }
+
+    if (state.status === 'ready') {
+      const next = new Map(state.quantities)
+      if (resolved <= 0) next.delete(stickerId)
+      else next.set(stickerId, resolved)
+      scheduleLocalDailyBackup(state.catalog, next)
+    }
+
     return data ?? null
-  }, [state.quantities])
+  }, [state.catalog, state.quantities, state.status, scheduleLocalDailyBackup])
 
   const resetAll = useCallback(async (): Promise<void> => {
     const { error } = await supabase.from('user_stickers').delete().eq('user_id', userId)
@@ -56,6 +87,42 @@ export function StickersProvider({ userId, children }: { userId: string; childre
     dispatch({ type: 'CLEAR_ALL_QUANTITIES' })
   }, [userId])
 
-  const value = useMemo<ContextValue>(() => ({ ...state, adjust, resetAll }), [state, adjust, resetAll])
-  return <StickersContext.Provider value={value}>{children}</StickersContext.Provider>
+  const replaceAllQuantities = useCallback(async (next: Map<string, number>): Promise<void> => {
+    const positive = new Map<string, number>()
+    for (const [id, q] of next) {
+      if (q > 0) positive.set(id, q)
+    }
+    const { error: delErr } = await supabase.from('user_stickers').delete().eq('user_id', userId)
+    if (delErr) throw delErr
+
+    const rows = [...positive].map(([sticker_id, quantity]) => ({ user_id: userId, sticker_id, quantity }))
+    const CHUNK = 120
+    for (let i = 0; i < rows.length; i += CHUNK) {
+      const slice = rows.slice(i, i + CHUNK)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error: insErr } = await supabase.from('user_stickers').insert(slice as any)
+      if (insErr) throw insErr
+    }
+
+    dispatch({
+      type: 'QUANTITIES_LOADED',
+      rows: [...positive].map(([sticker_id, quantity]) => ({ sticker_id, quantity })),
+    })
+
+    try {
+      upsertTodayAlbumBackup(userId, buildAlbumCsv(state.catalog, positive))
+    } catch (e) {
+      console.warn('[album backup] save after import failed', e)
+    }
+  }, [userId, state.catalog])
+
+  const value = useMemo<ContextValue>(
+    () => ({ ...state, adjust, resetAll, replaceAllQuantities }),
+    [state, adjust, resetAll, replaceAllQuantities],
+  )
+  return (
+    <StickersContext.Provider value={value}>
+      {children}
+    </StickersContext.Provider>
+  )
 }

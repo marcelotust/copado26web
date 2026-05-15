@@ -21,6 +21,8 @@ export type Action =
 export type ContextValue = State & {
   adjust: (stickerId: string, delta: number) => Promise<number | null>
   resetAll: () => Promise<void>
+  /** Full replace of quantities (used by CSV import / restore). */
+  replaceAllQuantities: (next: Map<string, number>) => Promise<void>
 }
 
 export type SwapGroup    = { teamCode: string; stickers: Sticker[] }
