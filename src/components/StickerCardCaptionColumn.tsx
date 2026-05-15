@@ -1,26 +1,26 @@
-import type { MouseEvent } from 'react'
-import StickerButtons from './StickerButtons'
-import StickerFace from './StickerFace'
+import type { MouseEvent } from "react";
+import StickerButtons from "./StickerButtons";
+import StickerFace from "./StickerFace";
 
-const PANINI_BLUE = '#1a56c4'
+const PANINI_BLUE = "#087c8a";
 
-type AlbumFace = 'featured-wide' | 'default'
+type AlbumFace = "featured-wide" | "default";
 
-type SilhouetteType = 'player' | 'team-photo' | 'shield' | 'none'
+type SilhouetteType = "player" | "team-photo" | "shield" | "none";
 
 type StickerCardCaptionColumnProps = {
-  teamCode: string
-  collected: boolean
-  primary: string
-  secondary: string
-  numLabel: string
-  albumFace: AlbumFace
-  silhouetteType: SilhouetteType
-  displayLabel: string | null
-  qty: number
-  onAdd: (e: MouseEvent) => void
-  onRemove: (e: MouseEvent) => void
-}
+  teamCode: string;
+  collected: boolean;
+  primary: string;
+  secondary: string;
+  numLabel: string;
+  albumFace: AlbumFace;
+  silhouetteType: SilhouetteType;
+  displayLabel: string | null;
+  qty: number;
+  onAdd: (e: MouseEvent) => void;
+  onRemove: (e: MouseEvent) => void;
+};
 
 export default function StickerCardCaptionColumn({
   teamCode,
@@ -48,19 +48,24 @@ export default function StickerCardCaptionColumn({
       />
 
       <div
-        className='mx-1.5 mb-1 shrink-0 rounded-lg px-2 py-1 text-center'
+        className='mx-1.5 mb-1 shrink-0 rounded-full px-2 py-1 text-center'
         style={{ background: collected ? PANINI_BLUE : `${primary}25` }}
       >
         <p
           className='text-[11px] font-bold leading-tight truncate'
-          style={{ color: collected ? '#fff' : '#94a3b8' }}
+          style={{ color: collected ? "#fff" : "#94a3b8" }}
           title={displayLabel ?? teamCode}
         >
           {displayLabel ?? teamCode}
         </p>
       </div>
 
-      <StickerButtons qty={qty} collected={collected} onAdd={onAdd} onRemove={onRemove} />
+      <StickerButtons
+        qty={qty}
+        collected={collected}
+        onAdd={onAdd}
+        onRemove={onRemove}
+      />
     </div>
-  )
+  );
 }

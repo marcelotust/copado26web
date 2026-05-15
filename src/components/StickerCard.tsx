@@ -54,7 +54,9 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
     <div
       className={[
         'relative select-none',
-        fillsAlbumSpan ? 'h-full w-full min-h-0' : 'aspect-[2/3]',
+        isTeamSquadWide ? 'aspect-[3/2] w-[85%]'
+          : fillsAlbumSpan ? 'h-full w-full min-h-0'
+          : 'aspect-[2/3]',
         popping ? 'animate-pop' : '',
       ].join(' ')}
     >

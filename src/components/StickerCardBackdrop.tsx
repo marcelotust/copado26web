@@ -55,13 +55,20 @@ export default function StickerCardBackdrop({
       ].join(' ')}
       style={shellStyle}
     >
-      <div className='absolute inset-0 bg-slate-900' />
       <div
         className='absolute inset-0'
         style={{
           background: collected
-            ? `linear-gradient(160deg, ${primary}20 0%, ${secondary}14 100%)`
-            : `linear-gradient(160deg, ${primary}10 0%, ${secondary}08 100%)`,
+            ? 'linear-gradient(160deg, #9bd9f9 0%, #48baf4 100%)'
+            : '#0f172a',
+        }}
+      />
+      <div
+        className='absolute inset-0'
+        style={{
+          background: collected
+            ? `linear-gradient(160deg, ${primary}18 0%, ${secondary}10 100%)`
+            : `linear-gradient(160deg, ${primary}20 0%, ${secondary}14 100%)`,
         }}
       />
       <StickerCardSheens
