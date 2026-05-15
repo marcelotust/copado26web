@@ -25,3 +25,9 @@ export async function resetMyAlbumRpc(): Promise<void> {
   const { error } = await callRpc('reset_my_album')
   if (error) throw error
 }
+
+/** Delete account via audited RPC (auth user + cascade). */
+export async function deleteMyAccountRpc(): Promise<void> {
+  const { error } = await callRpc('delete_my_account')
+  if (error) throw error
+}
