@@ -4,6 +4,9 @@ interface ImportMetaEnv {
   readonly VITE_POSTHOG_KEY?: string
   readonly VITE_POSTHOG_HOST?: string
   readonly VITE_SENTRY_DSN?: string
+  readonly VITE_SENTRY_RELEASE?: string
+  readonly VERCEL_ENV?: string
+  readonly VERCEL_GIT_COMMIT_SHA?: string
 }
 
 interface ImportMeta {

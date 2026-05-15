@@ -10,8 +10,8 @@ if (!rootEl) throw new Error('Missing #root element in index.html')
 const root = rootEl
 
 async function bootstrap() {
-  // Sentry must be initialised before any React rendering.
-  const { Sentry } = await import('./lib/sentry')
+  const { initSentryClient, Sentry } = await import('./lib/sentry')
+  initSentryClient()
   const AppWithErrorBoundary = Sentry.withErrorBoundary(App, {
     fallback: ({ error }) => (
       <div style={{ padding: '2rem', color: '#fff', background: '#0f172a', minHeight: '100vh' }}>
