@@ -380,6 +380,112 @@
     }
   },
 
+  "landing": {
+    "skipToContent": "Ir al contenido",
+    "homeAriaLabel": "Mi Álbum 2026 — página de inicio",
+    "signIn": "Iniciar sesión",
+    "hero": {
+      "titleBefore": "Completa el",
+      "titleHighlight": "álbum más grande",
+      "titleAfter": "de la historia",
+      "subtitle": "Controla tus cromos, comparte listas y encuentra intercambios con amigos — todo en el móvil, en tiempo real y gratis.",
+      "ctaControl": "Empezar gratis",
+      "ctaTreatment": "Probar el álbum",
+      "finePrint": "Sin tarjeta · Sin anuncios · 100% gratis",
+      "exploreAlbum": "Explorar el álbum"
+    },
+    "stats": {
+      "stickers": { "label": "cromos" },
+      "teams": { "label": "selecciones" },
+      "groups": { "label": "grupos" },
+      "hosts": { "label": "países sede" }
+    },
+    "features": {
+      "eyebrow": "¿Por qué Mi Álbum 2026?",
+      "headingLine1": "Basta de hojas de cálculo.",
+      "headingLine2": "Todo organizado con un toque.",
+      "tier1Aria": "Funciones principales",
+      "tier2Aria": "Más funciones",
+      "mark-fast": {
+        "iconLabel": "Rayo",
+        "title": "Marca en segundos",
+        "desc": "Toca para pegar, toca para quitar.",
+        "detail": "Se acabaron las hojas de cálculo, fotos del cuaderno o grupos de WhatsApp desactualizados. Un toque marca, otro quita. Todo sincronizado en la nube en tiempo real — en cualquier dispositivo."
+      },
+      "whatsapp-share": {
+        "iconLabel": "Compartir",
+        "title": "Comparte en WhatsApp",
+        "desc": "Tu lista formateada, lista para enviar.",
+        "detail": "Con un toque envías al grupo exactamente lo que te falta — con la bandera de cada selección, organizada por equipo. Nadie tiene que adivinar qué necesitas."
+      },
+      "paste-trades": {
+        "iconLabel": "Flechas de intercambio",
+        "title": "Pega la lista de cambios",
+        "desc": "Coincidencia al instante con los repetidos de un amigo.",
+        "detail": "¿Recibiste la lista de repetidos de alguien en WhatsApp? Pégala aquí. La app cruza con lo que necesitas y muestra exactamente quién da qué — sin hojas de cálculo, sin líos."
+      },
+      "dashboard": {
+        "iconLabel": "Gráfico de barras",
+        "title": "Panel de progreso",
+        "desc": "Tu álbum de un vistazo.",
+        "detail": ""
+      },
+      "challenges": {
+        "iconLabel": "Trofeo",
+        "title": "Desafíos temáticos",
+        "desc": "Metas que hacen la colección más divertida.",
+        "detail": ""
+      },
+      "milestones": {
+        "iconLabel": "Fiesta",
+        "title": "Logros y conquistas",
+        "desc": "Tarjetas especiales para compartir tus victorias.",
+        "detail": ""
+      }
+    },
+    "privacy": {
+      "eyebrow": "Tus datos, tus reglas",
+      "title": "Privacidad y protección de datos",
+      "subtitle": "La app solo recoge lo necesario para funcionar. Sin vender datos, sin sorpresas.",
+      "legalBefore": "Lee nuestra",
+      "privacyLink": "Política de Privacidad",
+      "legalMiddle": "y los",
+      "termsLink": "Términos de Uso",
+      "legalAfter": "para más detalles.",
+      "items": {
+        "encryption": {
+          "iconLabel": "Candado",
+          "text": "Tus datos están en Supabase, con cifrado en tránsito y en reposo"
+        },
+        "analytics": {
+          "iconLabel": "Gráfico",
+          "text": "Analíticas anónimas solo con tu consentimiento"
+        },
+        "delete-account": {
+          "iconLabel": "Papelera",
+          "text": "Elimina tu cuenta y datos en cualquier momento, sin trámites"
+        },
+        "lgpd": {
+          "iconLabel": "Bandera de Brasil",
+          "text": "Operado conforme a la LGPD brasileña — ley general de protección de datos"
+        }
+      }
+    },
+    "cta": {
+      "title": "¿Listo para armar el álbum más épico del Mundial?",
+      "subtitle": "Crea tu cuenta en segundos con correo o Google.",
+      "button": "Crear cuenta gratis"
+    },
+    "footer": {
+      "copyright": "© 2026 Mi Álbum 2026",
+      "tagline": "Hecho por fans, para fans",
+      "legalNavAria": "Enlaces legales",
+      "privacy": "Privacidad",
+      "terms": "Términos",
+      "disclaimer": "No afiliado a FIFA™, Panini™ ni ninguna de sus filiales. Proyecto independiente de fans."
+    }
+  },
+
   "legal": {
     "back": "Volver a la app",
     "version": "Versión 2026-05-12. Texto provisional sujeto a revisión legal.",

@@ -380,6 +380,112 @@
     }
   },
 
+  "landing": {
+    "skipToContent": "Skip to content",
+    "homeAriaLabel": "My Album 2026 — home page",
+    "signIn": "Sign in",
+    "hero": {
+      "titleBefore": "Complete the",
+      "titleHighlight": "biggest album",
+      "titleAfter": "in history",
+      "subtitle": "Track your stickers, share lists, and find swaps with friends — all on your phone, in real time, for free.",
+      "ctaControl": "Start for free",
+      "ctaTreatment": "Try the album",
+      "finePrint": "No card · No ads · 100% free",
+      "exploreAlbum": "Explore the album"
+    },
+    "stats": {
+      "stickers": { "label": "stickers" },
+      "teams": { "label": "teams" },
+      "groups": { "label": "groups" },
+      "hosts": { "label": "host nations" }
+    },
+    "features": {
+      "eyebrow": "Why My Album 2026?",
+      "headingLine1": "No more spreadsheets.",
+      "headingLine2": "Everything organized in one tap.",
+      "tier1Aria": "Main features",
+      "tier2Aria": "More features",
+      "mark-fast": {
+        "iconLabel": "Lightning",
+        "title": "Mark in seconds",
+        "desc": "Tap to add, tap to remove.",
+        "detail": "No more spreadsheets, notebook photos, or outdated WhatsApp groups. One tap adds, another removes. Everything syncs to the cloud in real time — on any device."
+      },
+      "whatsapp-share": {
+        "iconLabel": "Share",
+        "title": "Share on WhatsApp",
+        "desc": "Your formatted list, ready to send.",
+        "detail": "With one tap you send the group exactly what you're missing — with each team's flag emoji, organized by nation. No more guessing what you need."
+      },
+      "paste-trades": {
+        "iconLabel": "Trade arrows",
+        "title": "Paste a swap list",
+        "desc": "Instant match with a friend's duplicates.",
+        "detail": "Got someone's duplicate list on WhatsApp? Paste it here. The app cross-checks with what you need and shows exactly who gives what — no spreadsheet, no confusion."
+      },
+      "dashboard": {
+        "iconLabel": "Bar chart",
+        "title": "Progress dashboard",
+        "desc": "Your album at a glance.",
+        "detail": ""
+      },
+      "challenges": {
+        "iconLabel": "Trophy",
+        "title": "Themed challenges",
+        "desc": "Goals that make collecting more fun.",
+        "detail": ""
+      },
+      "milestones": {
+        "iconLabel": "Party",
+        "title": "Milestones & achievements",
+        "desc": "Special cards to share your wins.",
+        "detail": ""
+      }
+    },
+    "privacy": {
+      "eyebrow": "Your data, your rules",
+      "title": "Privacy & data protection",
+      "subtitle": "The app only collects what's needed to work. No selling data, no surprises.",
+      "legalBefore": "Read our",
+      "privacyLink": "Privacy Policy",
+      "legalMiddle": "and",
+      "termsLink": "Terms of Use",
+      "legalAfter": "for more details.",
+      "items": {
+        "encryption": {
+          "iconLabel": "Lock",
+          "text": "Your data is stored in Supabase with encryption in transit and at rest"
+        },
+        "analytics": {
+          "iconLabel": "Chart",
+          "text": "Anonymous analytics collected only with your consent"
+        },
+        "delete-account": {
+          "iconLabel": "Trash",
+          "text": "Delete your account and data anytime, no hassle"
+        },
+        "lgpd": {
+          "iconLabel": "Brazil flag",
+          "text": "Operated in compliance with Brazil's LGPD data protection law"
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to build the most epic World Cup album?",
+      "subtitle": "Create your account in seconds with email or Google.",
+      "button": "Create free account"
+    },
+    "footer": {
+      "copyright": "© 2026 My Album 2026",
+      "tagline": "Made by fans, for fans",
+      "legalNavAria": "Legal links",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "disclaimer": "Not affiliated with FIFA™, Panini™, or any of their subsidiaries. Independent fan project."
+    }
+  },
+
   "legal": {
     "back": "Back to app",
     "version": "Version 2026-05-12. Placeholder copy pending legal review.",
