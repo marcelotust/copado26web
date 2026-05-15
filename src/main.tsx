@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { I18nProvider } from './i18n'
+import { FeedbackProvider } from './contexts/FeedbackContext'
 import './index.css'
 import App from './App'
 
@@ -29,7 +30,9 @@ async function bootstrap() {
     <StrictMode>
       <BrowserRouter>
         <I18nProvider>
-          <AppWithErrorBoundary />
+          <FeedbackProvider>
+            <AppWithErrorBoundary />
+          </FeedbackProvider>
         </I18nProvider>
       </BrowserRouter>
     </StrictMode>

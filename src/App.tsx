@@ -17,7 +17,7 @@ const TradePage = lazy(() => import('./pages/TradePage'))
 export default function App() {
   const { t } = useI18n()
   const { pathname } = useLocation()
-  const { session, loading, magicLinkSent, error, sendMagicLink, signInWithGoogle, signOut } = useAuth()
+  const { session, loading, magicLinkSent, errorKey, sendMagicLink, signInWithGoogle, signOut } = useAuth()
   const loadingScreen = <LoadingScreen label={t('loading')} />
 
   // Legal pages are always public regardless of auth state
@@ -94,7 +94,7 @@ export default function App() {
               onSendLink={sendMagicLink}
               onGoogleLogin={signInWithGoogle}
               magicLinkSent={magicLinkSent}
-              error={error}
+              errorKey={errorKey}
             />
           </Suspense>
         </>

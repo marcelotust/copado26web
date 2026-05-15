@@ -1,6 +1,7 @@
 // src/hooks/useAuth.ts
 import { useState, useEffect } from 'react'
 import type { Session } from '@supabase/supabase-js'
+import { authErrorMessageKey } from '../lib/authErrors'
 import { reportError } from '../lib/logger'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import { detectLocale } from '../i18n/localeData'
@@ -9,7 +10,8 @@ export function useAuth() {
   const [session, setSession]     = useState<Session | null>(null)
   const [loading, setLoading]     = useState(true)
   const [magicLinkSent, setMagicLinkSent] = useState(false)
-  const [error, setError]         = useState<string | null>(null)
+  /** i18n key under `errors.*` — never raw API messages in UI */
+  const [errorKey, setErrorKey]   = useState<string | null>(null)
 
   useEffect(() => {
     let active = true
@@ -45,7 +47,7 @@ export function useAuth() {
       .catch((err: unknown) => {
         reportError('failed to load Supabase client', err, { feature: 'auth', action: 'init_client' })
         if (active) {
-          setError(err instanceof Error ? err.message : 'Failed to load auth')
+          setErrorKey('errors.authInitFailed')
           setLoading(false)
         }
       })
@@ -57,7 +59,7 @@ export function useAuth() {
   }, [])
 
   async function sendMagicLink(email: string) {
-    setError(null)
+    setErrorKey(null)
     const { supabase } = await import('../lib/supabase')
     const { error } = await supabase.auth.signInWithOtp({
       email,
@@ -67,7 +69,7 @@ export function useAuth() {
       },
     })
     if (error) {
-      setError(error.message)
+      setErrorKey(authErrorMessageKey(error))
       reportError('magic link failed', error, { feature: 'auth', action: 'magic_link', error_code: error.code ?? 'unknown' })
       telemetry.track(AnalyticsEvent.AUTH_MAGIC_LINK_FAILED, {
         error_code: error.code ?? 'unknown',
@@ -79,14 +81,14 @@ export function useAuth() {
   }
 
   async function signInWithGoogle() {
-    setError(null)
+    setErrorKey(null)
     const { supabase } = await import('../lib/supabase')
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: { redirectTo: window.location.origin },
     })
     if (error) {
-      setError(error.message)
+      setErrorKey(authErrorMessageKey(error))
       reportError('google oauth failed', error, { feature: 'auth', action: 'google_oauth', error_code: error.code ?? 'unknown' })
     }
   }
@@ -96,5 +98,5 @@ export function useAuth() {
     await supabase.auth.signOut()
   }
 
-  return { session, loading, magicLinkSent, error, sendMagicLink, signInWithGoogle, signOut }
+  return { session, loading, magicLinkSent, errorKey, sendMagicLink, signInWithGoogle, signOut }
 }

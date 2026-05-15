@@ -95,7 +95,22 @@
     "offlineDesc":  "La app necesita conexión a internet la primera vez. Conéctate y vuelve a intentar.",
     "catalogTitle": "No se pudo cargar el álbum",
     "catalogDesc":  "Inténtalo de nuevo en un momento.",
-    "retry":        "Reintentar"
+    "retry":        "Reintentar",
+    "authGeneric": "No se pudo iniciar sesión. Inténtalo de nuevo en un momento.",
+    "authRateLimit": "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
+    "authInvalid": "Correo o credenciales no válidos.",
+    "authBanned": "Esta cuenta no puede acceder a la app.",
+    "authInitFailed": "No se pudo iniciar el acceso. Recarga la página."
+  },
+
+  "feedback": {
+    "dismiss": "Cerrar",
+    "exportSuccess": "CSV exportado correctamente.",
+    "exportFailed": "No se pudo exportar el álbum. Inténtalo de nuevo.",
+    "resetFailed": "No se pudo reiniciar el álbum. Comprueba la conexión.",
+    "importFailed": "No se pudo importar el álbum. Inténtalo de nuevo.",
+    "restoreFailed": "No se pudo restaurar la copia. Inténtalo de nuevo.",
+    "stickerUpdateFailed": "No se pudo guardar la figurita. Inténtalo de nuevo."
   },
 
   "consent": {
@@ -226,6 +241,7 @@
     "emailPlaceholder": "tu@correo.com",
     "sendLink": "Enviar enlace de acceso",
     "sending": "Enviando…",
+    "signingIn": "Abriendo Google…",
     "checkEmail": "Revisa tu correo",
     "linkSentTo": "Enviamos un enlace de acceso a",
     "clickToSignIn": "Haz clic en él para entrar — sin necesidad de contraseña.",

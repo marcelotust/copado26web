@@ -2,11 +2,13 @@ import { useState } from 'react'
 import { useI18n } from '../i18n'
 import { useResetAlbum } from '../state/stickersStore'
 import ConfirmModal from './ConfirmModal'
+import { useFeedback } from '../contexts/FeedbackContext'
 import { errorCodeFrom, reportError } from '../lib/logger'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 
 export default function SettingsDangerZone() {
   const { t } = useI18n()
+  const feedback = useFeedback()
   const resetAlbum = useResetAlbum()
   const [showResetConfirm, setShowResetConfirm] = useState(false)
   const [resetting, setResetting] = useState(false)
@@ -24,6 +26,7 @@ export default function SettingsDangerZone() {
       const code = errorCodeFrom(err)
       reportError('album reset failed', err, { feature: 'settings', action: 'reset_album', error_code: code })
       telemetry.track(AnalyticsEvent.RESET_ALBUM_FAILED, { error_code: code })
+      feedback.error('feedback.resetFailed')
     } finally {
       setResetting(false)
     }

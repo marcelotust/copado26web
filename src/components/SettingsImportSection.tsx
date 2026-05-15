@@ -8,6 +8,7 @@ import {
 import { useCatalogSnapshot, useReplaceAllQuantities } from '../state/stickersStore'
 import ConfirmModal from './ConfirmModal'
 import SimpleDialog from './SimpleDialog'
+import { useFeedback } from '../contexts/FeedbackContext'
 import { reportError } from '../lib/logger'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 
@@ -26,6 +27,7 @@ const CSV_ERROR_I18N: Record<string, string> = {
 
 export default function SettingsImportSection() {
   const { t } = useI18n()
+  const feedback = useFeedback()
   const { catalog, quantities } = useCatalogSnapshot()
   const replaceAll = useReplaceAllQuantities()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -98,6 +100,7 @@ export default function SettingsImportSection() {
     } catch (err) {
       reportError('csv import failed', err, { feature: 'settings', action: 'import_csv' })
       setParseError(t('settings.importErrorNetwork'))
+      feedback.error('feedback.importFailed')
     } finally {
       setImporting(false)
     }
