@@ -25,7 +25,7 @@ export default function MissingTradeChecker({ missingIds, swapIds, teamName, tea
   }
 
   return (
-    <div className='border border-slate-700 rounded-xl p-4 flex flex-col gap-3'>
+    <div className='flex flex-col gap-3 rounded-lg border border-slate-800 bg-slate-900/45 p-4'>
       <p className='text-white font-bold text-sm'>Verificar troca</p>
       <p className='text-slate-500 text-xs'>
         {`Cole a lista de sobras do seu amigo (ex: "BRA 03 · ESP 12")`}
@@ -35,13 +35,13 @@ export default function MissingTradeChecker({ missingIds, swapIds, teamName, tea
         onChange={e => { setText(e.target.value); setResult(null) }}
         placeholder='BRA 03 · ESP 12 · FRA 07...'
         rows={3}
-        className='w-full bg-slate-800 text-slate-200 text-sm font-mono rounded-lg px-3 py-2 border border-slate-700 focus:outline-none focus:border-blue-500 resize-none'
+        className='w-full resize-none rounded-lg border border-slate-700 bg-slate-950/45 px-3 py-2 font-mono text-sm text-slate-200 focus:border-emerald-500 focus:outline-none'
       />
       <button
         type='button'
         onClick={analyze}
         disabled={!text.trim()}
-        className='self-start px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 disabled:opacity-40 text-white text-sm font-semibold transition-colors'
+        className='self-start rounded-lg bg-emerald-600 px-4 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-500 disabled:opacity-40'
       >
         Analisar
       </button>

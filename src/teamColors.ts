@@ -76,3 +76,18 @@ export const TEAM_COLORS: Record<string, TeamPalette> = {
 export function teamColors(code: string): TeamPalette {
   return TEAM_COLORS[code] ?? { primary: '#334155', secondary: '#64748b' }
 }
+
+function channel(hex: string, index: number): number {
+  return Number.parseInt(hex.slice(1 + index * 2, 3 + index * 2), 16)
+}
+
+function luminance(hex: string): number {
+  return 0.2126 * channel(hex, 0) + 0.7152 * channel(hex, 1) + 0.0722 * channel(hex, 2)
+}
+
+export function readableTeamAccent(code: string): string {
+  const { primary, secondary } = teamColors(code)
+  if (luminance(primary) >= 80) return primary
+  if (luminance(secondary) >= 80) return secondary
+  return '#93C5FD'
+}
