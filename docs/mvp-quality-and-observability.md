@@ -62,7 +62,7 @@ Convenção: `snake_case`, propriedades estáveis, sem dados pessoais.
 | `account_deletion_completed` | Conta removida | — |
 | `consent_analytics_updated` | Banner de consentimento | `granted` (boolean) |
 
-Eventos de ativação/retenção derivados no analytics (primeiro `sticker_quantity_changed`, retorno em D1/D7) usam os eventos acima; não exigem SDK extra no MVP.
+Eventos de ativação/retenção derivados no analytics (primeiro `sticker_quantity_changed`, retorno em D1/D7) usam os eventos acima; não exigem SDK extra no MVP. Definições operacionais e leitura na Vercel: [`mvp-activation-retention.md`](./mvp-activation-retention.md).
 
 ## Mapa de issues no GitHub
 

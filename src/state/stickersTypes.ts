@@ -19,6 +19,7 @@ export type Action =
   | { type: 'CLEAR_ALL_QUANTITIES' }
 
 export type ContextValue = State & {
+  userId: string
   adjust: (stickerId: string, delta: number) => Promise<number | null>
   resetAll: () => Promise<void>
   /** Full replace of quantities (used by CSV import / restore). */

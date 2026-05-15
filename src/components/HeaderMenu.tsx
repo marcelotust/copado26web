@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useI18n, LOCALE_META, type Locale } from '../i18n'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 
 type HeaderMenuProps = { onLogout: () => void; email?: string }
 
@@ -65,7 +66,10 @@ export default function HeaderMenu({ onLogout, email }: HeaderMenuProps) {
           <div className='p-2 border-b border-slate-800'>
             <Link
               to='/settings'
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                telemetry.track(AnalyticsEvent.NAV_TAB_SELECTED, { tab: 'settings' })
+                setOpen(false)
+              }}
               className='flex items-center gap-2 px-2 py-1.5 rounded-lg text-left transition-colors w-full text-xs text-slate-300 hover:text-white hover:bg-slate-700'
             >
               <span>⚙</span>

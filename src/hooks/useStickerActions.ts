@@ -1,7 +1,8 @@
 import { useState, useCallback, useContext, type MouseEvent } from 'react'
-import { useAdjustSticker } from '../state/stickersStore'
+import { useAdjustSticker, useStickersContext } from '../state/stickersStore'
 import { useDebouncedFlush } from './useDebouncedFlush'
 import type { Sticker } from '../types/database'
+import { consumeFirstStickerChange } from '../lib/telemetry/activation'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import { readOnboardingStickerContext } from '../components/onboarding/storage'
 import { PaywallContext } from '../contexts/PaywallContext'
@@ -11,6 +12,7 @@ import { PaywallContext } from '../contexts/PaywallContext'
 // animation state and routes accumulated deltas through a debounced flush.
 
 export function useStickerActions(sticker: Pick<Sticker, 'id' | 'quantity' | 'team_code'>) {
+  const { userId } = useStickersContext()
   const adjust = useAdjustSticker()
   const triggerPaywall = useContext(PaywallContext)
 
@@ -32,10 +34,12 @@ export function useStickerActions(sticker: Pick<Sticker, 'id' | 'quantity' | 'te
     setTimeout(() => setPopping(false), 200)
     setTimeout(() => setFloats(f => f.slice(1)), 750)
     bump(+1)
+    const isFirst = consumeFirstStickerChange(userId)
     telemetry.track(AnalyticsEvent.STICKER_QUANTITY_CHANGED, {
       team_code: sticker.team_code,
       delta: 1,
       source: 'ui_click',
+      ...(isFirst ? { is_first_sticker_change: true } : {}),
       ...readOnboardingStickerContext(),
     })
   }

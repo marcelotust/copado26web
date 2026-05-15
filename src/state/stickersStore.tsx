@@ -1,7 +1,7 @@
 // Public surface of the stickers store. The actual implementation is split
 // across stickersTypes / stickersReducer / StickersProvider / selectors.
 
-export { StickersProvider } from './StickersProvider'
+export { StickersProvider, useStickersContext } from './StickersProvider'
 export {
   useStickersStatus,
   useTeams,
