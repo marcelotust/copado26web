@@ -9,7 +9,7 @@
 
 ## CI status
 
-The `e2e` workflow on pull requests is **informational** (`continue-on-error: true`) until smoke tests are stable on `main`. The `check` workflow (lint, typecheck, unit) remains required.
+The `e2e` workflow runs on every pull request and on `main`. The `smoke` job is **required** for merge.
 
 ## Local — public only
 
@@ -67,13 +67,6 @@ Session is saved to `e2e/.auth/user.json` (gitignored).
 | `E2E_TEST_EMAIL` | Test account email |
 | `E2E_TEST_PASSWORD` | Test account password |
 | `E2E_SUPABASE_SERVICE_ROLE_KEY` | Optional — create/reset test user |
-
-## Re-enabling the PR gate
-
-After two or three consecutive green `e2e` runs on `main`:
-
-1. Remove `continue-on-error: true` from [`.github/workflows/e2e.yml`](../.github/workflows/e2e.yml).
-2. In GitHub **Settings → Branches**, add the `e2e` check as required (if used).
 
 ## Out of scope
 
