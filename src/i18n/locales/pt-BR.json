@@ -111,7 +111,8 @@
     "resetFailed": "Não foi possível reiniciar o álbum. Verifique a conexão.",
     "importFailed": "Não foi possível importar o álbum. Tente novamente.",
     "restoreFailed": "Não foi possível restaurar o backup. Tente novamente.",
-    "stickerUpdateFailed": "Não foi possível salvar a figurinha. Tente de novo."
+    "stickerUpdateFailed": "Não foi possível salvar a figurinha. Tente de novo.",
+    "deleteAccountFailed": "Não foi possível excluir a conta. Tente novamente ou contate o suporte."
   },
 
   "consent": {
@@ -317,7 +318,18 @@
     "resetConfirmYes": "Sim, reiniciar tudo",
     "resetConfirmNo": "Cancelar",
     "resetting": "Reiniciando…",
-    "resetDone": "Álbum reiniciado com sucesso."
+    "resetDone": "Álbum reiniciado com sucesso.",
+    "deleteAccountTitle": "Excluir conta",
+    "deleteAccountHint": "Remove sua conta, e-mail de login e todo o progresso do álbum na nuvem. Esta ação não pode ser desfeita.",
+    "deleteAccount": "Excluir minha conta",
+    "deleteAccountConfirmTitle": "Excluir conta permanentemente?",
+    "deleteAccountConfirmDesc": "Todos os dados da conta {{email}} serão apagados. Digite a frase abaixo para confirmar.",
+    "deleteAccountConfirmPhrase": "EXCLUIR",
+    "deleteAccountTypePhrase": "Digite {{phrase}} para confirmar",
+    "deleteAccountPhraseMismatch": "A frase não confere.",
+    "deleteAccountConfirmYes": "Sim, excluir conta",
+    "deleteAccountConfirmNo": "Cancelar",
+    "deletingAccount": "Excluindo…"
   },
 
   "missing": {

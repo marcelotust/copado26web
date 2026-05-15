@@ -5,6 +5,7 @@ import SettingsImportSection  from '../components/SettingsImportSection'
 import SettingsSavePointsSection from '../components/SettingsSavePointsSection'
 import SettingsAnalyticsSection from '../components/SettingsAnalyticsSection'
 import SettingsDangerZone     from '../components/SettingsDangerZone'
+import SettingsDeleteAccountSection from '../components/SettingsDeleteAccountSection'
 import type { ConsentState } from '../hooks/useAnalyticsConsent'
 
 type SettingsPageProps = {
@@ -44,6 +45,7 @@ export default function SettingsPage({
       </section>
       <SettingsSavePointsSection userId={userId} />
       <SettingsDangerZone />
+      <SettingsDeleteAccountSection email={email} onDeleted={onSignOut} />
     </div>
   )
 }

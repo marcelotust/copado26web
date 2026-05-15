@@ -5,7 +5,7 @@ vi.mock('./supabase', () => ({
 }))
 
 import { supabase } from './supabase'
-import { logAuditEvent, resetMyAlbumRpc } from './audit'
+import { deleteMyAccountRpc, logAuditEvent, resetMyAlbumRpc } from './audit'
 
 describe('audit', () => {
   beforeEach(() => {
@@ -22,6 +22,11 @@ describe('audit', () => {
 
   it('calls reset_my_album RPC', async () => {
     await resetMyAlbumRpc()
-    expect(supabase.rpc).toHaveBeenCalledWith('reset_my_album')
+    expect(supabase.rpc).toHaveBeenCalledWith('reset_my_album', undefined)
+  })
+
+  it('calls delete_my_account RPC', async () => {
+    await deleteMyAccountRpc()
+    expect(supabase.rpc).toHaveBeenCalledWith('delete_my_account', undefined)
   })
 })

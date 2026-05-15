@@ -90,6 +90,10 @@ export type Database = {
         Args: Record<string, never>
         Returns: undefined
       }
+      delete_my_account: {
+        Args: Record<string, never>
+        Returns: undefined
+      }
     }
     Enums: { [_ in never]: never }
     CompositeTypes: { [_ in never]: never }
