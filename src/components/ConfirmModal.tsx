@@ -1,4 +1,5 @@
 import { createPortal } from 'react-dom'
+import type { ReactNode } from 'react'
 
 type ConfirmModalProps = {
   isOpen: boolean
@@ -10,6 +11,8 @@ type ConfirmModalProps = {
   onCancel: () => void
   variant?: 'danger' | 'default'
   loading?: boolean
+  confirmDisabled?: boolean
+  children?: ReactNode
 }
 
 export default function ConfirmModal({
@@ -22,6 +25,8 @@ export default function ConfirmModal({
   onCancel,
   variant = 'danger',
   loading = false,
+  confirmDisabled = false,
+  children,
 }: ConfirmModalProps) {
   if (!isOpen) return null
 
@@ -46,10 +51,12 @@ export default function ConfirmModal({
           <p className='text-slate-400 text-sm leading-relaxed'>{description}</p>
         )}
 
+        {children}
+
         <div className='flex gap-3 pt-1'>
           <button
             onClick={onConfirm}
-            disabled={loading}
+            disabled={loading || confirmDisabled}
             className={[
               'flex-1 py-2.5 rounded-xl font-semibold text-sm transition-colors disabled:opacity-50',
               confirmCls,

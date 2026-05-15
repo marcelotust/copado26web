@@ -110,7 +110,9 @@
     "resetFailed": "No se pudo reiniciar el álbum. Comprueba la conexión.",
     "importFailed": "No se pudo importar el álbum. Inténtalo de nuevo.",
     "restoreFailed": "No se pudo restaurar la copia. Inténtalo de nuevo.",
-    "stickerUpdateFailed": "No se pudo guardar la figurita. Inténtalo de nuevo."
+    "stickerUpdateFailed": "No se pudo guardar la figurita. Inténtalo de nuevo.",
+    "deleteAccountFailed": "No se pudo eliminar la cuenta. Inténtalo de nuevo o contacta soporte.",
+    "deleteAccountFailed": "No se pudo eliminar la cuenta. Inténtalo de nuevo o contacta soporte."
   },
 
   "consent": {
@@ -316,7 +318,18 @@
     "resetConfirmYes": "Sí, reiniciar todo",
     "resetConfirmNo": "Cancelar",
     "resetting": "Reiniciando…",
-    "resetDone": "Álbum reiniciado con éxito."
+    "resetDone": "Álbum reiniciado con éxito.",
+    "deleteAccountTitle": "Eliminar cuenta",
+    "deleteAccountHint": "Elimina tu cuenta, el correo de acceso y todo el progreso del álbum en la nube. No se puede deshacer.",
+    "deleteAccount": "Eliminar mi cuenta",
+    "deleteAccountConfirmTitle": "¿Eliminar la cuenta permanentemente?",
+    "deleteAccountConfirmDesc": "Se borrarán todos los datos de {{email}}. Escribe la frase abajo para confirmar.",
+    "deleteAccountConfirmPhrase": "ELIMINAR",
+    "deleteAccountTypePhrase": "Escribe {{phrase}} para confirmar",
+    "deleteAccountPhraseMismatch": "La frase no coincide.",
+    "deleteAccountConfirmYes": "Sí, eliminar cuenta",
+    "deleteAccountConfirmNo": "Cancelar",
+    "deletingAccount": "Eliminando…"
   },
 
   "missing": {

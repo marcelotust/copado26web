@@ -110,7 +110,9 @@
     "resetFailed": "Could not reset the album. Check your connection.",
     "importFailed": "Could not import the album. Please try again.",
     "restoreFailed": "Could not restore the backup. Please try again.",
-    "stickerUpdateFailed": "Could not save the sticker. Try again."
+    "stickerUpdateFailed": "Could not save the sticker. Try again.",
+    "deleteAccountFailed": "Could not delete your account. Try again or contact support.",
+    "deleteAccountFailed": "Could not delete your account. Try again or contact support."
   },
 
   "consent": {
@@ -316,7 +318,18 @@
     "resetConfirmYes": "Yes, reset everything",
     "resetConfirmNo": "Cancel",
     "resetting": "Resetting…",
-    "resetDone": "Album has been reset."
+    "resetDone": "Album has been reset.",
+    "deleteAccountTitle": "Delete account",
+    "deleteAccountHint": "Removes your account, login email, and all cloud album progress. This cannot be undone.",
+    "deleteAccount": "Delete my account",
+    "deleteAccountConfirmTitle": "Permanently delete account?",
+    "deleteAccountConfirmDesc": "All data for {{email}} will be erased. Type the phrase below to confirm.",
+    "deleteAccountConfirmPhrase": "DELETE",
+    "deleteAccountTypePhrase": "Type {{phrase}} to confirm",
+    "deleteAccountPhraseMismatch": "Phrase does not match.",
+    "deleteAccountConfirmYes": "Yes, delete account",
+    "deleteAccountConfirmNo": "Cancel",
+    "deletingAccount": "Deleting…"
   },
 
   "missing": {
