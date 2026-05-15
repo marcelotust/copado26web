@@ -49,6 +49,12 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
         ? 'featured-tall'
         : 'default'
 
+  const silhouetteType =
+    sticker.player_name ? 'player' as const
+    : sticker.is_special && sticker.number === 1 ? 'shield' as const
+    : sticker.is_special && sticker.number === 13 ? 'team-photo' as const
+    : 'none' as const
+
   return (
     <div
       className={[
@@ -66,6 +72,7 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
         secondary={secondary}
         numLabel={numLabel}
         albumFace={albumFace}
+        silhouetteType={silhouetteType}
         displayLabel={displayLabel}
         qty={qty}
         floats={floats}
