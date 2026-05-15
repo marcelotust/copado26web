@@ -14,7 +14,7 @@ jobs:
   smoke:
     runs-on: ubuntu-latest
     continue-on-error: true
-    timeout-minutes: 10
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
 
@@ -36,9 +36,28 @@ jobs:
         run: npx playwright install chromium --with-deps
 
       - name: E2E smoke (public)
-        run: npm run test:e2e:public -- --reporter=list
+        run: |
+          set -euo pipefail
+          npx vite preview --host 127.0.0.1 --port 5190 --strictPort &
+          PREVIEW_PID=$!
+          cleanup() { kill "$PREVIEW_PID" 2>/dev/null || true; }
+          trap cleanup EXIT
+          for i in $(seq 1 30); do
+            if curl -sf http://127.0.0.1:5190/ >/dev/null; then
+              echo "Preview ready"
+              break
+            fi
+            if [ "$i" -eq 30 ]; then
+              echo "Preview failed to start"
+              exit 1
+            fi
+            sleep 1
+          done
+          timeout 180 npm run test:e2e:public -- --reporter=line
         env:
           CI: true
+          PLAYWRIGHT_SKIP_WEBSERVER: '1'
+          PLAYWRIGHT_BASE_URL: http://127.0.0.1:5190
           VITE_SUPABASE_URL: https://placeholder.supabase.co
           VITE_SUPABASE_ANON_KEY: placeholder-anon-key
 
