@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { isShareAbort, logger } from '../lib/logger'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 
 type Props = {
@@ -13,7 +14,11 @@ export default function StickerShareActions({ getShareText, shareLabel, copiedLa
   async function handleShare() {
     const text = getShareText()
     if (navigator.share) {
-      try { await navigator.share({ text }); return } catch { /* fall through */ }
+      try { await navigator.share({ text }); return } catch (err) {
+        if (!isShareAbort(err)) {
+          logger.warn('sticker share API failed', { feature: 'share', action: 'native_share' })
+        } else return
+      }
     }
     try {
       await navigator.clipboard.writeText(text)
@@ -21,6 +26,7 @@ export default function StickerShareActions({ getShareText, shareLabel, copiedLa
       setCopied(true)
       setTimeout(() => setCopied(false), 2500)
     } catch {
+      logger.warn('sticker clipboard failed', { feature: 'share', action: 'clipboard' })
       telemetry.track(AnalyticsEvent.STICKERS_SHARED, { channel: 'whatsapp' })
       window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank')
     }

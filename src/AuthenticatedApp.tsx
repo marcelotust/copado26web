@@ -82,6 +82,9 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
             userId={session.user.id}
             section={section}
             email={email}
+            consent={consent}
+            onGrantAnalytics={grant}
+            onDeclineAnalytics={decline}
             onShowMilestone={showMilestone}
             onSignOut={handleSignOut}
           />

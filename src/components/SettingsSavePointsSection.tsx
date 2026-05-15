@@ -5,6 +5,7 @@ import { listAlbumBackups, type AlbumBackupEntry } from '../lib/albumBackupStora
 import { useCatalogSnapshot, useReplaceAllQuantities } from '../state/stickersStore'
 import ConfirmModal from './ConfirmModal'
 import SimpleDialog from './SimpleDialog'
+import { reportError } from '../lib/logger'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 
 type SettingsSavePointsSectionProps = {
@@ -66,8 +67,7 @@ export default function SettingsSavePointsSection({ userId }: SettingsSavePoints
       setRestoreEntry(null)
       reload()
     } catch (e) {
-      console.error('[restore]', e)
-      telemetry.error(e instanceof Error ? e : new Error('album restore failed'), { date: restoreEntry.date })
+      reportError('album restore failed', e, { feature: 'settings', action: 'restore_backup' }, { date: restoreEntry.date })
       setError(t('settings.importErrorNetwork'))
     } finally {
       setRestoring(false)

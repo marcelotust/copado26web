@@ -1,4 +1,5 @@
 import { useEffect, type RefObject } from 'react'
+import { reportError } from '../lib/logger'
 import { supabase } from '../lib/supabase'
 import type { Action } from './stickersTypes'
 
@@ -32,7 +33,15 @@ export function useStickersRealtime(
         const qty = payload.eventType === 'DELETE' ? 0 : (payload.new?.quantity ?? 0)
         dispatch({ type: 'SET_QUANTITY', id: row.sticker_id, qty })
       })
-      .subscribe()
+      .subscribe((status, err) => {
+        if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+          reportError('realtime subscription failed', err ?? new Error(status), {
+            feature: 'stickers',
+            action: 'realtime_subscribe',
+            error_code: status,
+          })
+        }
+      })
 
     return () => { supabase.removeChannel(channel) }
   }, [userId, pendingRef, dispatch])

@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { QRCodeSVG } from 'qrcode.react'
 import { useI18n } from '../i18n'
 import { useTradeIdLists } from '../state/stickersStore'
+import { isShareAbort, logger } from '../lib/logger'
 import { encodeTradeSwapsOnly, MAX_TRADE_PARAM_LENGTH } from '../lib/tradePayload'
 
 type TradeQRModalProps = {
@@ -40,7 +41,10 @@ export default function TradeQRModal({ open, onClose }: TradeQRModalProps) {
       await navigator.clipboard.writeText(tradeUrl)
       setCopied(true)
       window.setTimeout(() => setCopied(false), 2000)
-    } catch {
+    } catch (err) {
+      if (!isShareAbort(err)) {
+        logger.warn('trade link copy failed', { feature: 'trade', action: 'copy_link' })
+      }
       setCopied(false)
     }
   }

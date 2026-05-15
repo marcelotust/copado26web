@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useI18n } from '../i18n'
+import { isShareAbort, logger } from '../lib/logger'
 import { interpolate } from '../lib/shareText'
 import type { Challenge } from '../data/challenges'
 
@@ -17,13 +18,17 @@ export default function ChallengeCompletedModal({ challenge, onDismiss }: Props)
   async function handleShare() {
     const text = interpolate(t('challenges.shareText'), { title: challenge!.title })
     if (navigator.share) {
-      try { await navigator.share({ text }); return } catch { /* cancelled */ }
+      try { await navigator.share({ text }); return } catch (err) {
+        if (isShareAbort(err)) return
+        logger.warn('challenge share API failed', { feature: 'challenges', action: 'native_share' })
+      }
     }
     try {
       await navigator.clipboard.writeText(text)
       setCopied(true)
       setTimeout(() => setCopied(false), 2500)
     } catch {
+      logger.warn('challenge clipboard failed', { feature: 'challenges', action: 'clipboard' })
       window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank')
     }
   }
