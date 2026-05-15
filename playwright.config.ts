@@ -1,10 +1,10 @@
 import { defineConfig, devices } from '@playwright/test'
+import { e2eAuthConfigured } from './e2e/helpers/supabase-auth'
 
-const port = process.env.PLAYWRIGHT_PORT ?? '5173'
+const port = process.env.PLAYWRIGHT_PORT ?? '5190'
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${port}`
 
 export default defineConfig({
-  testDir: 'e2e',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
@@ -27,4 +27,18 @@ export default defineConfig({
           VITE_SUPABASE_ANON_KEY: process.env.VITE_SUPABASE_ANON_KEY ?? 'placeholder-anon-key',
         },
       },
+  projects: [
+    { name: 'public', testDir: 'e2e/public' },
+    ...(e2eAuthConfigured() || process.env.E2E_FORCE_AUTH === '1'
+      ? [
+          { name: 'setup', testMatch: /auth\.setup\.ts/ },
+          {
+            name: 'authenticated',
+            testDir: 'e2e/authenticated',
+            dependencies: ['setup'],
+            use: { storageState: 'e2e/.auth/user.json' },
+          },
+        ]
+      : []),
+  ],
 })

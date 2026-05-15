@@ -16,6 +16,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "test:e2e:public": "playwright test --project=public",
+    "test:e2e:auth": "playwright test --project=setup --project=authenticated",
     "test:coverage": "vitest run --coverage",
     "prepare": "husky"
   },

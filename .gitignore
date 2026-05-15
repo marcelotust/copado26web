@@ -5,6 +5,7 @@ node_modules
 dist
 playwright-report
 test-results
+e2e/.auth/
 
 # Environment variables
 .env

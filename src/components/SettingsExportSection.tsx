@@ -46,6 +46,8 @@ export default function SettingsExportSection() {
         {t('settings.data')}
       </h2>
       <button
+        type='button'
+        data-testid='settings-export-csv'
         onClick={handleExportCSV}
         disabled={exporting}
         className='px-4 py-3 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-left transition-colors disabled:opacity-50'
