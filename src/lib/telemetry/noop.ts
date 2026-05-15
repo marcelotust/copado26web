@@ -4,6 +4,7 @@ export const noopAnalytics: TelemetryAnalyticsPort = {
   track() { /* noop */ },
   flag: () => false,
   variant: () => null,
+  onFeatureFlags: () => () => {},
   setUser() { /* noop */ },
   reset() { /* noop */ },
 }

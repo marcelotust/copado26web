@@ -12,7 +12,7 @@ export default function TabNav() {
     <nav className='shrink-0 relative flex justify-center gap-1 px-4 py-2 bg-slate-900'>
       <NavTab to='/dashboard' label={t('nav.home')}    active={pathname === '/dashboard' || pathname === '/'} color='#F59E0B' />
       <NavTab to='/album'     label={t('nav.album')}   active={pathname === '/album'}                         color='#3B82F6' />
-      <NavTab to='/missing'   label={t('nav.missing')} active={pathname === '/missing'}                       color='#10B981' />
+      <NavTab to='/missing'   label={t('nav.missing')} active={pathname === '/missing'}                       color='#10B981' onboardingTarget='missing-tab' />
       <NavTab to='/swaps'     label={t('nav.swaps')}   active={pathname === '/swaps'} badge={swaps > 0 ? swaps : undefined} color='#F43F5E' />
 
       {/* Quadricolor accent line */}

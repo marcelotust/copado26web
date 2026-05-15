@@ -32,6 +32,15 @@ function createAdapter(ph: PostHog): TelemetryAnalyticsPort {
     },
     flag: (key) => readFlag(ph, key),
     variant: (key) => readVariant(ph, key),
+    onFeatureFlags(listener) {
+      try {
+        const unsubscribe = ph.onFeatureFlags(() => listener())
+        ph.reloadFeatureFlags()
+        return unsubscribe
+      } catch {
+        return () => {}
+      }
+    },
     setUser(userId, traits) {
       try {
         ph.identify(userId, traits as Record<string, unknown> | undefined)

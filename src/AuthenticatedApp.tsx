@@ -19,11 +19,9 @@ import LoadingScreen from './components/LoadingScreen'
 import CatalogErrorScreen from './components/CatalogErrorScreen'
 import ChallengeCompletedModal from './components/ChallengeCompletedModal'
 import { useChallengeCompletion } from './hooks/useChallengeCompletion'
-
+import OnboardingGate from './components/onboarding/OnboardingGate'
 const DEFAULT_SECTION = 'BRA'
-
 type AuthenticatedAppProps = { session: Session; signOut: () => Promise<void> }
-
 export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppProps) {
   const { t } = useI18n()
   const { status, error } = useStickersStatus()
@@ -39,7 +37,6 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
   const [section, setSection] = useState(() => readLastAlbumSection() ?? DEFAULT_SECTION)
   const navigate = useNavigate()
   const location = useLocation()
-
   useEffect(() => {
     if (teams.length === 0) return
     setSection((prev) => {
@@ -47,39 +44,32 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
       return DEFAULT_SECTION
     })
   }, [teams])
-
   useEffect(() => {
     writeLastAlbumSection(section)
   }, [section])
-
   const email = session.user.email
-
   if (location.pathname === '/privacidade') {
     return <LegalPage kind='privacy' />
   }
   if (location.pathname === '/termos') {
     return <LegalPage kind='terms' />
   }
-
   if (status === 'idle' || status === 'loading') {
     return <LoadingScreen label={t('loading')} />
   }
   if (status === 'error') {
     return <CatalogErrorScreen error={error} />
   }
-
   const view = location.pathname === '/dashboard' ? 'dashboard'
              : location.pathname === '/swaps'    ? 'swaps'
              : location.pathname === '/missing'  ? 'missing'
              : location.pathname === '/scanner'  ? 'scanner'
              : location.pathname === '/settings' ? 'settings'
              : 'album'
-
   return (
     <div className='fixed inset-0 flex flex-col bg-slate-950 text-white'>
       <Header onLogout={handleSignOut} email={email} />
       <TabNav />
-
       <div className='flex flex-1 min-h-0'>
         {view === 'album' && (
           <Sidebar
@@ -87,7 +77,6 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
             onSelect={code => { setSection(code); navigate('/album') }}
           />
         )}
-
         <main className='flex-1 min-w-0 overflow-hidden'>
           <AuthenticatedRoutes
             userId={session.user.id}
@@ -102,6 +91,7 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
       {consent === null && <ConsentBanner onAccept={grant} onDecline={decline} />}
       <MilestoneModal milestone={activeMilestone} onDismiss={dismissMilestone} />
       <ChallengeCompletedModal challenge={activeCompletion} onDismiss={dismissCompletion} />
+      <OnboardingGate userId={session.user.id} consent={consent} />
     </div>
   )
 }

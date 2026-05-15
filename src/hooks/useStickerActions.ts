@@ -3,6 +3,7 @@ import { useAdjustSticker } from '../state/stickersStore'
 import { useDebouncedFlush } from './useDebouncedFlush'
 import type { Sticker } from '../types/database'
 import { telemetry } from '../lib/telemetry'
+import { readOnboardingStickerContext } from '../components/onboarding/storage'
 
 // Click handlers + animations for a single sticker card. Quantity itself
 // lives in the central StickersProvider; this hook only owns the local
@@ -29,6 +30,10 @@ export function useStickerActions(sticker: Pick<Sticker, 'id' | 'quantity'>) {
     setTimeout(() => setFloats(f => f.slice(1)), 750)
     bump(+1)
     telemetry.track('sticker_added', { sticker_id: sticker.id })
+    telemetry.track('sticker_marked', {
+      sticker_id: sticker.id,
+      ...readOnboardingStickerContext(),
+    })
   }
 
   function doRemove() {

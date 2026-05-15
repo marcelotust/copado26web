@@ -1,16 +1,34 @@
 import { noopAnalytics, noopErrors } from './noop'
 import { activatePostHogAnalytics, deactivatePostHog } from './posthog'
 import { activateSentryErrors, deactivateSentryUser } from './sentry'
-import type { TelemetryAnalyticsPort, TelemetryConsentState, TelemetryErrorPort, TelemetryProperties } from './types'
+import type {
+  TelemetryAnalyticsPort,
+  TelemetryConsentState,
+  TelemetryErrorPort,
+  TelemetryFeatureFlagsListener,
+  TelemetryProperties,
+} from './types'
 
 let analyticsImpl: TelemetryAnalyticsPort = noopAnalytics
 let errorsImpl: TelemetryErrorPort = noopErrors
+const flagListeners = new Set<TelemetryFeatureFlagsListener>()
+let detachFlagBridge: (() => void) | null = null
 
 /** Bumps when consent changes or `reset()` runs so in-flight init never swaps backends late. */
 let generation = 0
 
 async function deactivateAll(): Promise<void> {
   await Promise.all([deactivatePostHog(), deactivateSentryUser()])
+}
+
+function notifyFlagListeners(): void {
+  flagListeners.forEach((listener) => listener())
+}
+
+function attachFlagBridge(): void {
+  detachFlagBridge?.()
+  detachFlagBridge = analyticsImpl.onFeatureFlags(notifyFlagListeners)
+  notifyFlagListeners()
 }
 
 /**
@@ -38,10 +56,12 @@ export function syncTelemetryConsent(opts: { userId: string; consent: TelemetryC
       }
       analyticsImpl = analytics ?? noopAnalytics
       errorsImpl = errors ?? noopErrors
+      attachFlagBridge()
     } catch {
       if (myGen === generation) {
         analyticsImpl = noopAnalytics
         errorsImpl = noopErrors
+        attachFlagBridge()
       }
     }
   })()
@@ -66,6 +86,14 @@ export const telemetry = {
     return analyticsImpl.variant(key)
   },
 
+  onFeatureFlags(listener: TelemetryFeatureFlagsListener): () => void {
+    flagListeners.add(listener)
+    listener()
+    return () => {
+      flagListeners.delete(listener)
+    }
+  },
+
   error(err: Error, context?: TelemetryProperties): void {
     errorsImpl.capture(err, context)
   },
@@ -80,6 +108,7 @@ export const telemetry = {
     }
     analyticsImpl = noopAnalytics
     errorsImpl = noopErrors
+    attachFlagBridge()
     void deactivateAll()
   },
 }
