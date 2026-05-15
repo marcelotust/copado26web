@@ -20,7 +20,7 @@
     "noImplicitOverride": true,
     "forceConsistentCasingInFileNames": true,
 
-    "types": ["node", "vite/client"]
+    "types": ["node", "vite/client", "vitest/globals"]
   },
   "include": ["src", "vite.config.js"],
   "exclude": ["dist", "node_modules"]

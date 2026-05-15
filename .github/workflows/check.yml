@@ -29,10 +29,5 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Build
-        run: npm run build
-        env:
-          # Build smoke-test only; the keys are read at runtime, but Vite needs
-          # them defined so import.meta.env doesn't choke at build time.
-          VITE_SUPABASE_URL: https://example.supabase.co
-          VITE_SUPABASE_ANON_KEY: dummy-anon-key
+      - name: Test
+        run: npm run test
