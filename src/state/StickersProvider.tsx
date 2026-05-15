@@ -5,6 +5,7 @@ import {
   createContext, useCallback, useContext, useEffect, useMemo, useReducer, useRef,
   type ReactNode,
 } from 'react'
+import { resetMyAlbumRpc, logAuditEvent } from '../lib/audit'
 import { supabase, adjustStickerRpc } from '../lib/supabase'
 import { buildAlbumCsv } from '../lib/albumCsv'
 import { upsertTodayAlbumBackup } from '../lib/albumBackupStorage'
@@ -86,10 +87,9 @@ export function StickersProvider({ userId, children }: { userId: string; childre
   }, [state.catalog, state.quantities, state.status, scheduleLocalDailyBackup])
 
   const resetAll = useCallback(async (): Promise<void> => {
-    const { error } = await supabase.from('user_stickers').delete().eq('user_id', userId)
-    if (error) throw error
+    await resetMyAlbumRpc()
     dispatch({ type: 'CLEAR_ALL_QUANTITIES' })
-  }, [userId])
+  }, [])
 
   const replaceAllQuantities = useCallback(async (next: Map<string, number>): Promise<void> => {
     const positive = new Map<string, number>()
@@ -112,6 +112,12 @@ export function StickersProvider({ userId, children }: { userId: string; childre
       type: 'QUANTITIES_LOADED',
       rows: [...positive].map(([sticker_id, quantity]) => ({ sticker_id, quantity })),
     })
+
+    try {
+      await logAuditEvent('album_import_replace', { sticker_rows: positive.size })
+    } catch {
+      logger.warn('audit log after import failed', { feature: 'album', action: 'audit_import' })
+    }
 
     try {
       upsertTodayAlbumBackup(userId, buildAlbumCsv(state.catalog, positive))

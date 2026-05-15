@@ -59,12 +59,36 @@ export type Database = {
         }
         Update: Partial<Database['public']['Tables']['user_challenge_completions']['Insert']>
       }
+      audit_events: {
+        Row: {
+          id: number
+          user_id: string | null
+          action: string
+          metadata: Record<string, unknown>
+          created_at: string
+        }
+        Insert: {
+          user_id?: string | null
+          action: string
+          metadata?: Record<string, unknown>
+          created_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['audit_events']['Insert']>
+      }
     }
     Views: { [_ in never]: never }
     Functions: {
       adjust_sticker: {
         Args: { p_sticker_id: string; p_delta: number }
         Returns: number
+      }
+      log_audit_event: {
+        Args: { p_action: string; p_metadata?: Record<string, unknown> }
+        Returns: undefined
+      }
+      reset_my_album: {
+        Args: Record<string, never>
+        Returns: undefined
       }
     }
     Enums: { [_ in never]: never }
