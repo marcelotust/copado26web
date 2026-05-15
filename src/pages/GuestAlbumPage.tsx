@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { GuestStickersProvider } from '../state/GuestStickersProvider'
 import { PaywallContext, type PaywallReason } from '../contexts/PaywallContext'
@@ -13,7 +13,14 @@ export default function GuestAlbumPage() {
   const [section, setSection] = useState(DEFAULT_SECTION)
   const [paywallOpen, setPaywallOpen] = useState(false)
 
+  useEffect(() => {
+    telemetry.track(AnalyticsEvent.GUEST_ALBUM_VIEWED)
+  }, [])
+
   const openPaywall = useCallback((reason: PaywallReason) => {
+    if (reason === 'sticker_toggle') {
+      telemetry.track(AnalyticsEvent.GUEST_STICKER_TAPPED)
+    }
     telemetry.track(AnalyticsEvent.PAYWALL_SHOWN, { reason })
     setPaywallOpen(true)
   }, [])

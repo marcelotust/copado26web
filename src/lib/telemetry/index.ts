@@ -122,6 +122,6 @@ export const telemetry = {
   },
 }
 
-export { AnalyticsEvent, sanitizeAnalyticsProps } from './events'
-export type { AnalyticsEventName } from './events'
+export { AnalyticsEvent, FeatureFlag, sanitizeAnalyticsProps } from './events'
+export type { AnalyticsEventName, FeatureFlagKey } from './events'
 export type { TelemetryConsentState, TelemetryProperties } from './types'
