@@ -1,44 +1,57 @@
 import { defineConfig, devices } from '@playwright/test'
-import { e2eAuthConfigured } from './e2e/helpers/supabase-auth'
+
+function e2eAuthConfigured(): boolean {
+  const url = process.env.VITE_SUPABASE_URL ?? ''
+  return Boolean(
+    process.env.E2E_TEST_EMAIL &&
+      process.env.E2E_TEST_PASSWORD &&
+      process.env.VITE_SUPABASE_ANON_KEY &&
+      url.length > 0 &&
+      !url.includes('placeholder'),
+  )
+}
 
 const port = process.env.PLAYWRIGHT_PORT ?? '5190'
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${port}`
 const isCI = !!process.env.CI
-const skipWebServer = !!process.env.PLAYWRIGHT_SKIP_WEBSERVER
 
 export default defineConfig({
-  fullyParallel: true,
+  testIgnore: ['**/.claude/**', '**/node_modules/**', '**/dist/**'],
+  fullyParallel: !isCI,
   forbidOnly: isCI,
-  retries: isCI ? 1 : 0,
-  timeout: 45_000,
-  expect: { timeout: 10_000 },
-  reporter: isCI ? [['github'], ['html', { open: 'never' }]] : 'list',
+  retries: 0,
+  workers: isCI ? 1 : undefined,
+  timeout: 30_000,
+  expect: { timeout: 8_000 },
+  reporter: isCI ? 'github' : 'list',
   use: {
     ...devices['Desktop Chrome'],
     baseURL,
-    navigationTimeout: 20_000,
-    actionTimeout: 10_000,
+    navigationTimeout: 15_000,
+    actionTimeout: 8_000,
+    serviceWorkers: 'block',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
+    launchOptions: isCI ? { args: ['--disable-dev-shm-usage'] } : undefined,
   },
-  webServer: skipWebServer
-    ? undefined
-    : {
-        command: `npm run dev -- --host 127.0.0.1 --port ${port}`,
-        url: baseURL,
-        reuseExistingServer: !isCI,
-        timeout: 120_000,
-        stdout: /Local:\s+http/i,
-        env: {
-          VITE_SUPABASE_URL: process.env.VITE_SUPABASE_URL ?? 'https://placeholder.supabase.co',
-          VITE_SUPABASE_ANON_KEY: process.env.VITE_SUPABASE_ANON_KEY ?? 'placeholder-anon-key',
-        },
-      },
+  webServer: {
+    command: isCI
+      ? `npx vite preview --host 127.0.0.1 --port ${port} --strictPort`
+      : `npm run dev -- --host 127.0.0.1 --port ${port}`,
+    url: baseURL,
+    reuseExistingServer: !isCI,
+    timeout: 60_000,
+    stdout: /Local:\s+http/i,
+    env: {
+      VITE_SUPABASE_URL: process.env.VITE_SUPABASE_URL ?? 'https://placeholder.supabase.co',
+      VITE_SUPABASE_ANON_KEY: process.env.VITE_SUPABASE_ANON_KEY ?? 'placeholder-anon-key',
+    },
+  },
   projects: [
     { name: 'public', testDir: 'e2e/public' },
     ...(e2eAuthConfigured() || process.env.E2E_FORCE_AUTH === '1'
       ? [
-          { name: 'setup', testMatch: /auth\.setup\.ts/ },
+          { name: 'setup', testDir: 'e2e', testMatch: /auth\.setup\.ts/ },
           {
             name: 'authenticated',
             testDir: 'e2e/authenticated',
