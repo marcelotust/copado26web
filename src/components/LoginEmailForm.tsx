@@ -1,7 +1,8 @@
 import { useState, type FormEvent } from 'react'
 import { useI18n } from '../i18n'
 import GoogleIcon from './GoogleIcon'
-import { telemetry } from '../lib/telemetry'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
+import { detectLocale } from '../i18n/localeData'
 
 type LoginEmailFormProps = {
   onSendLink: (email: string) => Promise<void>
@@ -18,14 +19,14 @@ export default function LoginEmailForm({ onSendLink, onGoogleLogin, error }: Log
     e.preventDefault()
     const value = email.trim()
     if (!value) return
-    telemetry.track('login_attempted', { method: 'email' })
+    telemetry.track(AnalyticsEvent.AUTH_MAGIC_LINK_REQUESTED, { locale: detectLocale() })
     setSending(true)
     await onSendLink(value)
     setSending(false)
   }
 
   async function handleGoogleLogin() {
-    telemetry.track('login_attempted', { method: 'google' })
+    telemetry.track(AnalyticsEvent.AUTH_GOOGLE_STARTED, { locale: detectLocale() })
     await onGoogleLogin()
   }
 

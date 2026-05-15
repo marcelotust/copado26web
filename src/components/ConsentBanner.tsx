@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { useI18n } from '../i18n'
-import { telemetry } from '../lib/telemetry'
 
 type Props = {
   onAccept: () => void
@@ -12,11 +11,9 @@ export default function ConsentBanner({ onAccept, onDecline }: Props) {
 
   function handleAccept() {
     onAccept()
-    telemetry.track('analytics_consent_granted')
   }
 
   function handleDecline() {
-    telemetry.track('analytics_consent_declined')
     onDecline()
   }
 

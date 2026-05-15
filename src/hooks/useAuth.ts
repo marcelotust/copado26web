@@ -1,7 +1,8 @@
 // src/hooks/useAuth.ts
 import { useState, useEffect } from 'react'
 import type { Session } from '@supabase/supabase-js'
-import { telemetry } from '../lib/telemetry'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
+import { detectLocale } from '../i18n/localeData'
 
 export function useAuth() {
   const [session, setSession]     = useState<Session | null>(null)
@@ -25,8 +26,17 @@ export function useAuth() {
         })
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
-          (_event, session) => {
-            if (active) setSession(session)
+          (event, session) => {
+            if (!active) return
+            setSession(session)
+            if (event === 'SIGNED_IN' && session) {
+              const provider = session.user.app_metadata?.provider ?? 'email'
+              const createdAt = session.user.created_at ? Date.parse(session.user.created_at) : 0
+              telemetry.track(AnalyticsEvent.AUTH_SIGNED_IN, {
+                provider: typeof provider === 'string' ? provider : 'email',
+                is_new_user: createdAt > 0 && Date.now() - createdAt < 120_000,
+              })
+            }
           },
         )
         unsubscribe = () => subscription.unsubscribe()
@@ -59,9 +69,12 @@ export function useAuth() {
     if (error) {
       setError(error.message)
       telemetry.error(new Error(error.message), { method: 'email', code: error.code })
+      telemetry.track(AnalyticsEvent.AUTH_MAGIC_LINK_FAILED, {
+        error_code: error.code ?? 'unknown',
+        locale: detectLocale(),
+      })
     } else {
       setMagicLinkSent(true)
-      telemetry.track('magic_link_sent')
     }
   }
 

@@ -2,7 +2,7 @@ import { useState, useCallback, useContext, type MouseEvent } from 'react'
 import { useAdjustSticker } from '../state/stickersStore'
 import { useDebouncedFlush } from './useDebouncedFlush'
 import type { Sticker } from '../types/database'
-import { telemetry } from '../lib/telemetry'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import { readOnboardingStickerContext } from '../components/onboarding/storage'
 import { PaywallContext } from '../contexts/PaywallContext'
 
@@ -10,7 +10,7 @@ import { PaywallContext } from '../contexts/PaywallContext'
 // lives in the central StickersProvider; this hook only owns the local
 // animation state and routes accumulated deltas through a debounced flush.
 
-export function useStickerActions(sticker: Pick<Sticker, 'id' | 'quantity'>) {
+export function useStickerActions(sticker: Pick<Sticker, 'id' | 'quantity' | 'team_code'>) {
   const adjust = useAdjustSticker()
   const triggerPaywall = useContext(PaywallContext)
 
@@ -32,9 +32,10 @@ export function useStickerActions(sticker: Pick<Sticker, 'id' | 'quantity'>) {
     setTimeout(() => setPopping(false), 200)
     setTimeout(() => setFloats(f => f.slice(1)), 750)
     bump(+1)
-    telemetry.track('sticker_added', { sticker_id: sticker.id })
-    telemetry.track('sticker_marked', {
-      sticker_id: sticker.id,
+    telemetry.track(AnalyticsEvent.STICKER_QUANTITY_CHANGED, {
+      team_code: sticker.team_code,
+      delta: 1,
+      source: 'ui_click',
       ...readOnboardingStickerContext(),
     })
   }
@@ -43,7 +44,11 @@ export function useStickerActions(sticker: Pick<Sticker, 'id' | 'quantity'>) {
     setRemovals(f => [...f, Date.now()])
     setTimeout(() => setRemovals(f => f.slice(1)), 750)
     bump(-1)
-    telemetry.track('sticker_removed', { sticker_id: sticker.id })
+    telemetry.track(AnalyticsEvent.STICKER_QUANTITY_CHANGED, {
+      team_code: sticker.team_code,
+      delta: -1,
+      source: 'ui_click',
+    })
   }
 
   function handleRemove(e: MouseEvent) {

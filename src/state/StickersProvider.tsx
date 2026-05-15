@@ -8,7 +8,7 @@ import {
 import { supabase, adjustStickerRpc } from '../lib/supabase'
 import { buildAlbumCsv } from '../lib/albumCsv'
 import { upsertTodayAlbumBackup } from '../lib/albumBackupStorage'
-import { telemetry } from '../lib/telemetry'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import { initialState, reducer } from './stickersReducer'
 import { useStickersLoad } from './useStickersLoad'
 import { useStickersRealtime } from './useStickersRealtime'
@@ -64,7 +64,11 @@ export function StickersProvider({ userId, children }: { userId: string; childre
 
     if (error) {
       console.error('[stickers] adjust failed', error)
+      const code = typeof error === 'object' && error && 'code' in error
+        ? String((error as { code?: string }).code ?? 'unknown')
+        : 'unknown'
       telemetry.error(error instanceof Error ? error : new Error('adjust_sticker rpc failed'), { sticker_id: stickerId, delta })
+      telemetry.track(AnalyticsEvent.STICKER_UPDATE_FAILED, { action: 'adjust', error_code: code })
       dispatch({ type: 'SET_QUANTITY', id: stickerId, qty: previous })
       throw error
     }

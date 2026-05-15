@@ -1,4 +1,6 @@
 import type { PostHog } from 'posthog-js'
+import { withVercelAnalytics } from './composite'
+import { sanitizeAnalyticsProps } from './events'
 import type { TelemetryAnalyticsPort } from './types'
 
 let client: PostHog | null = null
@@ -25,7 +27,8 @@ function createAdapter(ph: PostHog): TelemetryAnalyticsPort {
   return {
     track(event, props) {
       try {
-        ph.capture(event, props as Record<string, unknown> | undefined)
+        const safe = sanitizeAnalyticsProps(props)
+        ph.capture(event, safe as Record<string, unknown> | undefined)
       } catch {
         /* ad-block / private mode */
       }
@@ -94,7 +97,7 @@ export async function activatePostHogAnalytics(userId: string): Promise<Telemetr
       }
     }
 
-    return createAdapter(client)
+    return withVercelAnalytics(createAdapter(client))
   } catch {
     return null
   }

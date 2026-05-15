@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 
 export type ConsentState = 'granted' | 'declined' | null
 
@@ -26,11 +27,15 @@ export function useAnalyticsConsent(userId: string): {
   const grant = useCallback(() => {
     writeConsent(userId, 'granted')
     setConsent('granted')
+    try {
+      sessionStorage.setItem('analytics_consent_pending', 'granted')
+    } catch { /* private mode */ }
   }, [userId])
 
   const decline = useCallback(() => {
     writeConsent(userId, 'declined')
     setConsent('declined')
+    telemetry.track(AnalyticsEvent.CONSENT_ANALYTICS_UPDATED, { granted: false })
   }, [userId])
 
   return { consent, grant, decline }

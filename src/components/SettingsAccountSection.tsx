@@ -1,5 +1,5 @@
 import { useI18n } from '../i18n'
-import { telemetry } from '../lib/telemetry'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 
 type SettingsAccountSectionProps = {
   email?: string
@@ -10,7 +10,7 @@ export default function SettingsAccountSection({ email, onSignOut }: SettingsAcc
   const { t } = useI18n()
 
   async function handleSignOut() {
-    telemetry.track('user_signed_out')
+    telemetry.track(AnalyticsEvent.AUTH_SIGNED_OUT)
     await onSignOut()
   }
 
