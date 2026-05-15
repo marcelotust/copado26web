@@ -14,13 +14,12 @@ function e2eAuthConfigured(): boolean {
 const port = process.env.PLAYWRIGHT_PORT ?? '5190'
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${port}`
 const isCI = !!process.env.CI
-const skipWebServer = !!process.env.PLAYWRIGHT_SKIP_WEBSERVER
 
 export default defineConfig({
-  testIgnore: ['**/.claude/**', '**/node_modules/**', '**/dist/**'],
+  testIgnore: ['**/node_modules/**', '**/dist/**'],
   fullyParallel: !isCI,
   forbidOnly: isCI,
-  retries: 0,
+  retries: isCI ? 1 : 0,
   workers: isCI ? 1 : undefined,
   timeout: 20_000,
   expect: { timeout: 8_000 },
@@ -31,25 +30,22 @@ export default defineConfig({
     navigationTimeout: 15_000,
     actionTimeout: 8_000,
     serviceWorkers: 'block',
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     launchOptions: isCI ? { args: ['--disable-dev-shm-usage'] } : undefined,
   },
-  webServer: skipWebServer
-    ? undefined
-    : {
-        command: isCI
-          ? `npx vite preview --host 127.0.0.1 --port ${port} --strictPort`
-          : `npm run dev -- --host 127.0.0.1 --port ${port}`,
-        url: baseURL,
-        reuseExistingServer: !isCI,
-        timeout: 60_000,
-        stdout: /Local:\s+http/i,
-        env: {
-          VITE_SUPABASE_URL: process.env.VITE_SUPABASE_URL ?? 'https://placeholder.supabase.co',
-          VITE_SUPABASE_ANON_KEY: process.env.VITE_SUPABASE_ANON_KEY ?? 'placeholder-anon-key',
-        },
-      },
+  webServer: {
+    command: isCI
+      ? `npx vite preview --host 127.0.0.1 --port ${port} --strictPort`
+      : `npm run dev -- --host 127.0.0.1 --port ${port}`,
+    url: baseURL,
+    reuseExistingServer: !isCI,
+    timeout: 60_000,
+    env: {
+      VITE_SUPABASE_URL: process.env.VITE_SUPABASE_URL ?? 'https://placeholder.supabase.co',
+      VITE_SUPABASE_ANON_KEY: process.env.VITE_SUPABASE_ANON_KEY ?? 'placeholder-anon-key',
+    },
+  },
   projects: [
     { name: 'public', testDir: 'e2e/public' },
     ...(e2eAuthConfigured() || process.env.E2E_FORCE_AUTH === '1'
