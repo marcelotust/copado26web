@@ -77,10 +77,11 @@ export default function AlbumPage({ sectionCode }: { sectionCode: string }) {
           </div>
         ) : (
           <div className={ALBUM_GRID_CLASS}>
-            {stickers.map((s) => (
+            {stickers.map((s, index) => (
               <div
                 key={s.id}
                 className={albumStickerWrapperClass(s, sectionCode)}
+                data-onboarding-target={index === 0 ? 'album-first-sticker' : undefined}
               >
                 <StickerCard
                   sticker={s}

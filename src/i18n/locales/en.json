@@ -314,6 +314,27 @@
     "removeCancel": "Cancel"
   },
 
+  "onboarding": {
+    "label": "Album first steps",
+    "eyebrow": "First steps",
+    "skip": "Skip",
+    "back": "Back",
+    "next": "Next",
+    "start": "Start",
+    "step1": {
+      "title": "Tap any sticker",
+      "body": "Mark the ones you already have. Tap the add button again to log duplicates."
+    },
+    "step2": {
+      "title": "See what is missing",
+      "body": "The Missing tab organizes your list and gets it ready to share with your group."
+    },
+    "step3": {
+      "title": "Everything stays synced",
+      "body": "Your album is saved to your account and follows you across devices."
+    }
+  },
+
   "legal": {
     "back": "Back to app",
     "version": "Version 2026-05-12. Placeholder copy pending legal review.",

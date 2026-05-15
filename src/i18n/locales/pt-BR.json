@@ -315,6 +315,27 @@
     "removeCancel": "Cancelar"
   },
 
+  "onboarding": {
+    "label": "Primeiros passos no álbum",
+    "eyebrow": "Primeiros passos",
+    "skip": "Pular",
+    "back": "Voltar",
+    "next": "Próximo",
+    "start": "Começar",
+    "step1": {
+      "title": "Toque em qualquer figurinha",
+      "body": "Marque as que você já tem. Toque de novo no botão de adicionar para registrar repetidas."
+    },
+    "step2": {
+      "title": "Veja o que está faltando",
+      "body": "A aba Faltando organiza sua lista e deixa tudo pronto para compartilhar com o grupo."
+    },
+    "step3": {
+      "title": "Tudo sincronizado",
+      "body": "Seu álbum fica salvo na sua conta e acompanha você em outros dispositivos."
+    }
+  },
+
   "legal": {
     "back": "Voltar ao app",
     "version": "Versão 2026-05-12. Texto provisório sujeito à revisão jurídica.",
