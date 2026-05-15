@@ -1,7 +1,23 @@
+import playerSvg from '../assets/silhouette-player.svg'
+import shieldSvg from '../assets/silhouette-shield.svg'
+import teamSvg from '../assets/silhouette-team.svg'
+
 // The circular number + team-code badge in the center of every sticker card.
 // Heavily styled — split out so StickerCard can stay readable.
 
 type AlbumFace = 'default' | 'featured-wide' | 'featured-tall'
+type SilhouetteType = 'player' | 'team-photo' | 'shield' | 'none'
+
+const silhouetteSrc: Record<Exclude<SilhouetteType, 'none'>, string> = {
+  player: playerSvg,
+  'team-photo': teamSvg,
+  shield: shieldSvg,
+}
+
+function isWhite(color: string): boolean {
+  const c = color.toLowerCase().replace(/\s/g, '')
+  return c === '#fff' || c === '#ffffff' || c === 'white'
+}
 
 type StickerFaceProps = {
   numLabel: string
@@ -11,11 +27,13 @@ type StickerFaceProps = {
   secondary: string
   /** Album grid: wide cell caps the disc so it does not clip one row tall */
   albumFace?: AlbumFace
+  silhouetteType?: SilhouetteType
 }
 
 export default function StickerFace({
   numLabel, teamCode, collected, primary, secondary,
   albumFace = 'default',
+  silhouetteType = 'none',
 }: StickerFaceProps) {
   const wrapPad =
     albumFace === 'featured-wide'
@@ -48,7 +66,7 @@ export default function StickerFace({
   return (
     <div className={`flex-1 flex min-h-0 items-center justify-center ${wrapPad}`}>
       <div
-        className={`${circleClass} rounded-full flex flex-col items-center justify-center gap-0.5 transition-all duration-150`}
+        className={`${circleClass} relative rounded-full flex flex-col items-center justify-center gap-0.5 transition-all duration-150`}
         style={collected
           ? {
               background: `linear-gradient(135deg, ${primary} 50%, ${secondary} 50%)`,
@@ -59,23 +77,39 @@ export default function StickerFace({
               boxShadow: `inset 0 1px 0 #ffffff08, 0 2px 8px ${primary}20`,
             }}
       >
+        {silhouetteType !== 'none' && (
+          <div className={`absolute inset-0 rounded-full overflow-hidden flex justify-center ${
+            silhouetteType === 'shield' ? 'items-center p-[12%]' : 'items-end'
+          }`}>
+            <img
+              src={silhouetteSrc[silhouetteType]}
+              className={`${
+                silhouetteType === 'shield' ? 'w-full h-full' :
+                silhouetteType === 'player' ? 'w-[70%]' : 'w-[110%]'
+              }`}
+              style={isWhite(primary) || isWhite(secondary) ? { filter: 'brightness(0.914)' } : undefined}
+              aria-hidden
+              alt=''
+            />
+          </div>
+        )}
         <span
-          className='font-black leading-none tabular-nums'
+          className={`relative z-10 font-black leading-none tabular-nums ${silhouetteType === 'player' || silhouetteType === 'team-photo' ? 'mt-[45%]' : ''}`}
           style={{
             fontFamily: "'Bebas Neue', Impact, sans-serif",
             ...numSize,
-            color: collected ? '#fff' : '#64748b',
-            textShadow: collected ? '0 1px 4px #0007, 0 0 10px #0004' : 'none',
+            color: collected ? '#000' : '#64748b',
+            textShadow: 'none',
           }}
         >
           {numLabel}
         </span>
         <span
-          className='font-black tracking-widest uppercase leading-none'
+          className='relative z-10 font-black tracking-widest uppercase leading-none'
           style={{
             ...codeSize,
-            color: collected ? '#fff' : '#475569',
-            textShadow: collected ? '0 1px 3px #0006' : 'none',
+            color: collected ? '#000' : '#475569',
+            textShadow: 'none',
           }}
         >
           {teamCode}

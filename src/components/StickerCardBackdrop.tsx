@@ -6,6 +6,8 @@ import { stickerCardShellStyle } from './stickerCardShellStyle'
 
 type AlbumFace = 'featured-wide' | 'featured-tall' | 'default'
 
+type SilhouetteType = 'player' | 'team-photo' | 'shield' | 'none'
+
 type StickerCardBackdropProps = {
   teamCode: string
   collected: boolean
@@ -15,6 +17,7 @@ type StickerCardBackdropProps = {
   secondary: string
   numLabel: string
   albumFace: AlbumFace
+  silhouetteType: SilhouetteType
   displayLabel: string | null
   qty: number
   floats: number[]
@@ -32,6 +35,7 @@ export default function StickerCardBackdrop({
   secondary,
   numLabel,
   albumFace,
+  silhouetteType,
   displayLabel,
   qty,
   floats,
@@ -74,6 +78,7 @@ export default function StickerCardBackdrop({
         secondary={secondary}
         numLabel={numLabel}
         albumFace={albumFace}
+        silhouetteType={silhouetteType}
         displayLabel={displayLabel}
         qty={qty}
         onAdd={onAdd}

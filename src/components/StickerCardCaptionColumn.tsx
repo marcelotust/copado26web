@@ -6,6 +6,8 @@ const PANINI_BLUE = '#1a56c4'
 
 type AlbumFace = 'featured-wide' | 'featured-tall' | 'default'
 
+type SilhouetteType = 'player' | 'team-photo' | 'shield' | 'none'
+
 type StickerCardCaptionColumnProps = {
   teamCode: string
   collected: boolean
@@ -13,6 +15,7 @@ type StickerCardCaptionColumnProps = {
   secondary: string
   numLabel: string
   albumFace: AlbumFace
+  silhouetteType: SilhouetteType
   displayLabel: string | null
   qty: number
   onAdd: (e: MouseEvent) => void
@@ -26,6 +29,7 @@ export default function StickerCardCaptionColumn({
   secondary,
   numLabel,
   albumFace,
+  silhouetteType,
   displayLabel,
   qty,
   onAdd,
@@ -40,6 +44,7 @@ export default function StickerCardCaptionColumn({
         primary={primary}
         secondary={secondary}
         albumFace={albumFace}
+        silhouetteType={silhouetteType}
       />
 
       <div
