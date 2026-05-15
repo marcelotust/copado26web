@@ -31,11 +31,19 @@ export function useAuth() {
             if (!active) return
             setSession(session)
             if (event === 'SIGNED_IN' && session) {
-              const provider = session.user.app_metadata?.provider ?? 'email'
+              const provider = typeof session.user.app_metadata?.provider === 'string'
+                ? session.user.app_metadata.provider
+                : 'email'
               const createdAt = session.user.created_at ? Date.parse(session.user.created_at) : 0
+              const isNewUser = createdAt > 0 && Date.now() - createdAt < 120_000
+              telemetry.setUser(session.user.id, {
+                provider,
+                is_new_user: isNewUser,
+                locale: detectLocale(),
+              })
               telemetry.track(AnalyticsEvent.AUTH_SIGNED_IN, {
-                provider: typeof provider === 'string' ? provider : 'email',
-                is_new_user: createdAt > 0 && Date.now() - createdAt < 120_000,
+                provider,
+                is_new_user: isNewUser,
               })
             }
           },

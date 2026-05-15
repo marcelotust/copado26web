@@ -5,6 +5,7 @@ import { useI18n } from '../i18n'
 import { useTradeIdLists } from '../state/stickersStore'
 import { isShareAbort, logger } from '../lib/logger'
 import { encodeTradeSwapsOnly, MAX_TRADE_PARAM_LENGTH } from '../lib/tradePayload'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 
 type TradeQRModalProps = {
   open: boolean
@@ -33,12 +34,19 @@ export default function TradeQRModal({ open, onClose }: TradeQRModalProps) {
     if (!open) setCopied(false)
   }, [open])
 
+  useEffect(() => {
+    if (open && tradeUrl) {
+      telemetry.track(AnalyticsEvent.TRADE_LINK_GENERATED, { swap_count: swapIds.length })
+    }
+  }, [open, tradeUrl, swapIds.length])
+
   if (!open) return null
 
   async function copyLink() {
     if (!tradeUrl) return
     try {
       await navigator.clipboard.writeText(tradeUrl)
+      telemetry.track(AnalyticsEvent.TRADE_LINK_COPIED)
       setCopied(true)
       window.setTimeout(() => setCopied(false), 2000)
     } catch (err) {
