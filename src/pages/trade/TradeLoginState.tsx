@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useI18n } from '../../i18n'
-import { AUTH_POST_LOGIN_PATH_KEY } from '../../lib/tradePayload'
+import { AUTH_POST_LOGIN_PATH_KEY } from '../../lib/tradeAuthStorage'
 
 export default function TradeLoginState() {
   const { t } = useI18n()

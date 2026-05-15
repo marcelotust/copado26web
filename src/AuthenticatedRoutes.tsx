@@ -1,11 +1,15 @@
+import { lazy, Suspense } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import type { Milestone } from './lib/milestoneDetection'
-import DashboardPage from './pages/DashboardPage'
-import AlbumPage from './pages/AlbumPage'
-import SwapsPage from './pages/SwapsPage'
-import SettingsPage from './pages/SettingsPage'
-import MissingPage from './pages/MissingPage'
-import ChallengesPage from './pages/ChallengesPage'
+import LoadingScreen from './components/LoadingScreen'
+import { useI18n } from './i18n'
+
+const AlbumPage = lazy(() => import('./pages/AlbumPage'))
+const ChallengesPage = lazy(() => import('./pages/ChallengesPage'))
+const DashboardPage = lazy(() => import('./pages/DashboardPage'))
+const MissingPage = lazy(() => import('./pages/MissingPage'))
+const SettingsPage = lazy(() => import('./pages/SettingsPage'))
+const SwapsPage = lazy(() => import('./pages/SwapsPage'))
 
 type AuthenticatedRoutesProps = {
   userId: string
@@ -22,15 +26,19 @@ export default function AuthenticatedRoutes({
   onShowMilestone,
   onSignOut,
 }: AuthenticatedRoutesProps) {
+  const { t } = useI18n()
+
   return (
-    <Routes>
-      <Route path='/dashboard' element={<DashboardPage userId={userId} onShowMilestone={onShowMilestone} />} />
-      <Route path='/album' element={<AlbumPage sectionCode={section} />} />
-      <Route path='/missing' element={<MissingPage />} />
-      <Route path='/swaps' element={<SwapsPage />} />
-      <Route path='/challenges' element={<ChallengesPage />} />
-      <Route path='/settings' element={<SettingsPage email={email} onSignOut={onSignOut} />} />
-      <Route path='*' element={<Navigate to='/dashboard' replace />} />
-    </Routes>
+    <Suspense fallback={<LoadingScreen label={t('loading')} />}>
+      <Routes>
+        <Route path='/dashboard' element={<DashboardPage userId={userId} onShowMilestone={onShowMilestone} />} />
+        <Route path='/album' element={<AlbumPage sectionCode={section} />} />
+        <Route path='/missing' element={<MissingPage />} />
+        <Route path='/swaps' element={<SwapsPage />} />
+        <Route path='/challenges' element={<ChallengesPage />} />
+        <Route path='/settings' element={<SettingsPage email={email} onSignOut={onSignOut} />} />
+        <Route path='*' element={<Navigate to='/dashboard' replace />} />
+      </Routes>
+    </Suspense>
   )
 }
