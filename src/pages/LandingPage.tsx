@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import AppLogo from '../components/AppLogo'
-import LandingStickerMock from '../components/LandingStickerMock'
+import LandingStickerCard from '../components/LandingStickerCard'
 import LandingStatPill from '../components/LandingStatPill'
 import { LANDING_FEATURES, LANDING_PRIVACY, LANDING_STATS } from '../data/landingContent'
 
@@ -49,19 +49,15 @@ export default function LandingPage() {
           </div>
 
           <div className='pointer-events-none hidden md:block absolute inset-0' aria-hidden='true'>
-            <LandingStickerMock code='BRA' flag='🇧🇷' num='10' collected style={{ top: 110, left: 'calc(50% - 360px)', transform: 'rotate(-10deg) scale(1.1)' }} />
-            <LandingStickerMock code='ARG' flag='🇦🇷' num='01' collected style={{ top: 220, left: 'calc(50% - 280px)', transform: 'rotate(5deg)' }} />
-            <LandingStickerMock code='GER' flag='🇩🇪' num='05' collected={false} style={{ top: 320, left: 'calc(50% - 340px)', transform: 'rotate(-4deg) scale(0.9)' }} />
-            <LandingStickerMock code='FRA' flag='🇫🇷' num='07' collected style={{ top: 100, right: 'calc(50% - 360px)', transform: 'rotate(9deg) scale(1.1)' }} />
-            <LandingStickerMock code='ENG' flag='🏴󠁧󠁢󠁥󠁮󠁧󠁿' num='09' collected style={{ top: 230, right: 'calc(50% - 275px)', transform: 'rotate(-6deg)' }} />
-            <LandingStickerMock code='POR' flag='🇵🇹' num='07' collected={false} style={{ top: 330, right: 'calc(50% - 345px)', transform: 'rotate(3deg) scale(0.9)' }} />
+            <LandingStickerCard code='BRA' num='10' collected style={{ top: 110, left: 'calc(50% - 360px)', transform: 'rotate(-10deg) scale(1.1)' }} />
+            <LandingStickerCard code='ARG' num='01' collected style={{ top: 220, left: 'calc(50% - 280px)', transform: 'rotate(5deg)' }} />
+            <LandingStickerCard code='GER' num='05' collected={false} style={{ top: 320, left: 'calc(50% - 340px)', transform: 'rotate(-4deg) scale(0.9)' }} />
+            <LandingStickerCard code='FRA' num='07' collected style={{ top: 100, right: 'calc(50% - 360px)', transform: 'rotate(9deg) scale(1.1)' }} />
+            <LandingStickerCard code='ENG' num='09' collected style={{ top: 230, right: 'calc(50% - 275px)', transform: 'rotate(-6deg)' }} />
+            <LandingStickerCard code='POR' num='07' collected={false} style={{ top: 330, right: 'calc(50% - 345px)', transform: 'rotate(3deg) scale(0.9)' }} />
           </div>
 
           <div className='relative z-10 flex flex-col items-center gap-5 max-w-2xl'>
-            <span className='inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-800/80 border border-slate-700 text-xs text-slate-400 backdrop-blur-sm'>
-              <span aria-hidden='true'>⚽</span> Copa do Mundo FIFA 2026
-            </span>
-
             <h1 id='hero-heading' className='text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.05] tracking-tight'>
               Complete o{' '}
               <span className='text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-rose-400 to-emerald-400'>
@@ -70,7 +66,10 @@ export default function LandingPage() {
               <br />da história
             </h1>
 
-            <p className='text-slate-400 text-base sm:text-lg leading-relaxed max-w-md'>
+            <p
+              className='text-slate-300 text-base sm:text-lg leading-relaxed max-w-md'
+              style={{ textShadow: '0 1px 8px rgba(2,6,23,0.9), 0 2px 24px rgba(2,6,23,0.7)' }}
+            >
               Controle suas figurinhas, compartilhe listas e encontre trocas com amigos —
               tudo no celular, em tempo real, de graça.
             </p>
@@ -83,9 +82,14 @@ export default function LandingPage() {
               >
                 <span aria-hidden='true'>⚽</span> Começar grátis
               </Link>
-              <div className='flex flex-col items-center gap-1'>
+              <div className='flex flex-col items-center gap-1.5'>
                 <p className='text-xs text-slate-600'>Sem cartão · Sem anúncios · 100% grátis</p>
-                <p className='text-xs text-slate-700'>Funciona no celular sem precisar instalar</p>
+                <Link
+                  to='/album'
+                  className={`text-xs text-slate-500 hover:text-slate-300 underline underline-offset-4 transition-colors ${FOCUS_RING}`}
+                >
+                  Explorar o álbum →
+                </Link>
               </div>
             </div>
           </div>
@@ -235,10 +239,10 @@ export default function LandingPage() {
             <p>Feito por fãs, para fãs</p>
             <span className='hidden sm:inline text-slate-800'>·</span>
             <a
-              href='mailto:hello@copa26web.app'
+              href='mailto:hello@meualbum2026.app'
               className={`hover:text-slate-400 transition-colors ${FOCUS_RING}`}
             >
-              hello@copa26web.app
+              hello@meualbum2026.app
             </a>
           </div>
           <nav aria-label='Links legais'>

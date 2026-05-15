@@ -1,9 +1,10 @@
-import { useState, useCallback, type MouseEvent } from 'react'
+import { useState, useCallback, useContext, type MouseEvent } from 'react'
 import { useAdjustSticker } from '../state/stickersStore'
 import { useDebouncedFlush } from './useDebouncedFlush'
 import type { Sticker } from '../types/database'
 import { telemetry } from '../lib/telemetry'
 import { readOnboardingStickerContext } from '../components/onboarding/storage'
+import { PaywallContext } from '../contexts/PaywallContext'
 
 // Click handlers + animations for a single sticker card. Quantity itself
 // lives in the central StickersProvider; this hook only owns the local
@@ -11,6 +12,7 @@ import { readOnboardingStickerContext } from '../components/onboarding/storage'
 
 export function useStickerActions(sticker: Pick<Sticker, 'id' | 'quantity'>) {
   const adjust = useAdjustSticker()
+  const triggerPaywall = useContext(PaywallContext)
 
   const [popping, setPopping]   = useState(false)
   const [floats, setFloats]     = useState<number[]>([])
@@ -24,6 +26,7 @@ export function useStickerActions(sticker: Pick<Sticker, 'id' | 'quantity'>) {
 
   function handleAdd(e: MouseEvent) {
     e.stopPropagation()
+    if (triggerPaywall) { triggerPaywall('sticker_toggle'); return }
     setPopping(true)
     setFloats(f => [...f, Date.now()])
     setTimeout(() => setPopping(false), 200)
@@ -45,6 +48,7 @@ export function useStickerActions(sticker: Pick<Sticker, 'id' | 'quantity'>) {
 
   function handleRemove(e: MouseEvent) {
     e.stopPropagation()
+    if (triggerPaywall) { triggerPaywall('sticker_toggle'); return }
     if (sticker.quantity <= 0) return
     if (sticker.quantity === 1) { setShowRemoveConfirm(true); return }
     doRemove()
