@@ -6,7 +6,7 @@ and repeat the review every quarter.
 
 ## Scope
 
-- Production app URL: `https://copado26web.vercel.app`
+- Production app URL: `https://www.meualbum2026.app` (apex `meualbum2026.app` redirects to `www`)
 - Supabase project: production project used by Vercel `Production`
 - Responsible owner: GitHub repository owner `marcelotust` or the current
   Supabase/Vercel project admin
@@ -27,9 +27,10 @@ Replace `<project-ref>` with the production Supabase project ref.
 
 ### Auth URLs
 
-- `Site URL` is the production origin: `https://copado26web.vercel.app`.
+- `Site URL` is the production origin: `https://www.meualbum2026.app`.
 - `Redirect URLs` contains only explicit allowed origins:
-  - `https://copado26web.vercel.app/**`
+  - `https://www.meualbum2026.app/**`
+  - `https://meualbum2026.app/**` (apex redirect to `www`)
   - preview URLs only when previews are intentionally enabled
   - `http://localhost:5173/**` only for local development projects, not
     production
