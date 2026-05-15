@@ -2,6 +2,7 @@ import { useState, useCallback, type MouseEvent } from 'react'
 import { useAdjustSticker } from '../state/stickersStore'
 import { useDebouncedFlush } from './useDebouncedFlush'
 import type { Sticker } from '../types/database'
+import { telemetry } from '../lib/telemetry'
 
 // Click handlers + animations for a single sticker card. Quantity itself
 // lives in the central StickersProvider; this hook only owns the local
@@ -27,12 +28,14 @@ export function useStickerActions(sticker: Pick<Sticker, 'id' | 'quantity'>) {
     setTimeout(() => setPopping(false), 200)
     setTimeout(() => setFloats(f => f.slice(1)), 750)
     bump(+1)
+    telemetry.track('sticker_added', { sticker_id: sticker.id })
   }
 
   function doRemove() {
     setRemovals(f => [...f, Date.now()])
     setTimeout(() => setRemovals(f => f.slice(1)), 750)
     bump(-1)
+    telemetry.track('sticker_removed', { sticker_id: sticker.id })
   }
 
   function handleRemove(e: MouseEvent) {

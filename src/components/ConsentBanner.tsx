@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useI18n } from '../i18n'
+import { telemetry } from '../lib/telemetry'
 
 type Props = {
   onAccept: () => void
@@ -8,6 +9,16 @@ type Props = {
 
 export default function ConsentBanner({ onAccept, onDecline }: Props) {
   const { t } = useI18n()
+
+  function handleAccept() {
+    onAccept()
+    telemetry.track('analytics_consent_granted')
+  }
+
+  function handleDecline() {
+    telemetry.track('analytics_consent_declined')
+    onDecline()
+  }
 
   return (
     <div
@@ -29,14 +40,14 @@ export default function ConsentBanner({ onAccept, onDecline }: Props) {
         <div className='flex items-center gap-2 shrink-0'>
           <button
             type='button'
-            onClick={onDecline}
+            onClick={handleDecline}
             className='px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-colors'
           >
             {t('consent.decline')}
           </button>
           <button
             type='button'
-            onClick={onAccept}
+            onClick={handleAccept}
             className='px-4 py-2 rounded-lg text-xs font-semibold bg-emerald-700 hover:bg-emerald-600 text-white transition-colors'
           >
             {t('consent.accept')}

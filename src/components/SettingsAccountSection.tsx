@@ -1,4 +1,5 @@
 import { useI18n } from '../i18n'
+import { telemetry } from '../lib/telemetry'
 
 type SettingsAccountSectionProps = {
   email?: string
@@ -7,6 +8,11 @@ type SettingsAccountSectionProps = {
 
 export default function SettingsAccountSection({ email, onSignOut }: SettingsAccountSectionProps) {
   const { t } = useI18n()
+
+  async function handleSignOut() {
+    telemetry.track('user_signed_out')
+    await onSignOut()
+  }
 
   return (
     <section className='flex flex-col gap-2'>
@@ -22,7 +28,7 @@ export default function SettingsAccountSection({ email, onSignOut }: SettingsAcc
         </div>
       )}
       <button
-        onClick={onSignOut}
+        onClick={handleSignOut}
         className='px-4 py-3 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-left transition-colors'
       >
         {t('settings.signOut')}

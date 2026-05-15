@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useI18n } from '../i18n'
 import { useResetAlbum } from '../state/stickersStore'
 import ConfirmModal from './ConfirmModal'
+import { telemetry } from '../lib/telemetry'
 
 export default function SettingsDangerZone() {
   const { t } = useI18n()
@@ -14,6 +15,7 @@ export default function SettingsDangerZone() {
     setResetting(true)
     try {
       await resetAlbum()
+      telemetry.track('album_reset')
       setResetDone(true)
       setShowResetConfirm(false)
       setTimeout(() => setResetDone(false), 3000)
