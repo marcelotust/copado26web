@@ -5,16 +5,16 @@ import type { Challenge } from '../data/challenges'
 import type { Database } from '../types/database'
 import { reportError } from '../lib/logger'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
+import { challengeCompletionStorageKey } from '../lib/userProgressStorage'
+import { useStickersContext } from '../state/StickersProvider'
 import { useStickersStatus } from '../state/selectors'
 
 type ChallengeCompletionInsert =
   Database['public']['Tables']['user_challenge_completions']['Insert']
 
-const STORAGE_KEY = (userId: string) => `challenge_completions_v1_${userId}`
-
 function loadCompleted(userId: string): Set<string> {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY(userId))
+    const raw = localStorage.getItem(challengeCompletionStorageKey(userId))
     if (!raw) return new Set()
     return new Set(JSON.parse(raw) as string[])
   } catch {
@@ -24,7 +24,7 @@ function loadCompleted(userId: string): Set<string> {
 
 function saveCompleted(userId: string, ids: Set<string>): void {
   try {
-    localStorage.setItem(STORAGE_KEY(userId), JSON.stringify([...ids]))
+    localStorage.setItem(challengeCompletionStorageKey(userId), JSON.stringify([...ids]))
   } catch { /* storage quota */ }
 }
 
@@ -39,6 +39,7 @@ export function useChallengeCompletion(userId: string): {
   dismissCompletion: () => void
 } {
   const results = useChallengeProgress()
+  const { progressGeneration } = useStickersContext()
   const { status } = useStickersStatus()
   const seededRef = useRef(false)
   const persistedRef = useRef<Set<string>>(new Set())
@@ -49,7 +50,7 @@ export function useChallengeCompletion(userId: string): {
     persistedRef.current = loadCompleted(userId)
     seededRef.current = false
     setQueue([])
-  }, [userId])
+  }, [userId, progressGeneration])
 
   useEffect(() => {
     // Wait until stickers are loaded; otherwise we'd seed an empty baseline and

@@ -2,12 +2,13 @@
 // One realtime channel, optimistic writes via adjust_sticker RPC.
 
 import {
-  createContext, useCallback, useContext, useEffect, useMemo, useReducer, useRef,
+  createContext, useCallback, useContext, useEffect, useMemo, useReducer, useRef, useState,
   type ReactNode,
 } from 'react'
 import { resetMyAlbumRpc, logAuditEvent } from '../lib/audit'
 import { supabase, adjustStickerRpc } from '../lib/supabase'
 import { buildAlbumCsv } from '../lib/albumCsv'
+import { clearUserProgressCaches } from '../lib/userProgressStorage'
 import { upsertTodayAlbumBackup } from '../lib/albumBackupStorage'
 import { errorCodeFrom, logger, reportError } from '../lib/logger'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
@@ -26,6 +27,7 @@ export function useStickersContext(): ContextValue {
 
 export function StickersProvider({ userId, children }: { userId: string; children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState)
+  const [progressGeneration, setProgressGeneration] = useState(0)
   // Pending optimistic writes: sticker_id → ignore conflicting realtime echoes
   const pendingRef = useRef<Map<string, number>>(new Map())
   const backupTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -89,7 +91,9 @@ export function StickersProvider({ userId, children }: { userId: string; childre
   const resetAll = useCallback(async (): Promise<void> => {
     await resetMyAlbumRpc()
     dispatch({ type: 'CLEAR_ALL_QUANTITIES' })
-  }, [])
+    clearUserProgressCaches(userId)
+    setProgressGeneration(g => g + 1)
+  }, [userId])
 
   const replaceAllQuantities = useCallback(async (next: Map<string, number>): Promise<void> => {
     const positive = new Map<string, number>()
@@ -127,8 +131,8 @@ export function StickersProvider({ userId, children }: { userId: string; childre
   }, [userId, state.catalog])
 
   const value = useMemo<ContextValue>(
-    () => ({ ...state, userId, adjust, resetAll, replaceAllQuantities }),
-    [state, userId, adjust, resetAll, replaceAllQuantities],
+    () => ({ ...state, userId, progressGeneration, adjust, resetAll, replaceAllQuantities }),
+    [state, userId, progressGeneration, adjust, resetAll, replaceAllQuantities],
   )
   return (
     <StickersContext.Provider value={value}>

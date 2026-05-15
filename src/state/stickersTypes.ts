@@ -20,6 +20,8 @@ export type Action =
 
 export type ContextValue = State & {
   userId: string
+  /** Bumps on album reset so challenge/milestone hooks reload local caches. */
+  progressGeneration: number
   adjust: (stickerId: string, delta: number) => Promise<number | null>
   resetAll: () => Promise<void>
   /** Full replace of quantities (used by CSV import / restore). */

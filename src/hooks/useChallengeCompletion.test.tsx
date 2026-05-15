@@ -24,9 +24,14 @@ vi.mock('./useChallengeProgress', () => ({
   useChallengeProgress: () => mockResults,
 }))
 
+vi.mock('../state/StickersProvider', () => ({
+  useStickersContext: () => ({ progressGeneration: mockProgressGeneration }),
+}))
 vi.mock('../state/selectors', () => ({
   useStickersStatus: () => ({ status: mockStatus, error: null }),
 }))
+
+let mockProgressGeneration = 0
 
 import { useChallengeCompletion } from './useChallengeCompletion'
 
@@ -46,6 +51,7 @@ describe('useChallengeCompletion', () => {
     localStorage.clear()
     mockResults = []
     mockStatus = 'loading'
+    mockProgressGeneration = 0
     trackMock.mockReset()
     upsert.mockClear()
   })
@@ -136,6 +142,29 @@ describe('useChallengeCompletion', () => {
     const { result: hook } = renderHook(() => useChallengeCompletion('user-1'))
     expect(hook.current.activeCompletion).toBeNull()
     expect(trackMock).not.toHaveBeenCalled()
+  })
+
+  it('fires again after progressGeneration bump when local cache was cleared', () => {
+    const c = challenge('kickoff')
+    mockStatus = 'ready'
+    mockResults = [result(c, false)]
+
+    const { result: hook, rerender } = renderHook(() => useChallengeCompletion('user-1'))
+
+    mockResults = [result(c, true)]
+    rerender()
+    expect(hook.current.activeCompletion?.id).toBe('kickoff')
+    act(() => hook.current.dismissCompletion())
+
+    localStorage.removeItem('challenge_completions_v1_user-1')
+    mockProgressGeneration += 1
+    mockResults = [result(c, false)]
+    rerender()
+    expect(hook.current.activeCompletion).toBeNull()
+
+    mockResults = [result(c, true)]
+    rerender()
+    expect(hook.current.activeCompletion?.id).toBe('kickoff')
   })
 
   it('resets queue and baseline when userId changes', () => {

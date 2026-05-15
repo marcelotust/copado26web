@@ -66,6 +66,21 @@ describe('resolveChallengeProgress (dispatch)', () => {
       .toEqual({ owned: 1, total: 2 })
   })
 
+  it('routes teamCodes challenges', () => {
+    const byHost = new Map<string, string[]>([
+      ['USA', ['USA-01', 'USA-02']],
+      ['MEX', ['MEX-01', 'MEX-02']],
+      ['CAN', ['CAN-01', 'CAN-02']],
+    ])
+    const c: Challenge = {
+      id: 't', icon: '', title: '', description: '',
+      difficulty: 'easy', teamCodes: ['USA', 'MEX', 'CAN'], requiredQty: 1, perTeam: true,
+    }
+    const qty = new Map([['USA-02', 1], ['MEX-01', 1], ['CAN-01', 1]])
+    expect(resolveChallengeProgress(c, TEAMS, byHost, qty, 0))
+      .toEqual({ owned: 3, total: 3 })
+  })
+
   it('routes teamCode challenges', () => {
     const c: Challenge = {
       id: 't', icon: '', title: '', description: '',
