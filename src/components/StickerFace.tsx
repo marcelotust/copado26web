@@ -5,7 +5,7 @@ import teamSvg from '../assets/silhouette-team.svg'
 // The circular number + team-code badge in the center of every sticker card.
 // Heavily styled — split out so StickerCard can stay readable.
 
-type AlbumFace = 'default' | 'featured-wide' | 'featured-tall'
+type AlbumFace = 'default' | 'featured-wide'
 type SilhouetteType = 'player' | 'team-photo' | 'shield' | 'none'
 
 const silhouetteSrc: Record<Exclude<SilhouetteType, 'none'>, string> = {
@@ -38,30 +38,22 @@ export default function StickerFace({
   const wrapPad =
     albumFace === 'featured-wide'
       ? 'px-3 py-2'
-      : albumFace === 'featured-tall'
-        ? 'px-2.5 pt-3 pb-2'
-        : 'px-3 pt-3 pb-1'
+      : 'px-3 pt-3 pb-1'
 
   const circleClass =
     albumFace === 'featured-wide'
       ? 'aspect-square h-full max-h-[9.25rem] w-auto max-w-[min(9.25rem,100%)] shrink-0 mx-auto'
-      : albumFace === 'featured-tall'
-        ? 'aspect-square w-full max-w-[min(100%,10.5rem)] mx-auto'
-        : 'w-full aspect-square'
+      : 'w-full aspect-square'
 
   const numSize =
     albumFace === 'featured-wide'
       ? { fontSize: 'clamp(22px, 5.5vw, 34px)' }
-      : albumFace === 'featured-tall'
-        ? { fontSize: 'clamp(28px, 10vw, 42px)' }
-        : { fontSize: 'clamp(26px, 8vw, 38px)' }
+      : { fontSize: 'clamp(26px, 8vw, 38px)' }
 
   const codeSize =
     albumFace === 'featured-wide'
       ? { fontSize: 'clamp(9px, 2.2vw, 12px)' }
-      : albumFace === 'featured-tall'
-        ? { fontSize: 'clamp(10px, 3vw, 14px)' }
-        : { fontSize: 'clamp(9px, 2.5vw, 13px)' }
+      : { fontSize: 'clamp(9px, 2.5vw, 13px)' }
 
   return (
     <div className={`flex-1 flex min-h-0 items-center justify-center ${wrapPad}`}>
