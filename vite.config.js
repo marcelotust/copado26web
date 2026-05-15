@@ -20,9 +20,7 @@ const sentryPlugin =
     : null
 
 export default defineConfig({
-  // Bind dev server to localhost explicitly — prevents GHSA-67mh-4wv8-2f99 (esbuild SSRF).
-  // Vite 5.x cannot be upgraded to a fixed esbuild without a major version bump; mitigation
-  // is to never expose the dev server to the network (no --host flag in CI or local scripts).
+  // Defense in depth: keep the dev server loopback-only even after the Vite 8 upgrade.
   server: { host: '127.0.0.1' },
   build: {
     sourcemap: true,
