@@ -16,6 +16,9 @@
     "test": "vitest run",
     "test:ci": "vitest run --reporter=verbose",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:public": "playwright test --project=public",
+    "test:e2e:auth": "playwright test --project=setup --project=authenticated",
     "test:coverage": "vitest run --coverage",
     "prepare": "husky"
   },
@@ -34,6 +37,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@playwright/test": "^1.52.0",
     "@sentry/vite-plugin": "^4.9.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
