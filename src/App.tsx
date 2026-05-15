@@ -7,6 +7,7 @@ import { AUTH_POST_LOGIN_PATH_KEY } from './lib/tradeAuthStorage'
 import LoadingScreen from './components/LoadingScreen'
 
 const AuthenticatedApp = lazy(() => import('./AuthenticatedApp'))
+const GuestAlbumPage = lazy(() => import('./pages/GuestAlbumPage'))
 const LandingPage = lazy(() => import('./pages/LandingPage'))
 const LegalPage = lazy(() => import('./pages/LegalPage'))
 const LoginPage = lazy(() => import('./pages/LoginPage'))
@@ -32,6 +33,18 @@ export default function App() {
       <Suspense fallback={loadingScreen}>
         <LegalPage kind='terms' />
       </Suspense>
+    )
+  }
+
+  if (pathname === '/album' && !session) {
+    if (loading) return loadingScreen
+    return (
+      <>
+        <Analytics />
+        <Suspense fallback={loadingScreen}>
+          <GuestAlbumPage />
+        </Suspense>
+      </>
     )
   }
 
@@ -61,7 +74,7 @@ export default function App() {
   if (session && pathname === '/login') {
     try {
       const raw = sessionStorage.getItem(AUTH_POST_LOGIN_PATH_KEY)
-      if (raw?.startsWith('/trade')) {
+      if (raw?.startsWith('/trade') || raw?.startsWith('/album')) {
         sessionStorage.removeItem(AUTH_POST_LOGIN_PATH_KEY)
         return <Navigate to={raw} replace />
       }
