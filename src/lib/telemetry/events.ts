@@ -1,5 +1,6 @@
 /**
  * MVP product analytics taxonomy — see docs/mvp-quality-and-observability.md.
+ * Activation/retention metrics: docs/mvp-activation-retention.md.
  * snake_case names; no PII (email, free text, images).
  */
 import type { TelemetryProperties } from './types'

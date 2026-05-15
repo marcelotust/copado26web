@@ -123,8 +123,8 @@ export function StickersProvider({ userId, children }: { userId: string; childre
   }, [userId, state.catalog])
 
   const value = useMemo<ContextValue>(
-    () => ({ ...state, adjust, resetAll, replaceAllQuantities }),
-    [state, adjust, resetAll, replaceAllQuantities],
+    () => ({ ...state, userId, adjust, resetAll, replaceAllQuantities }),
+    [state, userId, adjust, resetAll, replaceAllQuantities],
   )
   return (
     <StickersContext.Provider value={value}>

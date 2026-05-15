@@ -37,6 +37,7 @@ export function GuestStickersProvider({ onPaywall, children }: Props) {
 
   const value = useMemo(() => ({
     ...state,
+    userId: 'guest',
     adjust: async (_id: string, _delta: number) => {
       onPaywall('sticker_toggle')
       return null
