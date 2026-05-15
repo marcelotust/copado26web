@@ -36,7 +36,7 @@ export default function AuthenticatedRoutes({
         <Route path='/missing' element={<MissingPage />} />
         <Route path='/swaps' element={<SwapsPage />} />
         <Route path='/challenges' element={<ChallengesPage />} />
-        <Route path='/settings' element={<SettingsPage email={email} onSignOut={onSignOut} />} />
+        <Route path='/settings' element={<SettingsPage userId={userId} email={email} onSignOut={onSignOut} />} />
         <Route path='*' element={<Navigate to='/dashboard' replace />} />
       </Routes>
     </Suspense>

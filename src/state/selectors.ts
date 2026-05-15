@@ -16,6 +16,10 @@ export function useResetAlbum() {
   return useStickersContext().resetAll
 }
 
+export function useReplaceAllQuantities() {
+  return useStickersContext().replaceAllQuantities
+}
+
 export function useCatalogSnapshot(): ContextValue {
   return useStickersContext()
 }

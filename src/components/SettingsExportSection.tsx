@@ -1,17 +1,7 @@
 import { useState } from 'react'
 import { useI18n } from '../i18n'
+import { buildAlbumCsv } from '../lib/albumCsv'
 import { useCatalogSnapshot } from '../state/stickersStore'
-
-function buildCsv(catalog: Map<string, { id: string; team_code: string; number: number; player_name: string | null; is_special: boolean }>, quantities: Map<string, number>): string {
-  const rows: string[] = []
-  for (const sticker of catalog.values()) {
-    const qty = quantities.get(sticker.id) ?? 0
-    const label = sticker.player_name ?? ''
-    rows.push(`${sticker.id},${sticker.team_code},${sticker.number},"${label}",${qty},${sticker.is_special}`)
-  }
-  rows.sort()
-  return ['id,team_code,number,label,quantity,is_special', ...rows].join('\n')
-}
 
 function downloadCsv(csv: string) {
   const blob = new Blob([csv], { type: 'text/csv' })
@@ -31,7 +21,7 @@ export default function SettingsExportSection() {
   function handleExportCSV() {
     setExporting(true)
     try {
-      downloadCsv(buildCsv(catalog, quantities))
+      downloadCsv(buildAlbumCsv(catalog, quantities))
     } finally {
       setExporting(false)
     }
