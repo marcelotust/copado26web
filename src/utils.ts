@@ -1,7 +1,7 @@
 // Re-export real-kit colors and provide the legacy hash-based single-color
 // helpers a couple of components still use.
 
-export { TEAM_COLORS, teamColors } from './teamColors'
+export { TEAM_COLORS, readableTeamAccent, teamColors } from './teamColors'
 export type { TeamPalette } from './teamColors'
 
 const PALETTE = [
