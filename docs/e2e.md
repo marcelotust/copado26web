@@ -15,9 +15,9 @@ npm run test:e2e -- --project=public
 ```
 
 Locally, Playwright starts Vite dev on port **5190** (override with `PLAYWRIGHT_PORT`).  
-CI builds the app first, runs `vite preview`, then tests with `PLAYWRIGHT_SKIP_WEBSERVER=1`.
+CI builds the app first; Playwright then starts `vite preview` via `webServer`.
 
-Public tests **abort** requests to `*.supabase.co` so placeholder URLs never hang navigation.
+Public tests block **service workers** and abort requests to Supabase, PostHog, Sentry, and CDN hosts so placeholder URLs and analytics cannot hang navigation.
 
 ## Local — authenticated suite
 
