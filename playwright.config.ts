@@ -3,25 +3,32 @@ import { e2eAuthConfigured } from './e2e/helpers/supabase-auth'
 
 const port = process.env.PLAYWRIGHT_PORT ?? '5190'
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${port}`
+const isCI = !!process.env.CI
+const skipWebServer = !!process.env.PLAYWRIGHT_SKIP_WEBSERVER
 
 export default defineConfig({
   fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 1 : 0,
-  reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',
+  forbidOnly: isCI,
+  retries: isCI ? 1 : 0,
+  timeout: 45_000,
+  expect: { timeout: 10_000 },
+  reporter: isCI ? [['github'], ['html', { open: 'never' }]] : 'list',
   use: {
     ...devices['Desktop Chrome'],
     baseURL,
+    navigationTimeout: 20_000,
+    actionTimeout: 10_000,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
-  webServer: process.env.PLAYWRIGHT_SKIP_WEBSERVER
+  webServer: skipWebServer
     ? undefined
     : {
         command: `npm run dev -- --host 127.0.0.1 --port ${port}`,
         url: baseURL,
-        reuseExistingServer: !process.env.CI,
+        reuseExistingServer: !isCI,
         timeout: 120_000,
+        stdout: /Local:\s+http/i,
         env: {
           VITE_SUPABASE_URL: process.env.VITE_SUPABASE_URL ?? 'https://placeholder.supabase.co',
           VITE_SUPABASE_ANON_KEY: process.env.VITE_SUPABASE_ANON_KEY ?? 'placeholder-anon-key',

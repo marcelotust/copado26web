@@ -15,7 +15,7 @@ test.describe('album', () => {
 
     await page.getByRole('button', { name: 'Remove sticker' }).first().click()
     // qty was 1 → confirm modal may appear; confirm if visible
-    const confirm = page.getByRole('button', { name: /sim|yes|confirmar/i })
+    const confirm = page.getByRole('button', { name: /remover|remove/i })
     if (await confirm.isVisible({ timeout: 1500 }).catch(() => false)) {
       await confirm.click()
     }

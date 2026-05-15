@@ -14,7 +14,10 @@ npx playwright install chromium
 npm run test:e2e -- --project=public
 ```
 
-Starts Vite on port **5190** (override with `PLAYWRIGHT_PORT`).
+Locally, Playwright starts Vite dev on port **5190** (override with `PLAYWRIGHT_PORT`).  
+CI builds the app first, runs `vite preview`, then tests with `PLAYWRIGHT_SKIP_WEBSERVER=1`.
+
+Public tests **abort** requests to `*.supabase.co` so placeholder URLs never hang navigation.
 
 ## Local — authenticated suite
 

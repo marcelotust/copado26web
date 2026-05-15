@@ -14,7 +14,7 @@ setup('authenticate test user', async ({ page }) => {
   const supabaseUrl = process.env.VITE_SUPABASE_URL!
   const storageKey = supabaseAuthStorageKey(supabaseUrl)
 
-  await page.goto('/login')
+  await page.goto('/login', { waitUntil: 'domcontentloaded' })
   await page.evaluate(({ key, s }) => {
     localStorage.setItem(key, JSON.stringify(s))
   }, {
@@ -29,7 +29,7 @@ setup('authenticate test user', async ({ page }) => {
     },
   })
 
-  await page.goto('/album')
+  await page.goto('/album', { waitUntil: 'domcontentloaded' })
   await expect(page.getByRole('navigation')).toBeVisible({ timeout: 45_000 })
   await expect(page.getByRole('button', { name: 'Add sticker' }).first()).toBeVisible({
     timeout: 45_000,
