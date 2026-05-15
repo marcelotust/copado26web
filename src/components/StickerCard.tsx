@@ -9,8 +9,8 @@ import type { Sticker } from '../types/database'
 type StickerCardProps = {
   sticker: Sticker
   teamCode: string
-  /** Album page only: escudo ocupa 2 linhas, plantel 2 colunas no grid */
-  albumCell?: 'featured-tall' | 'featured-wide'
+  /** Album page only: selected stickers occupy 2 columns in the grid */
+  albumCell?: 'featured-wide'
 }
 
 export default function StickerCard({ sticker, teamCode, albumCell }: StickerCardProps) {
@@ -29,7 +29,7 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
     ?? (sticker.is_special && sticker.number === 1 ? t('sticker.shield') : null)
     ?? (sticker.is_special && sticker.number === 13 ? t('sticker.teamPhoto') : null)
 
-  const fillsAlbumSpan = albumCell === 'featured-tall' || albumCell === 'featured-wide'
+  const fillsAlbumSpan = albumCell === 'featured-wide'
 
   const isTeamSquadWide =
     albumCell === 'featured-wide' &&
@@ -39,15 +39,10 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
     teamCode !== 'FWC' &&
     teamCode !== 'CC'
 
-  const useEscudoSheen = albumCell === 'featured-tall' || isTeamSquadWide
+  const useEscudoSheen = isTeamSquadWide
   const useWideCyanSheen = albumCell === 'featured-wide' && !isTeamSquadWide
 
-  const albumFace =
-    albumCell === 'featured-wide'
-      ? 'featured-wide'
-      : albumCell === 'featured-tall'
-        ? 'featured-tall'
-        : 'default'
+  const albumFace = albumCell === 'featured-wide' ? 'featured-wide' : 'default'
 
   const silhouetteType =
     sticker.player_name ? 'player' as const

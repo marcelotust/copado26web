@@ -11,24 +11,27 @@ function isVirtualAlbumSection(code: string): boolean {
   return code === 'WAP' || code === 'FWC' || code === 'CC'
 }
 
+function isWideAlbumSticker(s: Sticker, sectionCode: string): boolean {
+  if (sectionCode === 'WAP') return s.number >= 0 && s.number <= 3
+  if (sectionCode === 'FWC') return true
+  return !isVirtualAlbumSection(sectionCode) && s.is_special && s.number === 13
+}
+
 function albumStickerWrapperClass(s: Sticker, sectionCode: string): string {
   const bits = ['min-h-0 h-full']
-  if (isVirtualAlbumSection(sectionCode)) return bits.join(' ')
-  if (s.is_special && s.number === 1) bits.push('col-start-1 row-start-1 row-span-2')
-  // #13: no mobile (3 col) ancora nas duas últimas colunas pra ficar na mesma linha que a #12;
+  if (!isWideAlbumSticker(s, sectionCode)) return bits.join(' ')
+  // No mobile (3 col), ancora nas duas últimas colunas pra ficar na mesma linha que a #12;
   // a partir de sm, só ocupa 2 colunas no fluxo normal (sem colar na direita da página).
-  if (s.is_special && s.number === 13) {
+  if (!isVirtualAlbumSection(sectionCode)) {
     bits.push('max-sm:[grid-column:span_2/-1] sm:col-span-2')
+  } else {
+    bits.push('col-span-2 aspect-[4/3]')
   }
   return bits.join(' ')
 }
 
-function albumStickerCell(sectionCode: string, s: Sticker): 'featured-tall' | 'featured-wide' | undefined {
-  if (isVirtualAlbumSection(sectionCode)) return undefined
-  if (!s.is_special) return undefined
-  if (s.number === 1) return 'featured-tall'
-  if (s.number === 13) return 'featured-wide'
-  return undefined
+function albumStickerCell(sectionCode: string, s: Sticker): 'featured-wide' | undefined {
+  return isWideAlbumSticker(s, sectionCode) ? 'featured-wide' : undefined
 }
 
 export default function AlbumPage({ sectionCode }: { sectionCode: string }) {

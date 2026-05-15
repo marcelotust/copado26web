@@ -4,7 +4,7 @@ import StickerFace from './StickerFace'
 
 const PANINI_BLUE = '#1a56c4'
 
-type AlbumFace = 'featured-wide' | 'featured-tall' | 'default'
+type AlbumFace = 'featured-wide' | 'default'
 
 type SilhouetteType = 'player' | 'team-photo' | 'shield' | 'none'
 
