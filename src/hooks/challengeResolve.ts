@@ -16,7 +16,7 @@ export function resolveChallengeProgress(
   albumCollected: number,
 ): Resolution {
   if (challenge.albumTotal) {
-    return resolveAlbumTotal(challenge.requiredQty as number, albumCollected)
+    return resolveAlbumTotal(challenge.requiredQty, albumCollected)
   }
   if (challenge.confGroups) {
     return resolveConfGroups(challenge.confGroups, teams, byTeam, quantities)
