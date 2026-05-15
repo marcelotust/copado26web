@@ -1,3 +1,5 @@
+import { isShareAbort, logger } from './logger'
+
 /** Share milestone PNG via Web Share API or trigger download. */
 export async function shareOrDownloadPng(blob: Blob, title: string): Promise<void> {
   const file = new File([blob], 'meu-album-2026-conquista.png', { type: 'image/png' })
@@ -12,7 +14,8 @@ export async function shareOrDownloadPng(blob: Blob, title: string): Promise<voi
       await navigator.share(shareData)
       return
     } catch (e) {
-      if (e instanceof DOMException && e.name === 'AbortError') return
+      if (isShareAbort(e)) return
+      logger.warn('milestone share failed', { feature: 'milestones', action: 'native_share' })
     }
   }
   await downloadPngBlob(blob)

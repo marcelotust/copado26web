@@ -1,7 +1,7 @@
 // src/hooks/useAuth.ts
 import { useState, useEffect } from 'react'
 import type { Session } from '@supabase/supabase-js'
-import { logger } from '../lib/logger'
+import { reportError } from '../lib/logger'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import { detectLocale } from '../i18n/localeData'
 
@@ -43,8 +43,7 @@ export function useAuth() {
         unsubscribe = () => subscription.unsubscribe()
       })
       .catch((err: unknown) => {
-        logger.error('failed to load Supabase client', err, { feature: 'auth', action: 'init_client' })
-        telemetry.error(err instanceof Error ? err : new Error('supabase client load failed'))
+        reportError('failed to load Supabase client', err, { feature: 'auth', action: 'init_client' })
         if (active) {
           setError(err instanceof Error ? err.message : 'Failed to load auth')
           setLoading(false)
@@ -69,7 +68,7 @@ export function useAuth() {
     })
     if (error) {
       setError(error.message)
-      telemetry.error(new Error(error.message), { method: 'email', code: error.code })
+      reportError('magic link failed', error, { feature: 'auth', action: 'magic_link', error_code: error.code ?? 'unknown' })
       telemetry.track(AnalyticsEvent.AUTH_MAGIC_LINK_FAILED, {
         error_code: error.code ?? 'unknown',
         locale: detectLocale(),
@@ -88,7 +87,7 @@ export function useAuth() {
     })
     if (error) {
       setError(error.message)
-      telemetry.error(new Error(error.message), { method: 'google', code: error.code })
+      reportError('google oauth failed', error, { feature: 'auth', action: 'google_oauth', error_code: error.code ?? 'unknown' })
     }
   }
 

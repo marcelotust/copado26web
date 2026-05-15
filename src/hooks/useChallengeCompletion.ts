@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase'
 import { useChallengeProgress, type ChallengeResult } from './useChallengeProgress'
 import type { Challenge } from '../data/challenges'
 import type { Database } from '../types/database'
+import { reportError } from '../lib/logger'
 import { telemetry } from '../lib/telemetry'
 
 type ChallengeCompletionInsert =
@@ -69,7 +70,12 @@ export function useChallengeCompletion(userId: string): {
     for (const r of newlyCompleted) {
       persistedRef.current.add(r.challenge.id)
       toAdd.push(r.challenge)
-      persistToSupabase(userId, r.challenge.id)
+      void persistToSupabase(userId, r.challenge.id).catch((err) => {
+        reportError('challenge completion persist failed', err, {
+          feature: 'challenges',
+          action: 'persist_completion',
+        }, { challenge_id: r.challenge.id })
+      })
       telemetry.track('challenge_completed', {
         challenge_id: r.challenge.id,
         challenge_title: r.challenge.title,

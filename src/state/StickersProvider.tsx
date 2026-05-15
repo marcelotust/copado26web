@@ -8,7 +8,7 @@ import {
 import { supabase, adjustStickerRpc } from '../lib/supabase'
 import { buildAlbumCsv } from '../lib/albumCsv'
 import { upsertTodayAlbumBackup } from '../lib/albumBackupStorage'
-import { errorCodeFrom, logger } from '../lib/logger'
+import { errorCodeFrom, logger, reportError } from '../lib/logger'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import { initialState, reducer } from './stickersReducer'
 import { useStickersLoad } from './useStickersLoad'
@@ -40,7 +40,7 @@ export function StickersProvider({ userId, children }: { userId: string; childre
         backupTimerRef.current = null
         try {
           upsertTodayAlbumBackup(userId, buildAlbumCsv(catalog, quantities))
-        } catch (e) {
+        } catch {
           logger.warn('local album backup save failed', { feature: 'album', action: 'backup_save' })
         }
       }, 900)
@@ -65,8 +65,7 @@ export function StickersProvider({ userId, children }: { userId: string; childre
 
     if (error) {
       const code = errorCodeFrom(error)
-      logger.error('adjust sticker failed', error, { feature: 'stickers', action: 'adjust', error_code: code }, { sticker_id: stickerId, delta })
-      telemetry.error(error instanceof Error ? error : new Error('adjust_sticker rpc failed'), { sticker_id: stickerId, delta })
+      reportError('adjust sticker failed', error, { feature: 'stickers', action: 'adjust', error_code: code }, { sticker_id: stickerId, delta })
       telemetry.track(AnalyticsEvent.STICKER_UPDATE_FAILED, { action: 'adjust', error_code: code })
       dispatch({ type: 'SET_QUANTITY', id: stickerId, qty: previous })
       throw error
@@ -116,7 +115,7 @@ export function StickersProvider({ userId, children }: { userId: string; childre
 
     try {
       upsertTodayAlbumBackup(userId, buildAlbumCsv(state.catalog, positive))
-    } catch (e) {
+    } catch {
       logger.warn('album backup after import failed', { feature: 'album', action: 'backup_after_import' })
     }
   }, [userId, state.catalog])

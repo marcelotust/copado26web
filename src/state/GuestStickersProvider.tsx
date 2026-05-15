@@ -2,7 +2,7 @@ import { useEffect, useReducer, useMemo, type ReactNode } from 'react'
 import { supabase } from '../lib/supabase'
 import { StickersContext } from './StickersProvider'
 import { initialState, reducer } from './stickersReducer'
-import { errorCodeFrom, logger } from '../lib/logger'
+import { errorCodeFrom, reportError } from '../lib/logger'
 import type { PaywallReason } from '../contexts/PaywallContext'
 
 type Props = {
@@ -29,7 +29,11 @@ export function GuestStickersProvider({ onPaywall, children }: Props) {
         dispatch({ type: 'QUANTITIES_LOADED', rows: [] }) // all qty=0, transitions status to 'ready'
       } catch (err) {
         if (cancelled) return
-        logger.error('guest catalog load failed', err, { feature: 'stickers', action: 'guest_load', error_code: errorCodeFrom(err) })
+        reportError('guest catalog load failed', err, {
+          feature: 'stickers',
+          action: 'guest_load',
+          error_code: errorCodeFrom(err),
+        })
         dispatch({ type: 'STATUS', status: 'error', error: err as Error })
       }
     })()

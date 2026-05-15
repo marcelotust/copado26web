@@ -8,7 +8,7 @@ import {
 import { useCatalogSnapshot, useReplaceAllQuantities } from '../state/stickersStore'
 import ConfirmModal from './ConfirmModal'
 import SimpleDialog from './SimpleDialog'
-import { logger } from '../lib/logger'
+import { reportError } from '../lib/logger'
 import { telemetry } from '../lib/telemetry'
 
 const CSV_ERROR_I18N: Record<string, string> = {
@@ -96,8 +96,7 @@ export default function SettingsImportSection() {
       setImportedMap(null)
       setDiff(null)
     } catch (err) {
-      logger.error('csv import failed', err, { feature: 'settings', action: 'import_csv' })
-      telemetry.error(err instanceof Error ? err : new Error('album import failed'))
+      reportError('csv import failed', err, { feature: 'settings', action: 'import_csv' })
       setParseError(t('settings.importErrorNetwork'))
     } finally {
       setImporting(false)

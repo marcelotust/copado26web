@@ -1,5 +1,6 @@
 import { isSentryCaptureEnabled, Sentry } from './sentry'
 import { scrubRecord } from './sentry/sanitize'
+import { telemetry, type TelemetryProperties } from './telemetry'
 
 /** Structured fields for MVP logs — no PII (email, tokens, free text). */
 export type LogFields = {
@@ -105,4 +106,20 @@ export const logger = {
     const code = fields.error_code ?? errorCodeFrom(err)
     log('error', message, { ...fields, error_code: code }, err, extra)
   },
+}
+
+/** Logger + Sentry capture — use for failures that should appear in error tracking. */
+export function reportError(
+  message: string,
+  err: unknown,
+  fields: LogFields,
+  extra?: Record<string, unknown>,
+): void {
+  logger.error(message, err, fields, extra)
+  const payload = buildPayload(fields, extra) as TelemetryProperties
+  telemetry.error(err instanceof Error ? err : new Error(message), payload)
+}
+
+export function isShareAbort(err: unknown): boolean {
+  return err instanceof DOMException && err.name === 'AbortError'
 }
