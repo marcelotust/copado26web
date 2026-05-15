@@ -4,6 +4,7 @@ import {
   resolveAlbumTotal,
   resolveTargetIds,
   resolveTeamCode,
+  resolveTeamCodes,
   type Resolution,
 } from './challengeResolveBasics'
 import { resolveConfGroups, resolveConfs, resolveGroupLetter } from './challengeResolveBuckets'
@@ -35,6 +36,15 @@ export function resolveChallengeProgress(
       challenge.requiredQty,
       challenge.perTeam ?? false,
       teams, byTeam, quantities,
+    )
+  }
+  if (challenge.teamCodes?.length) {
+    return resolveTeamCodes(
+      challenge.teamCodes,
+      challenge.requiredQty,
+      challenge.perTeam ?? false,
+      byTeam,
+      quantities,
     )
   }
   if (challenge.teamCode) {

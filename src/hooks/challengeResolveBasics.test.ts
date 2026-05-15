@@ -3,6 +3,7 @@ import {
   resolveAlbumTotal,
   resolveTargetIds,
   resolveTeamCode,
+  resolveTeamCodes,
 } from './challengeResolveBasics'
 
 describe('resolveAlbumTotal', () => {
@@ -53,6 +54,22 @@ describe('resolveTeamCode', () => {
   it('ignores duplicate quantities (quantity > 1 still counts as 1 owned)', () => {
     const qty = new Map([['BRA-01', 7]])
     expect(resolveTeamCode('BRA', 'all', byTeam, qty)).toEqual({ owned: 1, total: 3 })
+  })
+})
+
+describe('resolveTeamCodes', () => {
+  const byTeam = new Map<string, string[]>([
+    ['USA', ['USA-01', 'USA-02']],
+    ['MEX', ['MEX-01', 'MEX-02']],
+    ['CAN', ['CAN-01', 'CAN-02']],
+  ])
+
+  it('counts host nations with perTeam + requiredQty=1', () => {
+    const qty = new Map([['USA-02', 1], ['MEX-01', 1]])
+    expect(resolveTeamCodes(['USA', 'MEX', 'CAN'], 1, true, byTeam, qty)).toEqual({
+      owned: 2,
+      total: 3,
+    })
   })
 })
 

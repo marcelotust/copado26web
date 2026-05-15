@@ -15,7 +15,7 @@ export function useMilestoneDetector({ userId, t }: UseMilestoneDetectorArgs): {
   showMilestone: (m: Milestone) => void
   earnedMilestones: Milestone[]
 } {
-  const { status, teams, byTeam, quantities } = useStickersContext()
+  const { status, teams, byTeam, quantities, progressGeneration } = useStickersContext()
   const { total: albumTotal, collected: albumCollected } = useAlbumProgress()
   const [queue, setQueue] = useState<Milestone[]>([])
   const [storageEpoch, setStorageEpoch] = useState(0)
@@ -30,7 +30,7 @@ export function useMilestoneDetector({ userId, t }: UseMilestoneDetectorArgs): {
     prevAlbumRatioRef.current = null
     prevTeamCompleteRef.current = null
     setQueue([])
-  }, [userId])
+  }, [userId, progressGeneration])
 
   const persisted = useMemo(() => {
     void storageEpoch

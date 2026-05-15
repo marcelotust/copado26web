@@ -11,6 +11,8 @@ export type Challenge = {
   albumTotal?: true
   /** All stickers from one team */
   teamCode?: string
+  /** Explicit list of teams (use with perTeam for “one per nation” style goals) */
+  teamCodes?: string[]
   /** All stickers from all teams in a group (uses Team.group_letter) */
   groupLetter?: string
   /** Explicit list of sticker IDs */

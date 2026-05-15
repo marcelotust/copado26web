@@ -16,8 +16,9 @@ export const CHALLENGES_EASY: Challenge[] = [
     title: 'Países Sede',
     description: 'Cole ao menos 1 figurinha de cada país-sede: EUA, México e Canadá.',
     difficulty: 'easy',
-    targetIds: ['USA-01', 'MEX-01', 'CAN-01'],
-    requiredQty: 3,
+    teamCodes: ['USA', 'MEX', 'CAN'],
+    requiredQty: 1,
+    perTeam: true,
   },
   {
     id: 'group-a-taste',
@@ -35,7 +36,8 @@ export const CHALLENGES_EASY: Challenge[] = [
     title: 'Oceania',
     description: 'Cole ao menos 1 figurinha da Nova Zelândia e da Austrália.',
     difficulty: 'easy',
-    targetIds: ['NZL-01', 'AUS-01'],
-    requiredQty: 2,
+    teamCodes: ['NZL', 'AUS'],
+    requiredQty: 1,
+    perTeam: true,
   },
 ]

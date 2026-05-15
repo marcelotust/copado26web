@@ -9,6 +9,7 @@ const teams: Team[] = [
 
 const ctxState = {
   status: 'loading' as 'loading' | 'ready',
+  progressGeneration: 0,
   byTeam: new Map<string, string[]>([
     ['BRA', ['BRA-01', 'BRA-02']],
     ['ARG', ['ARG-01']],
@@ -32,6 +33,7 @@ describe('useMilestoneDetector', () => {
   beforeEach(() => {
     localStorage.clear()
     ctxState.status = 'loading'
+    ctxState.progressGeneration = 0
     ctxState.quantities = new Map()
     albumState.collected = 0
     albumState.total = 1000
@@ -94,6 +96,30 @@ describe('useMilestoneDetector', () => {
     act(() => result.current.showMilestone({ kind: 'album', pct: 25 }))
     act(() => result.current.dismissMilestone())
     expect(result.current.activeMilestone).toBeNull()
+  })
+
+  it('allows milestones to fire again after progressGeneration bump (album reset)', () => {
+    ctxState.status = 'ready'
+    albumState.total = 100
+    albumState.collected = 0
+
+    const { result, rerender } = renderHook(() => useMilestoneDetector({ userId: 'u1', t }))
+    rerender() // baseline at 0%
+
+    albumState.collected = 30
+    rerender()
+    expect(result.current.activeMilestone).toEqual({ kind: 'album', pct: 25 })
+    act(() => result.current.dismissMilestone())
+
+    localStorage.removeItem('meualbum2026.milestones.v1:u1')
+    ctxState.progressGeneration += 1
+    albumState.collected = 0
+    act(() => { rerender() })
+    expect(result.current.activeMilestone).toBeNull()
+
+    albumState.collected = 30
+    act(() => { rerender() })
+    expect(result.current.activeMilestone).toEqual({ kind: 'album', pct: 25 })
   })
 
   it('earnedMilestones hydrates persisted entries in reverse chronological order', () => {

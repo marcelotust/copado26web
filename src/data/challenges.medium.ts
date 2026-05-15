@@ -17,8 +17,9 @@ export const CHALLENGES_MEDIUM: Challenge[] = [
     title: 'Gigantes da Europa',
     description: 'Cole ao menos 1 figurinha de Inglaterra, França, Alemanha, Espanha e Portugal.',
     difficulty: 'medium',
-    targetIds: ['ENG-01', 'FRA-01', 'GER-01', 'ESP-01', 'POR-01'],
-    requiredQty: 5,
+    teamCodes: ['ENG', 'FRA', 'GER', 'ESP', 'POR'],
+    requiredQty: 1,
+    perTeam: true,
   },
   {
     id: 'asia-rising',
@@ -26,8 +27,9 @@ export const CHALLENGES_MEDIUM: Challenge[] = [
     title: 'Ásia em Alta',
     description: 'Cole ao menos 1 figurinha do Japão, Coreia do Sul, Irã e Catar.',
     difficulty: 'medium',
-    targetIds: ['JPN-01', 'KOR-01', 'IRN-01', 'QAT-01'],
-    requiredQty: 4,
+    teamCodes: ['JPN', 'KOR', 'IRN', 'QAT'],
+    requiredQty: 1,
+    perTeam: true,
   },
   {
     id: 'africa-united',
@@ -54,11 +56,8 @@ export const CHALLENGES_MEDIUM: Challenge[] = [
     title: 'História da Copa',
     description: 'Cole todos os cromos da seção histórica da Copa do Mundo (FWC 09–19).',
     difficulty: 'medium',
-    targetIds: [
-      'FWC-09', 'FWC-10', 'FWC-11', 'FWC-12', 'FWC-13',
-      'FWC-14', 'FWC-15', 'FWC-16', 'FWC-17', 'FWC-18', 'FWC-19',
-    ],
-    requiredQty: 11,
+    teamCode: 'FWC',
+    requiredQty: 'all',
   },
   {
     id: 'five-continents',
