@@ -8,6 +8,7 @@ import {
 import { useCatalogSnapshot, useReplaceAllQuantities } from '../state/stickersStore'
 import ConfirmModal from './ConfirmModal'
 import SimpleDialog from './SimpleDialog'
+import { telemetry } from '../lib/telemetry'
 
 const CSV_ERROR_I18N: Record<string, string> = {
   'csv.empty': 'settings.importErrorEmpty',
@@ -84,12 +85,18 @@ export default function SettingsImportSection() {
     setImporting(true)
     try {
       await replaceAll(importedMap)
+      telemetry.track('album_imported', {
+        changed: diff?.changedIds ?? 0,
+        added: diff?.unitsAdded ?? 0,
+        removed: diff?.unitsRemoved ?? 0,
+      })
       setConfirmOpen(false)
       setPreviewOpen(false)
       setImportedMap(null)
       setDiff(null)
     } catch (err) {
       console.error('[import csv]', err)
+      telemetry.error(err instanceof Error ? err : new Error('album import failed'))
       setParseError(t('settings.importErrorNetwork'))
     } finally {
       setImporting(false)
