@@ -8,7 +8,7 @@ import {
 import { useCatalogSnapshot, useReplaceAllQuantities } from '../state/stickersStore'
 import ConfirmModal from './ConfirmModal'
 import SimpleDialog from './SimpleDialog'
-import { telemetry } from '../lib/telemetry'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 
 const CSV_ERROR_I18N: Record<string, string> = {
   'csv.empty': 'settings.importErrorEmpty',
@@ -85,7 +85,7 @@ export default function SettingsImportSection() {
     setImporting(true)
     try {
       await replaceAll(importedMap)
-      telemetry.track('album_imported', {
+      telemetry.track(AnalyticsEvent.ALBUM_IMPORTED, {
         changed: diff?.changedIds ?? 0,
         added: diff?.unitsAdded ?? 0,
         removed: diff?.unitsRemoved ?? 0,
