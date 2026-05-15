@@ -18,9 +18,16 @@ export function GuestStickersProvider({ onPaywall, children }: Props) {
     dispatch({ type: 'STATUS', status: 'loading' })
     ;(async () => {
       try {
-        const [{ data: teams, error: e1 }, { data: stickers, error: e2 }] = await Promise.all([
+        const catalogQuery = Promise.all([
           supabase.from('teams').select('*').order('sort_order'),
           supabase.from('stickers_catalog').select('*').order('sort_order'),
+        ])
+        const timeout = new Promise<never>((_, reject) => {
+          window.setTimeout(() => reject(new Error('catalog load timeout')), 8_000)
+        })
+        const [{ data: teams, error: e1 }, { data: stickers, error: e2 }] = await Promise.race([
+          catalogQuery,
+          timeout,
         ])
         if (cancelled) return
         if (e1 || e2) throw e1 ?? e2

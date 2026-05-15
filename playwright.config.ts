@@ -16,21 +16,21 @@ const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${port}`
 const isCI = !!process.env.CI
 
 export default defineConfig({
-  testIgnore: ['**/.claude/**', '**/node_modules/**', '**/dist/**'],
+  testIgnore: ['**/node_modules/**', '**/dist/**'],
   fullyParallel: !isCI,
   forbidOnly: isCI,
-  retries: 0,
+  retries: isCI ? 1 : 0,
   workers: isCI ? 1 : undefined,
-  timeout: 30_000,
+  timeout: 20_000,
   expect: { timeout: 8_000 },
-  reporter: isCI ? 'github' : 'list',
+  reporter: isCI ? [['list'], ['github']] : 'list',
   use: {
     ...devices['Desktop Chrome'],
     baseURL,
     navigationTimeout: 15_000,
     actionTimeout: 8_000,
     serviceWorkers: 'block',
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     launchOptions: isCI ? { args: ['--disable-dev-shm-usage'] } : undefined,
   },
@@ -41,7 +41,6 @@ export default defineConfig({
     url: baseURL,
     reuseExistingServer: !isCI,
     timeout: 60_000,
-    stdout: /Local:\s+http/i,
     env: {
       VITE_SUPABASE_URL: process.env.VITE_SUPABASE_URL ?? 'https://placeholder.supabase.co',
       VITE_SUPABASE_ANON_KEY: process.env.VITE_SUPABASE_ANON_KEY ?? 'placeholder-anon-key',
