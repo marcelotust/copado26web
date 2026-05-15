@@ -61,7 +61,7 @@ export default function SwapStickerTile({ sticker, teamCode }: SwapStickerTilePr
         </span>
       </div>
 
-      <StickerButtons qty={qty} collected onAdd={handleAdd} onRemove={handleRemove} />
+      <StickerButtons qty={qty} collected softFill onAdd={handleAdd} onRemove={handleRemove} />
 
       <ConfirmModal
         isOpen={showRemoveConfirm}
