@@ -1,8 +1,9 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import type { Session } from '@supabase/supabase-js'
 import { useI18n } from '../i18n'
 import { decodeTradePayload } from '../lib/tradePayload'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import TradePageLayout from './trade/TradePageLayout'
 import TradeInvalidState from './trade/TradeInvalidState'
 import TradeLoginState from './trade/TradeLoginState'
@@ -16,23 +17,34 @@ export default function TradePage({ session }: TradePageProps) {
   const d = params.get('d')
   const payload = useMemo(() => decodeTradePayload(d), [d])
 
-  if (!d?.trim()) {
+  const invalidReason: 'missing_param' | 'invalid_payload' | null = !d?.trim()
+    ? 'missing_param'
+    : !payload
+      ? 'invalid_payload'
+      : null
+
+  const loginRequired = invalidReason === null && !session
+
+  useEffect(() => {
+    if (invalidReason) {
+      telemetry.track(AnalyticsEvent.TRADE_LINK_INVALID, { reason: invalidReason })
+    } else if (loginRequired) {
+      telemetry.track(AnalyticsEvent.TRADE_LOGIN_REQUIRED)
+    }
+  }, [invalidReason, loginRequired])
+
+  if (invalidReason) {
     return (
       <TradePageLayout session={session} title={t('trade.pageTitle')}>
-        <TradeInvalidState title={t('trade.invalidTitle')} body={t('trade.missingParam')} />
+        <TradeInvalidState
+          title={t('trade.invalidTitle')}
+          body={invalidReason === 'missing_param' ? t('trade.missingParam') : t('trade.invalidDesc')}
+        />
       </TradePageLayout>
     )
   }
 
-  if (!payload) {
-    return (
-      <TradePageLayout session={session} title={t('trade.pageTitle')}>
-        <TradeInvalidState title={t('trade.invalidTitle')} body={t('trade.invalidDesc')} />
-      </TradePageLayout>
-    )
-  }
-
-  if (!session) {
+  if (loginRequired) {
     return (
       <TradePageLayout session={session} title={t('trade.pageTitle')}>
         <TradeLoginState />
@@ -42,7 +54,7 @@ export default function TradePage({ session }: TradePageProps) {
 
   return (
     <TradePageLayout session={session} title={t('trade.pageTitle')}>
-      <TradeMatchPanel payload={payload} />
+      <TradeMatchPanel payload={payload!} />
     </TradePageLayout>
   )
 }

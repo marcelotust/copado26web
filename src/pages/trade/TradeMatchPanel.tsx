@@ -1,8 +1,9 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useI18n } from '../../i18n'
 import type { TradePayload } from '../../lib/tradePayload'
 import { useStickersStatus, useTradeIdLists } from '../../state/stickersStore'
 import { useStickersContext } from '../../state/StickersProvider'
+import { AnalyticsEvent, telemetry } from '../../lib/telemetry'
 import CatalogErrorScreen from '../../components/CatalogErrorScreen'
 import TradeStickerListColumn from './TradeStickerListColumn'
 import { sortStickerIds } from './sortStickerIds'
@@ -24,6 +25,15 @@ export default function TradeMatchPanel({ payload }: { payload: TradePayload }) 
     if (!payload.hasPeerMissingList) return [] as string[]
     return sortStickerIds(bSwaps.filter((id) => aMissing.has(id)), catalog)
   }, [payload.hasPeerMissingList, bSwaps, aMissing, catalog])
+
+  useEffect(() => {
+    if (status !== 'ready') return
+    telemetry.track(AnalyticsEvent.TRADE_MATCH_VIEWED, {
+      you_receive: youReceive.length,
+      you_give: youGive.length,
+      has_peer_missing_list: payload.hasPeerMissingList,
+    })
+  }, [status, youReceive.length, youGive.length, payload.hasPeerMissingList])
 
   if (status === 'idle' || status === 'loading') {
     return (

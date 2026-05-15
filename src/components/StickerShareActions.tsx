@@ -2,39 +2,45 @@ import { useState } from 'react'
 import { isShareAbort, logger } from '../lib/logger'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 
+type ShareSurface = 'missing' | 'swaps'
+
 type Props = {
   getShareText: () => string
   shareLabel: string
   copiedLabel: string
+  surface: ShareSurface
 }
 
-export default function StickerShareActions({ getShareText, shareLabel, copiedLabel }: Props) {
+export default function StickerShareActions({ getShareText, shareLabel, copiedLabel, surface }: Props) {
   const [copied, setCopied] = useState(false)
 
   async function handleShare() {
     const text = getShareText()
     if (navigator.share) {
-      try { await navigator.share({ text }); return } catch (err) {
-        if (!isShareAbort(err)) {
-          logger.warn('sticker share API failed', { feature: 'share', action: 'native_share' })
-        } else return
+      try {
+        await navigator.share({ text })
+        telemetry.track(AnalyticsEvent.STICKERS_SHARED, { channel: 'native_share', surface })
+        return
+      } catch (err) {
+        if (isShareAbort(err)) return
+        logger.warn('sticker share API failed', { feature: 'share', action: 'native_share' })
       }
     }
     try {
       await navigator.clipboard.writeText(text)
-      telemetry.track(AnalyticsEvent.STICKERS_SHARED, { channel: 'clipboard' })
+      telemetry.track(AnalyticsEvent.STICKERS_SHARED, { channel: 'clipboard', surface })
       setCopied(true)
       setTimeout(() => setCopied(false), 2500)
     } catch {
       logger.warn('sticker clipboard failed', { feature: 'share', action: 'clipboard' })
-      telemetry.track(AnalyticsEvent.STICKERS_SHARED, { channel: 'whatsapp' })
+      telemetry.track(AnalyticsEvent.STICKERS_SHARED, { channel: 'whatsapp', surface })
       window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank')
     }
   }
 
   function handleWhatsApp() {
     const text = getShareText()
-    telemetry.track(AnalyticsEvent.STICKERS_SHARED, { channel: 'whatsapp' })
+    telemetry.track(AnalyticsEvent.STICKERS_SHARED, { channel: 'whatsapp', surface })
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank')
   }
 

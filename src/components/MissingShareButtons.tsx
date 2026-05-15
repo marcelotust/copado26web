@@ -17,6 +17,7 @@ export default function MissingShareButtons({ groups, total, teamName, teamFlag 
       getShareText={() => buildMissingShareText(groups, teamName, teamFlag, total, t)}
       shareLabel={t('missing.share')}
       copiedLabel={t('missing.copied')}
+      surface='missing'
     />
   )
 }

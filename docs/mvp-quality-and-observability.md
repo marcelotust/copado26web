@@ -55,7 +55,7 @@ Convenção: `snake_case`, propriedades estáveis, sem dados pessoais.
 | `album_restored` | Restauração de save point | `date` |
 | `sticker_quantity_changed` | +/− quantidade | `team_code`, `delta`, `source` (`ui_click`, `keyboard`, `sync`) |
 | `sticker_update_failed` | Falha ao persistir | `action`, `error_code` |
-| `stickers_shared` | Share da lista de figurinhas | `channel` (`whatsapp`, `clipboard`) |
+| `stickers_shared` | Share da lista de figurinhas | `channel` (`whatsapp`, `clipboard`, `native_share`), `surface` (`missing`, `swaps`) |
 | `milestone_shared` | Share do card de marco | `kind` (`album`, `team`), `pct` ou `team_code` |
 | `challenge_completed` | Desafio concluído pela 1ª vez | `challenge_id`, `challenge_title`, `difficulty` |
 | `nav_tab_selected` | Troca de aba principal | `tab` (`dashboard`, `album`, `missing`, `swaps`, `settings`) |
@@ -71,6 +71,11 @@ Convenção: `snake_case`, propriedades estáveis, sem dados pessoais.
 | `onboarding_skipped` | Tutorial pulado | — |
 | `paywall_shown` | Modal de paywall aberto no modo visitante | `reason` |
 | `paywall_dismissed` | Paywall fechado sem login | — |
+| `trade_link_generated` | URL de troca computada com sucesso no QR modal | `swap_count` |
+| `trade_link_copied` | Cópia da URL de troca para o clipboard | — |
+| `trade_match_viewed` | Painel de match aberto com payload válido | `you_receive`, `you_give`, `has_peer_missing_list` |
+| `trade_link_invalid` | Link de troca inválido / parâmetro ausente | `reason` (`missing_param`, `invalid_payload`) |
+| `trade_login_required` | Visitante abre link de troca válido sem sessão | — |
 
 Eventos de ativação/retenção derivados no analytics (primeiro `sticker_quantity_changed`, retorno em D1/D7) usam os eventos acima; não exigem SDK extra no MVP. Definições operacionais e leitura na Vercel: [`mvp-activation-retention.md`](./mvp-activation-retention.md).
 

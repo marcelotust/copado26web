@@ -17,6 +17,7 @@ export default function SwapsShareButtons({ groups, totalExtras, teamName, teamF
       getShareText={() => buildSwapsShareText(groups, teamName, teamFlag, totalExtras, t)}
       shareLabel={t('swaps.share')}
       copiedLabel={t('swaps.copied')}
+      surface='swaps'
     />
   )
 }
