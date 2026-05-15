@@ -21,9 +21,9 @@ export default defineConfig({
   forbidOnly: isCI,
   retries: 0,
   workers: isCI ? 1 : undefined,
-  timeout: 30_000,
+  timeout: 20_000,
   expect: { timeout: 8_000 },
-  reporter: isCI ? 'github' : 'list',
+  reporter: isCI ? [['list'], ['github']] : 'list',
   use: {
     ...devices['Desktop Chrome'],
     baseURL,

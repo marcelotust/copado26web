@@ -36,7 +36,7 @@ jobs:
         run: npx playwright install chromium --with-deps
 
       - name: E2E smoke (public)
-        run: npm run test:e2e:public
+        run: npm run test:e2e:public -- --reporter=list
         env:
           CI: true
           VITE_SUPABASE_URL: https://placeholder.supabase.co
