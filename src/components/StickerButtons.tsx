@@ -41,7 +41,7 @@ export default function StickerButtons({ qty, collected, onAdd, onRemove }: Stic
             : collected ? "text-rose-500 hover:bg-rose-100 hover:text-rose-600 active:bg-rose-200" : "text-rose-500/70 hover:bg-rose-900/40 hover:text-rose-400 active:bg-rose-900/60",
         ].join(" ")}
       >
-        −
+        <span style={collected ? { textShadow: '0 1px 3px rgba(255,255,255,0.8)' } : undefined}>−</span>
       </button>
       <div className={["w-px self-stretch", collected ? "bg-sky-200" : "bg-slate-700"].join(" ")} />
       <button
@@ -49,7 +49,7 @@ export default function StickerButtons({ qty, collected, onAdd, onRemove }: Stic
         aria-label='Add sticker'
         className={`flex-1 flex items-center justify-center h-7 text-base font-bold leading-none transition-colors ${collected ? "text-emerald-600 hover:bg-emerald-100 hover:text-emerald-700 active:bg-emerald-200" : "text-emerald-500/70 hover:bg-emerald-900/40 hover:text-emerald-400 active:bg-emerald-900/60"}`}
       >
-        +
+        <span style={collected ? { textShadow: '0 1px 3px rgba(255,255,255,0.8)' } : undefined}>+</span>
       </button>
     </div>
   );
