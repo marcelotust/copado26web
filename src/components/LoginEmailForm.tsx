@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { useI18n } from '../i18n'
 import GoogleIcon from './GoogleIcon'
+import { telemetry } from '../lib/telemetry'
 
 type LoginEmailFormProps = {
   onSendLink: (email: string) => Promise<void>
@@ -17,16 +18,22 @@ export default function LoginEmailForm({ onSendLink, onGoogleLogin, error }: Log
     e.preventDefault()
     const value = email.trim()
     if (!value) return
+    telemetry.track('login_attempted', { method: 'email' })
     setSending(true)
     await onSendLink(value)
     setSending(false)
+  }
+
+  async function handleGoogleLogin() {
+    telemetry.track('login_attempted', { method: 'google' })
+    await onGoogleLogin()
   }
 
   return (
     <form onSubmit={handleSubmit} className='flex flex-col gap-3'>
       <button
         type='button'
-        onClick={onGoogleLogin}
+        onClick={handleGoogleLogin}
         className='flex items-center justify-center gap-3 px-4 py-3 rounded-lg bg-white hover:bg-gray-100 text-gray-800 font-semibold transition-colors'
       >
         <GoogleIcon />
