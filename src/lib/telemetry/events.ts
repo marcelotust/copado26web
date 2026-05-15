@@ -13,8 +13,13 @@ export const AnalyticsEvent = {
   AUTH_SIGNED_OUT: 'auth_signed_out',
   ALBUM_SEEDED: 'album_seeded',
   ALBUM_SEED_FAILED: 'album_seed_failed',
+  ALBUM_IMPORTED: 'album_imported',
+  ALBUM_RESTORED: 'album_restored',
   STICKER_QUANTITY_CHANGED: 'sticker_quantity_changed',
   STICKER_UPDATE_FAILED: 'sticker_update_failed',
+  STICKERS_SHARED: 'stickers_shared',
+  MILESTONE_SHARED: 'milestone_shared',
+  CHALLENGE_COMPLETED: 'challenge_completed',
   NAV_TAB_SELECTED: 'nav_tab_selected',
   EXPORT_CSV_COMPLETED: 'export_csv_completed',
   EXPORT_CSV_FAILED: 'export_csv_failed',
@@ -23,6 +28,11 @@ export const AnalyticsEvent = {
   ACCOUNT_DELETION_REQUESTED: 'account_deletion_requested',
   ACCOUNT_DELETION_COMPLETED: 'account_deletion_completed',
   CONSENT_ANALYTICS_UPDATED: 'consent_analytics_updated',
+  ONBOARDING_STARTED: 'onboarding_started',
+  ONBOARDING_COMPLETED: 'onboarding_completed',
+  ONBOARDING_SKIPPED: 'onboarding_skipped',
+  PAYWALL_SHOWN: 'paywall_shown',
+  PAYWALL_DISMISSED: 'paywall_dismissed',
 } as const
 
 export type AnalyticsEventName = (typeof AnalyticsEvent)[keyof typeof AnalyticsEvent]

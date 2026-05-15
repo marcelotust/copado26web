@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { telemetry, type TelemetryConsentState } from '../../lib/telemetry'
+import { AnalyticsEvent, telemetry, type TelemetryConsentState } from '../../lib/telemetry'
 import {
   clearActiveOnboarding,
   completeOnboardingStorage,
@@ -46,7 +46,7 @@ export function useOnboarding(userId: string, consent: TelemetryConsentState) {
       if (!cancelled && !activated && isVariantEnabled()) {
         activated = true
         markActiveOnboarding(userId)
-        telemetry.track('onboarding_started')
+        telemetry.track(AnalyticsEvent.ONBOARDING_STARTED)
         setStatus('active')
       }
     }
@@ -81,7 +81,7 @@ export function useOnboarding(userId: string, consent: TelemetryConsentState) {
 
   const complete = useCallback((reason: CompletionReason = 'completed') => {
     completeOnboardingStorage(userId)
-    telemetry.track(reason === 'skipped' ? 'onboarding_skipped' : 'onboarding_completed')
+    telemetry.track(reason === 'skipped' ? AnalyticsEvent.ONBOARDING_SKIPPED : AnalyticsEvent.ONBOARDING_COMPLETED)
     setStatus('hidden')
   }, [userId])
 

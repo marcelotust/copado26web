@@ -4,7 +4,7 @@ import { useChallengeProgress, type ChallengeResult } from './useChallengeProgre
 import type { Challenge } from '../data/challenges'
 import type { Database } from '../types/database'
 import { reportError } from '../lib/logger'
-import { telemetry } from '../lib/telemetry'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 
 type ChallengeCompletionInsert =
   Database['public']['Tables']['user_challenge_completions']['Insert']
@@ -76,7 +76,7 @@ export function useChallengeCompletion(userId: string): {
           action: 'persist_completion',
         }, { challenge_id: r.challenge.id })
       })
-      telemetry.track('challenge_completed', {
+      telemetry.track(AnalyticsEvent.CHALLENGE_COMPLETED, {
         challenge_id: r.challenge.id,
         challenge_title: r.challenge.title,
         difficulty: r.challenge.difficulty,

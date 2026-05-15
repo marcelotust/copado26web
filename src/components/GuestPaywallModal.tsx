@@ -4,7 +4,7 @@ import AppLogo from './AppLogo'
 import LoginEmailForm from './LoginEmailForm'
 import LoginMagicLinkPanel from './LoginMagicLinkPanel'
 import { AUTH_POST_LOGIN_PATH_KEY } from '../lib/tradeAuthStorage'
-import { telemetry } from '../lib/telemetry'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import { useAuth } from '../hooks/useAuth'
 
 const LoginBackgroundMosaic = lazy(() => import('./LoginBackgroundMosaic'))
@@ -29,7 +29,7 @@ export default function GuestPaywallModal({ onClose }: Props) {
   }
 
   function handleDismiss() {
-    telemetry.track('paywall_dismiss')
+    telemetry.track(AnalyticsEvent.PAYWALL_DISMISSED)
     onClose()
   }
 

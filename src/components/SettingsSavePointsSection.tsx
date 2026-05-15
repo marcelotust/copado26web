@@ -6,7 +6,7 @@ import { useCatalogSnapshot, useReplaceAllQuantities } from '../state/stickersSt
 import ConfirmModal from './ConfirmModal'
 import SimpleDialog from './SimpleDialog'
 import { reportError } from '../lib/logger'
-import { telemetry } from '../lib/telemetry'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 
 type SettingsSavePointsSectionProps = {
   userId: string
@@ -63,7 +63,7 @@ export default function SettingsSavePointsSection({ userId }: SettingsSavePoints
     setRestoring(true)
     try {
       await replaceAll(v.quantities)
-      telemetry.track('album_restored', { date: restoreEntry.date })
+      telemetry.track(AnalyticsEvent.ALBUM_RESTORED, { date: restoreEntry.date })
       setRestoreEntry(null)
       reload()
     } catch (e) {
