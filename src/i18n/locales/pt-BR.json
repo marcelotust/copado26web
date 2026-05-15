@@ -339,7 +339,15 @@
     "emptyTitle": "Álbum completo!",
     "emptyDesc": "Parabéns, você tem todas as figurinhas.",
     "share": "Compartilhar",
-    "copied": "Copiado!"
+    "copied": "Copiado!",
+    "tradeChecker": {
+      "hint": "Cole a lista do WhatsApp ou digite códigos no formato AAA 00 (ex: BRA 03 · ESP 12).",
+      "placeholder": "BRA 03 · ESP 12 · FRA 07...",
+      "analyze": "Analisar",
+      "invalidFormat": "Não encontramos figurinhas no formato AAA 00 (ex: BRA 03 ou BRA-03). Cole a lista de sobras ou os códigos separados por espaço ou ·",
+      "unknownTeams": "Códigos de time não reconhecidos: {{teams}}. Confira se copiou certo.",
+      "shareDetected": "Lista do app detectada — usamos só os códigos de figurinha."
+    }
   },
 
   "sticker": {

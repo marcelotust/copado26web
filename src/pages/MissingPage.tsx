@@ -58,7 +58,13 @@ export default function MissingPage() {
           </div>
         ) : (
           <div className='mx-auto flex w-full max-w-6xl flex-col gap-4 px-3 py-4 sm:px-4'>
-            <MissingTradeChecker missingIds={missingIds} swapIds={swapIds} teamName={teamName} teamFlag={teamFlag} />
+            <MissingTradeChecker
+              missingIds={missingIds}
+              swapIds={swapIds}
+              validTeamCodes={new Set(teams.map(team => team.code))}
+              teamName={teamName}
+              teamFlag={teamFlag}
+            />
 
             {groups.map(({ teamCode, numbers }) => (
               <StickerCodeGroup
