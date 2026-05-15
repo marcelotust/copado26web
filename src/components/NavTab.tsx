@@ -7,12 +7,14 @@ type NavTabProps = {
   color: string
   badge?: number
   onboardingTarget?: string
+  onNavigate?: () => void
 }
 
-export default function NavTab({ to, label, active, color, badge, onboardingTarget }: NavTabProps) {
+export default function NavTab({ to, label, active, color, badge, onboardingTarget, onNavigate }: NavTabProps) {
   return (
     <Link
       to={to}
+      onClick={() => { if (!active) onNavigate?.() }}
       data-onboarding-target={onboardingTarget}
       className={[
         'flex items-center gap-1.5 px-5 py-1.5 rounded-full text-sm font-semibold transition-all duration-150',

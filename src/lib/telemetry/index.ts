@@ -1,5 +1,7 @@
+import { AnalyticsEvent, sanitizeAnalyticsProps } from './events'
 import { noopAnalytics, noopErrors } from './noop'
 import { activatePostHogAnalytics, deactivatePostHog } from './posthog'
+import { vercelAnalytics } from './vercelAdapter'
 import { activateSentryErrors, deactivateSentryUser } from './sentry'
 import type {
   TelemetryAnalyticsPort,
@@ -54,9 +56,16 @@ export function syncTelemetryConsent(opts: { userId: string; consent: TelemetryC
       if (myGen !== generation) {
         return
       }
-      analyticsImpl = analytics ?? noopAnalytics
+      analyticsImpl = analytics ?? vercelAnalytics
       errorsImpl = errors ?? noopErrors
       attachFlagBridge()
+      try {
+        const pending = sessionStorage.getItem('analytics_consent_pending')
+        if (pending === 'granted') {
+          sessionStorage.removeItem('analytics_consent_pending')
+          analyticsImpl.track(AnalyticsEvent.CONSENT_ANALYTICS_UPDATED, { granted: true })
+        }
+      } catch { /* private mode */ }
     } catch {
       if (myGen === generation) {
         analyticsImpl = noopAnalytics
@@ -75,7 +84,7 @@ export const telemetry = {
   },
 
   track(event: string, props?: TelemetryProperties): void {
-    analyticsImpl.track(event, props)
+    analyticsImpl.track(event, sanitizeAnalyticsProps(props))
   },
 
   flag(key: string): boolean {
@@ -113,4 +122,6 @@ export const telemetry = {
   },
 }
 
+export { AnalyticsEvent, sanitizeAnalyticsProps } from './events'
+export type { AnalyticsEventName } from './events'
 export type { TelemetryConsentState, TelemetryProperties } from './types'

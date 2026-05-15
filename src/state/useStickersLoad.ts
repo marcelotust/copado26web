@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { supabase } from '../lib/supabase'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import type { Action } from './stickersTypes'
 
 // Fetches the catalog (teams + stickers_catalog) and the user's quantities,
@@ -29,9 +30,14 @@ export function useStickersLoad(userId: string | undefined, dispatch: (action: A
         if (cancelled) return
         if (e3) throw e3
         dispatch({ type: 'QUANTITIES_LOADED', rows: rows ?? [] })
+        telemetry.track(AnalyticsEvent.ALBUM_SEEDED, { sticker_count: stickers.length })
       } catch (err) {
         if (cancelled) return
         console.error('[stickers] load failed', err)
+        const code = err instanceof Error && 'code' in err
+          ? String((err as Error & { code?: string }).code)
+          : err instanceof Error ? err.name : 'unknown'
+        telemetry.track(AnalyticsEvent.ALBUM_SEED_FAILED, { error_code: code || 'unknown' })
         dispatch({ type: 'STATUS', status: 'error', error: err as Error })
       }
     })()

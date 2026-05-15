@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useI18n } from '../i18n'
 import { buildAlbumCsv } from '../lib/albumCsv'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import { useCatalogSnapshot } from '../state/stickersStore'
 
 function downloadCsv(csv: string) {
@@ -21,7 +22,13 @@ export default function SettingsExportSection() {
   function handleExportCSV() {
     setExporting(true)
     try {
-      downloadCsv(buildAlbumCsv(catalog, quantities))
+      const csv = buildAlbumCsv(catalog, quantities)
+      const rowCount = Math.max(0, csv.split('\n').length - 1)
+      downloadCsv(csv)
+      telemetry.track(AnalyticsEvent.EXPORT_CSV_COMPLETED, { row_count: rowCount })
+    } catch (err) {
+      const code = err instanceof Error ? err.name : 'unknown'
+      telemetry.track(AnalyticsEvent.EXPORT_CSV_FAILED, { error_code: code })
     } finally {
       setExporting(false)
     }
