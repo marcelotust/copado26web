@@ -1,6 +1,5 @@
+import { grantSentryConsent, isSentryCaptureEnabled, revokeSentryConsent, Sentry } from '../sentry'
 import type { TelemetryErrorPort, TelemetryProperties } from './types'
-
-let inited = false
 
 function toExtra(ctx?: TelemetryProperties): Record<string, unknown> | undefined {
   if (!ctx) return undefined
@@ -8,28 +7,17 @@ function toExtra(ctx?: TelemetryProperties): Record<string, unknown> | undefined
 }
 
 /**
- * Error reporting behind consent. Only loads Sentry when a DSN is configured.
+ * Error reporting behind analytics consent. Uses the singleton client from `src/lib/sentry.ts`.
  */
 export async function activateSentryErrors(userId: string): Promise<TelemetryErrorPort | null> {
-  const dsn = import.meta.env.VITE_SENTRY_DSN
-  if (!dsn) return null
+  if (!import.meta.env.VITE_SENTRY_DSN) return null
 
   try {
-    const Sentry = await import('@sentry/react')
-
-    if (!inited) {
-      Sentry.init({
-        dsn,
-        environment: import.meta.env.MODE,
-        sendDefaultPii: false,
-      })
-      inited = true
-    }
-
-    Sentry.setUser({ id: userId })
+    grantSentryConsent(userId)
 
     return {
       capture(err, context) {
+        if (!isSentryCaptureEnabled()) return
         try {
           Sentry.captureException(err, { extra: toExtra(context) })
         } catch {
@@ -37,6 +25,7 @@ export async function activateSentryErrors(userId: string): Promise<TelemetryErr
         }
       },
       setUser(uid) {
+        if (!isSentryCaptureEnabled()) return
         try {
           Sentry.setUser({ id: uid })
         } catch {
@@ -44,11 +33,7 @@ export async function activateSentryErrors(userId: string): Promise<TelemetryErr
         }
       },
       reset() {
-        try {
-          Sentry.setUser(null)
-        } catch {
-          /* noop */
-        }
+        revokeSentryConsent()
       },
     }
   } catch {
@@ -57,11 +42,5 @@ export async function activateSentryErrors(userId: string): Promise<TelemetryErr
 }
 
 export async function deactivateSentryUser(): Promise<void> {
-  if (!inited) return
-  try {
-    const Sentry = await import('@sentry/react')
-    Sentry.setUser(null)
-  } catch {
-    /* noop */
-  }
+  revokeSentryConsent()
 }

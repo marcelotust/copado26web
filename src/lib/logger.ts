@@ -1,4 +1,4 @@
-import { Sentry } from './sentry'
+import { isSentryCaptureEnabled, Sentry } from './sentry'
 
 const isProd = import.meta.env.PROD as boolean
 
@@ -7,6 +7,7 @@ export const logger = {
     if (!isProd) {
       console.info(`[info] ${message}`, data ?? '')
     }
+    if (!isSentryCaptureEnabled()) return
     Sentry.addBreadcrumb({
       category: 'log',
       message,
@@ -19,6 +20,7 @@ export const logger = {
     if (!isProd) {
       console.warn(`[warn] ${message}`, data ?? '')
     }
+    if (!isSentryCaptureEnabled()) return
     Sentry.addBreadcrumb({
       category: 'log',
       message,
@@ -31,6 +33,7 @@ export const logger = {
     if (!isProd) {
       console.error(`[error] ${message}`, error ?? '', data ?? '')
     }
+    if (!isSentryCaptureEnabled()) return
     Sentry.addBreadcrumb({
       category: 'log',
       message,
