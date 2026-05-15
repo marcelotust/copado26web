@@ -14,14 +14,17 @@ export function resolveGroupLetter(
   if (perTeam) {
     const owned = teamsInGroup.filter(t => {
       const ids = byTeam.get(t.code) ?? []
-      return ids.some(id => (quantities.get(id) ?? 0) >= 1)
+      const collected = ids.filter(id => (quantities.get(id) ?? 0) >= 1).length
+      if (requiredQty === 'all') return ids.length > 0 && collected === ids.length
+      return collected >= (requiredQty as number)
     }).length
     return { owned, total: teamsInGroup.length }
   }
 
   const allIds = teamsInGroup.flatMap(t => byTeam.get(t.code) ?? [])
   const owned = allIds.filter(id => (quantities.get(id) ?? 0) >= 1).length
-  return { owned, total: allIds.length }
+  const total = requiredQty === 'all' ? allIds.length : Math.min(requiredQty as number, allIds.length)
+  return { owned: Math.min(owned, total), total }
 }
 
 export function resolveConfs(

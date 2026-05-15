@@ -1,10 +1,11 @@
 export type Resolution = { owned: number; total: number }
 
 export function resolveAlbumTotal(
-  requiredQty: number,
+  requiredQty: number | 'all',
   albumCollected: number,
 ): Resolution {
-  const total = requiredQty
+  // 'all' makes no sense here — albumTotal challenges always specify a numeric target.
+  const total = typeof requiredQty === 'number' && requiredQty > 0 ? requiredQty : 0
   return { owned: Math.min(albumCollected, total), total }
 }
 

@@ -5,6 +5,7 @@ import type { Challenge } from '../data/challenges'
 import type { Database } from '../types/database'
 import { reportError } from '../lib/logger'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
+import { useStickersStatus } from '../state/selectors'
 
 type ChallengeCompletionInsert =
   Database['public']['Tables']['user_challenge_completions']['Insert']
@@ -38,6 +39,7 @@ export function useChallengeCompletion(userId: string): {
   dismissCompletion: () => void
 } {
   const results = useChallengeProgress()
+  const { status } = useStickersStatus()
   const seededRef = useRef(false)
   const persistedRef = useRef<Set<string>>(new Set())
   const [queue, setQueue] = useState<Challenge[]>([])
@@ -50,6 +52,9 @@ export function useChallengeCompletion(userId: string): {
   }, [userId])
 
   useEffect(() => {
+    // Wait until stickers are loaded; otherwise we'd seed an empty baseline and
+    // then fire modals for every already-completed challenge on the next render.
+    if (status !== 'ready') return
     if (!seededRef.current) {
       // First render after load: establish baseline without firing modals
       seededRef.current = true
@@ -92,7 +97,7 @@ export function useChallengeCompletion(userId: string): {
       }
       return merged
     })
-  }, [results, userId])
+  }, [results, userId, status])
 
   const dismissCompletion = useCallback(() => {
     setQueue(q => q.slice(1))
