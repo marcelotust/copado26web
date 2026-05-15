@@ -50,6 +50,13 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
     : sticker.is_special && sticker.number === 13 ? 'team-photo' as const
     : 'none' as const
 
+  const n = sticker.number
+  const labelColor =
+    n >= 2  && n <= 4  ? '#7c3aed'
+    : n >= 5  && n <= 7  ? '#ec4899'
+    : n >= 8  && n <= 14 ? '#ea580c'
+    : '#087c8a'
+
   return (
     <div
       className={[
@@ -70,6 +77,7 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
         numLabel={numLabel}
         albumFace={albumFace}
         silhouetteType={silhouetteType}
+        labelColor={labelColor}
         displayLabel={displayLabel}
         qty={qty}
         floats={floats}

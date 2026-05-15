@@ -2,8 +2,6 @@ import type { MouseEvent } from "react";
 import StickerButtons from "./StickerButtons";
 import StickerFace from "./StickerFace";
 
-const PANINI_BLUE = "#087c8a";
-
 type AlbumFace = "featured-wide" | "default";
 
 type SilhouetteType = "player" | "team-photo" | "shield" | "none";
@@ -16,6 +14,7 @@ type StickerCardCaptionColumnProps = {
   numLabel: string;
   albumFace: AlbumFace;
   silhouetteType: SilhouetteType;
+  labelColor: string;
   displayLabel: string | null;
   qty: number;
   onAdd: (e: MouseEvent) => void;
@@ -30,6 +29,7 @@ export default function StickerCardCaptionColumn({
   numLabel,
   albumFace,
   silhouetteType,
+  labelColor,
   displayLabel,
   qty,
   onAdd,
@@ -47,18 +47,20 @@ export default function StickerCardCaptionColumn({
         silhouetteType={silhouetteType}
       />
 
-      <div
-        className='mx-1.5 mb-1 shrink-0 rounded-full px-2 py-1 text-center'
-        style={{ background: collected ? PANINI_BLUE : `${primary}25` }}
-      >
-        <p
-          className='text-[11px] font-bold leading-tight truncate'
-          style={{ color: collected ? "#fff" : "#94a3b8" }}
-          title={displayLabel ?? teamCode}
+      {silhouetteType !== 'shield' && silhouetteType !== 'team-photo' && (
+        <div
+          className='mx-1.5 mb-1 shrink-0 rounded-full px-2 py-1 text-center'
+          style={{ background: collected ? labelColor : `${primary}25` }}
         >
-          {displayLabel ?? teamCode}
-        </p>
-      </div>
+          <p
+            className='text-[11px] font-bold leading-tight truncate'
+            style={{ color: collected ? '#fff' : '#94a3b8' }}
+            title={displayLabel ?? teamCode}
+          >
+            {displayLabel ?? teamCode}
+          </p>
+        </div>
+      )}
 
       <StickerButtons
         qty={qty}
