@@ -1,6 +1,7 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Challenge } from '../data/challenges'
+import { persistLocale } from '../i18n/localeData'
 import { renderWithProviders } from '../test/renderWithProviders'
 
 vi.mock('../lib/logger', () => ({
@@ -12,14 +13,14 @@ vi.mock('../lib/logger', () => ({
 import ChallengeCompletedModal from './ChallengeCompletedModal'
 
 const challenge: Challenge = {
-  id: 'kickoff', icon: '⚽', title: 'Primeiros Passos',
-  description: 'Cole 10 figurinhas.', difficulty: 'easy',
+  id: 'kickoff', icon: '⚽', difficulty: 'easy',
   albumTotal: true, requiredQty: 10,
 }
 
 describe('ChallengeCompletedModal', () => {
   beforeEach(() => {
     vi.unstubAllGlobals()
+    persistLocale('pt-BR')
   })
 
   it('renders nothing when challenge is null', () => {
@@ -33,7 +34,7 @@ describe('ChallengeCompletedModal', () => {
     renderWithProviders(<ChallengeCompletedModal challenge={challenge} onDismiss={() => {}} />)
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     expect(screen.getByText('Primeiros Passos')).toBeInTheDocument()
-    expect(screen.getByText('Cole 10 figurinhas.')).toBeInTheDocument()
+    expect(screen.getByText(/Cole 10 figurinhas/)).toBeInTheDocument()
     expect(screen.getByText('⚽')).toBeInTheDocument()
   })
 

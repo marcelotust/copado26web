@@ -1,4 +1,5 @@
 import { useI18n } from '../i18n'
+import { challengeDescription, challengeTitle } from '../lib/challengeI18n'
 import { interpolate } from '../lib/shareText'
 import type { ChallengeResult } from '../hooks/useChallengeProgress'
 import type { ChallengeDifficulty } from '../data/challenges'
@@ -41,7 +42,7 @@ export default function ChallengeCard({ result }: { result: ChallengeResult }) {
       <div className='flex min-w-0 flex-1 flex-col gap-1.5'>
         <div className='flex items-start justify-between gap-2'>
           <p className='text-sm font-semibold leading-tight text-white'>
-            {challenge.title}
+            {challengeTitle(challenge, t)}
           </p>
           {completed && (
             <span className='shrink-0 rounded-full bg-emerald-700/60 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-emerald-300'>
@@ -50,7 +51,7 @@ export default function ChallengeCard({ result }: { result: ChallengeResult }) {
           )}
         </div>
 
-        <p className='text-xs leading-snug text-slate-400'>{challenge.description}</p>
+        <p className='text-xs leading-snug text-slate-400'>{challengeDescription(challenge, t)}</p>
 
         <div className='flex items-center gap-2'>
           <div className={['h-1.5 flex-1 overflow-hidden rounded-full', DIFFICULTY_TRACK[diff]].join(' ')}>

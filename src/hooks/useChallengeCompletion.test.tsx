@@ -35,10 +35,9 @@ let mockProgressGeneration = 0
 
 import { useChallengeCompletion } from './useChallengeCompletion'
 
-function challenge(id: string, title = id): Challenge {
+function challenge(id: string): Challenge {
   return {
-    id, icon: '⚽', title, description: '',
-    difficulty: 'easy', albumTotal: true, requiredQty: 1,
+    id, icon: '⚽', difficulty: 'easy', albumTotal: true, requiredQty: 1,
   }
 }
 

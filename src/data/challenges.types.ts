@@ -3,8 +3,6 @@ export type ChallengeDifficulty = 'easy' | 'medium' | 'hard'
 export type Challenge = {
   id: string
   icon: string
-  title: string
-  description: string
   difficulty: ChallengeDifficulty
   // --- target resolution (pick exactly one) ---
   /** Counts collected stickers across the entire album */

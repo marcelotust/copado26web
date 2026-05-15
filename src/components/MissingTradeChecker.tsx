@@ -58,7 +58,7 @@ export default function MissingTradeChecker({
 
   return (
     <div className='flex flex-col gap-3 rounded-lg border border-slate-800 bg-slate-900/45 p-4'>
-      <p className='text-white font-bold text-sm'>Verificar troca</p>
+      <p className='text-white font-bold text-sm'>{t('missing.tradeChecker.title')}</p>
       <p className='text-slate-500 text-xs'>{t('missing.tradeChecker.hint')}</p>
       <textarea
         value={text}
@@ -96,19 +96,19 @@ export default function MissingTradeChecker({
         <div className='flex flex-col gap-3 pt-1'>
           <div>
             <p className='text-green-400 text-xs font-bold mb-1'>
-              Ele tem o que você precisa ({result.theyHave.length})
+              {interpolate(t('missing.tradeChecker.theyHave'), { count: result.theyHave.length })}
             </p>
             {result.theyHave.length === 0
-              ? <p className='text-slate-600 text-xs'>Nenhuma coincidência</p>
+              ? <p className='text-slate-600 text-xs'>{t('missing.tradeChecker.noMatch')}</p>
               : <p className='text-slate-300 text-xs font-mono leading-relaxed'>{result.theyHave.map(labelFor).join(' · ')}</p>
             }
           </div>
           <div>
             <p className='text-amber-400 text-xs font-bold mb-1'>
-              Você tem o que ele precisa ({result.youHave.length})
+              {interpolate(t('missing.tradeChecker.youHave'), { count: result.youHave.length })}
             </p>
             {result.youHave.length === 0
-              ? <p className='text-slate-600 text-xs'>Nenhuma coincidência</p>
+              ? <p className='text-slate-600 text-xs'>{t('missing.tradeChecker.noMatch')}</p>
               : <p className='text-slate-300 text-xs font-mono leading-relaxed'>{result.youHave.map(labelFor).join(' · ')}</p>
             }
           </div>

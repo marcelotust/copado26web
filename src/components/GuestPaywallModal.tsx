@@ -6,12 +6,14 @@ import LoginMagicLinkPanel from './LoginMagicLinkPanel'
 import { AUTH_POST_LOGIN_PATH_KEY } from '../lib/tradeAuthStorage'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import { useAuth } from '../hooks/useAuth'
+import { useI18n } from '../i18n'
 
 const LoginBackgroundMosaic = lazy(() => import('./LoginBackgroundMosaic'))
 
 type Props = { onClose: () => void }
 
 export default function GuestPaywallModal({ onClose }: Props) {
+  const { t } = useI18n()
   const { sendMagicLink, signInWithGoogle, magicLinkSent, errorKey } = useAuth()
   const [submittedEmail, setSubmittedEmail] = useState('')
   const navigate = useNavigate()
@@ -57,7 +59,7 @@ export default function GuestPaywallModal({ onClose }: Props) {
             <div className='w-10 h-1 rounded-full bg-white/25 mb-2' aria-hidden='true' />
             <AppLogo size='md' />
             <p className='text-blue-200/90 text-xs max-w-xs leading-relaxed' id='paywall-heading'>
-              Seu assistente para completar o maior álbum da Copa do Mundo
+              {t('guest.paywall.tagline')}
             </p>
           </div>
         </div>
@@ -78,7 +80,7 @@ export default function GuestPaywallModal({ onClose }: Props) {
               onClick={handleDismiss}
               className='text-slate-500 hover:text-slate-300 text-sm transition-colors text-center'
             >
-              Agora não
+              {t('guest.paywall.dismiss')}
             </button>
           )}
         </div>

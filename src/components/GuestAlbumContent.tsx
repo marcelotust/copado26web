@@ -1,3 +1,4 @@
+import { useI18n } from '../i18n'
 import AlbumPage from '../pages/AlbumPage'
 import Sidebar from './Sidebar'
 import GuestTabNav from './GuestTabNav'
@@ -11,12 +12,13 @@ type Props = {
 }
 
 export default function GuestAlbumContent({ section, onSelect, onRestrictedClick }: Props) {
+  const { t } = useI18n()
   const { status, error } = useStickersStatus()
 
   if (status === 'idle' || status === 'loading') {
     return (
       <div className='flex flex-1 items-center justify-center text-slate-500 text-sm'>
-        Carregando álbum…
+        {t('guest.loading')}
       </div>
     )
   }
@@ -25,7 +27,7 @@ export default function GuestAlbumContent({ section, onSelect, onRestrictedClick
     return (
       <div className='flex flex-1 flex-col items-center justify-center gap-2 text-slate-500 text-sm px-6 text-center'>
         <span className='text-2xl'>😕</span>
-        <p>Não foi possível carregar o álbum.</p>
+        <p>{t('guest.loadError')}</p>
         {error && <p className='text-xs text-slate-600'>{error.message}</p>}
       </div>
     )
