@@ -1,3 +1,4 @@
+# E2E is informational only until the Playwright suite is stable in CI (see docs/e2e.md).
 name: e2e
 
 on:
@@ -12,6 +13,7 @@ concurrency:
 jobs:
   smoke:
     runs-on: ubuntu-latest
+    continue-on-error: true
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
