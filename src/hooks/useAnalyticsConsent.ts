@@ -5,7 +5,7 @@ export type ConsentState = 'granted' | 'declined' | null
 
 const storageKey = (userId: string) => `analytics_consent_v1_${userId}`
 
-function readConsent(userId: string): ConsentState {
+export function readAnalyticsConsent(userId: string): ConsentState {
   try {
     const v = localStorage.getItem(storageKey(userId))
     if (v === 'granted' || v === 'declined') return v
@@ -22,20 +22,28 @@ export function useAnalyticsConsent(userId: string): {
   grant: () => void
   decline: () => void
 } {
-  const [consent, setConsent] = useState<ConsentState>(() => readConsent(userId))
+  const [consent, setConsent] = useState<ConsentState>(() => readAnalyticsConsent(userId))
 
   const grant = useCallback(() => {
+    const previous = readAnalyticsConsent(userId)
     writeConsent(userId, 'granted')
     setConsent('granted')
-    try {
-      sessionStorage.setItem('analytics_consent_pending', 'granted')
-    } catch { /* private mode */ }
+    if (previous !== 'granted') {
+      try {
+        sessionStorage.setItem('analytics_consent_pending', 'granted')
+      } catch { /* private mode */ }
+    }
   }, [userId])
 
   const decline = useCallback(() => {
+    const previous = readAnalyticsConsent(userId)
+    if (previous === 'granted') {
+      telemetry.track(AnalyticsEvent.CONSENT_ANALYTICS_UPDATED, { granted: false })
+    } else if (previous !== 'declined') {
+      telemetry.track(AnalyticsEvent.CONSENT_ANALYTICS_UPDATED, { granted: false })
+    }
     writeConsent(userId, 'declined')
     setConsent('declined')
-    telemetry.track(AnalyticsEvent.CONSENT_ANALYTICS_UPDATED, { granted: false })
   }, [userId])
 
   return { consent, grant, decline }

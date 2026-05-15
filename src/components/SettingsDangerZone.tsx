@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useI18n } from '../i18n'
 import { useResetAlbum } from '../state/stickersStore'
 import ConfirmModal from './ConfirmModal'
+import { errorCodeFrom, logger } from '../lib/logger'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 
 export default function SettingsDangerZone() {
@@ -20,11 +21,9 @@ export default function SettingsDangerZone() {
       setShowResetConfirm(false)
       setTimeout(() => setResetDone(false), 3000)
     } catch (err) {
-      console.error('Reset failed:', err)
-      const code = err instanceof Error && 'code' in err
-        ? String((err as Error & { code?: string }).code)
-        : err instanceof Error ? err.name : 'unknown'
-      telemetry.track(AnalyticsEvent.RESET_ALBUM_FAILED, { error_code: code || 'unknown' })
+      const code = errorCodeFrom(err)
+      logger.error('album reset failed', err, { feature: 'settings', action: 'reset_album', error_code: code })
+      telemetry.track(AnalyticsEvent.RESET_ALBUM_FAILED, { error_code: code })
     } finally {
       setResetting(false)
     }

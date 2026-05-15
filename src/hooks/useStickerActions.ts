@@ -3,6 +3,7 @@ import { useAdjustSticker, useStickersContext } from '../state/stickersStore'
 import { useDebouncedFlush } from './useDebouncedFlush'
 import type { Sticker } from '../types/database'
 import { consumeFirstStickerChange } from '../lib/telemetry/activation'
+import { logger } from '../lib/logger'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import { readOnboardingStickerContext } from '../components/onboarding/storage'
 import { PaywallContext } from '../contexts/PaywallContext'
@@ -22,7 +23,9 @@ export function useStickerActions(sticker: Pick<Sticker, 'id' | 'quantity' | 'te
   const [showRemoveConfirm, setShowRemoveConfirm] = useState(false)
 
   const flushDelta = useCallback((delta: number) => {
-    adjust(sticker.id, delta).catch(err => console.error('Failed to adjust sticker:', err))
+    adjust(sticker.id, delta).catch((err) => {
+      logger.error('adjust sticker rejected', err, { feature: 'stickers', action: 'adjust_ui' }, { sticker_id: sticker.id })
+    })
   }, [adjust, sticker.id])
   const { bump } = useDebouncedFlush(flushDelta)
 

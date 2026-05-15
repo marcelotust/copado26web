@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { supabase } from '../lib/supabase'
+import { errorCodeFrom, logger } from '../lib/logger'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import type { Action } from './stickersTypes'
 
@@ -33,11 +34,9 @@ export function useStickersLoad(userId: string | undefined, dispatch: (action: A
         telemetry.track(AnalyticsEvent.ALBUM_SEEDED, { sticker_count: stickers.length })
       } catch (err) {
         if (cancelled) return
-        console.error('[stickers] load failed', err)
-        const code = err instanceof Error && 'code' in err
-          ? String((err as Error & { code?: string }).code)
-          : err instanceof Error ? err.name : 'unknown'
-        telemetry.track(AnalyticsEvent.ALBUM_SEED_FAILED, { error_code: code || 'unknown' })
+        const code = errorCodeFrom(err)
+        logger.error('catalog load failed', err, { feature: 'stickers', action: 'load', error_code: code })
+        telemetry.track(AnalyticsEvent.ALBUM_SEED_FAILED, { error_code: code })
         dispatch({ type: 'STATUS', status: 'error', error: err as Error })
       }
     })()

@@ -1,6 +1,7 @@
 // src/hooks/useAuth.ts
 import { useState, useEffect } from 'react'
 import type { Session } from '@supabase/supabase-js'
+import { logger } from '../lib/logger'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import { detectLocale } from '../i18n/localeData'
 
@@ -42,7 +43,7 @@ export function useAuth() {
         unsubscribe = () => subscription.unsubscribe()
       })
       .catch((err: unknown) => {
-        console.error('[auth] failed to load Supabase client', err)
+        logger.error('failed to load Supabase client', err, { feature: 'auth', action: 'init_client' })
         telemetry.error(err instanceof Error ? err : new Error('supabase client load failed'))
         if (active) {
           setError(err instanceof Error ? err.message : 'Failed to load auth')

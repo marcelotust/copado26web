@@ -1,3 +1,5 @@
+import { logger } from './logger'
+
 const STORAGE_VERSION = 1 as const
 const MAX_BACKUP_DAYS = 30
 
@@ -54,6 +56,6 @@ export function upsertTodayAlbumBackup(userId: string, csv: string): void {
   try {
     localStorage.setItem(key(userId), JSON.stringify({ v: STORAGE_VERSION, items: trimmed }))
   } catch (e) {
-    console.warn('[album backup] localStorage write failed', e)
+    logger.warn('localStorage backup write failed', { feature: 'album', action: 'backup_persist' })
   }
 }
