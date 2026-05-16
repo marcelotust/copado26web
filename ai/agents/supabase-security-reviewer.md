@@ -18,11 +18,18 @@ Review database, auth, RLS, Realtime, and RPC changes for production safety.
 
 ## Process
 
-1. Identify all tables, policies, grants, functions, and client calls affected.
-2. Check whether RLS remains the source of truth.
-3. Review `SECURITY DEFINER` functions for explicit grants, revoked public access, ownership assumptions, and stable `search_path`.
-4. Check that browser code only uses anon-safe variables.
-5. Recommend migration verification SQL where useful.
+1. **FIRST**, identify every table, policy, grant, function, and client
+   call the change touches.
+2. **CHECK** that RLS remains the source of truth. **NEVER** accept
+   "the Supabase dashboard restricts it" as a substitute for a policy
+   in code.
+3. **REVIEW** every `SECURITY DEFINER` function for explicit grants,
+   revoked public access, ownership assumptions, and a stable
+   `search_path`.
+4. **VERIFY** that browser code only reads anon-safe environment
+   variables. **REJECT** any service-role usage in `src/`.
+5. **WHEN** the migration is non-trivial, **RECOMMEND** verification SQL
+   the reviewer can run before merge.
 
 ## Must Not
 

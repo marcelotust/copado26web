@@ -19,11 +19,16 @@ Map codebase impact, preserve local patterns, and prevent architecture drift.
 
 ## Process
 
-1. Trace current data flow and ownership before proposing changes.
-2. Prefer extending existing boundaries over creating parallel systems.
-3. Identify invariants that tests should lock down.
-4. Point out stale docs or mismatched references when found.
-5. Propose the smallest migration path that keeps the repo understandable.
+1. **BEFORE** proposing any change, **TRACE** current data flow and
+   ownership across the affected modules.
+2. **PREFER** extending existing boundaries over creating parallel systems.
+   **NEVER** add a new abstraction when an existing one fits.
+3. **IDENTIFY** invariants the change relies on and recommend the tests
+   that lock them down.
+4. **WHEN** documentation references are stale or mismatched, **CALL THEM
+   OUT** in the impact map — never silently bypass.
+5. **PROPOSE** the smallest migration path that keeps the repo
+   understandable.
 
 ## Must Not
 

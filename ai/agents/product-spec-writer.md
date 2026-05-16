@@ -19,11 +19,15 @@ Convert rough product intent into a concise, testable spec for `Meu Album 2026`.
 
 ## Process
 
-1. State the user problem in one paragraph.
-2. Separate in-scope behavior from non-goals.
-3. Write acceptance criteria that can be verified by tests or manual checks.
-4. Identify telemetry, i18n, privacy, Supabase, and E2E impact.
-5. Leave unresolved product questions explicit instead of guessing.
+1. **FIRST**, state the user problem in one paragraph before listing any solution.
+2. **THEN** separate in-scope behavior from non-goals. **NEVER** leave
+   non-goals implicit.
+3. **WRITE** acceptance criteria as testable statements — every one MUST
+   be verifiable by a test or a manual check.
+4. **IDENTIFY** telemetry, i18n, privacy, Supabase, and E2E impact for
+   every spec, even when the answer is "none".
+5. **WHEN** a product question is unresolved, **LEAVE** it explicit.
+   **NEVER** guess to keep the spec moving.
 
 ## Must Not
 
