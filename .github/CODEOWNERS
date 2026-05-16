@@ -1,0 +1,11 @@
+# AI workflow contracts - any change here requires owner review.
+AGENTS.md                @marcelotust @rlpereiruxo
+CLAUDE.md                @marcelotust @rlpereiruxo
+ai/                      @marcelotust @rlpereiruxo
+.claude/                 @marcelotust @rlpereiruxo
+.cursor/                 @marcelotust @rlpereiruxo
+opencode.json            @marcelotust @rlpereiruxo
+scripts/ai-harness.mjs   @marcelotust @rlpereiruxo
+.github/workflows/       @marcelotust @rlpereiruxo
+.github/CODEOWNERS       @marcelotust @rlpereiruxo
+.husky/                  @marcelotust @rlpereiruxo

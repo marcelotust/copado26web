@@ -1,1 +1,7 @@
+branch="$(git symbolic-ref --short HEAD 2>/dev/null || echo '')"
+if [ "$branch" = "main" ] || [ "$branch" = "master" ]; then
+  echo "Direct commits to $branch are blocked. Create a feature branch first." >&2
+  exit 1
+fi
+
 npx lint-staged
