@@ -540,19 +540,16 @@ function commitDigestFile(digestPath, reportDate) {
   execSync('git config user.name "github-actions[bot]"', { cwd: repoRoot })
   execSync('git config user.email "41898282+github-actions[bot]@users.noreply.github.com"', { cwd: repoRoot })
   execSync(`git add "${relative}"`, { cwd: repoRoot })
-  try {
-    execSync(`git commit -m "chore(metrics): daily PostHog digest ${reportDate}"`, {
-      cwd: repoRoot,
-      stdio: 'inherit',
-    })
-    execSync('git push', { cwd: repoRoot, stdio: 'inherit' })
-  } catch (err) {
-    if (/nothing to commit/i.test(String(err.stderr ?? err.stdout ?? err.message))) {
-      console.log('digest unchanged, skip commit')
-      return
-    }
-    throw err
+  const pending = execSync('git status --porcelain', { cwd: repoRoot, encoding: 'utf8' }).trim()
+  if (!pending) {
+    console.log('digest unchanged, skip commit')
+    return
   }
+  execSync(`git commit -m "chore(metrics): daily PostHog digest ${reportDate}"`, {
+    cwd: repoRoot,
+    stdio: 'inherit',
+  })
+  execSync('git push', { cwd: repoRoot, stdio: 'inherit' })
 }
 
 function yesterdayUtcDate() {
