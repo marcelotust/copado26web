@@ -1,5 +1,5 @@
 import type { MissingGroup } from '../state/stickersStore'
-import { getPublicAppUrl, pad } from './shareText'
+import { getPublicAppUrl, interpolate, pad } from './shareText'
 
 export { pad } from './shareText'
 
@@ -8,6 +8,7 @@ export async function buildShareImage(
   teamName: (code: string) => string,
   teamFlag: (code: string) => string,
   total: number,
+  t: (key: string) => string,
 ): Promise<Blob> {
   const W = 1080, H = 1920
   const canvas = document.createElement('canvas')
@@ -27,14 +28,16 @@ export async function buildShareImage(
   ctx.fillStyle = header
   ctx.fillRect(0, 0, W, 280)
 
+  const brand = `⚽ ${t('share.appName')}`
+
   ctx.textAlign = 'center'
   ctx.font = 'bold 72px system-ui, sans-serif'
   ctx.fillStyle = '#ffffff'
-  ctx.fillText('⚽ Meu Álbum 2026', W / 2, 120)
+  ctx.fillText(brand, W / 2, 120)
 
   ctx.font = '48px system-ui, sans-serif'
   ctx.fillStyle = '#93c5fd'
-  ctx.fillText(`me faltam ${total} figurinhas`, W / 2, 200)
+  ctx.fillText(interpolate(t('share.imageMissingCount'), { count: total }), W / 2, 200)
 
   ctx.textAlign = 'left'
   let y = 340
@@ -53,12 +56,13 @@ export async function buildShareImage(
 
   ctx.textAlign = 'center'
   const url = getPublicAppUrl()
+  const appName = t('share.appName')
   ctx.font = '30px system-ui, sans-serif'
   ctx.fillStyle = '#64748b'
-  ctx.fillText(url || 'Meu Álbum 2026', W / 2, H - 95)
+  ctx.fillText(url || appName, W / 2, H - 95)
   ctx.font = '28px system-ui, sans-serif'
   ctx.fillStyle = '#475569'
-  ctx.fillText('Copa do Mundo FIFA 2026', W / 2, H - 55)
+  ctx.fillText(t('milestone.tagline'), W / 2, H - 55)
 
   return new Promise(resolve => canvas.toBlob(b => resolve(b!), 'image/png'))
 }

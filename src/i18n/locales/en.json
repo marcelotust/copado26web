@@ -6,7 +6,8 @@
     "appName": "My Album 2026",
     "cta": "Track your sticker album in the app — it's free!",
     "missingHeadline": "⚽ World Cup 2026 — I'm missing {{count}} stickers!",
-    "swapsHeadline": "⚽ World Cup 2026 — I have {{count}} duplicate stickers to swap!"
+    "swapsHeadline": "⚽ World Cup 2026 — I have {{count}} duplicate stickers to swap!",
+    "imageMissingCount": "I'm missing {{count}} stickers"
   },
 
   "milestone": {
@@ -165,7 +166,21 @@
     "challengesPreview": "Challenges in progress",
     "recentBadges": "Recent milestones",
     "noMilestones": "No milestones yet",
-    "leastComplete": "Least complete"
+    "leastComplete": "Least complete",
+    "ofAlbum": "of album",
+    "stickersOf": "of {{total}} stickers",
+    "milestoneAlbum": "{{pct}}% of album",
+    "replay": "▶ replay"
+  },
+
+  "guest": {
+    "loading": "Loading album…",
+    "loadError": "Could not load the album.",
+    "signIn": "Sign in",
+    "paywall": {
+      "tagline": "Your assistant to complete the biggest World Cup sticker album",
+      "dismiss": "Not now"
+    }
   },
 
   "challenges": {
@@ -177,7 +192,66 @@
     "modalTitle": "Challenge completed! 🎉",
     "modalShare": "Share",
     "modalClose": "Close",
-    "shareText": "I completed the «{{title}}» challenge on Meu Álbum 2026! ⚽"
+    "copied": "✓ Copied",
+    "shareText": "I completed the «{{title}}» challenge on Meu Álbum 2026! ⚽",
+    "items": {
+      "kickoff": {
+        "title": "First Steps",
+        "description": "Collect 10 stickers — any stickers count."
+      },
+      "host-trio": {
+        "title": "Host Nations",
+        "description": "Collect at least 1 sticker from each host nation: USA, Mexico, and Canada."
+      },
+      "group-a-taste": {
+        "title": "Group A",
+        "description": "Have at least 1 sticker from every team in Group A."
+      },
+      "oceania": {
+        "title": "Oceania",
+        "description": "Collect at least 1 sticker from New Zealand and Australia."
+      },
+      "south-america": {
+        "title": "South America",
+        "description": "Have at least 1 sticker from every South American team (CONMEBOL)."
+      },
+      "europe-big5": {
+        "title": "European Giants",
+        "description": "Collect at least 1 sticker from England, France, Germany, Spain, and Portugal."
+      },
+      "asia-rising": {
+        "title": "Rising Asia",
+        "description": "Collect at least 1 sticker from Japan, South Korea, Iran, and Qatar."
+      },
+      "africa-united": {
+        "title": "United Africa",
+        "description": "Have at least 1 sticker from every African team (CAF)."
+      },
+      "last-champion": {
+        "title": "The Champion",
+        "description": "Collect at least 5 stickers from Argentina, the reigning world champions."
+      },
+      "fwc-history": {
+        "title": "World Cup History",
+        "description": "Collect every sticker in the World Cup history section (FWC 09–19)."
+      },
+      "five-continents": {
+        "title": "Five Corners of the World",
+        "description": "Have at least 1 sticker from one team on each continent."
+      },
+      "complete-brazil": {
+        "title": "Full Brazil Squad",
+        "description": "Complete 100% of Brazil's stickers."
+      },
+      "complete-group-a": {
+        "title": "Group A Complete",
+        "description": "Collect every sticker from all four Group A teams."
+      },
+      "halfway": {
+        "title": "Half Album",
+        "description": "Collect 497 stickers — half of the full album."
+      }
+    }
   },
 
   "sidebar": {
@@ -341,12 +415,16 @@
     "share": "Share",
     "copied": "Copied!",
     "tradeChecker": {
+      "title": "Check trade match",
       "hint": "Paste the WhatsApp list or type codes as AAA 00 (e.g. BRA 03 · ESP 12).",
       "placeholder": "BRA 03 · ESP 12 · FRA 07...",
       "analyze": "Analyze",
       "invalidFormat": "No stickers found in AAA 00 format (e.g. BRA 03 or BRA-03). Paste a duplicate list or codes separated by spaces or ·",
       "unknownTeams": "Unrecognized team codes: {{teams}}. Check your paste.",
-      "shareDetected": "App share list detected — we only use sticker codes."
+      "shareDetected": "App share list detected — we only use sticker codes.",
+      "theyHave": "They have what you need ({{count}})",
+      "youHave": "You have what they need ({{count}})",
+      "noMatch": "No matches"
     }
   },
 

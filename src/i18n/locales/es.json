@@ -6,7 +6,8 @@
     "appName": "Mi Álbum 2026",
     "cta": "¡Organiza tu álbum de cromos en la app — gratis!",
     "missingHeadline": "⚽ Copa 2026 — me faltan {{count}} cromos!",
-    "swapsHeadline": "⚽ Copa 2026 — tengo {{count}} cromos repetidos para cambiar!"
+    "swapsHeadline": "⚽ Copa 2026 — tengo {{count}} cromos repetidos para cambiar!",
+    "imageMissingCount": "me faltan {{count}} cromos"
   },
 
   "milestone": {
@@ -165,7 +166,21 @@
     "challengesPreview": "Desafíos en curso",
     "recentBadges": "Logros recientes",
     "noMilestones": "Sin logros aún",
-    "leastComplete": "Menos completos"
+    "leastComplete": "Menos completos",
+    "ofAlbum": "del álbum",
+    "stickersOf": "de {{total}} cromos",
+    "milestoneAlbum": "{{pct}}% del álbum",
+    "replay": "▶ rever"
+  },
+
+  "guest": {
+    "loading": "Cargando álbum…",
+    "loadError": "No se pudo cargar el álbum.",
+    "signIn": "Iniciar sesión",
+    "paywall": {
+      "tagline": "Tu asistente para completar el álbum más grande del Mundial",
+      "dismiss": "Ahora no"
+    }
   },
 
   "challenges": {
@@ -177,7 +192,66 @@
     "modalTitle": "¡Desafío completado! 🎉",
     "modalShare": "Compartir",
     "modalClose": "Cerrar",
-    "shareText": "¡Completé el desafío «{{title}}» en Meu Álbum 2026! ⚽"
+    "copied": "✓ Copiado",
+    "shareText": "¡Completé el desafío «{{title}}» en Meu Álbum 2026! ⚽",
+    "items": {
+      "kickoff": {
+        "title": "Primeros Pasos",
+        "description": "Pega 10 cromos, sean los que sean."
+      },
+      "host-trio": {
+        "title": "Países Sede",
+        "description": "Pega al menos 1 cromo de cada país sede: EE. UU., México y Canadá."
+      },
+      "group-a-taste": {
+        "title": "Grupo A",
+        "description": "Ten al menos 1 cromo de cada selección del Grupo A."
+      },
+      "oceania": {
+        "title": "Oceanía",
+        "description": "Pega al menos 1 cromo de Nueva Zelanda y Australia."
+      },
+      "south-america": {
+        "title": "América del Sur",
+        "description": "Ten al menos 1 cromo de cada selección sudamericana (CONMEBOL)."
+      },
+      "europe-big5": {
+        "title": "Gigantes de Europa",
+        "description": "Pega al menos 1 cromo de Inglaterra, Francia, Alemania, España y Portugal."
+      },
+      "asia-rising": {
+        "title": "Asia en Alza",
+        "description": "Pega al menos 1 cromo de Japón, Corea del Sur, Irán y Catar."
+      },
+      "africa-united": {
+        "title": "África Unida",
+        "description": "Ten al menos 1 cromo de cada selección africana (CAF)."
+      },
+      "last-champion": {
+        "title": "El Campeón",
+        "description": "Pega al menos 5 cromos de Argentina, actual campeona del mundo."
+      },
+      "fwc-history": {
+        "title": "Historia de la Copa",
+        "description": "Pega todos los cromos de la sección histórica del Mundial (FWC 09–19)."
+      },
+      "five-continents": {
+        "title": "Por los 5 Rincones del Mundo",
+        "description": "Ten al menos 1 cromo de un equipo en cada continente."
+      },
+      "complete-brazil": {
+        "title": "Selección Completa",
+        "description": "Completa el 100% de los cromos de Brasil."
+      },
+      "complete-group-a": {
+        "title": "Grupo A Completo",
+        "description": "Pega todos los cromos de las cuatro selecciones del Grupo A."
+      },
+      "halfway": {
+        "title": "Medio Álbum",
+        "description": "Pega 497 cromos — la mitad del álbum completo."
+      }
+    }
   },
 
   "sidebar": {
@@ -341,12 +415,16 @@
     "share": "Compartir",
     "copied": "¡Copiado!",
     "tradeChecker": {
+      "title": "Verificar intercambio",
       "hint": "Pega la lista de WhatsApp o escribe códigos en formato AAA 00 (ej: BRA 03 · ESP 12).",
       "placeholder": "BRA 03 · ESP 12 · FRA 07...",
       "analyze": "Analizar",
       "invalidFormat": "No encontramos cromos en formato AAA 00 (ej: BRA 03 o BRA-03). Pega la lista de repetidos o códigos separados por espacio o ·",
       "unknownTeams": "Códigos de selección no reconocidos: {{teams}}. Revisa lo que pegaste.",
-      "shareDetected": "Lista del app detectada — usamos solo los códigos de cromo."
+      "shareDetected": "Lista del app detectada — usamos solo los códigos de cromo.",
+      "theyHave": "Tiene lo que tú necesitas ({{count}})",
+      "youHave": "Tú tienes lo que él necesita ({{count}})",
+      "noMatch": "Sin coincidencias"
     }
   },
 

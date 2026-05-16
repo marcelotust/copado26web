@@ -6,7 +6,8 @@
     "appName": "Meu Álbum 2026",
     "cta": "Organize seu álbum de figurinhas no app — grátis!",
     "missingHeadline": "⚽ Copa 2026 — me faltam {{count}} figurinhas!",
-    "swapsHeadline": "⚽ Copa 2026 — tenho {{count}} figurinhas repetidas para trocar!"
+    "swapsHeadline": "⚽ Copa 2026 — tenho {{count}} figurinhas repetidas para trocar!",
+    "imageMissingCount": "me faltam {{count}} figurinhas"
   },
 
   "milestone": {
@@ -165,7 +166,21 @@
     "challengesPreview": "Desafios em destaque",
     "recentBadges": "Conquistas recentes",
     "noMilestones": "Nenhuma conquista ainda",
-    "leastComplete": "Menos completos"
+    "leastComplete": "Menos completos",
+    "ofAlbum": "do álbum",
+    "stickersOf": "de {{total}} figurinhas",
+    "milestoneAlbum": "{{pct}}% do álbum",
+    "replay": "▶ rever"
+  },
+
+  "guest": {
+    "loading": "Carregando álbum…",
+    "loadError": "Não foi possível carregar o álbum.",
+    "signIn": "Entrar",
+    "paywall": {
+      "tagline": "Seu assistente para completar o maior álbum da Copa do Mundo",
+      "dismiss": "Agora não"
+    }
   },
 
   "challenges": {
@@ -177,7 +192,66 @@
     "modalTitle": "Desafio concluído! 🎉",
     "modalShare": "Compartilhar",
     "modalClose": "Fechar",
-    "shareText": "Completei o desafio «{{title}}» no Meu Álbum 2026! ⚽"
+    "copied": "✓ Copiado",
+    "shareText": "Completei o desafio «{{title}}» no Meu Álbum 2026! ⚽",
+    "items": {
+      "kickoff": {
+        "title": "Primeiros Passos",
+        "description": "Cole 10 figurinhas, quaisquer que sejam."
+      },
+      "host-trio": {
+        "title": "Países Sede",
+        "description": "Cole ao menos 1 figurinha de cada país-sede: EUA, México e Canadá."
+      },
+      "group-a-taste": {
+        "title": "Grupo A",
+        "description": "Tenha ao menos 1 figurinha de cada time do Grupo A."
+      },
+      "oceania": {
+        "title": "Oceania",
+        "description": "Cole ao menos 1 figurinha da Nova Zelândia e da Austrália."
+      },
+      "south-america": {
+        "title": "América do Sul",
+        "description": "Tenha ao menos 1 figurinha de cada seleção sul-americana (CONMEBOL)."
+      },
+      "europe-big5": {
+        "title": "Gigantes da Europa",
+        "description": "Cole ao menos 1 figurinha de Inglaterra, França, Alemanha, Espanha e Portugal."
+      },
+      "asia-rising": {
+        "title": "Ásia em Alta",
+        "description": "Cole ao menos 1 figurinha do Japão, Coreia do Sul, Irã e Catar."
+      },
+      "africa-united": {
+        "title": "África Unida",
+        "description": "Tenha ao menos 1 figurinha de cada seleção africana (CAF)."
+      },
+      "last-champion": {
+        "title": "O Campeão",
+        "description": "Cole ao menos 5 figurinhas da Argentina, atual campeã do mundo."
+      },
+      "fwc-history": {
+        "title": "História da Copa",
+        "description": "Cole todos os cromos da seção histórica da Copa do Mundo (FWC 09–19)."
+      },
+      "five-continents": {
+        "title": "Pelos 5 Cantos do Mundo",
+        "description": "Tenha ao menos 1 figurinha de 1 time em cada continente."
+      },
+      "complete-brazil": {
+        "title": "Seleção Completa",
+        "description": "Complete 100% das figurinhas do Brasil."
+      },
+      "complete-group-a": {
+        "title": "Grupo A Completo",
+        "description": "Cole todas as figurinhas dos quatro times do Grupo A."
+      },
+      "halfway": {
+        "title": "Meio Álbum",
+        "description": "Cole 497 figurinhas — metade do álbum completo."
+      }
+    }
   },
 
   "sidebar": {
@@ -341,12 +415,16 @@
     "share": "Compartilhar",
     "copied": "Copiado!",
     "tradeChecker": {
+      "title": "Verificar troca",
       "hint": "Cole a lista do WhatsApp ou digite códigos no formato AAA 00 (ex: BRA 03 · ESP 12).",
       "placeholder": "BRA 03 · ESP 12 · FRA 07...",
       "analyze": "Analisar",
       "invalidFormat": "Não encontramos figurinhas no formato AAA 00 (ex: BRA 03 ou BRA-03). Cole a lista de sobras ou os códigos separados por espaço ou ·",
       "unknownTeams": "Códigos de time não reconhecidos: {{teams}}. Confira se copiou certo.",
-      "shareDetected": "Lista do app detectada — usamos só os códigos de figurinha."
+      "shareDetected": "Lista do app detectada — usamos só os códigos de figurinha.",
+      "theyHave": "Ele tem o que você precisa ({{count}})",
+      "youHave": "Você tem o que ele precisa ({{count}})",
+      "noMatch": "Nenhuma coincidência"
     }
   },
 

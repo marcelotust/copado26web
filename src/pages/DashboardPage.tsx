@@ -7,6 +7,8 @@ import { useChallengeProgress } from '../hooks/useChallengeProgress'
 import { loadPersistedMilestones } from '../lib/milestoneStorage'
 import type { Milestone } from '../lib/milestoneDetection'
 import { DIFFICULTY_COLOR, DIFFICULTY_BORDER } from '../components/ChallengeCard'
+import { challengeTitle } from '../lib/challengeI18n'
+import { interpolate } from '../lib/shareText'
 import type { Team } from '../types/database'
 
 type Props = {
@@ -125,7 +127,11 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
     loadPersistedMilestones(userId).slice(-5).reverse().map(m => {
       if (m.kind === 'album') {
         const milestone: Milestone = { kind: 'album', pct: m.pct }
-        return { icon: '🏆', label: `${m.pct}% do álbum`, milestone }
+        return {
+          icon: '🏆',
+          label: interpolate(t('dashboard.milestoneAlbum'), { pct: m.pct }),
+          milestone,
+        }
       }
       const tm = teams.find(team => team.code === m.teamCode)
       const milestone: Milestone = { kind: 'team', teamCode: m.teamCode, flag: tm?.flag ?? '🏅', name: tm ? t(tm.name_key) : m.teamCode }
@@ -142,12 +148,14 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
           <div className='flex items-center gap-4 rounded-2xl bg-slate-900 border border-slate-800 px-5 py-4'>
             <div className='flex flex-col items-center'>
               <span className='text-4xl font-black text-white tabular-nums'>{albumPct}%</span>
-              <span className='text-[10px] text-slate-500 uppercase tracking-wide mt-0.5'>do álbum</span>
+              <span className='text-[10px] text-slate-500 uppercase tracking-wide mt-0.5'>{t('dashboard.ofAlbum')}</span>
             </div>
             <div className='flex-1 flex flex-col gap-1.5'>
               {progressBar(albumPct, 'bg-sky-500')}
               <p className='text-xs text-slate-400'>
-                <span className='text-white font-semibold'>{albumCollected}</span>{' '}de {albumTotal} figurinhas
+                <span className='text-white font-semibold'>{albumCollected}</span>
+                {' '}
+                {interpolate(t('dashboard.stickersOf'), { total: albumTotal })}
               </p>
             </div>
           </div>
@@ -184,7 +192,7 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
                     className='flex items-center gap-3 rounded-xl bg-slate-900 border border-slate-800 px-3 py-2 text-left hover:border-amber-700 transition-colors group'>
                     <span className='text-xl'>{m.icon}</span>
                     <p className='flex-1 text-sm font-semibold text-white'>{m.label}</p>
-                    <span className='text-[10px] text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity'>▶ rever</span>
+                    <span className='text-[10px] text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity'>{t('dashboard.replay')}</span>
                   </button>
                 ))}
               </div>
@@ -200,7 +208,7 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
                     className={`flex items-center gap-3 rounded-xl border px-3 py-2.5 ${DIFFICULTY_BORDER[r.challenge.difficulty]}`}>
                     <span className='text-xl'>{r.challenge.icon}</span>
                     <div className='flex min-w-0 flex-1 flex-col gap-1'>
-                      <p className='truncate text-xs font-semibold text-white'>{r.challenge.title}</p>
+                      <p className='truncate text-xs font-semibold text-white'>{challengeTitle(r.challenge, t)}</p>
                       {progressBar(r.pct, DIFFICULTY_COLOR[r.challenge.difficulty])}
                     </div>
                     <span className='shrink-0 text-xs font-bold tabular-nums text-slate-400'>{r.pct}%</span>

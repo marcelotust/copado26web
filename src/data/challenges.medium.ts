@@ -4,8 +4,6 @@ export const CHALLENGES_MEDIUM: Challenge[] = [
   {
     id: 'south-america',
     icon: '🌎',
-    title: 'América do Sul',
-    description: 'Tenha ao menos 1 figurinha de cada seleção sul-americana (CONMEBOL).',
     difficulty: 'medium',
     confs: ['CONMEBOL'],
     requiredQty: 1,
@@ -14,8 +12,6 @@ export const CHALLENGES_MEDIUM: Challenge[] = [
   {
     id: 'europe-big5',
     icon: '🌍',
-    title: 'Gigantes da Europa',
-    description: 'Cole ao menos 1 figurinha de Inglaterra, França, Alemanha, Espanha e Portugal.',
     difficulty: 'medium',
     teamCodes: ['ENG', 'FRA', 'GER', 'ESP', 'POR'],
     requiredQty: 1,
@@ -24,8 +20,6 @@ export const CHALLENGES_MEDIUM: Challenge[] = [
   {
     id: 'asia-rising',
     icon: '🌏',
-    title: 'Ásia em Alta',
-    description: 'Cole ao menos 1 figurinha do Japão, Coreia do Sul, Irã e Catar.',
     difficulty: 'medium',
     teamCodes: ['JPN', 'KOR', 'IRN', 'QAT'],
     requiredQty: 1,
@@ -34,8 +28,6 @@ export const CHALLENGES_MEDIUM: Challenge[] = [
   {
     id: 'africa-united',
     icon: '🦁',
-    title: 'África Unida',
-    description: 'Tenha ao menos 1 figurinha de cada seleção africana (CAF).',
     difficulty: 'medium',
     confs: ['CAF'],
     requiredQty: 1,
@@ -44,8 +36,6 @@ export const CHALLENGES_MEDIUM: Challenge[] = [
   {
     id: 'last-champion',
     icon: '🏆',
-    title: 'O Campeão',
-    description: 'Cole ao menos 5 figurinhas da Argentina, atual campeã do mundo.',
     difficulty: 'medium',
     teamCode: 'ARG',
     requiredQty: 5,
@@ -53,8 +43,6 @@ export const CHALLENGES_MEDIUM: Challenge[] = [
   {
     id: 'fwc-history',
     icon: '📖',
-    title: 'História da Copa',
-    description: 'Cole todos os cromos da seção histórica da Copa do Mundo (FWC 09–19).',
     difficulty: 'medium',
     teamCode: 'FWC',
     requiredQty: 'all',
@@ -62,8 +50,6 @@ export const CHALLENGES_MEDIUM: Challenge[] = [
   {
     id: 'five-continents',
     icon: '🌐',
-    title: 'Pelos 5 Cantos do Mundo',
-    description: 'Tenha ao menos 1 figurinha de 1 time em cada continente.',
     difficulty: 'medium',
     confGroups: [
       ['CONMEBOL', 'CONCACAF'],

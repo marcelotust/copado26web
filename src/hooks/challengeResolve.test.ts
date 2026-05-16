@@ -28,7 +28,7 @@ const BY_TEAM = new Map<string, string[]>([
 describe('resolveChallengeProgress (dispatch)', () => {
   it('routes albumTotal challenges', () => {
     const c: Challenge = {
-      id: 't', icon: '', title: '', description: '',
+      id: 't', icon: '',
       difficulty: 'easy', albumTotal: true, requiredQty: 10,
     }
     expect(resolveChallengeProgress(c, TEAMS, BY_TEAM, new Map(), 7))
@@ -37,7 +37,7 @@ describe('resolveChallengeProgress (dispatch)', () => {
 
   it('routes confGroups challenges', () => {
     const c: Challenge = {
-      id: 't', icon: '', title: '', description: '',
+      id: 't', icon: '',
       difficulty: 'medium', confGroups: [['CONMEBOL'], ['UEFA']],
       requiredQty: 1,
     }
@@ -48,7 +48,7 @@ describe('resolveChallengeProgress (dispatch)', () => {
 
   it('routes confs challenges', () => {
     const c: Challenge = {
-      id: 't', icon: '', title: '', description: '',
+      id: 't', icon: '',
       difficulty: 'medium', confs: ['CONMEBOL'], requiredQty: 1, perTeam: true,
     }
     const qty = new Map([['BRA-01', 1], ['ARG-01', 1]])
@@ -58,7 +58,7 @@ describe('resolveChallengeProgress (dispatch)', () => {
 
   it('routes groupLetter challenges', () => {
     const c: Challenge = {
-      id: 't', icon: '', title: '', description: '',
+      id: 't', icon: '',
       difficulty: 'easy', groupLetter: 'A', requiredQty: 1, perTeam: true,
     }
     const qty = new Map([['BRA-01', 1]])
@@ -73,7 +73,7 @@ describe('resolveChallengeProgress (dispatch)', () => {
       ['CAN', ['CAN-01', 'CAN-02']],
     ])
     const c: Challenge = {
-      id: 't', icon: '', title: '', description: '',
+      id: 't', icon: '',
       difficulty: 'easy', teamCodes: ['USA', 'MEX', 'CAN'], requiredQty: 1, perTeam: true,
     }
     const qty = new Map([['USA-02', 1], ['MEX-01', 1], ['CAN-01', 1]])
@@ -83,7 +83,7 @@ describe('resolveChallengeProgress (dispatch)', () => {
 
   it('routes teamCode challenges', () => {
     const c: Challenge = {
-      id: 't', icon: '', title: '', description: '',
+      id: 't', icon: '',
       difficulty: 'hard', teamCode: 'BRA', requiredQty: 'all',
     }
     const qty = new Map([['BRA-01', 1], ['BRA-02', 1]])
@@ -93,7 +93,7 @@ describe('resolveChallengeProgress (dispatch)', () => {
 
   it('routes targetIds challenges', () => {
     const c: Challenge = {
-      id: 't', icon: '', title: '', description: '',
+      id: 't', icon: '',
       difficulty: 'medium', targetIds: ['BRA-01', 'ARG-01'], requiredQty: 2,
     }
     const qty = new Map([['BRA-01', 1]])
@@ -103,7 +103,7 @@ describe('resolveChallengeProgress (dispatch)', () => {
 
   it('falls through to a zero result when no resolution kind matches', () => {
     const c = {
-      id: 't', icon: '', title: '', description: '',
+      id: 't', icon: '',
       difficulty: 'easy', requiredQty: 1,
     } as Challenge
     expect(resolveChallengeProgress(c, TEAMS, BY_TEAM, new Map(), 0))
@@ -126,7 +126,7 @@ describe('resolveChallengeProgress (real catalog challenges)', () => {
       ['BRA', ['BRA-01']],
     ])
     const c: Challenge = {
-      id: 'group-a-taste', icon: '', title: '', description: '',
+      id: 'group-a-taste', icon: '',
       difficulty: 'easy', groupLetter: 'A', requiredQty: 1, perTeam: true,
     }
     const qty = new Map([

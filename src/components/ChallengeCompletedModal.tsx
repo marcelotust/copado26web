@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useI18n } from '../i18n'
 import { isShareAbort, logger } from '../lib/logger'
+import { challengeDescription, challengeTitle } from '../lib/challengeI18n'
 import { interpolate } from '../lib/shareText'
 import type { Challenge } from '../data/challenges'
 
@@ -16,7 +17,9 @@ export default function ChallengeCompletedModal({ challenge, onDismiss }: Props)
   if (!challenge) return null
 
   async function handleShare() {
-    const text = interpolate(t('challenges.shareText'), { title: challenge!.title })
+    const text = interpolate(t('challenges.shareText'), {
+      title: challengeTitle(challenge!, t),
+    })
     if (navigator.share) {
       try { await navigator.share({ text }); return } catch (err) {
         if (isShareAbort(err)) return
@@ -56,9 +59,9 @@ export default function ChallengeCompletedModal({ challenge, onDismiss }: Props)
             {t('challenges.modalTitle')}
           </h2>
           <p className='mt-1 text-base font-semibold text-emerald-400'>
-            {challenge.title}
+            {challengeTitle(challenge, t)}
           </p>
-          <p className='mt-1 text-sm text-slate-400'>{challenge.description}</p>
+          <p className='mt-1 text-sm text-slate-400'>{challengeDescription(challenge, t)}</p>
         </div>
 
         <div className='flex w-full flex-col gap-2 sm:flex-row sm:justify-end'>
@@ -74,7 +77,7 @@ export default function ChallengeCompletedModal({ challenge, onDismiss }: Props)
             onClick={handleShare}
             className='order-1 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-emerald-500 sm:order-2'
           >
-            {copied ? '✓ Copiado' : t('challenges.modalShare')}
+            {copied ? t('challenges.copied') : t('challenges.modalShare')}
           </button>
         </div>
       </div>

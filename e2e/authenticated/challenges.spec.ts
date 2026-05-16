@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { CHALLENGES } from '../../src/data/challenges'
+import { LOCALES } from '../../src/i18n/localeData'
 
 test.describe('challenges page', () => {
   test.beforeEach(async ({ page }) => {
@@ -9,7 +10,12 @@ test.describe('challenges page', () => {
 
   test('lists all 14 challenges with progress', async ({ page }) => {
     for (const c of CHALLENGES) {
-      await expect(page.getByText(c.title, { exact: true })).toBeVisible()
+      const key = `challenges.items.${c.id}.title`
+      const title = page
+        .getByText(LOCALES['pt-BR'][key], { exact: true })
+        .or(page.getByText(LOCALES.en[key], { exact: true }))
+        .or(page.getByText(LOCALES.es[key], { exact: true }))
+      await expect(title).toBeVisible()
     }
     await expect(page.locator('[class*="rounded-xl"][class*="border"]')).toHaveCount(14)
   })

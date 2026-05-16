@@ -84,7 +84,7 @@ export function useChallengeCompletion(userId: string): {
       })
       telemetry.track(AnalyticsEvent.CHALLENGE_COMPLETED, {
         challenge_id: r.challenge.id,
-        challenge_title: r.challenge.title,
+        challenge_title: r.challenge.id,
         difficulty: r.challenge.difficulty,
       })
     }

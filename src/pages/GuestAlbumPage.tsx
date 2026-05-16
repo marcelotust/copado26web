@@ -5,11 +5,13 @@ import { PaywallContext, type PaywallReason } from '../contexts/PaywallContext'
 import GuestAlbumContent from '../components/GuestAlbumContent'
 import GuestPaywallModal from '../components/GuestPaywallModal'
 import AppLogo from '../components/AppLogo'
+import { useI18n } from '../i18n'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 
 const DEFAULT_SECTION = 'BRA'
 
 export default function GuestAlbumPage() {
+  const { t } = useI18n()
   const [section, setSection] = useState(DEFAULT_SECTION)
   const [paywallOpen, setPaywallOpen] = useState(false)
 
@@ -43,7 +45,7 @@ export default function GuestAlbumPage() {
               to='/login'
               className='px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-colors'
             >
-              Entrar
+              {t('guest.signIn')}
             </Link>
           </header>
 

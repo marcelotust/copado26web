@@ -18,12 +18,10 @@ vi.mock('../state/stickersStore', () => ({
 vi.mock('../data/challenges', () => ({
   CHALLENGES: [
     {
-      id: 'kickoff', icon: '⚽', title: 'Primeiros', description: '',
-      difficulty: 'easy', albumTotal: true, requiredQty: 10,
+      id: 'kickoff', icon: '⚽', difficulty: 'easy', albumTotal: true, requiredQty: 10,
     },
     {
-      id: 'complete-brazil', icon: '🇧🇷', title: 'BRA', description: '',
-      difficulty: 'hard', teamCode: 'BRA', requiredQty: 'all',
+      id: 'complete-brazil', icon: '🇧🇷', difficulty: 'hard', teamCode: 'BRA', requiredQty: 'all',
     },
   ],
 }))
