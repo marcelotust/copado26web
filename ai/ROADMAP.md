@@ -6,10 +6,17 @@ Deferred improvements to the AI-assisted dev workflow. Each item lists a **retak
 
 Tracked in PRs:
 
-- **v2: Enforcement & safety** — `feat/ai-workflow-enforcement` (next PR). Pre-push hook, CI ai-harness job, gitleaks action, Agent Safety section in `AGENTS.md`, `.github/pull_request_template.md`.
-- **v3: Agent telemetry** — `feat/claude-code-llm-analytics`. Wire Claude Code sessions into PostHog LLM Analytics so we can see which personas and gates get used.
+_(none — v2 enforcement and v3 agent telemetry landed on `main`; see git history and `docs/claude-code-llm-analytics.md`.)_
 
 ## Deferred
+
+### LLM analytics persona property
+
+**What:** tag Claude Code sessions with `persona` (or `$ai_metadata.persona`) when invoking `ai/agents/*` commands, via `POSTHOG_LLMA_CUSTOM_PROPERTIES` or plugin conventions.
+
+**Retake trigger:** first HogQL review of `$ai_generation` events shows no reliable persona dimension.
+
+**Why deferred:** verify what the PostHog plugin captures after v3 ingest is live; extend only if missing.
 
 ### Bundle size budget
 

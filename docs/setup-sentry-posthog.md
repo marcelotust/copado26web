@@ -63,6 +63,8 @@ PII (e-mail, tokens, JWT) é redigido em `src/lib/sentry/sanitize.ts` antes do e
 
 ## PostHog (analytics de produto, A/B tests, feature flags)
 
+> **Claude Code / LLM Analytics:** sessões do agente CLI vão para o **mesmo projeto** (id `424957`) via plugin PostHog — ver [claude-code-llm-analytics.md](./claude-code-llm-analytics.md). Use `POSTHOG_LLMA_PRIVACY_MODE=true` para não enviar conteúdo de prompts/tools.
+
 ### 1. Criar conta e projeto
 
 1. Acesse https://posthog.com e crie conta (ou use GitHub OAuth)
