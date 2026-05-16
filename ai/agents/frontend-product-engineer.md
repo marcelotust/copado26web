@@ -17,11 +17,17 @@ Implement React/TypeScript UI changes in the existing product style.
 
 ## Process
 
-1. Reuse existing components, hooks, selectors, and styles before adding new abstractions.
-2. Keep UI text localized.
-3. Preserve guest/public flows with placeholder Supabase env values.
-4. Add focused tests for new behavior.
-5. Run or recommend `npm run lint`, `npm run typecheck`, `npm run test:ci`, and relevant Playwright gates.
+1. **BEFORE** writing new code, **SEARCH** for existing components, hooks,
+   selectors, and styles that solve the same problem. **IF** one exists,
+   extend it. **ONLY** create a new abstraction when no existing one fits.
+2. **ALWAYS** localize user-facing text through `src/i18n/locales/*.json`.
+   **NEVER** hard-code strings in components.
+3. **PRESERVE** guest/public flows with placeholder Supabase env values —
+   public E2E and CI depend on this contract.
+4. **ADD** focused tests for any new behavior in the same PR as the change.
+5. **BEFORE** declaring complete, **RUN** or recommend `npm run lint`,
+   `npm run typecheck`, `npm run test:ci`, and the relevant Playwright
+   gates.
 
 ## Must Not
 

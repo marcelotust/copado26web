@@ -6,7 +6,15 @@ Deferred improvements to the AI-assisted dev workflow. Each item lists a **retak
 
 Tracked in PRs:
 
-_(none — v2 enforcement and v3 agent telemetry landed on `main`; see git history and `docs/claude-code-llm-analytics.md`.)_
+_(none on `main` — see git history. Landed layers:_
+
+- _**v1 scaffolding** (#147): operating contract, personas, harness, conventions._
+- _**v2 enforcement** (#150): `.husky/pre-push`, gitleaks workflow, Agent Safety section, PR template._
+- _**v3 agent telemetry** (#154): Claude Code → PostHog LLM Analytics, `docs/claude-code-llm-analytics.md`, ingest script._
+- _**v4 guarantees** (#155): `.github/CODEOWNERS`, Claude Code hooks, Definition of Done, husky guards, `docs/repo-setup.md`._
+- _**v5 soft power** (#156): glob-scoped Cursor rules, imperative pass on personas and `AGENTS.md`._
+
+_)_
 
 ## Deferred
 
@@ -58,14 +66,6 @@ _(none — v2 enforcement and v3 agent telemetry landed on `main`; see git histo
 
 **Why deferred:** evals only matter when there is a model swap or measurable regression to defend against.
 
-### Codeowners for `ai/agents/` and `AGENTS.md`
-
-**What:** `.github/CODEOWNERS` requiring explicit review for changes to the operating contract, personas, and harness rules.
-
-**Retake trigger:** more than one human contributor regularly editing these files.
-
-**Why deferred:** solo maintainer today.
-
 ### "Don't read" hints for agents
 
 **What:** explicit list of paths agents should not read into context (`supabase/.temp/`, large fixture JSONs, generated types) to save token budget and reduce stale-context bugs.
@@ -73,6 +73,14 @@ _(none — v2 enforcement and v3 agent telemetry landed on `main`; see git histo
 **Retake trigger:** an agent makes a decision based on a generated or temp file.
 
 **Why deferred:** no concrete incident yet.
+
+### Tighten `block-dangerous-bash.sh` argv parsing
+
+**What:** rewrite `.claude/hooks/block-dangerous-bash.sh` to tokenize the command and match flags as arguments rather than substrings of the whole command string. Current substring matcher false-positives when forbidden tokens appear inside commit-message bodies, PR-description heredocs, or chained commands (`git log main..HEAD && git push origin <branch>` etc.).
+
+**Retake trigger:** 5+ false positives across consecutive Claude Code sessions, or a contributor reports the hook blocking a legitimate workflow they cannot easily route around.
+
+**Why deferred:** today's workaround (heredoc into a temp file, or splitting chained commands) costs ~2 seconds per occurrence; rewriting the hook properly costs more than that until the friction shows up regularly.
 
 ## Principle
 

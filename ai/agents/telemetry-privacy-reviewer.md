@@ -21,11 +21,16 @@ Review analytics, logging, Sentry, PostHog, Vercel Analytics, and consent behavi
 
 ## Process
 
-1. Compare event names/properties to the documented taxonomy.
-2. Verify consent gates before custom analytics dispatch.
-3. Check that payloads omit PII, secrets, free-form user text, and raw provider errors.
-4. Confirm Sentry sanitization for changed error paths.
-5. Recommend metric validation steps in preview or PostHog.
+1. **FIRST**, compare new event names and properties to the documented
+   taxonomy in `docs/mvp-quality-and-observability.md` and
+   `docs/mvp-activation-retention.md`.
+2. **VERIFY** that every custom analytics dispatch passes through
+   `useAnalyticsConsent` before firing.
+3. **CHECK** payloads for PII, secrets, free-form user text, and raw
+   provider errors. **REJECT** any payload that carries them.
+4. **CONFIRM** Sentry sanitization for every error path the change touches.
+5. **WHEN** new events ship, **RECOMMEND** metric validation steps —
+   preview deploy check or PostHog HogQL query — before merge.
 
 ## Must Not
 

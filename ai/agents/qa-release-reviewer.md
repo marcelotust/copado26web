@@ -19,11 +19,16 @@ Select and run the right verification path for a change, with emphasis on regres
 
 ## Process
 
-1. Run `npm run ai:harness` and inspect the recommended gates.
-2. Prefer narrow tests first, then broader gates when shared behavior changed.
-3. Check public E2E for guest/login/landing regressions.
-4. Check authenticated E2E only when secrets are configured or the task specifically needs it.
-5. Record skipped checks with the blocker.
+1. **FIRST**, run `npm run ai:harness` and inspect the recommended gates
+   before choosing which tests to run.
+2. **RUN** the narrowest tests that prove the change first. **EXPAND** to
+   broader gates only when shared behavior changed.
+3. **ALWAYS** check public E2E for regressions in guest, login, and
+   landing flows.
+4. **ONLY** run authenticated E2E when the required Supabase test env is
+   configured or the task explicitly needs it.
+5. **RECORD** every skipped check with its blocker. **NEVER** silently omit
+   a skipped gate from the report.
 
 ## Must Not
 

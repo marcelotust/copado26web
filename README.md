@@ -325,13 +325,20 @@ This repo is set up for **spec-driven, agent-assisted** work — prompts and ver
 
 | Path | Purpose |
 |------|---------|
-| [`AGENTS.md`](AGENTS.md) | Repo-wide contract: stack, boundaries, commands, testing rules |
+| [`AGENTS.md`](AGENTS.md) | Repo-wide contract: stack, boundaries, **Agent Safety**, **Definition of Done**, workflow, testing rules |
 | [`ai/README.md`](ai/README.md) | Harness overview and default workflows |
-| [`ai/agents/`](ai/agents/) | Personas (QA, telemetry, Supabase, product spec, …) |
-| [`ai/specs/`](ai/specs/) | Feature specs from `ai/specs/_template/` |
 | [`ai/CONVENTIONS.md`](ai/CONVENTIONS.md) | Branch, commit, PR conventions |
-| [`.cursor/rules/`](.cursor/rules/) · [`.claude/`](.claude/) | Tool-specific entry points → same canonical docs |
+| [`ai/ROADMAP.md`](ai/ROADMAP.md) | Deferred workflow improvements with retake triggers |
+| [`ai/agents/`](ai/agents/) | Personas (QA, telemetry, Supabase, product spec, …) — imperative form |
+| [`ai/specs/`](ai/specs/) | Feature specs from `ai/specs/_template/` |
 | [`scripts/ai-harness.mjs`](scripts/ai-harness.mjs) | Classify changed files → recommend quality gates |
+| [`.cursor/rules/`](.cursor/rules/) | Cursor entry point + glob-scoped rules for sensitive paths |
+| [`.claude/`](.claude/) | Claude Code agents, commands, skills, and **hooks** (Pre/Post/Stop) that auto-run the harness |
+| [`.github/CODEOWNERS`](.github/CODEOWNERS) | Owner review required for `AGENTS.md`, personas, harness, workflows, husky, `.claude/` |
+| [`.github/pull_request_template.md`](.github/pull_request_template.md) | Canonical PR body shape |
+| [`.husky/`](.husky/) | Local guards: pre-commit (lint-staged + branch guard), pre-push (lint + harness + force-push guard) |
+| [`docs/repo-setup.md`](docs/repo-setup.md) | GitHub-side branch protection + required secrets |
+| [`docs/claude-code-llm-analytics.md`](docs/claude-code-llm-analytics.md) | Capture Claude Code sessions in PostHog LLM Analytics |
 
 ### Quick workflow
 
@@ -354,6 +361,10 @@ npm run ai:harness          # print recommended gates from git diff
 npm run ai:harness -- --run # execute them (lint, test:ci, build, e2e:public, …)
 npm run ai:harness -- --all # classify entire repo
 ```
+
+The pre-push hook in [`.husky/pre-push`](.husky/pre-push) runs `lint` and `ai:harness` automatically before every push. Claude Code users also get auto-harness on edit/stop via [`.claude/hooks/`](.claude/hooks/).
+
+Agents must satisfy [`AGENTS.md` → Definition of Done](AGENTS.md#definition-of-done) before declaring a task complete, and follow the rules in [`AGENTS.md` → Agent Safety](AGENTS.md#agent-safety) for handling untrusted content, secrets, and dangerous git operations.
 
 Product boundaries agents must respect: no scanner/OCR in MVP unless asked; UI copy via `src/i18n/locales/*.json`; analytics only after LGPD consent; never ship `service_role` keys in the client.
 
@@ -389,11 +400,12 @@ Workflows live in [`.github/workflows/`](.github/workflows/).
 |----------|------|---------|:----------:|--------------|
 | **check** | [`check.yml`](.github/workflows/check.yml) | PR · push `main` | ✅ | `npm run typecheck` · `lint` · `test:ci` · `build` (placeholder Supabase) |
 | **e2e** (`smoke`) | [`e2e.yml`](.github/workflows/e2e.yml) | PR · push `main` | ✅ | Build + Playwright **public** project; uploads report on failure |
+| **gitleaks** | [`gitleaks.yml`](.github/workflows/gitleaks.yml) | PR · push `main` | ✅ | Scan diff for committed secrets (`gitleaks-action@v2`) |
 | **e2e-authenticated** | [`e2e-authenticated.yml`](.github/workflows/e2e-authenticated.yml) | Daily 06:00 UTC · manual | — | Playwright **authenticated** suite against test Supabase (skipped if secrets missing) |
 | **posthog-metrics-check** | [`posthog-metrics-check.yml`](.github/workflows/posthog-metrics-check.yml) | Daily 09:15 UTC · manual | — | `npm run posthog:metrics-check` — activation/retention alerts + daily digest commit |
 | **sentry-triage** | [`sentry-triage.yml`](.github/workflows/sentry-triage.yml) | Daily 09:00 UTC · manual | — | `npm run sentry:triage` — opens GitHub issues for critical production Sentry errors |
 
-PRs must pass **check** + **e2e (smoke)**. Vercel deploys preview/production separately (not a GitHub Actions job in this repo).
+PRs must pass **check** + **e2e (smoke)** + **gitleaks**. Branch protection settings are documented in [`docs/repo-setup.md`](docs/repo-setup.md). Vercel deploys preview/production separately (not a GitHub Actions job in this repo).
 
 ### Repository secrets
 

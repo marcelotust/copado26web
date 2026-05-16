@@ -1,0 +1,29 @@
+---
+description: Privacy and consent constraints for analytics, logging, Sentry, and PostHog code.
+globs:
+  - src/lib/telemetry/**/*
+  - src/hooks/useAnalyticsConsent*
+  - src/lib/logger*
+  - src/lib/sentry/**/*
+  - scripts/*posthog*
+  - scripts/*sentry*
+  - scripts/*metrics*
+alwaysApply: false
+---
+
+You are editing telemetry, logging, or consent code. The rules below are
+non-negotiable.
+
+- **NEVER** include PII in event properties: email, raw user input,
+  free-form text, Supabase service-role payloads, Sentry stack frames
+  carrying user data, or reversible user identifiers.
+- **ALWAYS** gate custom analytics dispatch on `useAnalyticsConsent`. **IF**
+  you add a new event, **THEN** it MUST appear in the canonical taxonomy
+  in `src/lib/telemetry/events.ts` AND in the matching doc
+  (`docs/mvp-quality-and-observability.md` or
+  `docs/mvp-activation-retention.md`).
+- **NEVER** log Supabase row payloads verbatim. Redact identifiers first.
+- **NEVER** treat `console.log` as production observability.
+- **BEFORE** shipping, reference `ai/agents/telemetry-privacy-reviewer.md`.
+- **AFTER** editing, run `npm run ai:harness`. The harness flags this path
+  for manual privacy review.

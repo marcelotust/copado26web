@@ -16,12 +16,18 @@ Claude, Cursor, Copilot, or any other AI coding agent.
 
 ## Current Product Boundaries
 
-- Scanner/OCR is outside the current MVP unless the task explicitly says to work on it.
-- Supabase RLS and RPCs are the security boundary for user data. Browser code must only use anon-safe env vars.
-- Analytics and logs must not include email, tokens, raw Supabase payloads, free-form user text, or reversible user identifiers.
-- Custom analytics events must respect the LGPD consent flow and the taxonomy in `docs/mvp-quality-and-observability.md` and `docs/mvp-activation-retention.md`.
-- UI copy must go through `src/i18n/locales/*.json` unless it is test-only or internal tooling.
-- Keep public/guest flows working with placeholder Supabase values because CI and public E2E depend on that mode.
+- **NEVER** expand Scanner/OCR scope unless the task explicitly asks for it.
+- Supabase RLS and RPCs are the security boundary for user data. Browser
+  code MUST use anon-safe env vars only.
+- **NEVER** include email, tokens, raw Supabase payloads, free-form user
+  text, or reversible user identifiers in analytics or logs.
+- **ALWAYS** gate custom analytics events on LGPD consent and match the
+  taxonomy in `docs/mvp-quality-and-observability.md` and
+  `docs/mvp-activation-retention.md`.
+- **ALWAYS** route UI copy through `src/i18n/locales/*.json`, except in
+  test-only or internal tooling.
+- **ALWAYS** keep public/guest flows working with placeholder Supabase env
+  values — CI and public E2E depend on it.
 
 ## Agent Safety
 
@@ -69,12 +75,22 @@ Skipping an item is allowed only when explicitly justified in the response.
 
 ## AI Workflow
 
-1. Read local context first: `README.md`, this file, related docs in `docs/`, and nearby source/tests.
-2. Protect the working tree. Do not revert or overwrite changes you did not make.
-3. For feature work with product ambiguity, create a spec folder from `ai/specs/_template/` before implementation.
-4. Keep implementation slices small enough that tests and review can explain the behavior change.
-5. Before finishing, run `npm run ai:harness` to select gates from the changed files. Run the recommended gates, or state clearly why a gate was skipped.
-6. When a task maps to a GitHub issue, include `Closes #<issue-number>` in the PR description so auto-close linkage is explicit.
+1. **BEFORE** editing any file, **READ** `README.md`, this file, related
+   docs in `docs/`, and nearby source/tests.
+2. **NEVER** revert or overwrite changes you did not make. **IF** the
+   working tree contains unexpected files or modifications, **STOP** and
+   ask the user.
+3. **WHEN** a task changes user behavior AND the implementation is not
+   obvious from one file, **FIRST** create a spec folder from
+   `ai/specs/_template/`. **ONLY THEN** write code.
+4. **KEEP** each commit small enough that a reviewer can describe the
+   behavior change in one sentence.
+5. **BEFORE** declaring complete, **RUN** `npm run ai:harness`. **RUN**
+   every recommended gate. **IF** a gate is skipped, **STATE** which and
+   why.
+6. **WHEN** a task maps to a GitHub issue, **INCLUDE**
+   `Closes #<issue-number>` in the PR description so auto-close linkage
+   is explicit.
 
 ## Tool Entry Points
 

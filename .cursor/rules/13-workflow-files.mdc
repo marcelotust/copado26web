@@ -1,0 +1,32 @@
+---
+description: AI workflow files are CODEOWNERS-protected and require owner review.
+globs:
+  - AGENTS.md
+  - CLAUDE.md
+  - ai/agents/**/*
+  - ai/specs/**/*
+  - ai/CONVENTIONS.md
+  - ai/ROADMAP.md
+  - scripts/ai-harness.mjs
+  - .github/workflows/**/*.yml
+  - .github/CODEOWNERS
+  - .github/pull_request_template.md
+  - .husky/**/*
+  - .claude/agents/**/*
+  - .claude/skills/**/*
+  - .claude/commands/**/*
+  - .claude/settings.json
+  - .claude/hooks/**/*
+alwaysApply: false
+---
+
+You are editing a file under CODEOWNERS protection. Any change here
+requires explicit review from the repo owner before merge.
+
+- **SURFACE** to the user that this PR will block on owner review.
+- **KEEP** the change minimal and well-justified. **NEVER** "tidy up"
+  unrelated lines in the same diff.
+- **NEVER** modify the harness rules, persona contracts, or CI workflows
+  to make your current task easier. **IF** a rule blocks you, **STOP** and
+  ask the user whether to amend the rule or work around it.
+- **BEFORE** editing, read the canonical contract in `@AGENTS.md`.
