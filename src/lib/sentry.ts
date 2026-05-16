@@ -1,4 +1,10 @@
-import * as Sentry from '@sentry/react'
+import {
+  addBreadcrumb,
+  browserTracingIntegration,
+  captureException,
+  init,
+  setUser,
+} from '@sentry/react'
 import { sentryBeforeSend, scrubRecord, scrubValue } from './sentry/sanitize'
 
 const dsn = import.meta.env.VITE_SENTRY_DSN as string | undefined
@@ -7,6 +13,18 @@ const isProd = import.meta.env.PROD as boolean
 
 let initialized = false
 let captureAllowed = false
+
+type SentryFacade = {
+  addBreadcrumb: typeof addBreadcrumb
+  captureException: typeof captureException
+  setUser: typeof setUser
+}
+
+const Sentry: SentryFacade = {
+  addBreadcrumb,
+  captureException,
+  setUser,
+}
 
 function resolveEnvironment(): string {
   const vercel = import.meta.env.VERCEL_ENV as string | undefined
@@ -25,7 +43,7 @@ function resolveRelease(): string | undefined {
 export function initSentryClient(): void {
   if (!dsn || isDev || initialized) return
 
-  Sentry.init({
+  init({
     dsn,
     environment: resolveEnvironment(),
     release: resolveRelease(),
@@ -44,7 +62,7 @@ export function initSentryClient(): void {
       }
       return breadcrumb
     },
-    integrations: [Sentry.browserTracingIntegration()],
+    integrations: [browserTracingIntegration()],
     tracesSampleRate: isProd ? 0.1 : 1.0,
   })
 
