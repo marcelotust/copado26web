@@ -23,7 +23,11 @@ export default defineConfig({
   // Defense in depth: keep the dev server loopback-only even after the Vite 8 upgrade.
   server: { host: '127.0.0.1' },
   build: {
-    sourcemap: true,
+    // 'hidden' emits .map files (so the Sentry plugin can upload them for
+    // symbolication) but omits the //# sourceMappingURL= comment from the
+    // bundles, so browsers won't fetch them and they don't reconstruct
+    // TS source for anyone who hits the asset URLs directly.
+    sourcemap: 'hidden',
   },
   plugins: [
     react(),
