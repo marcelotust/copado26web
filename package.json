@@ -20,6 +20,7 @@
     "test:e2e:public": "playwright test --project=public",
     "test:e2e:auth": "playwright test --project=setup --project=authenticated",
     "test:coverage": "vitest run --coverage",
+    "ai:harness": "node scripts/ai-harness.mjs",
     "sentry:triage": "node scripts/sentry-triage.mjs",
     "posthog:metrics-check": "node scripts/posthog-metrics-check.mjs",
     "prepare": "husky"

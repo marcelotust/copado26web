@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "AGENTS.md",
+    "ai/agents/README.md",
+    "ai/specs/README.md",
+    "docs/mvp-quality-and-observability.md",
+    "docs/mvp-activation-retention.md"
+  ]
+}

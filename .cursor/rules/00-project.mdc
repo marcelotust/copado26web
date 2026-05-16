@@ -1,0 +1,8 @@
+---
+description: Repo-wide operating contract and canonical links for AI-assisted development
+alwaysApply: true
+---
+
+@AGENTS.md
+@ai/agents/README.md
+@ai/specs/README.md
