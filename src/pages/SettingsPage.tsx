@@ -28,24 +28,26 @@ export default function SettingsPage({
   const { t } = useI18n()
 
   return (
-    <div className='p-6 max-w-md mx-auto flex flex-col gap-6'>
-      <h1 className='text-xl font-bold text-white'>{t('settings.title')}</h1>
-      <SettingsAccountSection email={email} onSignOut={onSignOut} />
-      <SettingsAnalyticsSection
-        consent={consent}
-        onGrant={onGrantAnalytics}
-        onDecline={onDeclineAnalytics}
-      />
-      <section className='flex flex-col gap-3'>
-        <h2 className='text-sm font-semibold text-slate-400 uppercase tracking-wide'>
-          {t('settings.data')}
-        </h2>
-        <SettingsExportSection />
-        <SettingsImportSection />
-      </section>
-      <SettingsSavePointsSection userId={userId} />
-      <SettingsDangerZone />
-      <SettingsDeleteAccountSection email={email} onDeleted={onSignOut} />
+    <div className='flex flex-col h-full'>
+      <div className='flex-1 overflow-y-auto p-6 max-w-md mx-auto w-full flex flex-col gap-6'>
+        <h1 className='text-xl font-bold text-white'>{t('settings.title')}</h1>
+        <SettingsAccountSection email={email} onSignOut={onSignOut} />
+        <SettingsAnalyticsSection
+          consent={consent}
+          onGrant={onGrantAnalytics}
+          onDecline={onDeclineAnalytics}
+        />
+        <section className='flex flex-col gap-3'>
+          <h2 className='text-sm font-semibold text-slate-400 uppercase tracking-wide'>
+            {t('settings.data')}
+          </h2>
+          <SettingsExportSection />
+          <SettingsImportSection />
+        </section>
+        <SettingsSavePointsSection userId={userId} />
+        <SettingsDangerZone />
+        <SettingsDeleteAccountSection email={email} onDeleted={onSignOut} />
+      </div>
     </div>
   )
 }
