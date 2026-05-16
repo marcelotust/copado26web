@@ -1,11 +1,10 @@
-import { Fragment, useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import AppLogo from '../components/AppLogo'
-import LandingStickerCard from '../components/LandingStickerCard'
-import LandingStatPill from '../components/LandingStatPill'
+import LandingHeroSection from '../components/landing/LandingHeroSection'
 import { useI18n } from '../i18n'
-import { LANDING_FEATURES, LANDING_PRIVACY, LANDING_STATS } from '../data/landingContent'
-import { landingFeatureKey, landingPrivacyKey, landingStatLabelKey } from '../lib/landingI18n'
+import { LANDING_FEATURES, LANDING_PRIVACY } from '../data/landingContent'
+import { landingFeatureKey, landingPrivacyKey } from '../lib/landingI18n'
 import { AnalyticsEvent, FeatureFlag, telemetry } from '../lib/telemetry'
 import { getAnonVariant } from '../lib/telemetry/anonExperiment'
 
@@ -24,12 +23,12 @@ export default function LandingPage() {
   // see the control arm. The matching `$feature_flag_called` exposure event
   // is buffered by the queueing analytics layer and replayed with this
   // mount-time timestamp once telemetry activates (see telemetry/queue.ts).
-  const heroVariant = useMemo(() => {
+  const heroVariant = useMemo((): 'control' | 'treatment' => {
     if (import.meta.env.DEV) {
       const forced = new URLSearchParams(window.location.search).get('hero')
       if (forced === 'control' || forced === 'treatment') return forced
     }
-    return getAnonVariant(FeatureFlag.LANDING_HERO_CTA, { variants: ['control', 'treatment'] })
+    return getAnonVariant(FeatureFlag.LANDING_HERO_CTA, { variants: ['control', 'treatment'] }) as 'control' | 'treatment'
   }, [])
 
   useEffect(() => {
@@ -40,17 +39,6 @@ export default function LandingPage() {
     })
     telemetry.track(AnalyticsEvent.LANDING_VIEWED, { hero_cta_variant: heroVariant })
   }, [heroVariant])
-
-  const heroPrimaryTo = heroVariant === 'treatment' ? '/album' : '/login'
-  const heroPrimaryCopy = heroVariant === 'treatment'
-    ? t('landing.hero.ctaTreatment')
-    : t('landing.hero.ctaControl')
-
-  const heroSecondaryTo = heroVariant === 'treatment' ? '/login' : '/album'
-  const heroSecondaryCopy = heroVariant === 'treatment'
-    ? t('landing.signIn')
-    : t('landing.hero.exploreAlbum')
-  const heroSecondaryCtaId: HeroCtaId = heroVariant === 'treatment' ? 'header_login' : 'hero_explore_album'
 
   const trackCta = (ctaId: HeroCtaId) => () => {
     telemetry.track(AnalyticsEvent.LANDING_CTA_CLICKED, {
@@ -86,76 +74,9 @@ export default function LandingPage() {
 
       <main id='main-content'>
 
-        {/* ── Hero ───────────────────────────────────────────────────────── */}
-        <section
-          className='relative flex flex-col items-center text-center px-6 pt-10 pb-20 overflow-hidden'
-          aria-labelledby='hero-heading'
-        >
-          <div className='pointer-events-none absolute inset-0 flex items-center justify-center' aria-hidden='true'>
-            <div
-              className='w-[700px] h-[700px] rounded-full opacity-[0.08]'
-              style={{ background: 'radial-gradient(circle, #3b82f6 0%, #f43f5e 35%, #10b981 65%, transparent 80%)' }}
-            />
-          </div>
+        <LandingHeroSection heroVariant={heroVariant} trackCta={trackCta} />
 
-          <div className='pointer-events-none hidden md:block absolute inset-0' aria-hidden='true'>
-            <LandingStickerCard code='BRA' num='10' collected style={{ top: 110, left: 'calc(50% - 360px)', transform: 'rotate(-10deg) scale(1.1)' }} />
-            <LandingStickerCard code='ARG' num='01' collected style={{ top: 220, left: 'calc(50% - 280px)', transform: 'rotate(5deg)' }} />
-            <LandingStickerCard code='GER' num='05' collected={false} style={{ top: 320, left: 'calc(50% - 340px)', transform: 'rotate(-4deg) scale(0.9)' }} />
-            <LandingStickerCard code='FRA' num='07' collected style={{ top: 100, right: 'calc(50% - 360px)', transform: 'rotate(9deg) scale(1.1)' }} />
-            <LandingStickerCard code='ENG' num='09' collected style={{ top: 230, right: 'calc(50% - 275px)', transform: 'rotate(-6deg)' }} />
-            <LandingStickerCard code='POR' num='07' collected={false} style={{ top: 330, right: 'calc(50% - 345px)', transform: 'rotate(3deg) scale(0.9)' }} />
-          </div>
-
-          <div className='relative z-10 flex flex-col items-center gap-5 max-w-2xl'>
-            <h1 id='hero-heading' className='text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.05] tracking-tight'>
-              {t('landing.hero.titleBefore')}{' '}
-              <span className='text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-rose-400 to-emerald-400'>
-                {t('landing.hero.titleHighlight')}
-              </span>
-              <br />{t('landing.hero.titleAfter')}
-            </h1>
-
-            <p
-              className='text-slate-300 text-base sm:text-lg leading-relaxed max-w-md'
-              style={{ textShadow: '0 1px 8px rgba(2,6,23,0.9), 0 2px 24px rgba(2,6,23,0.7)' }}
-            >
-              {t('landing.hero.subtitle')}
-            </p>
-
-            <div className='flex flex-col items-center gap-3 mt-2'>
-              <Link
-                to={heroPrimaryTo}
-                onClick={trackCta('hero_primary')}
-                className={`inline-flex items-center gap-2 px-8 py-4 rounded-2xl font-bold text-base active:scale-95 transition-all ${FOCUS_RING}`}
-                style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #10b981 100%)', boxShadow: '0 0 48px #3b82f640' }}
-              >
-                <span aria-hidden='true'>⚽</span> {heroPrimaryCopy}
-              </Link>
-              <div className='flex flex-col items-center gap-1.5'>
-                <p className='text-xs text-slate-600'>{t('landing.hero.finePrint')}</p>
-                <Link
-                  to={heroSecondaryTo}
-                  onClick={trackCta(heroSecondaryCtaId)}
-                  className={`text-xs text-slate-500 hover:text-slate-300 underline underline-offset-4 transition-colors ${FOCUS_RING}`}
-                >
-                  {heroSecondaryCopy} →
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          <dl className='relative z-10 mt-14 flex items-center gap-6 sm:gap-10 px-6 sm:px-10 py-4 sm:py-5 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-sm'>
-            {LANDING_STATS.map((s, i) => (
-              <Fragment key={s.id}>
-                {i > 0 && <div className='w-px h-7 bg-slate-800' aria-hidden='true' />}
-                <LandingStatPill value={s.value} label={t(landingStatLabelKey(s.id))} />
-              </Fragment>
-            ))}
-          </dl>
-        </section>
-
-        {/* ── Features ───────────────────────────────────────────────────── */}
+                {/* ── Features ───────────────────────────────────────────────────── */}
         <section className='px-6 py-20 bg-slate-900/40' aria-labelledby='features-heading'>
           <div className='max-w-4xl mx-auto flex flex-col gap-14'>
 
