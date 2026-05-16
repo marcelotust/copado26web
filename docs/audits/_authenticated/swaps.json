@@ -1,0 +1,263 @@
+{
+  "route": "/swaps",
+  "finalUrl": "http://127.0.0.1:5192/swaps",
+  "elapsed_ms": 3420,
+  "consoleMessages": [],
+  "failedRequests": [],
+  "responses": [
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/user_stickers?select=sticker_id%2Cquantity&user_id=eq.f9c3c40f-011a-4b86-9214-eb426161b1ff",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "http://127.0.0.1:5192/src/assets/silhouette-player.svg?import",
+      "status": 200,
+      "size": 8347
+    },
+    {
+      "url": "http://127.0.0.1:5192/src/assets/silhouette-shield.svg?import",
+      "status": 200,
+      "size": 5832
+    },
+    {
+      "url": "http://127.0.0.1:5192/src/assets/silhouette-team.svg?import",
+      "status": 200,
+      "size": 17104
+    }
+  ],
+  "axe": {
+    "status": "ok",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".text-slate-600"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.37 (foreground color: #475569, background color: #0e1629, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".text-slate-500.hidden.sm\\:inline"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.78 (foreground color: #64748b, background color: #0e1629, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              "a[href$=\"swaps\"]"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.67 (foreground color: #ffffff, background color: #f43f5e, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".mb-1.gap-2.items-center > .text-slate-500.text-xs.shrink-0"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.23 (foreground color: #64748b, background color: #020617, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".ml-auto"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.73 (foreground color: #007a4d, background color: #020617, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1"
+          }
+        ]
+      }
+    ]
+  },
+  "dom": {
+    "title": "Meu Álbum 2026 — Álbum de Figurinhas Copa do Mundo FIFA",
+    "pathname": "/swaps",
+    "search": "",
+    "bodyText": "Meu\nÁlbum\n2026\n143/994\n14%\nTrade by QR code\n🏆\n⚙\nHome\nAlbum\nMissing\nDuplicates\n1\n🔄\nDuplicates\n\n1 sticker to trade\n\nWhatsApp\nShare\n🇿🇦\nSouth Africa\n· 1 dupes\nRSA\n03\nRSA\n\nSipho Chaine\n\n−\n+\n+1\n\nWe use anonymous usage data to improve the app. No personally identifiable information is collected. Learn more.\n\nDecline\nAccept",
+    "mainHTMLLength": 6225,
+    "stickerCards": 0,
+    "navTabs": [
+      {
+        "text": "Home",
+        "href": "/dashboard",
+        "ariaCurrent": null
+      },
+      {
+        "text": "Album",
+        "href": "/album",
+        "ariaCurrent": null
+      },
+      {
+        "text": "Missing",
+        "href": "/missing",
+        "ariaCurrent": null
+      },
+      {
+        "text": "Duplicates1",
+        "href": "/swaps",
+        "ariaCurrent": null
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Trade by QR code",
+        "ariaLabel": "Trade by QR code",
+        "disabled": false
+      },
+      {
+        "text": "⚙",
+        "ariaLabel": "Menu",
+        "disabled": false
+      },
+      {
+        "text": "WhatsApp",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "Share",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "Decline",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "Accept",
+        "ariaLabel": null,
+        "disabled": false
+      }
+    ],
+    "dialogs": [
+      {
+        "role": "dialog",
+        "label": "Analytics consent banner",
+        "labelledby": null,
+        "text": "We use anonymous usage data to improve the app. No personally identifiable information is collected. Learn more.DeclineAccept"
+      }
+    ],
+    "vitals": {
+      "lcp": {
+        "startTime": 1380,
+        "size": 16460,
+        "element": "IMG"
+      },
+      "cls": 0.0005663201681202558,
+      "inp": null
+    },
+    "navigation": {
+      "duration": 131.29999999701977,
+      "domContentLoadedEventEnd": 130.69999999552965,
+      "loadEventEnd": 131.29999999701977,
+      "transferSize": 2464
+    },
+    "paints": [
+      {
+        "name": "first-paint",
+        "startTime": 132
+      },
+      {
+        "name": "first-contentful-paint",
+        "startTime": 148
+      }
+    ],
+    "resources": [
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 242.09999999403954,
+        "duration": 244.80000000447035,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 242.59999999403954,
+        "duration": 438.1000000014901,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 242.89999999850988,
+        "duration": 827.5,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 243.29999999701977,
+        "duration": 687.5,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/user_stickers?select=sticker_id%2Cquantity&user_id=eq.f9c3c40f-011a-4b86-9214-eb426161b1ff",
+        "initiatorType": "fetch",
+        "startTime": 1081.0999999940395,
+        "duration": 235,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "http://127.0.0.1:5192/src/assets/silhouette-player.svg?import",
+        "initiatorType": "script",
+        "startTime": 1346.1999999955297,
+        "duration": 1.1000000014901161,
+        "transferSize": 300,
+        "encodedBodySize": 8347
+      },
+      {
+        "name": "http://127.0.0.1:5192/src/assets/silhouette-shield.svg?import",
+        "initiatorType": "script",
+        "startTime": 1346.1999999955297,
+        "duration": 1.5,
+        "transferSize": 300,
+        "encodedBodySize": 5832
+      },
+      {
+        "name": "http://127.0.0.1:5192/src/assets/silhouette-team.svg?import",
+        "initiatorType": "script",
+        "startTime": 1346.2999999970198,
+        "duration": 1.3999999985098839,
+        "transferSize": 300,
+        "encodedBodySize": 17104
+      }
+    ]
+  },
+  "screenshot": "swaps.png"
+}

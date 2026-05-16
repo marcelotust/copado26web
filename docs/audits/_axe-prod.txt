@@ -1,0 +1,33 @@
+[1mRunning axe-core 4.11.4 in chrome-headless[22m
+[1m[22m
+[1mTesting [4m[34mhttps://www.meualbum2026.app[39m[24m[22m ... please wait, this may take a minute.
+
+[31m[1m  Violation of "color-contrast" with 15 occurrences![22m[39m
+[31m[1m[22m[39m    Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds. Correct invalid elements at:
+     - .shadow-2xl.select-none.overflow-hidden:nth-child(3) > .aspect-\[2\/3\].w-full.flex-col > .mx-1\.5.mb-1\.5.py-1 > .text-\[8px\].font-bold
+     - .shadow-2xl.select-none.overflow-hidden:nth-child(6) > .aspect-\[2\/3\].w-full.flex-col > .mx-1\.5.mb-1\.5.py-1 > .text-\[8px\].font-bold
+     - .tracking-widest
+     - .p-4.bg-slate-900\/60.hover\:border-slate-700:nth-child(1) > .gap-0\.5.flex-col.flex > .leading-relaxed.text-xs.text-slate-500
+     - .p-4.bg-slate-900\/60.hover\:border-slate-700:nth-child(2) > .gap-0\.5.flex-col.flex > .leading-relaxed.text-xs.text-slate-500
+     - .p-4.bg-slate-900\/60.hover\:border-slate-700:nth-child(3) > .gap-0\.5.flex-col.flex > .leading-relaxed.text-xs.text-slate-500
+     - .gap-2.text-center.flex-col > .leading-relaxed.text-xs.text-slate-500
+     - .text-slate-600.text-center.text-xs
+     - .max-w-xs
+     - .sm\:gap-4 > p:nth-child(1)
+     - .sm\:gap-4 > p:nth-child(3)
+     - a[href="mailto:hello@meualbum2026.app"]
+     - .hover\:text-slate-400.focus-visible\:outline-none[href$="privacidade"]
+     - .hover\:text-slate-400.focus-visible\:outline-none[href$="termos"]
+     - .text-slate-800.text-\[10px\].text-center
+    For details, see: [4m[34mhttps://dequeuniversity.com/rules/axe/4.11/color-contrast[39m[24m
+
+[31m[1m  Violation of "definition-list" with 1 occurrences![22m[39m
+[31m[1m[22m[39m    Ensure <dl> elements are structured correctly. Correct invalid elements at:
+     - dl
+    For details, see: [4m[34mhttps://dequeuniversity.com/rules/axe/4.11/definition-list[39m[24m
+[31m[1m[22m[39m
+[31m[1m16 Accessibility issues detected.[22m[39m
+[1mTesting complete of 1 pages[22m
+[1m[22m
+[31m[1mUnable to save file![22m[39m
+[31m[1m[22m[39mError: ENOENT: no such file or directory, open '/tmp/tmp/axe-prod.json'

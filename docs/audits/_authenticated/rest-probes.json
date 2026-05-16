@@ -1,0 +1,1283 @@
+{
+  "summary": {
+    "generated_at": "2026-05-16T14:17:56.924Z",
+    "supabase_project": "https://dawndpqwuusfgzshioxs.supabase.co",
+    "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+    "mutation_policy": "No destructive RPCs called. adjust_sticker used a non-existent sticker id so it rejected before write. log_audit_event used blank action so it rejected before write.",
+    "own_user_stickers_rows": 144,
+    "own_user_stickers_all_match_user": true,
+    "challenge_completion_rows": 13,
+    "challenge_completion_all_match_user": true,
+    "statuses": {
+      "auth user object": 200,
+      "authenticated teams count sample": 206,
+      "authenticated catalog count sample": 206,
+      "authenticated own user_stickers sample": 200,
+      "authenticated audit_events own sample": 200,
+      "authenticated challenge completions sample": 200,
+      "authenticated challenge rates aggregate": 206,
+      "anon teams sample": 206,
+      "anon catalog sample": 206,
+      "anon user_stickers blocked/empty": 200,
+      "rpc adjust_sticker unknown id rejects before write": 400,
+      "rpc log_audit_event empty action rejects before write": 400
+    }
+  },
+  "probes": [
+    {
+      "name": "auth user object",
+      "method": "GET",
+      "auth": "user",
+      "path": "/auth/v1/user",
+      "status": 200,
+      "duration_ms": 981,
+      "content_range": null,
+      "body": {
+        "id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+        "aud": "authenticated",
+        "role": "authenticated",
+        "email": "anestor.rpereira@gmail.com",
+        "email_confirmed_at": "2026-05-14T01:49:33.964902Z",
+        "phone": "",
+        "confirmed_at": "2026-05-14T01:49:33.964902Z",
+        "recovery_sent_at": "2026-05-16T13:59:33.049132Z",
+        "last_sign_in_at": "2026-05-16T14:01:52.224743Z",
+        "app_metadata": {
+          "provider": "google",
+          "providers": [
+            "google"
+          ]
+        },
+        "user_metadata": {
+          "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocJ-suYuFMXtPfLJKsH8bo9AfoyZq4eHEtiico_NqdeZn2YzPA=s96-c",
+          "email": "anestor.rpereira@gmail.com",
+          "email_verified": true,
+          "full_name": "Anestor Pereira",
+          "iss": "https://accounts.google.com",
+          "name": "Anestor Pereira",
+          "phone_verified": false,
+          "picture": "https://lh3.googleusercontent.com/a/ACg8ocJ-suYuFMXtPfLJKsH8bo9AfoyZq4eHEtiico_NqdeZn2YzPA=s96-c",
+          "provider_id": "117816606252855774027",
+          "sub": "117816606252855774027"
+        },
+        "identities": [
+          {
+            "identity_id": "ba300b63-f621-4c28-acd4-addd19904e74",
+            "id": "117816606252855774027",
+            "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+            "identity_data": {
+              "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocJ-suYuFMXtPfLJKsH8bo9AfoyZq4eHEtiico_NqdeZn2YzPA=s96-c",
+              "email": "anestor.rpereira@gmail.com",
+              "email_verified": true,
+              "full_name": "Anestor Pereira",
+              "iss": "https://accounts.google.com",
+              "name": "Anestor Pereira",
+              "phone_verified": false,
+              "picture": "https://lh3.googleusercontent.com/a/ACg8ocJ-suYuFMXtPfLJKsH8bo9AfoyZq4eHEtiico_NqdeZn2YzPA=s96-c",
+              "provider_id": "117816606252855774027",
+              "sub": "117816606252855774027"
+            },
+            "provider": "google",
+            "last_sign_in_at": "2026-05-14T01:49:33.960133Z",
+            "created_at": "2026-05-14T01:49:33.960177Z",
+            "updated_at": "2026-05-15T20:30:38.529214Z",
+            "email": "anestor.rpereira@gmail.com"
+          }
+        ],
+        "created_at": "2026-05-14T01:49:33.948484Z",
+        "updated_at": "2026-05-16T14:01:52.241578Z",
+        "is_anonymous": false
+      }
+    },
+    {
+      "name": "authenticated teams count sample",
+      "method": "GET",
+      "auth": "user",
+      "path": "/rest/v1/teams?select=code,name_key,sort_order&order=sort_order.asc&limit=5",
+      "status": 206,
+      "duration_ms": 817,
+      "content_range": "0-4/51",
+      "body": [
+        {
+          "code": "WAP",
+          "name_key": "sections.wap",
+          "sort_order": 0
+        },
+        {
+          "code": "MEX",
+          "name_key": "teams.MEX",
+          "sort_order": 10
+        },
+        {
+          "code": "RSA",
+          "name_key": "teams.RSA",
+          "sort_order": 11
+        },
+        {
+          "code": "KOR",
+          "name_key": "teams.KOR",
+          "sort_order": 12
+        },
+        {
+          "code": "CZE",
+          "name_key": "teams.CZE",
+          "sort_order": 13
+        }
+      ]
+    },
+    {
+      "name": "authenticated catalog count sample",
+      "method": "GET",
+      "auth": "user",
+      "path": "/rest/v1/stickers_catalog?select=id,team_code,sort_order&order=sort_order.asc&limit=5",
+      "status": 206,
+      "duration_ms": 605,
+      "content_range": "0-4/994",
+      "body": [
+        {
+          "id": "WAP-00",
+          "team_code": "WAP",
+          "sort_order": 0
+        },
+        {
+          "id": "WAP-01",
+          "team_code": "WAP",
+          "sort_order": 1
+        },
+        {
+          "id": "WAP-02",
+          "team_code": "WAP",
+          "sort_order": 2
+        },
+        {
+          "id": "WAP-03",
+          "team_code": "WAP",
+          "sort_order": 3
+        },
+        {
+          "id": "WAP-04",
+          "team_code": "WAP",
+          "sort_order": 4
+        }
+      ]
+    },
+    {
+      "name": "authenticated own user_stickers sample",
+      "method": "GET",
+      "auth": "user",
+      "path": "/rest/v1/user_stickers?select=user_id,sticker_id,quantity,updated_at&order=updated_at.desc&limit=1000",
+      "status": 200,
+      "duration_ms": 242,
+      "content_range": "0-143/144",
+      "body": [
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-03",
+          "quantity": 2,
+          "updated_at": "2026-05-15T20:46:22.561538+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-14",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:38:03.102644+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-15",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:38:02.696095+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-16",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:38:02.322704+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-17",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:38:01.900089+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-18",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:38:01.469366+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-19",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:38:01.004977+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-20",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:38:00.59296+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-13",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:59.304205+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-12",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:58.913797+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-11",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:58.570557+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-10",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:58.194576+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-09",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:57.71608+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-08",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:57.328367+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-07",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:56.424516+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-06",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:55.997248+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-05",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:55.719743+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-04",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:55.153556+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-01",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:54.656335+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-07",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:52.496668+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-06",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:52.053972+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-05",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:51.620522+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-04",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:51.236591+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-02",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:50.793844+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-01",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:50.396213+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-08",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:49.457017+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-09",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:48.990219+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-11",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:48.539707+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-12",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:48.198631+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-13",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:47.789654+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-20",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:47.024573+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-19",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:46.618265+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-18",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:46.261379+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-17",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:45.917997+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-16",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:45.521615+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-15",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:45.178762+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-14",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:44.827984+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-20",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:42.674167+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-19",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:42.239145+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-18",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:41.833346+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-17",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:41.362198+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-16",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:40.917485+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-15",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:40.509125+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-14",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:40.02087+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-01",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:39.028428+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-03",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:38.595645+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-04",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:38.170117+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-05",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:37.782709+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-06",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:37.401761+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-07",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:37.042422+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-13",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:36.322252+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-12",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:35.431123+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-11",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:35.093849+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-10",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:34.747383+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-09",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:34.255404+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-08",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:33.979616+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-20",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:30.455476+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-19",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:30.025207+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-18",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:29.69052+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-16",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:29.179757+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-15",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:28.608803+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-14",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:28.196292+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-08",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:27.47723+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-09",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:26.991382+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-10",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:26.581604+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-11",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:26.210882+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-12",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:25.823274+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-13",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:25.491032+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-07",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:24.825537+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-06",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:24.482776+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-05",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:24.084245+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-04",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:23.639886+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-02",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:23.063416+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-01",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:22.564749+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-03",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:21.248258+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-03",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:19.143714+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "FWC-11",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:05.493783+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "FWC-15",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:04.736504+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "FWC-12",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:04.038988+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "FWC-17",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:03.38329+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "FWC-13",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:02.649056+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "FWC-09",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:01.807409+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "FWC-10",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:01.095902+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "FWC-14",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:37:00.313948+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "FWC-16",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:59.543258+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "FWC-19",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:58.776051+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "FWC-18",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:58.13348+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-01",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:44.166869+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-02",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:43.765252+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-03",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:43.283783+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-04",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:42.898069+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-05",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:42.264763+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-06",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:41.915549+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-07",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:41.167047+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-13",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:40.477167+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-12",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:40.102823+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-11",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:39.759288+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-10",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:39.409762+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-09",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:39.03001+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-08",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:38.743489+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-14",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:37.955964+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-20",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:36.933828+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-19",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:36.577313+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-18",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:36.176186+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-17",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:35.792148+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-16",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:35.34111+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "ARG-13",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:22.238623+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "ARG-11",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:21.298286+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "GHA-17",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:13.654727+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "COD-14",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:11.15622+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "ALG-14",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:08.33873+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "SEN-14",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:06.454353+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KSA-16",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:03.144989+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CPV-15",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:36:00.592691+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "EGY-14",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:35:58.002097+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "TUN-14",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:35:56.014503+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CIV-14",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:35:53.372507+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MAR-15",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:35:47.076289+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "JPN-02",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:35:19.121616+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "IRN-15",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:35:16.787612+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "QAT-10",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:35:04.437696+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "AUS-09",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:34:45.718854+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "NZL-10",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:34:43.00852+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "POR-09",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:34:13.729632+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "GER-02",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:33:58.35234+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "ESP-01",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:33:54.624195+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "FRA-01",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:33:53.023541+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "ENG-16",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:33:33.264073+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "NZL-11",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:32:56.631574+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "NZL-04",
+          "quantity": 0,
+          "updated_at": "2026-05-15T20:32:54.062949+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "COL-16",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:32:16.637575+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CZE-17",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:31:55.791495+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "KOR-10",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:31:54.083972+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "RSA-02",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:31:52.292228+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "ARG-16",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:31:36.828947+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "ARG-15",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:31:36.092112+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "ARG-14",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:31:27.98075+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "URU-14",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:31:26.384524+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "ECU-15",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:31:18.518652+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "PAR-15",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:31:15.797381+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "BRA-15",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:31:13.425743+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "CAN-10",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:30:57.754966+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "MEX-02",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:30:51.737144+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "sticker_id": "USA-08",
+          "quantity": 1,
+          "updated_at": "2026-05-15T20:30:06.227209+00:00"
+        }
+      ]
+    },
+    {
+      "name": "authenticated audit_events own sample",
+      "method": "GET",
+      "auth": "user",
+      "path": "/rest/v1/audit_events?select=user_id,action,created_at&order=created_at.desc&limit=20",
+      "status": 200,
+      "duration_ms": 233,
+      "content_range": "0-2/3",
+      "body": [
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "action": "album_reset",
+          "created_at": "2026-05-15T20:29:57.622484+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "action": "album_reset",
+          "created_at": "2026-05-15T20:22:57.777293+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "action": "album_reset",
+          "created_at": "2026-05-15T19:59:00.821918+00:00"
+        }
+      ]
+    },
+    {
+      "name": "authenticated challenge completions sample",
+      "method": "GET",
+      "auth": "user",
+      "path": "/rest/v1/user_challenge_completions?select=user_id,challenge_id,completed_at&order=completed_at.desc&limit=1000",
+      "status": 200,
+      "duration_ms": 235,
+      "content_range": "0-12/13",
+      "body": [
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "challenge_id": "complete-group-a",
+          "completed_at": "2026-05-15T20:38:03.098541+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "challenge_id": "fwc-history",
+          "completed_at": "2026-05-15T20:37:05.500852+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "challenge_id": "complete-brazil",
+          "completed_at": "2026-05-15T20:36:44.17841+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "challenge_id": "last-champion",
+          "completed_at": "2026-05-15T20:36:22.635315+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "challenge_id": "africa-united",
+          "completed_at": "2026-05-15T20:36:13.648585+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "challenge_id": "asia-rising",
+          "completed_at": "2026-05-15T20:35:19.146843+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "challenge_id": "oceania",
+          "completed_at": "2026-05-15T20:34:45.73582+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "challenge_id": "europe-big5",
+          "completed_at": "2026-05-15T20:34:13.736751+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "challenge_id": "south-america",
+          "completed_at": "2026-05-15T20:32:16.654301+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "challenge_id": "host-trio",
+          "completed_at": "2026-05-15T20:30:58.155749+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "challenge_id": "five-continents",
+          "completed_at": "2026-05-15T19:57:40.27245+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "challenge_id": "group-a-taste",
+          "completed_at": "2026-05-14T01:52:50.060998+00:00"
+        },
+        {
+          "user_id": "f9c3c40f-011a-4b86-9214-eb426161b1ff",
+          "challenge_id": "kickoff",
+          "completed_at": "2026-05-14T01:52:50.057333+00:00"
+        }
+      ]
+    },
+    {
+      "name": "authenticated challenge rates aggregate",
+      "method": "GET",
+      "auth": "user",
+      "path": "/rest/v1/challenge_completion_rates?select=*&limit=10",
+      "status": 206,
+      "duration_ms": 233,
+      "content_range": "0-9/13",
+      "body": [
+        {
+          "challenge_id": "africa-united",
+          "completions": 2,
+          "completion_pct": 40
+        },
+        {
+          "challenge_id": "asia-rising",
+          "completions": 1,
+          "completion_pct": 20
+        },
+        {
+          "challenge_id": "complete-brazil",
+          "completions": 2,
+          "completion_pct": 40
+        },
+        {
+          "challenge_id": "complete-group-a",
+          "completions": 1,
+          "completion_pct": 20
+        },
+        {
+          "challenge_id": "europe-big5",
+          "completions": 3,
+          "completion_pct": 60
+        },
+        {
+          "challenge_id": "five-continents",
+          "completions": 2,
+          "completion_pct": 40
+        },
+        {
+          "challenge_id": "fwc-history",
+          "completions": 1,
+          "completion_pct": 20
+        },
+        {
+          "challenge_id": "group-a-taste",
+          "completions": 2,
+          "completion_pct": 40
+        },
+        {
+          "challenge_id": "host-trio",
+          "completions": 1,
+          "completion_pct": 20
+        },
+        {
+          "challenge_id": "kickoff",
+          "completions": 5,
+          "completion_pct": 100
+        }
+      ]
+    },
+    {
+      "name": "anon teams sample",
+      "method": "GET",
+      "auth": "anon",
+      "path": "/rest/v1/teams?select=code&limit=3",
+      "status": 206,
+      "duration_ms": 227,
+      "content_range": "0-2/51",
+      "body": [
+        {
+          "code": "WAP"
+        },
+        {
+          "code": "MEX"
+        },
+        {
+          "code": "RSA"
+        }
+      ]
+    },
+    {
+      "name": "anon catalog sample",
+      "method": "GET",
+      "auth": "anon",
+      "path": "/rest/v1/stickers_catalog?select=id&limit=3",
+      "status": 206,
+      "duration_ms": 347,
+      "content_range": "0-2/994",
+      "body": [
+        {
+          "id": "MEX-01"
+        },
+        {
+          "id": "MEX-02"
+        },
+        {
+          "id": "MEX-03"
+        }
+      ]
+    },
+    {
+      "name": "anon user_stickers blocked/empty",
+      "method": "GET",
+      "auth": "anon",
+      "path": "/rest/v1/user_stickers?select=user_id,sticker_id&limit=3",
+      "status": 200,
+      "duration_ms": 226,
+      "content_range": "*/0",
+      "body": []
+    },
+    {
+      "name": "rpc adjust_sticker unknown id rejects before write",
+      "method": "POST",
+      "auth": "user",
+      "path": "/rest/v1/rpc/adjust_sticker",
+      "status": 400,
+      "duration_ms": 273,
+      "content_range": null,
+      "body": {
+        "code": "P0001",
+        "details": null,
+        "hint": null,
+        "message": "unknown sticker __AUDIT_DOES_NOT_EXIST__"
+      }
+    },
+    {
+      "name": "rpc log_audit_event empty action rejects before write",
+      "method": "POST",
+      "auth": "user",
+      "path": "/rest/v1/rpc/log_audit_event",
+      "status": 400,
+      "duration_ms": 236,
+      "content_range": null,
+      "body": {
+        "code": "P0001",
+        "details": null,
+        "hint": null,
+        "message": "action required"
+      }
+    }
+  ]
+}

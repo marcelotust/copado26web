@@ -1,0 +1,213 @@
+{
+  "route": "/missing",
+  "finalUrl": "http://127.0.0.1:5192/missing",
+  "elapsed_ms": 3261,
+  "consoleMessages": [],
+  "failedRequests": [],
+  "responses": [
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/user_stickers?select=sticker_id%2Cquantity&user_id=eq.f9c3c40f-011a-4b86-9214-eb426161b1ff",
+      "status": 200,
+      "size": null
+    }
+  ],
+  "axe": {
+    "status": "ok",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".text-slate-600"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.37 (foreground color: #475569, background color: #0e1629, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".text-slate-500.hidden.sm\\:inline"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.78 (foreground color: #64748b, background color: #0e1629, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              "a[data-onboarding-target=\"missing-tab\"]"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.53 (foreground color: #ffffff, background color: #10b981, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".rounded-xl > .text-slate-500.text-xs"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.23 (foreground color: #64748b, background color: #020617, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          }
+        ]
+      }
+    ]
+  },
+  "dom": {
+    "title": "Meu Álbum 2026 — Álbum de Figurinhas Copa do Mundo FIFA",
+    "pathname": "/missing",
+    "search": "",
+    "bodyText": "Meu\nÁlbum\n2026\n143/994\n14%\nTrade by QR code\n🏆\n⚙\nHome\nAlbum\nMissing\nDuplicates\n1\n\n851 stickers missing\n\nWhatsApp\nShare\n\nVerificar troca\n\nCole a lista de sobras do seu amigo (ex: \"BRA 03 · ESP 12\")\n\nAnalisar\n\n🏆 Opening\n\nWAP 00 · WAP 01 · WAP 02 · WAP 03 · WAP 04 · WAP 05 · WAP 06 · WAP 07 · WAP 08\n\n🇨🇦 Canada\n\nCAN 01 · CAN 02 · CAN 03 · CAN 04 · CAN 05 · CAN 06 · CAN 07 · CAN 08 · CAN 09 · CAN 11 · CAN 12 · CAN 13 · CAN 14 · CAN 15 · CAN 16 · CAN 17 · CAN 18 · CAN 19 · CAN 20\n\n🇧🇦 Bosnia & Herzegovina\n\nBIH 01 · BIH 02 · BIH 03 · BIH 04 · BIH 05 · BIH 06 · BIH 07 · BIH 08 · BIH 09 · BIH 10 · BIH 11 · BIH 12 · BIH 13 · BIH 14 · BIH 15 · BIH 16 · BIH 17 · BIH 18 · BIH 19 · BIH 20\n\n🇶🇦 Qatar\n\nQAT 01 · QAT 02 · QAT 03 · QAT 04 · QAT 05 · QAT 06 · QAT 07 · QAT 08 · QAT 09 · QAT 11 · QAT 12 · QAT 13 · QAT 14 · QAT 15 · QAT 16 · QAT 17 · QAT 18 · QAT 19 · QAT 20\n\n🇨🇭 Switzerland\n\nSUI 01 · SUI 02 · SUI 03 · SUI 04 · SUI 05 · SUI 06 · SUI 07 · SUI 08 · SUI 09 · SUI 10 · SUI 11 · SUI 12 · SUI 13 · SUI 14 · SUI 15 · SUI 16 · SUI 17 · SUI 18 · SUI 19 · SUI 20\n\n🇲🇦 Morocco\n\nMAR 01 · MAR 02 · MAR 03 · MAR 04 · MAR 05 · MAR 06 · MAR 07 · MAR 08 · MAR 09 · MAR 10 · MAR 11 · MAR 12 · MAR 13 · MAR 14 · MAR 16 · MAR 17 · MAR 18 · MAR 19 · MAR 20\n\n🇭🇹 Haiti\n\nHAI 01 · HAI 02 · HAI 03 · HAI 04 · HAI 05 · HAI 06 · HAI 07 · HAI 08 · HAI 09 · HAI 10 · HAI 11 · HAI 12 · HAI 13 · HAI 14 · HAI 15 · HAI 16 · HAI 17 · HAI 18 · HAI 19 · HAI 20\n\n🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland\n\nSCO 01 · SCO 02 · SCO 03 · SCO 04 · SCO 05 · SCO 06 · SCO 07 · SCO 08 · SCO 09 · SCO 10 · SCO 11 · SCO 12 · SCO 13 · SCO 14 · SCO 15 · SCO 16 · SCO 17 · SCO 18 · SCO 19 · SCO 20\n\n🇺🇸 United States\n\nUSA 01 · USA 02 · USA 03 · USA 04 · USA 05 · USA 06 · USA 07 · USA 09 · USA 10 · USA 11 · USA 12 · USA 13 · USA 14 · USA 15 · USA 16 · USA 17 · USA 18 · USA 19 · USA 20\n\n🇵🇾 Paraguay\n\nPAR 01 · PAR 02 · PAR 03 · PAR 04 · PAR 05 · PAR 06 · PAR 07 · PAR 08 · PAR 09 · PAR 10 · PAR 11 · PAR 12 · PAR 13 · PAR 14 · PAR 16 · PAR 17 · PAR ",
+    "mainHTMLLength": 15453,
+    "stickerCards": 0,
+    "navTabs": [
+      {
+        "text": "Home",
+        "href": "/dashboard",
+        "ariaCurrent": null
+      },
+      {
+        "text": "Album",
+        "href": "/album",
+        "ariaCurrent": null
+      },
+      {
+        "text": "Missing",
+        "href": "/missing",
+        "ariaCurrent": null
+      },
+      {
+        "text": "Duplicates1",
+        "href": "/swaps",
+        "ariaCurrent": null
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Trade by QR code",
+        "ariaLabel": "Trade by QR code",
+        "disabled": false
+      },
+      {
+        "text": "⚙",
+        "ariaLabel": "Menu",
+        "disabled": false
+      },
+      {
+        "text": "WhatsApp",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "Share",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "Analisar",
+        "ariaLabel": null,
+        "disabled": true
+      },
+      {
+        "text": "Decline",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "Accept",
+        "ariaLabel": null,
+        "disabled": false
+      }
+    ],
+    "dialogs": [
+      {
+        "role": "dialog",
+        "label": "Analytics consent banner",
+        "labelledby": null,
+        "text": "We use anonymous usage data to improve the app. No personally identifiable information is collected. Learn more.DeclineAccept"
+      }
+    ],
+    "vitals": {
+      "lcp": {
+        "startTime": 1236,
+        "size": 51129,
+        "element": "P"
+      },
+      "cls": 0.0005663201681202558,
+      "inp": null
+    },
+    "navigation": {
+      "duration": 134.10000000149012,
+      "domContentLoadedEventEnd": 133.39999999850988,
+      "loadEventEnd": 134.10000000149012,
+      "transferSize": 2464
+    },
+    "paints": [
+      {
+        "name": "first-paint",
+        "startTime": 136
+      },
+      {
+        "name": "first-contentful-paint",
+        "startTime": 160
+      }
+    ],
+    "resources": [
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 238.10000000149012,
+        "duration": 240.60000000149012,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 238.60000000149012,
+        "duration": 420,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 239,
+        "duration": 475.79999999701977,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 239.29999999701977,
+        "duration": 659.4000000059605,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/user_stickers?select=sticker_id%2Cquantity&user_id=eq.f9c3c40f-011a-4b86-9214-eb426161b1ff",
+        "initiatorType": "fetch",
+        "startTime": 909.6000000014901,
+        "duration": 240.69999999552965,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      }
+    ]
+  },
+  "screenshot": "missing.png"
+}
