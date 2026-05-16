@@ -67,6 +67,7 @@ function createAdapter(ph: PostHog): TelemetryAnalyticsPort {
  * lets ad-blockers fail without breaking the app.
  */
 export async function activatePostHogAnalytics(userId: string): Promise<TelemetryAnalyticsPort | null> {
+  if (import.meta.env.DEV) return null
   const key = import.meta.env.VITE_POSTHOG_KEY
   if (!key) return null
 

@@ -89,20 +89,11 @@ Adicione nas Environment Variables do Vercel:
 npm install posthog-js
 ```
 
-Inicialização básica em `src/lib/posthog.ts`:
-```ts
-import posthog from 'posthog-js'
+Implementação em `src/lib/telemetry/posthog.ts` (`activatePostHogAnalytics`):
 
-export function initPostHog() {
-  const key = import.meta.env.VITE_POSTHOG_KEY
-  const host = import.meta.env.VITE_POSTHOG_HOST
-  if (!key || !import.meta.env.PROD) return
-  posthog.init(key, { api_host: host, capture_pageview: false })
-}
-```
-
-> **Nota LGPD**: PostHog só deve ser inicializado após consentimento do usuário (issue #18).
-> O `ConsentBanner` existente no código precisa chamar `initPostHog()` no accept.
+- Só após **consentimento** de analytics (LGPD).
+- **Desligado em `npm run dev`** (`import.meta.env.DEV`), igual ao Sentry — mesmo com `VITE_POSTHOG_KEY` no `.env.local`.
+- Para testar localmente: `npm run build && npm run preview` ou preview na Vercel.
 
 ### 5. Feature flags
 
