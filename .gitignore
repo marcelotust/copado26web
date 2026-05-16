@@ -1,6 +1,10 @@
 # Dependencies
 node_modules
-.claude
+supabase/.temp/
+
+# Claude Code — share per-repo skills/agents/commands; keep per-dev state local
+.claude/settings.local.json
+.claude/worktrees/
 
 # Build output
 /dist/
