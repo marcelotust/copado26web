@@ -260,33 +260,12 @@
   },
 
   "header": {
-    "swaps": "Cambios",
-    "scan": "Escanear"
+    "swaps": "Cambios"
   },
 
   "grid": {
     "loading": "Cargando cromos…",
     "hint": "Clic para agregar · Clic derecho para quitar"
-  },
-
-  "scanner": {
-    "title": "Scanner",
-    "ocrLoading": "Cargando OCR…",
-    "scanning": "Escaneando…",
-    "ready": "Listo",
-    "capture": "📸 Capturar Ahora",
-    "typeLabel": "✏️ Escribe el código manualmente",
-    "placeholder": "ej: BRA 10",
-    "add": "Agregar",
-    "logTitle": "Registro",
-    "empty": "Nada escaneado aún",
-    "added": "+1 agregado",
-    "notFound": "no encontrado",
-    "showRaw": "▼ Mostrar texto OCR",
-    "hideRaw": "▲ Ocultar",
-    "alignHint": "Alinea el código del cromo en el recuadro · como",
-    "camError": "Cámara no disponible",
-    "useManual": "Usa la entrada manual a continuación."
   },
 
   "swaps": {
