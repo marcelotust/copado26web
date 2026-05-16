@@ -5,9 +5,12 @@ import { vercelTrack } from './vercel'
 /** Sends product events to PostHog (flags + capture) and Vercel `track()` in parallel. */
 export function withVercelAnalytics(base: TelemetryAnalyticsPort): TelemetryAnalyticsPort {
   return {
-    track(event, props) {
+    track(event, props, options) {
       const safe = sanitizeAnalyticsProps(props)
-      base.track(event, safe)
+      base.track(event, safe, options)
+      // Vercel `track()` doesn't support backdating; replayed events fire
+      // with current time on that channel. Acceptable: PostHog is the
+      // source of truth for the experiment funnel.
       vercelTrack(event, safe)
     },
     flag: base.flag.bind(base),

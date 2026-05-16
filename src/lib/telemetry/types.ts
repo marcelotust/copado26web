@@ -7,8 +7,14 @@ export type TelemetryFeatureFlagsListener = () => void
 /** Mirrors analytics consent in the app — providers must not run until `granted`. */
 export type TelemetryConsentState = 'granted' | 'declined' | null
 
+/**
+ * Per-event options. `timestamp` lets the queue replay backdated events so
+ * PostHog's experiment funnels see them in their original temporal order.
+ */
+export type TelemetryTrackOptions = { timestamp?: Date }
+
 export type TelemetryAnalyticsPort = {
-  track: (event: string, props?: TelemetryProperties) => void
+  track: (event: string, props?: TelemetryProperties, options?: TelemetryTrackOptions) => void
   flag: (key: string) => boolean
   variant: (key: string) => string | null
   onFeatureFlags: (listener: TelemetryFeatureFlagsListener) => () => void

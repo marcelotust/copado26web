@@ -4,10 +4,10 @@
  * grants analytics consent.
  *
  * Trade-off vs. PostHog feature flags: assignments are made client-side from
- * a stable random ID in localStorage. PostHog only sees the assignment as an
- * `experiment_exposed` event once the user logs in and consent activates the
- * SDK — at which point any assignments accumulated for the same anon ID get
- * flushed (see flushPendingExposures).
+ * a stable random ID in localStorage. The caller is responsible for emitting
+ * the matching `$feature_flag_called` event via `telemetry.track()` — which
+ * is buffered by the queueing analytics layer (see queue.ts) and replayed
+ * with its original timestamp once consent activates the SDK.
  *
  * Why not boot PostHog for anon visitors: that would make a /decide call to
  * posthog.com before consent, which we explicitly avoid for LGPD posture.
@@ -15,24 +15,15 @@
 
 const ANON_ID_KEY = 'meualbum.anon_id'
 const ASSIGNMENT_PREFIX = 'meualbum.exp.'
-const PENDING_EXPOSURES_KEY = 'meualbum.exp.pending_exposures'
 
 let memoryAnonId: string | null = null
 const memoryAssignments = new Map<string, string>()
-let memoryPending: PendingExposure[] = []
 
 export type AnonVariantSpec = {
   /** Variant names, e.g. ['control','treatment']. */
   variants: readonly string[]
   /** Parallel weights (default = even split). Must match variants.length. */
   weights?: readonly number[]
-}
-
-type PendingExposure = {
-  experiment: string
-  variant: string
-  anon_id: string
-  assigned_at: number
 }
 
 function safeLocalStorage(): Storage | null {
@@ -104,53 +95,10 @@ function pickVariant(hash: number, spec: AnonVariantSpec): string {
   return variants[variants.length - 1]
 }
 
-function loadPending(): PendingExposure[] {
-  if (memoryPending.length > 0) return memoryPending
-  const ls = safeLocalStorage()
-  if (!ls) return memoryPending
-  try {
-    const raw = ls.getItem(PENDING_EXPOSURES_KEY)
-    if (!raw) return memoryPending
-    const parsed = JSON.parse(raw) as unknown
-    if (Array.isArray(parsed)) {
-      memoryPending = parsed.filter(
-        (e): e is PendingExposure =>
-          typeof e === 'object' && e !== null &&
-          typeof (e as PendingExposure).experiment === 'string' &&
-          typeof (e as PendingExposure).variant === 'string' &&
-          typeof (e as PendingExposure).anon_id === 'string' &&
-          typeof (e as PendingExposure).assigned_at === 'number',
-      )
-    }
-  } catch { /* ignore corrupt entry */ }
-  return memoryPending
-}
-
-function savePending(): void {
-  const ls = safeLocalStorage()
-  if (!ls) return
-  try {
-    if (memoryPending.length === 0) {
-      ls.removeItem(PENDING_EXPOSURES_KEY)
-    } else {
-      ls.setItem(PENDING_EXPOSURES_KEY, JSON.stringify(memoryPending))
-    }
-  } catch { /* quota */ }
-}
-
-function recordPending(exp: PendingExposure): void {
-  const current = loadPending()
-  // De-dupe: one pending exposure per (experiment, anon_id). Newer wins.
-  const next = current.filter((e) => !(e.experiment === exp.experiment && e.anon_id === exp.anon_id))
-  next.push(exp)
-  memoryPending = next
-  savePending()
-}
-
 /**
  * Resolve an A/B variant for an anonymous visitor. Result is stable across
- * reloads for the same anon ID, and the assignment is queued as a pending
- * exposure so PostHog can record it after consent.
+ * reloads for the same anon ID. The caller is responsible for emitting the
+ * exposure event (`$feature_flag_called`) so PostHog can attribute it.
  */
 export function getAnonVariant(experimentKey: string, spec: AnonVariantSpec): string {
   const cached = memoryAssignments.get(experimentKey)
@@ -176,34 +124,17 @@ export function getAnonVariant(experimentKey: string, spec: AnonVariantSpec): st
     try { ls.setItem(ASSIGNMENT_PREFIX + experimentKey, variant) } catch { /* quota */ }
   }
 
-  recordPending({
-    experiment: experimentKey,
-    variant,
-    anon_id: anonId,
-    assigned_at: Date.now(),
-  })
-
   return variant
-}
-
-/** Drains any pending exposure assignments. Caller is responsible for emitting them. */
-export function drainPendingExposures(): readonly PendingExposure[] {
-  const drained = loadPending().slice()
-  memoryPending = []
-  savePending()
-  return drained
 }
 
 /** Test-only reset. Not exported through index.ts. */
 export function __resetAnonExperimentForTests(): void {
   memoryAnonId = null
   memoryAssignments.clear()
-  memoryPending = []
   const ls = safeLocalStorage()
   if (ls) {
     try {
       ls.removeItem(ANON_ID_KEY)
-      ls.removeItem(PENDING_EXPOSURES_KEY)
       const toRemove: string[] = []
       for (let i = 0; i < ls.length; i++) {
         const key = ls.key(i)
