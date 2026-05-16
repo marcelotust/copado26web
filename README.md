@@ -162,16 +162,14 @@ npm run dev          # Vite → http://localhost:5173
 
 ### Local dev telemetry
 
-[`npm run dev`](package.json) keeps external observability quiet so local work does not pollute production dashboards:
-
 | Tool | In dev | Notes |
 |------|:------:|-------|
 | **Sentry** | Off | Hard-disabled via `import.meta.env.DEV` |
-| **PostHog** | Off | Skipped even if `VITE_POSTHOG_KEY` is in `.env.local` |
-| **Vercel Analytics** | Off | No script; custom `track()` is a no-op |
-| **Logger** | Console only | `debug` / `info` / `warn` / `error` to the browser console — nothing shipped remotely |
+| **PostHog** | Off | Same dev gate as Sentry — skipped even if `VITE_POSTHOG_KEY` is set |
+| **Vercel Analytics** | Debug only | Uses Vercel’s dev script (console), not production dashboards |
+| **Logger** | Console only | `debug` / `info` / `warn` / `error` locally — Sentry only in prod + consent |
 
-Optional Sentry/PostHog keys in `.env.local` are mainly for **preview/production** or `npm run build && npm run preview`. Landing A/B still works locally via client-side bucketing (`getAnonVariant`) and `?hero=control|treatment` on `/`.
+Optional Sentry/PostHog keys in `.env.local` matter for **preview/production** or `npm run build && npm run preview`. Landing A/B works locally via `getAnonVariant` and `?hero=control|treatment` on `/`.
 
 ---
 
