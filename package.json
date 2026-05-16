@@ -21,6 +21,7 @@
     "test:e2e:auth": "playwright test --project=setup --project=authenticated",
     "test:coverage": "vitest run --coverage",
     "sentry:triage": "node scripts/sentry-triage.mjs",
+    "posthog:metrics-check": "node scripts/posthog-metrics-check.mjs",
     "prepare": "husky"
   },
   "dependencies": {
