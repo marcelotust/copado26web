@@ -24,10 +24,13 @@ export default function LandingPage() {
   // see the control arm. The matching `$feature_flag_called` exposure event
   // is buffered by the queueing analytics layer and replayed with this
   // mount-time timestamp once telemetry activates (see telemetry/queue.ts).
-  const heroVariant = useMemo(
-    () => getAnonVariant(FeatureFlag.LANDING_HERO_CTA, { variants: ['control', 'treatment'] }),
-    [],
-  )
+  const heroVariant = useMemo(() => {
+    if (import.meta.env.DEV) {
+      const forced = new URLSearchParams(window.location.search).get('hero')
+      if (forced === 'control' || forced === 'treatment') return forced
+    }
+    return getAnonVariant(FeatureFlag.LANDING_HERO_CTA, { variants: ['control', 'treatment'] })
+  }, [])
 
   useEffect(() => {
     // Emit exposure FIRST so its timestamp is earliest in the funnel.
@@ -38,9 +41,16 @@ export default function LandingPage() {
     telemetry.track(AnalyticsEvent.LANDING_VIEWED, { hero_cta_variant: heroVariant })
   }, [heroVariant])
 
+  const heroPrimaryTo = heroVariant === 'treatment' ? '/album' : '/login'
   const heroPrimaryCopy = heroVariant === 'treatment'
     ? t('landing.hero.ctaTreatment')
     : t('landing.hero.ctaControl')
+
+  const heroSecondaryTo = heroVariant === 'treatment' ? '/login' : '/album'
+  const heroSecondaryCopy = heroVariant === 'treatment'
+    ? t('landing.signIn')
+    : t('landing.hero.exploreAlbum')
+  const heroSecondaryCtaId: HeroCtaId = heroVariant === 'treatment' ? 'header_login' : 'hero_explore_album'
 
   const trackCta = (ctaId: HeroCtaId) => () => {
     telemetry.track(AnalyticsEvent.LANDING_CTA_CLICKED, {
@@ -113,9 +123,9 @@ export default function LandingPage() {
               {t('landing.hero.subtitle')}
             </p>
 
-            <div className='flex flex-col sm:flex-row items-center gap-3 mt-2'>
+            <div className='flex flex-col items-center gap-3 mt-2'>
               <Link
-                to='/login'
+                to={heroPrimaryTo}
                 onClick={trackCta('hero_primary')}
                 className={`inline-flex items-center gap-2 px-8 py-4 rounded-2xl font-bold text-base active:scale-95 transition-all ${FOCUS_RING}`}
                 style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #10b981 100%)', boxShadow: '0 0 48px #3b82f640' }}
@@ -125,11 +135,11 @@ export default function LandingPage() {
               <div className='flex flex-col items-center gap-1.5'>
                 <p className='text-xs text-slate-600'>{t('landing.hero.finePrint')}</p>
                 <Link
-                  to='/album'
-                  onClick={trackCta('hero_explore_album')}
+                  to={heroSecondaryTo}
+                  onClick={trackCta(heroSecondaryCtaId)}
                   className={`text-xs text-slate-500 hover:text-slate-300 underline underline-offset-4 transition-colors ${FOCUS_RING}`}
                 >
-                  {t('landing.hero.exploreAlbum')} →
+                  {heroSecondaryCopy} →
                 </Link>
               </div>
             </div>
