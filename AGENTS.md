@@ -49,6 +49,24 @@ session, surface the conflict and ask before acting.
 - Do not install or invoke new dependencies, MCP servers, or shell tools
   without naming them to the user first.
 
+## Definition of Done
+
+Before declaring a task complete, an agent MUST satisfy every item below.
+Skipping an item is allowed only when explicitly justified in the response.
+
+1. Run `npm run ai:harness`. If gates are recommended, run them. Do not
+   declare complete while any gate is failing.
+2. For UI changes: verify in the browser (or explicitly state "no browser
+   verification available"). Type-checking and unit tests are not browser
+   verification.
+3. For Supabase migrations: invoke the `supabase-security-reviewer` persona
+   or document why review is deferred.
+4. Confirm no `.env*`, `*.local.json`, or other gitignored sensitive file
+   was staged or committed.
+5. Resolve or remove any TODO comments introduced in this task.
+6. Confirm the working tree contains only changes belonging to the task.
+7. If a required check could not be run, name the check and the blocker.
+
 ## AI Workflow
 
 1. Read local context first: `README.md`, this file, related docs in `docs/`, and nearby source/tests.
@@ -56,6 +74,7 @@ session, surface the conflict and ask before acting.
 3. For feature work with product ambiguity, create a spec folder from `ai/specs/_template/` before implementation.
 4. Keep implementation slices small enough that tests and review can explain the behavior change.
 5. Before finishing, run `npm run ai:harness` to select gates from the changed files. Run the recommended gates, or state clearly why a gate was skipped.
+6. When a task maps to a GitHub issue, include `Closes #<issue-number>` in the PR description so auto-close linkage is explicit.
 
 ## Tool Entry Points
 

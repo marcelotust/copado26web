@@ -1,1 +1,16 @@
+remote="$1"
+
+while read local_ref local_sha remote_ref remote_sha; do
+  case "$remote_ref" in
+    refs/heads/main|refs/heads/master)
+      if [ "$remote_sha" != "0000000000000000000000000000000000000000" ]; then
+        if ! git merge-base --is-ancestor "$remote_sha" "$local_sha" 2>/dev/null; then
+          echo "Force push to $remote_ref is blocked locally. Open a PR instead." >&2
+          exit 1
+        fi
+      fi
+      ;;
+  esac
+done
+
 npm run lint && npm run ai:harness
