@@ -164,6 +164,7 @@
     "shortcuts": "Accesos rápidos",
     "seeAll": "Ver todos",
     "challengesPreview": "Desafíos en curso",
+    "noChallengesYet": "Marca cromos para desbloquear los desafíos.",
     "recentBadges": "Logros recientes",
     "noMilestones": "Sin logros aún",
     "leastComplete": "Menos completos",
@@ -423,17 +424,39 @@
     "back": "Volver",
     "next": "Siguiente",
     "start": "Comenzar",
+    "finish": "¡Vamos!",
+    "markFirstHint": "Toca un cromo en el álbum para continuar.",
     "step1": {
       "title": "Toca cualquier cromo",
       "body": "Marca los que ya tienes. Toca otra vez el botón de añadir para registrar repetidos."
     },
     "step2": {
-      "title": "Mira lo que falta",
-      "body": "La pestaña Faltantes organiza tu lista y la deja lista para compartir con el grupo."
+      "title": "Comparte por WhatsApp",
+      "body": "En Faltantes, envía la lista formateada al grupo con un toque — con banderitas incluidas."
     },
     "step3": {
-      "title": "Todo sincronizado",
-      "body": "Tu álbum queda guardado en tu cuenta y te acompaña en otros dispositivos."
+      "title": "Pega la lista de cambios",
+      "body": "¿Recibiste repetidos de alguien? Pégala aquí y la app cruza con lo que te falta."
+    },
+    "step4": {
+      "title": "Tus repetidos",
+      "body": "Todo lo que sobra está en Repetidos — listo para compartir o cambiar."
+    },
+    "step5": {
+      "title": "Cambio presencial por QR",
+      "body": "¿Quedaste con amigos? Genera un QR con tus sobras y comparad al momento."
+    },
+    "step6": {
+      "title": "Sigue tu progreso",
+      "body": "En Inicio ves cuánto falta para completar el álbum y atajos a las demás pestañas."
+    },
+    "step7": {
+      "title": "Desafíos temáticos",
+      "body": "Aquí en Inicio sigues las metas en curso. Toca ver todos para la lista completa y la tarjeta de logro."
+    },
+    "step8": {
+      "title": "¿A completar el álbum?",
+      "body": "Sigue marcando cromos. Cada uno cuenta — ¡vamos a por el álbum completo del Mundial!"
     }
   },
 

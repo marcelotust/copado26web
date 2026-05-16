@@ -145,7 +145,10 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
         {/* 1 — Global progress */}
         <section className='flex flex-col gap-3'>
           {sectionHeader(t('dashboard.globalProgress'))}
-          <div className='flex items-center gap-4 rounded-2xl bg-slate-900 border border-slate-800 px-5 py-4'>
+          <div
+            className='flex items-center gap-4 rounded-2xl bg-slate-900 border border-slate-800 px-5 py-4'
+            data-onboarding-target='dashboard-global-progress'
+          >
             <div className='flex flex-col items-center'>
               <span className='text-4xl font-black text-white tabular-nums'>{albumPct}%</span>
               <span className='text-[10px] text-slate-500 uppercase tracking-wide mt-0.5'>{t('dashboard.ofAlbum')}</span>
@@ -199,9 +202,15 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
             )}
           </section>
 
-          {topChallenges.length > 0 && (
-            <section className='flex flex-col gap-3'>
-              {sectionHeader(t('dashboard.challengesPreview'))}
+          <section
+            className='flex flex-col gap-3'
+            data-onboarding-target='dashboard-challenges'
+          >
+            {sectionHeader(t('dashboard.challengesPreview'))}
+            {topChallenges.length === 0 ? (
+              <p className='px-1 text-xs text-slate-500'>{t('dashboard.noChallengesYet')}</p>
+            ) : (
+              <>
               <div className='flex flex-col gap-2'>
                 {topChallenges.map(r => (
                   <div key={r.challenge.id}
@@ -219,8 +228,9 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
                 className='text-xs text-sky-400 hover:text-sky-300 text-left px-1 transition-colors'>
                 {t('dashboard.seeAll')} →
               </button>
-            </section>
-          )}
+              </>
+            )}
+          </section>
         </div>
 
         {/* 4 — Group progress */}

@@ -25,6 +25,7 @@ export default function SwapsPage() {
         title={t('nav.swaps')}
         icon='🔄'
         accentColor='#F43F5E'
+        onboardingTarget='swaps-header'
         summary={(
           <>
             <span className='font-bold text-white'>{total}</span>{' '}

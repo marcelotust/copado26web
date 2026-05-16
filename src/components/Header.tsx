@@ -25,6 +25,7 @@ export default function Header({ email, onLogout }: HeaderProps) {
       <button
         type='button'
         onClick={() => setTradeQrOpen(true)}
+        data-onboarding-target='trade-qr-button'
         className='shrink-0 flex items-center gap-1.5 px-2 sm:px-2.5 h-8 rounded-lg text-emerald-400 hover:bg-emerald-500/15 transition-colors text-lg border border-transparent hover:border-emerald-500/20'
         aria-label={t('nav.tradeByQr')}
       >
@@ -38,6 +39,7 @@ export default function Header({ email, onLogout }: HeaderProps) {
 
       <Link
         to='/challenges'
+        data-onboarding-target='challenges-nav'
         className='shrink-0 flex items-center justify-center w-8 h-8 rounded-lg text-amber-400 hover:bg-amber-500/20 transition-colors text-lg'
         aria-label={t('nav.challenges')}
       >

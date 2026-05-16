@@ -5,6 +5,8 @@ type OnboardingStepProps = {
   current: number
   total: number
   canGoBack: boolean
+  nextDisabled?: boolean
+  nextHint?: string
   nextLabel: string
   backLabel: string
   skipLabel: string
@@ -20,6 +22,8 @@ export default function OnboardingStep({
   current,
   total,
   canGoBack,
+  nextDisabled = false,
+  nextHint,
   nextLabel,
   backLabel,
   skipLabel,
@@ -36,6 +40,9 @@ export default function OnboardingStep({
         </div>
         <h2 className='mt-2 text-lg font-black leading-tight text-white'>{title}</h2>
         <p className='mt-2 text-sm leading-5 text-slate-300'>{body}</p>
+        {nextHint && (
+          <p className='mt-2 text-xs font-semibold text-amber-300/90'>{nextHint}</p>
+        )}
       </div>
 
       <div className='flex items-center justify-between gap-2 border-t border-white/10 px-3 py-3'>
@@ -60,7 +67,8 @@ export default function OnboardingStep({
           <button
             type='button'
             onClick={onNext}
-            className='rounded-md bg-amber-400 px-4 py-2 text-sm font-black text-slate-950 transition hover:bg-amber-300'
+            disabled={nextDisabled}
+            className='rounded-md bg-amber-400 px-4 py-2 text-sm font-black text-slate-950 transition hover:bg-amber-300 disabled:cursor-not-allowed disabled:opacity-45'
           >
             {nextLabel}
           </button>

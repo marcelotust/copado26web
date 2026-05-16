@@ -14,10 +14,10 @@ export default function TabNav() {
 
   return (
     <nav className='shrink-0 relative flex justify-center gap-1 px-4 py-2 bg-slate-900'>
-      <NavTab to='/dashboard' label={t('nav.home')}    active={pathname === '/dashboard' || pathname === '/'} color='#F59E0B' onNavigate={() => trackTab('dashboard')} />
-      <NavTab to='/album'     label={t('nav.album')}   active={pathname === '/album'}                         color='#3B82F6' onNavigate={() => trackTab('album')} />
+      <NavTab to='/dashboard' label={t('nav.home')}    active={pathname === '/dashboard' || pathname === '/'} color='#F59E0B' onboardingTarget='dashboard-tab' onNavigate={() => trackTab('dashboard')} />
+      <NavTab to='/album'     label={t('nav.album')}   active={pathname === '/album'}                         color='#3B82F6' onboardingTarget='album-tab' onNavigate={() => trackTab('album')} />
       <NavTab to='/missing'   label={t('nav.missing')} active={pathname === '/missing'}                       color='#10B981' onboardingTarget='missing-tab' onNavigate={() => trackTab('missing')} />
-      <NavTab to='/swaps'     label={t('nav.swaps')}   active={pathname === '/swaps'} badge={swaps > 0 ? swaps : undefined} color='#F43F5E' onNavigate={() => trackTab('swaps')} />
+      <NavTab to='/swaps'     label={t('nav.swaps')}   active={pathname === '/swaps'} badge={swaps > 0 ? swaps : undefined} color='#F43F5E' onboardingTarget='swaps-tab' onNavigate={() => trackTab('swaps')} />
 
       {/* Quadricolor accent line */}
       <div className='absolute bottom-0 left-0 right-0 h-px flex'>

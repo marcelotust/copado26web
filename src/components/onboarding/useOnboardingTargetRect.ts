@@ -7,20 +7,34 @@ export type TargetRect = {
   height: number
 }
 
+const RETRY_MS = 120
+const MAX_RETRIES = 28
+
 export function useOnboardingTargetRect(targetSelector: string | null): TargetRect | null {
   const [targetRect, setTargetRect] = useState<TargetRect | null>(null)
 
   useEffect(() => {
+    setTargetRect(null)
+
+    let cancelled = false
+    let retryTimer: number | undefined
+    let attempt = 0
+
+    function measureTarget(): HTMLElement | null {
+      if (!targetSelector) return null
+      return document.querySelector<HTMLElement>(targetSelector)
+    }
+
     function updateTarget(shouldScroll: boolean) {
       if (!targetSelector) {
         setTargetRect(null)
-        return
+        return null
       }
 
-      const target = document.querySelector<HTMLElement>(targetSelector)
+      const target = measureTarget()
       if (!target) {
         setTargetRect(null)
-        return
+        return null
       }
 
       if (shouldScroll) {
@@ -34,17 +48,31 @@ export function useOnboardingTargetRect(targetSelector: string | null): TargetRe
         width: rect.width,
         height: rect.height,
       })
+      return target
     }
 
-    updateTarget(true)
-    const timeout = window.setTimeout(() => updateTarget(false), 260)
-    const onViewportChange = () => updateTarget(false)
+    function scheduleRetry() {
+      if (cancelled || !targetSelector || attempt >= MAX_RETRIES) return
+      retryTimer = window.setTimeout(() => {
+        attempt += 1
+        const found = updateTarget(attempt === 0)
+        if (!found) scheduleRetry()
+      }, RETRY_MS)
+    }
 
+    attempt = 0
+    const found = updateTarget(true)
+    const scrollTimer = window.setTimeout(() => updateTarget(false), 280)
+    if (!found) scheduleRetry()
+
+    const onViewportChange = () => updateTarget(false)
     window.addEventListener('resize', onViewportChange)
     window.addEventListener('scroll', onViewportChange, true)
 
     return () => {
-      window.clearTimeout(timeout)
+      cancelled = true
+      if (retryTimer !== undefined) window.clearTimeout(retryTimer)
+      if (scrollTimer !== undefined) window.clearTimeout(scrollTimer)
       window.removeEventListener('resize', onViewportChange)
       window.removeEventListener('scroll', onViewportChange, true)
     }

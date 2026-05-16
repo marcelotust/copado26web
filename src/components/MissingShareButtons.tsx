@@ -18,6 +18,7 @@ export default function MissingShareButtons({ groups, total, teamName, teamFlag 
       shareLabel={t('missing.share')}
       copiedLabel={t('missing.copied')}
       surface='missing'
+      onboardingTarget='missing-share'
     />
   )
 }

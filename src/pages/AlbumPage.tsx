@@ -76,7 +76,7 @@ export default function AlbumPage({ sectionCode }: { sectionCode: string }) {
             {t('grid.loading')}
           </div>
         ) : (
-          <div className={ALBUM_GRID_CLASS}>
+          <div className={ALBUM_GRID_CLASS} data-onboarding-target='album-grid'>
             {stickers.map((s, index) => (
               <div
                 key={s.id}
