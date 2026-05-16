@@ -60,18 +60,13 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
   if (status === 'error') {
     return <CatalogErrorScreen error={error} />
   }
-  const view = location.pathname === '/dashboard' ? 'dashboard'
-             : location.pathname === '/swaps'    ? 'swaps'
-             : location.pathname === '/missing'  ? 'missing'
-             : location.pathname === '/scanner'  ? 'scanner'
-             : location.pathname === '/settings' ? 'settings'
-             : 'album'
+  const showAlbumSidebar = location.pathname === '/album'
   return (
     <div className='fixed inset-0 flex flex-col bg-slate-950 text-white'>
       <Header onLogout={handleSignOut} email={email} />
       <TabNav />
       <div className='flex flex-1 min-h-0'>
-        {view === 'album' && (
+        {showAlbumSidebar && (
           <Sidebar
             selected={section}
             onSelect={code => { setSection(code); navigate('/album') }}
