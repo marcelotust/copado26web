@@ -1,3 +1,5 @@
+import { existsSync, readdirSync, rmSync, statSync } from 'node:fs'
+import { isAbsolute, join } from 'node:path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -19,6 +21,36 @@ const sentryPlugin =
       })
     : null
 
+function removeMapFiles(dir) {
+  if (!existsSync(dir)) return
+  for (const entry of readdirSync(dir)) {
+    const fullPath = join(dir, entry)
+    const stat = statSync(fullPath)
+    if (stat.isDirectory()) {
+      removeMapFiles(fullPath)
+    } else if (entry.endsWith('.map')) {
+      rmSync(fullPath)
+    }
+  }
+}
+
+function removePublicSourceMapsPlugin() {
+  let root = process.cwd()
+  let outDir = 'dist'
+
+  return {
+    name: 'remove-public-source-maps',
+    apply: 'build',
+    configResolved(config) {
+      root = config.root
+      outDir = config.build.outDir
+    },
+    closeBundle() {
+      removeMapFiles(isAbsolute(outDir) ? outDir : join(root, outDir))
+    },
+  }
+}
+
 export default defineConfig({
   // Defense in depth: keep the dev server loopback-only even after the Vite 8 upgrade.
   server: { host: '127.0.0.1' },
@@ -33,11 +65,12 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'pwa-192.png', 'pwa-512.png'],
+      includeAssets: ['favicon.svg', 'pwa-192.png', 'pwa-512.png', 'apple-touch-icon.png', 'og-image.png'],
       manifest: {
         name: 'Meu Album 2026',
         short_name: 'MeuAlbum',
         description: 'Seu álbum digital de figurinhas da Copa do Mundo 2026',
+        lang: 'pt-BR',
         theme_color: '#0f172a',
         background_color: '#0f172a',
         display: 'standalone',
@@ -49,6 +82,7 @@ export default defineConfig({
         ],
       },
       workbox: {
+        sourcemap: false,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
         runtimeCaching: [
           {
@@ -65,5 +99,6 @@ export default defineConfig({
       },
     }),
     ...(sentryPlugin ? [sentryPlugin] : []),
+    removePublicSourceMapsPlugin(),
   ],
 })

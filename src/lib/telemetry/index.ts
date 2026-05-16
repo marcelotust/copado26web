@@ -4,6 +4,7 @@ import { activatePostHogAnalytics, deactivatePostHog } from './posthog'
 import { drainQueuedEvents, queueingAnalytics } from './queue'
 import { vercelAnalytics } from './vercelAdapter'
 import { activateSentryErrors, deactivateSentryUser } from './sentry'
+import { telemetryUserId } from './userIdentity'
 import type {
   TelemetryAnalyticsPort,
   TelemetryConsentState,
@@ -56,9 +57,10 @@ export function syncTelemetryConsent(opts: { userId: string; consent: TelemetryC
 
   void (async () => {
     try {
+      const userTelemetryId = await telemetryUserId(opts.userId)
       const [analytics, errors] = await Promise.all([
-        activatePostHogAnalytics(opts.userId),
-        activateSentryErrors(opts.userId),
+        activatePostHogAnalytics(userTelemetryId),
+        activateSentryErrors(userTelemetryId),
       ])
       if (myGen !== generation) {
         return
@@ -96,8 +98,12 @@ export function syncTelemetryConsent(opts: { userId: string; consent: TelemetryC
 /** Public surface — the only module the app should import for telemetry. */
 export const telemetry = {
   setUser(userId: string, traits?: TelemetryProperties): void {
-    analyticsImpl.setUser(userId, traits)
-    errorsImpl.setUser(userId)
+    const myGen = generation
+    void telemetryUserId(userId).then((userTelemetryId) => {
+      if (myGen !== generation) return
+      analyticsImpl.setUser(userTelemetryId, traits)
+      errorsImpl.setUser(userTelemetryId)
+    })
   },
 
   track(event: string, props?: TelemetryProperties): void {

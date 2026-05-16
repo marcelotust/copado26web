@@ -9,11 +9,11 @@ function toExtra(ctx?: TelemetryProperties): Record<string, unknown> | undefined
 /**
  * Error reporting behind analytics consent. Uses the singleton client from `src/lib/sentry.ts`.
  */
-export async function activateSentryErrors(userId: string): Promise<TelemetryErrorPort | null> {
+export async function activateSentryErrors(userTelemetryId: string): Promise<TelemetryErrorPort | null> {
   if (!import.meta.env.VITE_SENTRY_DSN) return null
 
   try {
-    grantSentryConsent(userId)
+    grantSentryConsent(userTelemetryId)
 
     return {
       capture(err, context) {
