@@ -116,6 +116,34 @@
     "deleteAccountFailed": "Não foi possível excluir a conta. Tente novamente ou contate o suporte."
   },
 
+  "feedbackWidget": {
+    "buttonLabel": "Enviar feedback",
+    "title": "Fale com a gente",
+    "description": "Escolha o tipo de mensagem e complete o email no seu app de email.",
+    "close": "Fechar feedback",
+    "mailtoStarted": "Abrindo seu app de email.",
+    "categories": {
+      "feature": {
+        "label": "Sugerir feature",
+        "hint": "Conte uma melhoria que deixaria o álbum mais útil.",
+        "subject": "[Meu Album 2026] Sugestao de feature",
+        "body": "Oi! Quero sugerir uma feature para o Meu Album 2026.\n\nMinha sugestao:\n\n"
+      },
+      "bug": {
+        "label": "Reportar bug",
+        "hint": "Avise algo que quebrou ou não funcionou como esperado.",
+        "subject": "[Meu Album 2026] Reporte de bug",
+        "body": "Oi! Encontrei um bug no Meu Album 2026.\n\nO que aconteceu:\n\nO que eu esperava:\n\n"
+      },
+      "comment": {
+        "label": "Mandar comentario",
+        "hint": "Envie uma opinião rápida sobre a experiência.",
+        "subject": "[Meu Album 2026] Comentario",
+        "body": "Oi! Quero mandar um comentario sobre o Meu Album 2026.\n\nMeu comentario:\n\n"
+      }
+    }
+  },
+
   "consent": {
     "label": "Banner de consentimento de analytics",
     "message": "Usamos dados anônimos de uso para melhorar o app. Nenhum dado pessoal identificável é coletado.",

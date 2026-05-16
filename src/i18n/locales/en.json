@@ -112,8 +112,35 @@
     "importFailed": "Could not import the album. Please try again.",
     "restoreFailed": "Could not restore the backup. Please try again.",
     "stickerUpdateFailed": "Could not save the sticker. Try again.",
-    "deleteAccountFailed": "Could not delete your account. Try again or contact support.",
     "deleteAccountFailed": "Could not delete your account. Try again or contact support."
+  },
+
+  "feedbackWidget": {
+    "buttonLabel": "Send feedback",
+    "title": "Talk to us",
+    "description": "Choose a message type and finish the email in your email app.",
+    "close": "Close feedback",
+    "mailtoStarted": "Opening your email app.",
+    "categories": {
+      "feature": {
+        "label": "Suggest feature",
+        "hint": "Share an improvement that would make the album more useful.",
+        "subject": "[My Album 2026] Feature suggestion",
+        "body": "Hi! I want to suggest a feature for My Album 2026.\n\nMy suggestion:\n\n"
+      },
+      "bug": {
+        "label": "Report bug",
+        "hint": "Tell us about something broken or unexpected.",
+        "subject": "[My Album 2026] Bug report",
+        "body": "Hi! I found a bug in My Album 2026.\n\nWhat happened:\n\nWhat I expected:\n\n"
+      },
+      "comment": {
+        "label": "Send comment",
+        "hint": "Send a quick note about the experience.",
+        "subject": "[My Album 2026] Comment",
+        "body": "Hi! I want to send a comment about My Album 2026.\n\nMy comment:\n\n"
+      }
+    }
   },
 
   "consent": {

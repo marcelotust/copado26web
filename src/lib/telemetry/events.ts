@@ -42,6 +42,8 @@ export const AnalyticsEvent = {
   LANDING_CTA_CLICKED: 'landing_cta_clicked',
   GUEST_ALBUM_VIEWED: 'guest_album_viewed',
   GUEST_STICKER_TAPPED: 'guest_sticker_tapped',
+  FEEDBACK_WIDGET_OPENED: 'feedback_widget_opened',
+  FEEDBACK_WIDGET_SUBMITTED: 'feedback_widget_submitted',
 } as const
 
 /** PostHog feature-flag keys used by the app. Centralized so search-by-key works. */

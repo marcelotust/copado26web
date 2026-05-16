@@ -80,6 +80,8 @@ Convenção: `snake_case`, propriedades estáveis, sem dados pessoais.
 | `landing_cta_clicked` | Clique em CTA da landing | `cta_id` (`header_login`, `hero_primary`, `hero_explore_album`, `bottom_signup`), `cta_variant` (apenas em `hero_primary`) |
 | `guest_album_viewed` | Visitante abre `/album` sem login | — |
 | `guest_sticker_tapped` | Visitante clica em uma figurinha (dispara paywall) | — |
+| `feedback_widget_opened` | Botão flutuante de feedback aberto | `result` (`opened`) |
+| `feedback_widget_submitted` | Usuário escolhe uma opção de feedback e inicia `mailto:` | `category` (`feature`, `bug`, `comment`), `result` (`mailto_started`) |
 
 ### Feature flags
 
