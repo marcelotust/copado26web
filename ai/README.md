@@ -12,6 +12,9 @@ The current state of the art has converged on a few practical patterns:
 - Small, task-specific agents are useful for bounded research, QA, security, and review work.
 - A deterministic local harness should choose and run checks instead of asking the model to guess.
 - Repo memory should be short, explicit, and versioned; long-lived decisions belong in docs or specs.
+- Orientation alone is not enough — enforcement lives in git hooks, CI status checks,
+  CODEOWNERS, and (for Claude Code) `PreToolUse`/`PostToolUse`/`Stop` hooks that auto-run
+  the harness and refuse dangerous commands.
 
 External references that informed this setup:
 
@@ -24,16 +27,25 @@ External references that informed this setup:
 
 | Path | Purpose |
 | --- | --- |
-| `AGENTS.md` | Repo-wide operating contract for coding agents. |
+| `AGENTS.md` | Repo-wide operating contract: Product Boundaries, **Agent Safety**, **Definition of Done**, AI Workflow, testing rules. |
 | `ai/CONVENTIONS.md` | Branch, commit, PR, and file naming rules. |
 | `ai/ROADMAP.md` | Deferred workflow improvements and their retake triggers. |
 | `ai/specs/` | Feature specs, plans, tasks, and verification notes. |
 | `ai/specs/_template/` | Copyable templates for new spec-driven work. |
-| `ai/agents/` | Tool-agnostic personas for repeated agent workflows. |
+| `ai/agents/` | Tool-agnostic personas (imperative form) for repeated agent workflows. |
 | `ai/agents/stack-map.md` | Canonical agent map for this stack. |
 | `ai/agents/stack-matrix.md` | Decision matrix for choosing the right agent by change type. |
-| `.claude/skills/` | Repo-level Claude skills for reusable workflows. |
+| `.cursor/rules/` | Cursor adapter — `00-project.mdc` imports canonical docs, `10-*` to `14-*` are glob-scoped safety rules. |
+| `.claude/agents/` · `.claude/commands/` · `.claude/skills/` | Claude Code adapters that mirror the canonical personas. |
+| `.claude/hooks/` | Claude Code `PreToolUse` / `PostToolUse` / `Stop` hooks that auto-run the harness and refuse dangerous git operations. |
+| `.claude/settings.json` | Hook config (shared); per-dev config lives in gitignored `.claude/settings.local.json`. |
 | `scripts/ai-harness.mjs` | Local changed-file classifier and quality gate runner. |
+| `.husky/pre-commit` · `.husky/pre-push` | Local git guards: lint-staged + branch guard on commit, lint + harness + force-push guard on push. |
+| `.github/CODEOWNERS` | Owner review required for changes to `AGENTS.md`, personas, harness, workflows, husky, `.claude/`. |
+| `.github/workflows/gitleaks.yml` | Required CI gate scanning every PR diff for committed secrets. |
+| `.github/pull_request_template.md` | Canonical PR body shape mirrored from `ai/CONVENTIONS.md`. |
+| `docs/repo-setup.md` | GitHub-side settings (branch protection, required secrets) — owner-applied. |
+| `docs/claude-code-llm-analytics.md` | Capture Claude Code CLI sessions in PostHog LLM Analytics. |
 
 ## Default Workflow
 
