@@ -166,6 +166,7 @@ npm run dev          # Vite → http://localhost:5173
 |------|:------:|-------|
 | **Sentry** | Off | Hard-disabled via `import.meta.env.DEV` |
 | **PostHog** | Off | Same dev gate as Sentry — skipped even if `VITE_POSTHOG_KEY` is set |
+| **Claude Code LLM** | CLI only | Optional PostHog plugin — see [docs/claude-code-llm-analytics.md](docs/claude-code-llm-analytics.md) |
 | **Vercel Analytics** | Debug only | Uses Vercel’s dev script (console), not production dashboards |
 | **Logger** | Console only | `debug` / `info` / `warn` / `error` locally — Sentry only in prod + consent |
 
