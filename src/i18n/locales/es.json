@@ -112,8 +112,35 @@
     "importFailed": "No se pudo importar el álbum. Inténtalo de nuevo.",
     "restoreFailed": "No se pudo restaurar la copia. Inténtalo de nuevo.",
     "stickerUpdateFailed": "No se pudo guardar la figurita. Inténtalo de nuevo.",
-    "deleteAccountFailed": "No se pudo eliminar la cuenta. Inténtalo de nuevo o contacta soporte.",
     "deleteAccountFailed": "No se pudo eliminar la cuenta. Inténtalo de nuevo o contacta soporte."
+  },
+
+  "feedbackWidget": {
+    "buttonLabel": "Enviar feedback",
+    "title": "Habla con nosotros",
+    "description": "Elige el tipo de mensaje y completa el correo en tu app de email.",
+    "close": "Cerrar feedback",
+    "mailtoStarted": "Abriendo tu app de email.",
+    "categories": {
+      "feature": {
+        "label": "Sugerir feature",
+        "hint": "Cuéntanos una mejora que haría el álbum más útil.",
+        "subject": "[Mi Album 2026] Sugerencia de feature",
+        "body": "Hola! Quiero sugerir una feature para Mi Album 2026.\n\nMi sugerencia:\n\n"
+      },
+      "bug": {
+        "label": "Reportar bug",
+        "hint": "Avísanos sobre algo roto o inesperado.",
+        "subject": "[Mi Album 2026] Reporte de bug",
+        "body": "Hola! Encontré un bug en Mi Album 2026.\n\nQué pasó:\n\nQué esperaba:\n\n"
+      },
+      "comment": {
+        "label": "Enviar comentario",
+        "hint": "Envía una opinión rápida sobre la experiencia.",
+        "subject": "[Mi Album 2026] Comentario",
+        "body": "Hola! Quiero enviar un comentario sobre Mi Album 2026.\n\nMi comentario:\n\n"
+      }
+    }
   },
 
   "consent": {

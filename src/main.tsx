@@ -6,6 +6,7 @@ import { FeedbackProvider } from './contexts/FeedbackContext'
 import './index.css'
 import App from './App'
 import AppErrorBoundary from './components/AppErrorBoundary'
+import FeedbackWidget from './components/FeedbackWidget'
 
 const rootEl = document.getElementById('root')
 if (!rootEl) throw new Error('Missing #root element in index.html')
@@ -18,6 +19,7 @@ createRoot(root).render(
         <FeedbackProvider>
           <AppErrorBoundary>
             <App />
+            <FeedbackWidget />
           </AppErrorBoundary>
         </FeedbackProvider>
       </I18nProvider>
