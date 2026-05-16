@@ -5,8 +5,6 @@ supabase/.temp/
 # Claude Code — share per-repo skills/agents/commands; keep per-dev state local
 .claude/settings.local.json
 .claude/worktrees/
-# Not part of this Vite SPA's stack; installed locally by PostHog wizard.
-.claude/skills/integration-nextjs-pages-router/
 
 # Build output
 /dist/
