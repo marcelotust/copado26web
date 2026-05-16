@@ -160,11 +160,24 @@ npm run dev          # Vite → http://localhost:5173
 
 **Guest mode:** `/album` works without login (paywall on sticker tap). Public E2E relies on stubbed Supabase — no real project needed.
 
+### Local dev telemetry
+
+[`npm run dev`](package.json) keeps external observability quiet so local work does not pollute production dashboards:
+
+| Tool | In dev | Notes |
+|------|:------:|-------|
+| **Sentry** | Off | Hard-disabled via `import.meta.env.DEV` |
+| **PostHog** | Off | Skipped even if `VITE_POSTHOG_KEY` is in `.env.local` |
+| **Vercel Analytics** | Off | No script; custom `track()` is a no-op |
+| **Logger** | Console only | `debug` / `info` / `warn` / `error` to the browser console — nothing shipped remotely |
+
+Optional Sentry/PostHog keys in `.env.local` are mainly for **preview/production** or `npm run build && npm run preview`. Landing A/B still works locally via client-side bucketing (`getAnonVariant`) and `?hero=control|treatment` on `/`.
+
 ---
 
 ## Environment variables
 
-Copy [`.env.example`](.env.example) to `.env.local` for local development.
+Copy [`.env.example`](.env.example) to `.env.local` for local development. It lists every `VITE_*` the app reads plus commented E2E-only vars (shell / GitHub Actions, not loaded by Vite).
 
 ### App (`.env.local`)
 
@@ -173,9 +186,9 @@ Copy [`.env.example`](.env.example) to `.env.local` for local development.
 | `VITE_SUPABASE_URL` | ✅ | Supabase project URL |
 | `VITE_SUPABASE_ANON_KEY` | ✅ | Public anon key — security is RLS, not key secrecy |
 | `VITE_APP_URL` | — | Canonical origin for share/trade links (defaults to `window.location.origin`) |
-| `VITE_SENTRY_DSN` | — | Error reporting (only after analytics consent) |
+| `VITE_SENTRY_DSN` | — | Error reporting (prod/preview; consent-gated; **off in dev**) |
 | `VITE_SENTRY_RELEASE` | — | Release label for Sentry |
-| `VITE_POSTHOG_KEY` | — | Product analytics & feature flags (e.g. onboarding) |
+| `VITE_POSTHOG_KEY` | — | Product analytics & feature flags (**off in dev**) |
 | `VITE_POSTHOG_HOST` | — | PostHog ingest host (default: `https://us.i.posthog.com`) |
 
 Full setup walkthrough: [docs/setup-sentry-posthog.md](docs/setup-sentry-posthog.md).
