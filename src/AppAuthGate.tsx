@@ -54,10 +54,10 @@ export default function AppAuthGate() {
 
   if (loading) return loadingScreen
 
-  if (session && pathname === '/login') {
+  if (session) {
     try {
       const raw = sessionStorage.getItem(AUTH_POST_LOGIN_PATH_KEY)
-      if (raw?.startsWith('/trade') || raw?.startsWith('/album')) {
+      if ((raw?.startsWith('/trade') || raw?.startsWith('/album')) && pathname !== raw) {
         sessionStorage.removeItem(AUTH_POST_LOGIN_PATH_KEY)
         return <Navigate to={raw} replace />
       }
