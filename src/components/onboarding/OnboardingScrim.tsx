@@ -9,21 +9,24 @@ type PanelRect = {
   height: number
 }
 
+type ScrimPanel = PanelRect & { id: 'top' | 'bottom' | 'left' | 'right' }
+
 type OnboardingScrimProps = {
   targetRect: TargetRect | null
 }
 
 const SCRIM_CLASS = 'absolute bg-slate-950/80 backdrop-blur-[2px] pointer-events-none'
 
-function buildPanels(hole: PanelRect, viewportW: number, viewportH: number): PanelRect[] {
+function buildPanels(hole: PanelRect, viewportW: number, viewportH: number): ScrimPanel[] {
   const bottom = hole.top + hole.height
   const right = hole.left + hole.width
-  return [
-    { top: 0, left: 0, width: viewportW, height: Math.max(0, hole.top) },
-    { top: bottom, left: 0, width: viewportW, height: Math.max(0, viewportH - bottom) },
-    { top: hole.top, left: 0, width: Math.max(0, hole.left), height: hole.height },
-    { top: hole.top, left: right, width: Math.max(0, viewportW - right), height: hole.height },
-  ].filter((panel) => panel.width > 0 && panel.height > 0)
+  const panels: ScrimPanel[] = [
+    { id: 'top', top: 0, left: 0, width: viewportW, height: Math.max(0, hole.top) },
+    { id: 'bottom', top: bottom, left: 0, width: viewportW, height: Math.max(0, viewportH - bottom) },
+    { id: 'left', top: hole.top, left: 0, width: Math.max(0, hole.left), height: hole.height },
+    { id: 'right', top: hole.top, left: right, width: Math.max(0, viewportW - right), height: hole.height },
+  ]
+  return panels.filter((panel) => panel.width > 0 && panel.height > 0)
 }
 
 export default function OnboardingScrim({ targetRect }: OnboardingScrimProps) {
@@ -32,11 +35,11 @@ export default function OnboardingScrim({ targetRect }: OnboardingScrimProps) {
 
   const { panels, frameStyle } = useMemo(() => {
     if (!targetRect || viewportW === 0 || viewportH === 0) {
-      return { panels: [] as PanelRect[], frameStyle: undefined }
+      return { panels: [] as ScrimPanel[], frameStyle: undefined }
     }
 
     const frame = spotlightFrameStyle(targetRect)
-    if (!frame) return { panels: [] as PanelRect[], frameStyle: undefined }
+    if (!frame) return { panels: [] as ScrimPanel[], frameStyle: undefined }
 
     const hole: PanelRect = {
       top: frame.top as number,
@@ -57,9 +60,9 @@ export default function OnboardingScrim({ targetRect }: OnboardingScrimProps) {
 
   return (
     <>
-      {panels.map((panel, index) => (
+      {panels.map((panel) => (
         <div
-          key={index}
+          key={panel.id}
           className={SCRIM_CLASS}
           style={{
             top: panel.top,

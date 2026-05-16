@@ -18,10 +18,9 @@ export function useOnboardingTargetRect(targetSelector: string | null): TargetRe
 
     let cancelled = false
     let retryTimer: number | undefined
-    let scrollTimer: number | undefined
     let attempt = 0
 
-    function measureTarget(shouldScroll: boolean): HTMLElement | null {
+    function measureTarget(): HTMLElement | null {
       if (!targetSelector) return null
       return document.querySelector<HTMLElement>(targetSelector)
     }
@@ -32,7 +31,7 @@ export function useOnboardingTargetRect(targetSelector: string | null): TargetRe
         return null
       }
 
-      const target = measureTarget(shouldScroll)
+      const target = measureTarget()
       if (!target) {
         setTargetRect(null)
         return null
@@ -63,7 +62,7 @@ export function useOnboardingTargetRect(targetSelector: string | null): TargetRe
 
     attempt = 0
     const found = updateTarget(true)
-    scrollTimer = window.setTimeout(() => updateTarget(false), 280)
+    const scrollTimer = window.setTimeout(() => updateTarget(false), 280)
     if (!found) scheduleRetry()
 
     const onViewportChange = () => updateTarget(false)
