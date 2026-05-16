@@ -1,0 +1,117 @@
+{
+  "route": "/trade",
+  "finalUrl": "http://127.0.0.1:5192/trade",
+  "elapsed_ms": 3342,
+  "consoleMessages": [],
+  "failedRequests": [],
+  "responses": [
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/user_stickers?select=sticker_id%2Cquantity&user_id=eq.f9c3c40f-011a-4b86-9214-eb426161b1ff",
+      "status": 200,
+      "size": null
+    }
+  ],
+  "axe": {
+    "status": "ok",
+    "violations": []
+  },
+  "dom": {
+    "title": "Meu Álbum 2026 — Álbum de Figurinhas Copa do Mundo FIFA",
+    "pathname": "/trade",
+    "search": "",
+    "bodyText": "← Album app\nTrade by QR code\n🔗\n\nLink did not work\n\nThis link is missing trade data. Ask your friend to generate the QR again.",
+    "mainHTMLLength": 295,
+    "stickerCards": 0,
+    "navTabs": [],
+    "buttons": [],
+    "dialogs": [],
+    "vitals": {
+      "lcp": {
+        "startTime": 244,
+        "size": 13440,
+        "element": "P"
+      },
+      "cls": 0,
+      "inp": null
+    },
+    "navigation": {
+      "duration": 132.79999999701977,
+      "domContentLoadedEventEnd": 132.19999999552965,
+      "loadEventEnd": 132.79999999701977,
+      "transferSize": 2464
+    },
+    "paints": [
+      {
+        "name": "first-paint",
+        "startTime": 136
+      },
+      {
+        "name": "first-contentful-paint",
+        "startTime": 156
+      }
+    ],
+    "resources": [
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 231.39999999850988,
+        "duration": 236.29999999701977,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 232,
+        "duration": 410.79999999701977,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 232.29999999701977,
+        "duration": 464.3999999985099,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 232.59999999403954,
+        "duration": 839.3000000044703,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/user_stickers?select=sticker_id%2Cquantity&user_id=eq.f9c3c40f-011a-4b86-9214-eb426161b1ff",
+        "initiatorType": "fetch",
+        "startTime": 1076.5,
+        "duration": 239.29999999701977,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      }
+    ]
+  },
+  "screenshot": "trade.png"
+}

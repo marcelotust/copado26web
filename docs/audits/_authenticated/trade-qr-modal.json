@@ -1,0 +1,17 @@
+{
+  "activeTag": "BUTTON",
+  "activeText": "Trade by QR code",
+  "dialogs": [
+    {
+      "label": "Analytics consent banner",
+      "labelledby": null,
+      "text": "We use anonymous usage data to improve the app. No personally identifiable information is collected. Learn more.DeclineAccept"
+    },
+    {
+      "label": null,
+      "labelledby": "trade-qr-title",
+      "text": "Your QR codeOnly your duplicate stickers go in the QR so it stays scannable. The other person scans with their camera. Nothing is uploaded.Copy linkClose"
+    }
+  ],
+  "hasQRCode": true
+}

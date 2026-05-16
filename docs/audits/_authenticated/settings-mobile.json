@@ -1,0 +1,216 @@
+{
+  "route": "/settings",
+  "finalUrl": "http://127.0.0.1:5192/settings",
+  "elapsed_ms": 3380,
+  "consoleMessages": [],
+  "failedRequests": [],
+  "responses": [
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/user_stickers?select=sticker_id%2Cquantity&user_id=eq.f9c3c40f-011a-4b86-9214-eb426161b1ff",
+      "status": 200,
+      "size": null
+    }
+  ],
+  "axe": {
+    "status": "ok",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".text-\\[10px\\]"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.07 (foreground color: #64748b, background color: #1e293b, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".border-slate-700.bg-slate-800.gap-3 > .text-slate-500"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.07 (foreground color: #64748b, background color: #1e293b, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          }
+        ]
+      }
+    ]
+  },
+  "dom": {
+    "title": "Meu Álbum 2026 — Álbum de Figurinhas Copa do Mundo FIFA",
+    "pathname": "/settings",
+    "search": "",
+    "bodyText": "Meu\nÁlbum\n2026\n143/994\n🏆\n⚙\nHome\nAlbum\nMissing\nDuplicates\n1\nSettings\nACCOUNT\n\nLOGGED IN AS\n\nanestor.rpereira@gmail.com\n\nSign out\nPRIVACY\n\nAnonymous usage analytics (Vercel and PostHog) and error monitoring (Sentry) run only with your consent. Learn more.\n\nPageviews on the landing and login pages are anonymous without an account. In the logged-in app, custom metrics and Sentry run only after you accept.\n\nAnalytics: waiting for your choice\n\nEnable analytics\nDATA\nDATA\nExport album to CSV\nImport album from CSV\nSAVE POINTS / HISTORY\n\nWhen you change the album, a CSV snapshot for today is kept on this device (last 30 days). Restoring uploads that snapshot to your account.\n\nNo automatic snapshots yet. They appear after you edit the album.\n\nDANGER ZONE\nReset album\nDELETE ACCOUNT\n\nRemoves your account, login email, and all cloud album progress. This cannot be undone.\n\nDelete my account\n\nWe use anonymous usage data to improve the app. No personally identifiable information is collected. Learn more.\n\nDecline\nAccept",
+    "mainHTMLLength": 3503,
+    "stickerCards": 0,
+    "navTabs": [
+      {
+        "text": "Home",
+        "href": "/dashboard",
+        "ariaCurrent": null
+      },
+      {
+        "text": "Album",
+        "href": "/album",
+        "ariaCurrent": null
+      },
+      {
+        "text": "Missing",
+        "href": "/missing",
+        "ariaCurrent": null
+      },
+      {
+        "text": "Duplicates1",
+        "href": "/swaps",
+        "ariaCurrent": null
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Trade by QR code",
+        "ariaLabel": "Trade by QR code",
+        "disabled": false
+      },
+      {
+        "text": "⚙",
+        "ariaLabel": "Menu",
+        "disabled": false
+      },
+      {
+        "text": "Sign out",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "Enable analytics",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "Export album to CSV",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "Import album from CSV",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "Reset album",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "Delete my account",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "Decline",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "Accept",
+        "ariaLabel": null,
+        "disabled": false
+      }
+    ],
+    "dialogs": [
+      {
+        "role": "dialog",
+        "label": "Analytics consent banner",
+        "labelledby": null,
+        "text": "We use anonymous usage data to improve the app. No personally identifiable information is collected. Learn more.DeclineAccept"
+      }
+    ],
+    "vitals": {
+      "lcp": {
+        "startTime": 1264,
+        "size": 18525,
+        "element": "P"
+      },
+      "cls": 0.0009301773293458747,
+      "inp": null
+    },
+    "navigation": {
+      "duration": 193.10000000149012,
+      "domContentLoadedEventEnd": 192.5,
+      "loadEventEnd": 193.10000000149012,
+      "transferSize": 2464
+    },
+    "paints": [
+      {
+        "name": "first-paint",
+        "startTime": 196
+      },
+      {
+        "name": "first-contentful-paint",
+        "startTime": 208
+      }
+    ],
+    "resources": [
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 300.3999999985099,
+        "duration": 229.70000000298023,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 301,
+        "duration": 434.30000000447035,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 301.3999999985099,
+        "duration": 468.90000000596046,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 301.70000000298023,
+        "duration": 682.1000000014901,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/user_stickers?select=sticker_id%2Cquantity&user_id=eq.f9c3c40f-011a-4b86-9214-eb426161b1ff",
+        "initiatorType": "fetch",
+        "startTime": 994.2000000029802,
+        "duration": 232,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      }
+    ]
+  },
+  "screenshot": "settings-mobile.png"
+}

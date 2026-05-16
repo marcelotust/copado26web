@@ -1,0 +1,19 @@
+{
+  "clickedIndex": 7,
+  "bodyText": "Meu\nÁlbum\n2026\n143/994\n14%\nTrade by QR code\n🏆\n⚙\nHome\nAlbum\nMissing\nDuplicates\n1\nSettings\nACCOUNT\n\nLOGGED IN AS\n\nanestor.rpereira@gmail.com\n\nSign out\nPRIVACY\n\nAnonymous usage analytics (Vercel and PostHog) and error monitoring (Sentry) run only with your consent. Learn more.\n\nPageviews on the landing and login pages are anonymous without an account. In the logged-in app, custom metrics and Sentry run only after you accept.\n\nAnalytics: disabled\n\nEnable analytics\nDATA\nDATA\nExport album to CSV\nImport album from CSV\nSAVE POINTS / HISTORY\n\nWhen you change the album, a CSV snapshot for today is kept on this device (last 30 days). Restoring uploads that snapshot to your account.\n\nNo automatic snapshots yet. They appear after you edit the album.\n\nDANGER ZONE\nReset album\nDELETE ACCOUNT\n\nRemoves your account, login email, and all cloud album progress. This cannot be undone.\n\nDelete my account\nPermanently delete account?\n\nAll data for anestor.rpereira@gmail.com will be erased. Type the phrase below to confirm.\n\nType DELETE to confirm\nYes, delete account\nCancel",
+  "roleDialogs": [],
+  "modalLikeFixed": [
+    {
+      "role": null,
+      "ariaModal": null,
+      "text": "MeuÁlbum2026143/99414%Trade by QR code🏆⚙HomeAlbumMissingDuplicates1SettingsAccountLogged in asanestor.rpereira@gmail.comSign outPrivacyAnonymous usage analytics (Vercel and PostHog) and error monitoring (Sentry) run only with your consent. Learn more.Pageviews on the landing and login pages are anonymous without an account. In the logged-in app, custom metrics and Sentry run only after you accept.Analytics: disabledEnable analyticsDataDataExport album to CSVImport album from CSVSave points / hi"
+    },
+    {
+      "role": null,
+      "ariaModal": null,
+      "text": "Permanently delete account?All data for anestor.rpereira@gmail.com will be erased. Type the phrase below to confirm.Type DELETE to confirmYes, delete accountCancel"
+    }
+  ],
+  "activeTag": "BUTTON",
+  "activeText": "Delete my account"
+}

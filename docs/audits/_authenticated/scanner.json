@@ -1,0 +1,219 @@
+{
+  "route": "/scanner",
+  "finalUrl": "http://127.0.0.1:5192/dashboard",
+  "elapsed_ms": 3494,
+  "consoleMessages": [],
+  "failedRequests": [],
+  "responses": [
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/user_stickers?select=sticker_id%2Cquantity&user_id=eq.f9c3c40f-011a-4b86-9214-eb426161b1ff",
+      "status": 200,
+      "size": null
+    }
+  ],
+  "axe": {
+    "status": "ok",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".text-slate-600"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.37 (foreground color: #475569, background color: #0e1629, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".hidden.sm\\:inline.text-slate-500"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.78 (foreground color: #64748b, background color: #0e1629, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".py-1\\.5.text-sm[href$=\"dashboard\"]"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.14 (foreground color: #ffffff, background color: #f59e0b, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".overflow-y-auto > section:nth-child(1) > h2"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.23 (foreground color: #64748b, background color: #020617, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".tracking-wide"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.75 (foreground color: #64748b, background color: #0f172a, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+          }
+        ]
+      }
+    ]
+  },
+  "dom": {
+    "title": "Meu Álbum 2026 — Álbum de Figurinhas Copa do Mundo FIFA",
+    "pathname": "/dashboard",
+    "search": "",
+    "bodyText": "Meu\nÁlbum\n2026\n143/994\n14%\nTrade by QR code\n🏆\n⚙\nHome\nAlbum\nMissing\nDuplicates\n1\nOVERALL PROGRESS\n14%\nDO ÁLBUM\n\n143 de 994 figurinhas\n\nQUICK LINKS\n851\nMissing\n1\nDuplicates\nRECENT MILESTONES\n\nNo milestones yet\n\nCHALLENGES IN PROGRESS\n🌍\n\nGigantes da Europa\n\n40%\n🏟️\n\nPaíses Sede\n\n33%\n🎯\n\nMeio Álbum\n\n29%\n🌏\n\nÁsia em Alta\n\n25%\n🌊\n\nOceania\n\n0%\nSee all →\nBY GROUP\nOpening\n0%\nWorld Cup History\n100%\nCoca-Cola\n0%\nGroup A\n100%\nGroup B\n3%\nGroup C\n26%\nGroup D\n4%\nGroup E\n4%\nGroup F\n3%\nGroup G\n5%\nGroup H\n5%\nGroup I\n3%\nGroup J\n8%\nGroup K\n4%\nGroup L\n3%\nMOST COMPLETE\n🇲🇽\n\nMEX\n\n100%\n20/20\n🇿🇦\n\nRSA\n\n100%\n20/20\n🇰🇷\n\nKOR\n\n100%\n20/20\n\nLeast complete\n\n🇧🇦\n\nBIH\n\n0%\n0/20\n🇨🇭\n\nSUI\n\n0%\n0/20\n🇭🇹\n\nHAI\n\n0%\n0/20\n\nWe use anonymous usage data to improve the app. No personally identifiable information is collected. Learn more.\n\nDecline\nAccept",
+    "mainHTMLLength": 14436,
+    "stickerCards": 0,
+    "navTabs": [
+      {
+        "text": "Home",
+        "href": "/dashboard",
+        "ariaCurrent": null
+      },
+      {
+        "text": "Album",
+        "href": "/album",
+        "ariaCurrent": null
+      },
+      {
+        "text": "Missing",
+        "href": "/missing",
+        "ariaCurrent": null
+      },
+      {
+        "text": "Duplicates1",
+        "href": "/swaps",
+        "ariaCurrent": null
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Trade by QR code",
+        "ariaLabel": "Trade by QR code",
+        "disabled": false
+      },
+      {
+        "text": "⚙",
+        "ariaLabel": "Menu",
+        "disabled": false
+      },
+      {
+        "text": "851Missing",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "1Duplicates",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "See all →",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "Decline",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "Accept",
+        "ariaLabel": null,
+        "disabled": false
+      }
+    ],
+    "dialogs": [
+      {
+        "role": "dialog",
+        "label": "Analytics consent banner",
+        "labelledby": null,
+        "text": "We use anonymous usage data to improve the app. No personally identifiable information is collected. Learn more.DeclineAccept"
+      }
+    ],
+    "vitals": {
+      "lcp": {
+        "startTime": 1388,
+        "size": 11016,
+        "element": "P"
+      },
+      "cls": 0.0005663201681202558,
+      "inp": null
+    },
+    "navigation": {
+      "duration": 142.89999999850988,
+      "domContentLoadedEventEnd": 142.30000000447035,
+      "loadEventEnd": 142.89999999850988,
+      "transferSize": 2464
+    },
+    "paints": [
+      {
+        "name": "first-paint",
+        "startTime": 160
+      },
+      {
+        "name": "first-contentful-paint",
+        "startTime": 160
+      }
+    ],
+    "resources": [
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 246.80000000447035,
+        "duration": 241.59999999403954,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 247.30000000447035,
+        "duration": 432.79999999701977,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 247.70000000298023,
+        "duration": 479,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 248,
+        "duration": 862.3000000044703,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/user_stickers?select=sticker_id%2Cquantity&user_id=eq.f9c3c40f-011a-4b86-9214-eb426161b1ff",
+        "initiatorType": "fetch",
+        "startTime": 1113.6000000014901,
+        "duration": 243.39999999850988,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      }
+    ]
+  },
+  "screenshot": "scanner.png"
+}

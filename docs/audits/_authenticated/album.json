@@ -1,0 +1,966 @@
+{
+  "route": "/album",
+  "finalUrl": "http://127.0.0.1:5192/album",
+  "elapsed_ms": 5386,
+  "consoleMessages": [],
+  "failedRequests": [],
+  "responses": [
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/user_stickers?select=sticker_id%2Cquantity&user_id=eq.f9c3c40f-011a-4b86-9214-eb426161b1ff",
+      "status": 200,
+      "size": null
+    },
+    {
+      "url": "http://127.0.0.1:5192/src/assets/silhouette-player.svg?import",
+      "status": 200,
+      "size": 8347
+    },
+    {
+      "url": "http://127.0.0.1:5192/src/assets/silhouette-shield.svg?import",
+      "status": 200,
+      "size": 5832
+    },
+    {
+      "url": "http://127.0.0.1:5192/src/assets/silhouette-team.svg?import",
+      "status": 200,
+      "size": 17104
+    },
+    {
+      "url": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+      "status": 200,
+      "size": null
+    }
+  ],
+  "axe": {
+    "status": "ok",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".text-xs.tabular-nums.text-slate-400 > .text-slate-600"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.37 (foreground color: #475569, background color: #0e1629, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".sm\\:inline.text-xs.text-slate-500"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.78 (foreground color: #64748b, background color: #0e1629, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              "a[href$=\"album\"]"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.67 (foreground color: #ffffff, background color: #3b82f6, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              "button[title=\"Czechia (20/20)\"] > .sm\\:flex.min-w-0.hidden > .mt-0\\.5.text-slate-600.text-\\[11px\\]"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.35 (foreground color: #475569, background color: #0f172a, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".mt-1\\.5.sm\\:border-t-0.sm\\:pt-0:nth-child(3) > .pt-2.pb-1.tracking-widest"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.35 (foreground color: #475569, background color: #0f172a, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+          }
+        ]
+      },
+      {
+        "id": "landmark-unique",
+        "impact": "moderate",
+        "description": "Ensure landmarks are unique",
+        "nodes": [
+          {
+            "target": [
+              ".gap-1"
+            ],
+            "failureSummary": "Fix any of the following:\n  The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+          }
+        ]
+      }
+    ]
+  },
+  "dom": {
+    "title": "Meu Álbum 2026 — Álbum de Figurinhas Copa do Mundo FIFA",
+    "pathname": "/album",
+    "search": "",
+    "bodyText": "Meu\nÁlbum\n2026\n143/994\n14%\nTrade by QR code\n🏆\n⚙\nHome\nAlbum\nMissing\nDuplicates\n1\n\nOPENING\n\n🏆\nWAP\nOpening\n\nGROUP A\n\n🇲🇽\nMEX\nMexico\n✓\n🇿🇦\nRSA\nSouth Africa\n✓\n🇰🇷\nKOR\nSouth Korea\n✓\n🇨🇿\nCZE\nCzechia\n✓\n\nGROUP B\n\n🇨🇦\nCAN\nCanada\n🇧🇦\nBIH\nBosnia & Herzegovina\n🇶🇦\nQAT\nQatar\n🇨🇭\nSUI\nSwitzerland\n\nGROUP C\n\n🇧🇷\nBRA\nBrazil\n✓\n🇲🇦\nMAR\nMorocco\n🇭🇹\nHAI\nHaiti\n🏴󠁧󠁢󠁳󠁣󠁴󠁿\nSCO\nScotland\n\nGROUP D\n\n🇺🇸\nUSA\nUnited States\n🇵🇾\nPAR\nParaguay\n🇦🇺\nAUS\nAustralia\n🇹🇷\nTUR\nTürkiye\n\nGROUP E\n\n🇩🇪\nGER\nGermany\n🇨🇼\nCUW\nCuraçao\n🇨🇮\nCIV\nCôte d'Ivoire\n🇪🇨\nECU\nEcuador\n\nGROUP F\n\n🇳🇱\nNED\nNetherlands\n🇯🇵\nJPN\nJapan\n🇸🇪\nSWE\nSweden\n🇹🇳\nTUN\nTunisia\n\nGROUP G\n\n🇧🇪\nBEL\nBelgium\n🇪🇬\nEGY\nEgypt\n🇮🇷\nIRN\nIran\n🇳🇿\nNZL\nNew Zealand\n\nGROUP H\n\n🇪🇸\nESP\nSpain\n🇨🇻\nCPV\nCape Verde\n🇸🇦\nKSA\nSaudi Arabia\n🇺🇾\nURU\nUruguay\n\nGROUP I\n\n🇫🇷\nFRA\nFrance\n🇸🇳\nSEN\nSenegal\n🇮🇶\nIRQ\nIraq\n🇳🇴\nNOR\nNorway\n\nGROUP J\n\n🇦🇷\nARG\nArgentina\n🇩🇿\nALG\nAlgeria\n🇦🇹\nAUT\nAustria\n🇯🇴\nJOR\nJordan\n\nGROUP K\n\n🇵🇹\nPOR\nPortugal\n🇨🇩\nCOD\nDR Congo\n🇺🇿\nUZB\nUzbekistan\n🇨🇴\nCOL\nColombia\n\nGROUP L\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿\nENG\nEngland\n🇭🇷\nCRO\nCroatia\n🇬🇭\nGHA\nGhana\n🇵🇦\nPAN\nPanama\n\nWORLD CUP HISTORY\n\n🏅\nFWC\nWorld Cup History\n✓\n\nCOCA-COLA\n\n🥤\nCC\nCoca-Cola\n🇧🇷\nBrazil\n\nBRA · South America\n\n20/20\n\n100%\n\n01\nBRA\n\nShield\n\n−\n+\n02\nBRA\n\nAlisson\n\n−\n+\n03\nBRA\n\nBento\n\n−\n+\n04\nBRA\n\nMarquinhos\n\n−\n+\n05\nBRA\n\nÉder Militão\n\n−\n+\n06\nBRA\n\nGabriel Magalhães\n\n−\n+\n07\nBRA\n\nDanilo\n\n−\n+\n08\nBRA\n\nWesley\n\n−\n+\n09\nBRA\n\nLucas Paquetá\n\n−\n+\n10\nBRA\n\nCasemiro\n\n−\n+\n11\nBRA\n\nBruno Guimarães\n\n−\n+\n12\nBRA\n\nLuiz Henrique\n\n−\n+\n13\nBRA\n\nTeam Photo\n\n−\n+\n14\nBRA\n\nVinicius Júnior\n\n−\n+\n15\nBRA\n\nRodrygo\n\n−\n+\n16\nBRA\n\nJoão Pedro\n\n−\n+\n17\nBRA\n\nMatheus Cunha\n\n−\n+\n18\nBRA\n\nGabriel Martinelli\n\n−\n+\n19\nBRA\n\nRaphinha\n\n−\n+\n20\nBRA\n\nEstévão\n\n−\n+\n\nWe use anonymous usage data to improve the app. No personally identifiable information is collected. Learn more.\n\nDecline\nAccept",
+    "mainHTMLLength": 79311,
+    "stickerCards": 1,
+    "navTabs": [
+      {
+        "text": "Home",
+        "href": "/dashboard",
+        "ariaCurrent": null
+      },
+      {
+        "text": "Album",
+        "href": "/album",
+        "ariaCurrent": null
+      },
+      {
+        "text": "Missing",
+        "href": "/missing",
+        "ariaCurrent": null
+      },
+      {
+        "text": "Duplicates1",
+        "href": "/swaps",
+        "ariaCurrent": null
+      },
+      {
+        "text": "🏆WAPWAPOpening",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇲🇽MEXMEXMexico✓",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇿🇦RSARSASouth Africa✓",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇰🇷KORKORSouth Korea✓",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇨🇿CZECZECzechia✓",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇨🇦CANCANCanada",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇧🇦BIHBIHBosnia & Herzegovina",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇶🇦QATQATQatar",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇨🇭SUISUISwitzerland",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇧🇷BRABRABrazil✓",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇲🇦MARMARMorocco",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇭🇹HAIHAIHaiti",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🏴󠁧󠁢󠁳󠁣󠁴󠁿SCOSCOScotland",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇺🇸USAUSAUnited States",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇵🇾PARPARParaguay",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇦🇺AUSAUSAustralia",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇹🇷TURTURTürkiye",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇩🇪GERGERGermany",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇨🇼CUWCUWCuraçao",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇨🇮CIVCIVCôte d'Ivoire",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇪🇨ECUECUEcuador",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇳🇱NEDNEDNetherlands",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇯🇵JPNJPNJapan",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇸🇪SWESWESweden",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇹🇳TUNTUNTunisia",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇧🇪BELBELBelgium",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇪🇬EGYEGYEgypt",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇮🇷IRNIRNIran",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇳🇿NZLNZLNew Zealand",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇪🇸ESPESPSpain",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇨🇻CPVCPVCape Verde",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇸🇦KSAKSASaudi Arabia",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇺🇾URUURUUruguay",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇫🇷FRAFRAFrance",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇸🇳SENSENSenegal",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇮🇶IRQIRQIraq",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇳🇴NORNORNorway",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇦🇷ARGARGArgentina",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇩🇿ALGALGAlgeria",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇦🇹AUTAUTAustria",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇯🇴JORJORJordan",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇵🇹PORPORPortugal",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇨🇩CODCODDR Congo",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇺🇿UZBUZBUzbekistan",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇨🇴COLCOLColombia",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🏴󠁧󠁢󠁥󠁮󠁧󠁿ENGENGEngland",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇭🇷CROCROCroatia",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇬🇭GHAGHAGhana",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🇵🇦PANPANPanama",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🏅FWCFWCWorld Cup History✓",
+        "href": null,
+        "ariaCurrent": null
+      },
+      {
+        "text": "🥤CCCCCoca-Cola",
+        "href": null,
+        "ariaCurrent": null
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Trade by QR code",
+        "ariaLabel": "Trade by QR code",
+        "disabled": false
+      },
+      {
+        "text": "⚙",
+        "ariaLabel": "Menu",
+        "disabled": false
+      },
+      {
+        "text": "🏆WAPWAPOpening",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇲🇽MEXMEXMexico✓",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇿🇦RSARSASouth Africa✓",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇰🇷KORKORSouth Korea✓",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇨🇿CZECZECzechia✓",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇨🇦CANCANCanada",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇧🇦BIHBIHBosnia & Herzegovina",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇶🇦QATQATQatar",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇨🇭SUISUISwitzerland",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇧🇷BRABRABrazil✓",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇲🇦MARMARMorocco",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇭🇹HAIHAIHaiti",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🏴󠁧󠁢󠁳󠁣󠁴󠁿SCOSCOScotland",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇺🇸USAUSAUnited States",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇵🇾PARPARParaguay",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇦🇺AUSAUSAustralia",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇹🇷TURTURTürkiye",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇩🇪GERGERGermany",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇨🇼CUWCUWCuraçao",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇨🇮CIVCIVCôte d'Ivoire",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇪🇨ECUECUEcuador",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇳🇱NEDNEDNetherlands",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇯🇵JPNJPNJapan",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇸🇪SWESWESweden",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇹🇳TUNTUNTunisia",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇧🇪BELBELBelgium",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇪🇬EGYEGYEgypt",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇮🇷IRNIRNIran",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇳🇿NZLNZLNew Zealand",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇪🇸ESPESPSpain",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇨🇻CPVCPVCape Verde",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇸🇦KSAKSASaudi Arabia",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇺🇾URUURUUruguay",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇫🇷FRAFRAFrance",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇸🇳SENSENSenegal",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇮🇶IRQIRQIraq",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇳🇴NORNORNorway",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇦🇷ARGARGArgentina",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇩🇿ALGALGAlgeria",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇦🇹AUTAUTAustria",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇯🇴JORJORJordan",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇵🇹PORPORPortugal",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇨🇩CODCODDR Congo",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇺🇿UZBUZBUzbekistan",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇨🇴COLCOLColombia",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🏴󠁧󠁢󠁥󠁮󠁧󠁿ENGENGEngland",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇭🇷CROCROCroatia",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇬🇭GHAGHAGhana",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🇵🇦PANPANPanama",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🏅FWCFWCWorld Cup History✓",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "🥤CCCCCoca-Cola",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "−",
+        "ariaLabel": "Remove sticker",
+        "disabled": false
+      },
+      {
+        "text": "+",
+        "ariaLabel": "Add sticker",
+        "disabled": false
+      },
+      {
+        "text": "Decline",
+        "ariaLabel": null,
+        "disabled": false
+      },
+      {
+        "text": "Accept",
+        "ariaLabel": null,
+        "disabled": false
+      }
+    ],
+    "dialogs": [
+      {
+        "role": "dialog",
+        "label": "Analytics consent banner",
+        "labelledby": null,
+        "text": "We use anonymous usage data to improve the app. No personally identifiable information is collected. Learn more.DeclineAccept"
+      }
+    ],
+    "vitals": {
+      "lcp": {
+        "startTime": 472,
+        "size": 6232,
+        "element": "SPAN"
+      },
+      "cls": 0.001340927489359844,
+      "inp": null
+    },
+    "navigation": {
+      "duration": 435.8999999985099,
+      "domContentLoadedEventEnd": 434.70000000298023,
+      "loadEventEnd": 435.8999999985099,
+      "transferSize": 2464
+    },
+    "paints": [
+      {
+        "name": "first-paint",
+        "startTime": 440
+      },
+      {
+        "name": "first-contentful-paint",
+        "startTime": 472
+      }
+    ],
+    "resources": [
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 806.3999999985099,
+        "duration": 1662.8000000044703,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 807,
+        "duration": 2049.2999999970198,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/teams?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 807.2999999970198,
+        "duration": 1027.2000000029802,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/stickers_catalog?select=*&order=sort_order.asc",
+        "initiatorType": "fetch",
+        "startTime": 807.7000000029802,
+        "duration": 1216.8999999985099,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "https://dawndpqwuusfgzshioxs.supabase.co/rest/v1/user_stickers?select=sticker_id%2Cquantity&user_id=eq.f9c3c40f-011a-4b86-9214-eb426161b1ff",
+        "initiatorType": "fetch",
+        "startTime": 2039.7999999970198,
+        "duration": 674,
+        "transferSize": 0,
+        "encodedBodySize": 0
+      },
+      {
+        "name": "http://127.0.0.1:5192/src/assets/silhouette-player.svg?import",
+        "initiatorType": "script",
+        "startTime": 2813.60000000149,
+        "duration": 1.1999999955296516,
+        "transferSize": 8647,
+        "encodedBodySize": 8347
+      },
+      {
+        "name": "http://127.0.0.1:5192/src/assets/silhouette-shield.svg?import",
+        "initiatorType": "script",
+        "startTime": 2813.7999999970198,
+        "duration": 1.5,
+        "transferSize": 6132,
+        "encodedBodySize": 5832
+      },
+      {
+        "name": "http://127.0.0.1:5192/src/assets/silhouette-team.svg?import",
+        "initiatorType": "script",
+        "startTime": 2813.7999999970198,
+        "duration": 2.3000000044703484,
+        "transferSize": 17404,
+        "encodedBodySize": 17104
+      }
+    ]
+  },
+  "screenshot": "album.png"
+}
