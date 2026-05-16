@@ -214,7 +214,8 @@ async function fetchAlertMetrics(alertId, { envClause, activationDays }) {
           SELECT DISTINCT e.person_id
           FROM events e
           INNER JOIN cohort c ON e.person_id = c.person_id
-          WHERE toDate(e.timestamp) BETWEEN toDate(now() - INTERVAL 7 DAY) AND toDate(now() - INTERVAL 1 DAY)
+          WHERE toDate(e.timestamp) >= toDate(now() - INTERVAL 7 DAY)
+            AND toDate(e.timestamp) <= toDate(now() - INTERVAL 1 DAY)
             AND e.event NOT LIKE '$%'
             ${envClause}
         )
