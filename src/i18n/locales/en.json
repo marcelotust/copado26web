@@ -260,12 +260,33 @@
   },
 
   "header": {
-    "swaps": "Swaps"
+    "swaps": "Swaps",
+    "scan": "Scan"
   },
 
   "grid": {
     "loading": "Loading stickers…",
     "hint": "Left-click to add · Right-click to remove"
+  },
+
+  "scanner": {
+    "title": "Scanner",
+    "ocrLoading": "Loading OCR…",
+    "scanning": "Scanning…",
+    "ready": "Ready",
+    "capture": "📸 Capture Now",
+    "typeLabel": "✏️ Type code manually",
+    "placeholder": "e.g. BRA 10",
+    "add": "Add",
+    "logTitle": "Scan log",
+    "empty": "Nothing scanned yet",
+    "added": "+1 added",
+    "notFound": "not found",
+    "showRaw": "▼ Show raw OCR text",
+    "hideRaw": "▲ Hide",
+    "alignHint": "Align the sticker code in the box · codes like",
+    "camError": "Camera unavailable",
+    "useManual": "Use the manual input below instead."
   },
 
   "swaps": {
