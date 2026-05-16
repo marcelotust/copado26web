@@ -4,6 +4,7 @@ import { useLocation, Navigate } from 'react-router-dom'
 import { useAuth } from './hooks/useAuth'
 import { useI18n } from './i18n'
 import { AUTH_POST_LOGIN_PATH_KEY } from './lib/tradeAuthStorage'
+import { clearAuthCallbackPending, consumePostLoginPath } from './lib/authRedirect'
 import LoadingScreen from './components/LoadingScreen'
 
 const AuthenticatedApp = lazy(() => import('./AuthenticatedApp'))
@@ -54,19 +55,17 @@ export default function AppAuthGate() {
 
   if (loading) return loadingScreen
 
+  if (session && (pathname === '/' || pathname === '/login')) {
+    clearAuthCallbackPending()
+    return <Navigate to={consumePostLoginPath(AUTH_POST_LOGIN_PATH_KEY)} replace />
+  }
+
   if (session) {
-    try {
-      const raw = sessionStorage.getItem(AUTH_POST_LOGIN_PATH_KEY)
-      if ((raw?.startsWith('/trade') || raw?.startsWith('/album')) && pathname !== raw) {
-        sessionStorage.removeItem(AUTH_POST_LOGIN_PATH_KEY)
-        return <Navigate to={raw} replace />
-      }
-    } catch {
-      /* private mode */
-    }
+    clearAuthCallbackPending()
   }
 
   if (!session) {
+    clearAuthCallbackPending()
     if (pathname === '/login') {
       return (
         <>
