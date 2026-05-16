@@ -12,7 +12,7 @@ const placeholderEnv = {
   VITE_SUPABASE_ANON_KEY: process.env.VITE_SUPABASE_ANON_KEY ?? 'placeholder-anon-key',
 }
 
-const ignoredPathPrefixes = ['node_modules/', 'dist/', '.claude/', 'supabase/.temp/']
+const ignoredPathPrefixes = ['node_modules/', 'dist/', 'supabase/.temp/']
 
 function execText(command, options = {}) {
   const result = spawnSync(command, {
@@ -102,7 +102,7 @@ function classify(files) {
       manual.push('Validate analytics/logging changes against consent and no-PII taxonomy docs.')
     }
 
-    if (/^docs\/|^ai\/|^README\.md$|^AGENTS\.md$/.test(file)) {
+    if (/^docs\/|^ai\/|^\.claude\/|^README\.md$|^AGENTS\.md$/.test(file)) {
       addGroup('docs-ai', file)
       manual.push('Review docs for drift against current source paths, commands, and product scope.')
     }
