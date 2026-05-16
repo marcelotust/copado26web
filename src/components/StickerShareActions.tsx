@@ -34,14 +34,14 @@ export default function StickerShareActions({ getShareText, shareLabel, copiedLa
     } catch {
       logger.warn('sticker clipboard failed', { feature: 'share', action: 'clipboard' })
       telemetry.track(AnalyticsEvent.STICKERS_SHARED, { channel: 'whatsapp', surface })
-      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank')
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer')
     }
   }
 
   function handleWhatsApp() {
     const text = getShareText()
     telemetry.track(AnalyticsEvent.STICKERS_SHARED, { channel: 'whatsapp', surface })
-    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank')
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer')
   }
 
   return (

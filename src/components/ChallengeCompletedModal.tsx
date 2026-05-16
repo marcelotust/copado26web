@@ -32,7 +32,7 @@ export default function ChallengeCompletedModal({ challenge, onDismiss }: Props)
       setTimeout(() => setCopied(false), 2500)
     } catch {
       logger.warn('challenge clipboard failed', { feature: 'challenges', action: 'clipboard' })
-      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank')
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer')
     }
   }
 
