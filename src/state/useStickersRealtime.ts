@@ -1,5 +1,5 @@
 import { useEffect, type RefObject } from 'react'
-import { reportError } from '../lib/logger'
+import { logger } from '../lib/logger'
 import { supabase } from '../lib/supabase'
 import type { Action } from './stickersTypes'
 
@@ -35,10 +35,12 @@ export function useStickersRealtime(
       })
       .subscribe((status, err) => {
         if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
-          reportError('realtime subscription failed', err ?? new Error(status), {
+          logger.warn('realtime subscription failed', {
             feature: 'stickers',
             action: 'realtime_subscribe',
             error_code: status,
+          }, {
+            reason: err instanceof Error ? err.message : String(err ?? status),
           })
         }
       })
