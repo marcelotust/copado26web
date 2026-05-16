@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { spawnSync } from 'node:child_process'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const args = new Set(process.argv.slice(2))
 const run = args.has('--run')
@@ -57,7 +58,90 @@ function gate(id, command, reason, env = {}) {
   return { id, command, reason, env }
 }
 
-function classify(files) {
+const PERSONA_META = {
+  'product-spec-writer': { claudeCommand: '/spec' },
+  'frontend-product-engineer': { claudeCommand: '/frontend' },
+  'supabase-security-reviewer': { claudeCommand: '/supabase-review' },
+  'telemetry-privacy-reviewer': { claudeCommand: '/telemetry-review' },
+  'qa-release-reviewer': { claudeCommand: '/qa-release' },
+  'repo-architect': { claudeCommand: '/architect' },
+}
+
+const MAJOR_GROUPS = ['app-source', 'supabase-migration', 'telemetry-observability', 'e2e']
+
+function recommendPersonas(files, groups) {
+  const personas = new Map()
+
+  function add(id, reason, priority = 50) {
+    const existing = personas.get(id)
+    if (!existing || priority < existing.priority) {
+      personas.set(id, {
+        id,
+        path: `ai/agents/${id}.md`,
+        reason,
+        priority,
+        claudeCommand: PERSONA_META[id]?.claudeCommand,
+      })
+    }
+  }
+
+  const hasGroup = (name) => (groups[name]?.length ?? 0) > 0
+  const majorGroupCount = MAJOR_GROUPS.filter(hasGroup).length
+
+  if (hasGroup('supabase-migration')) {
+    add('supabase-security-reviewer', 'Supabase migration changed — review RLS, grants, SECURITY DEFINER, and rollback notes.', 10)
+  }
+
+  if (hasGroup('telemetry-observability')) {
+    add(
+      'telemetry-privacy-reviewer',
+      'Telemetry, logging, or analytics surface changed — verify consent flow and no-PII taxonomy.',
+      10,
+    )
+  }
+
+  if (hasGroup('e2e')) {
+    add('qa-release-reviewer', 'Playwright coverage or E2E config changed — pick the smallest reliable proof set.', 20)
+  }
+
+  for (const file of files) {
+    if (/^ai\/specs\/(?!_template\/)/.test(file)) {
+      add('product-spec-writer', 'Active spec folder changed — keep spec, tasks, and verification aligned.', 15)
+    }
+
+    if (/^src\/(pages|components)\/.*\.(tsx)$/.test(file)) {
+      add('frontend-product-engineer', 'UI page or component changed — preserve app patterns, i18n, and mobile layout.', 25)
+    }
+
+    if (/^src\/(hooks|state)\/.*\.(ts|tsx)$/.test(file)) {
+      add('frontend-product-engineer', 'Client state or hooks changed — check blast radius across consumers.', 30)
+    }
+
+    if (/^(src\/lib\/supabase|src\/hooks\/useAuth|src\/components\/auth\/|src\/pages\/(Login|Signup))/.test(file)) {
+      add('supabase-security-reviewer', 'Auth or Supabase client boundary changed — verify anon-safe env and redirect allowlist.', 12)
+    }
+
+    if (/^src\/i18n\/locales\/.*\.json$/.test(file)) {
+      add('frontend-product-engineer', 'User-facing copy changed — confirm all locales stay in sync.', 35)
+    }
+  }
+
+  if (majorGroupCount >= 2) {
+    add('repo-architect', 'Change spans multiple layers — map boundaries and sequencing before merge.', 5)
+  }
+
+  if (hasGroup('app-source') && hasGroup('telemetry-observability')) {
+    add('telemetry-privacy-reviewer', 'App behavior and telemetry changed together — confirm event shape after UI work.', 8)
+  }
+
+  if (hasGroup('app-source') && hasGroup('supabase-migration')) {
+    add('supabase-security-reviewer', 'App and database changed together — confirm client only uses anon-safe access paths.', 8)
+  }
+
+  return [...personas.values()].sort((a, b) => a.priority - b.priority)
+}
+
+export function classify(files) {
   const gates = []
   const manual = []
   const groups = new Map()
@@ -118,11 +202,14 @@ function classify(files) {
     }
   }
 
+  const groupMap = Object.fromEntries([...groups.entries()].map(([name, values]) => [name, unique(values)]))
+
   return {
     files,
-    groups: Object.fromEntries([...groups.entries()].map(([name, values]) => [name, unique(values)])),
+    groups: groupMap,
     gates,
     manual: unique(manual),
+    personas: recommendPersonas(files, groupMap),
   }
 }
 
@@ -153,6 +240,16 @@ function printReport(report) {
     }
   }
 
+  if (report.personas?.length > 0) {
+    console.log('\nRecommended personas:')
+    for (const item of report.personas) {
+      const invoke = item.claudeCommand ? ` (Claude: ${item.claudeCommand})` : ''
+      console.log(`- ${item.id} — ${item.path}${invoke}`)
+      console.log(`  ${item.reason}`)
+    }
+    console.log('\nInvoke before declaring done (Cursor: Task; Codex/others: paste the persona path).')
+  }
+
   if (report.manual.length > 0) {
     console.log('\nManual checks:')
     for (const item of report.manual) console.log(`- ${item}`)
@@ -178,6 +275,10 @@ function runGates(gates) {
   }
 }
 
-const report = classify(changedFiles())
-printReport(report)
-if (run) runGates(report.gates)
+const isMain = process.argv[1] === fileURLToPath(import.meta.url)
+
+if (isMain) {
+  const report = classify(changedFiles())
+  printReport(report)
+  if (run) runGates(report.gates)
+}

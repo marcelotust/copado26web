@@ -22,6 +22,28 @@ implementation. Do not use them to replace the spec, tests, or final integration
 - [Stack Agent Map](./stack-map.md)
 - [Stack x Agent Matrix](./stack-matrix.md)
 
+## Harness Integration
+
+`npm run ai:harness` inspects your git diff and prints **Recommended personas**
+with paths under `ai/agents/`. Use them before declaring a task complete:
+
+| Tool | How to invoke |
+| --- | --- |
+| Claude Code | Slash command from the table below, or `@ai/agents/<persona>.md` |
+| Cursor | **Task** subagent with the persona file in the prompt |
+| Codex | Paste `ai/agents/<persona>.md` into the session |
+
+| Persona | Claude slash command |
+| --- | --- |
+| `product-spec-writer` | `/spec` |
+| `frontend-product-engineer` | `/frontend` |
+| `supabase-security-reviewer` | `/supabase-review` |
+| `telemetry-privacy-reviewer` | `/telemetry-review` |
+| `qa-release-reviewer` | `/qa-release` |
+| `repo-architect` | `/architect` |
+
+Post-edit hooks also surface persona hints when files change.
+
 ## Output Contract
 
 Every persona should return:
@@ -41,6 +63,7 @@ These personas are the source of truth. When you need native tool support, wire 
 - Claude Code slash commands: `.claude/commands/*.md`
 - Claude Code project skills: `.claude/skills/*.md`
 - Cursor project rules: `.cursor/rules/00-project.mdc`
+- Cursor / Codex / Claude hooks: `scripts/ai-hooks/` (see `.cursor/hooks.json`, `.codex/hooks.json`, `.claude/settings.json`)
 - OpenCode instructions: `opencode.json`
 
 Use the native adapters for tool loading, but keep the canonical persona text here so the behavior stays aligned across tools.

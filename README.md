@@ -333,7 +333,10 @@ This repo is set up for **spec-driven, agent-assisted** work — prompts and ver
 | [`ai/specs/`](ai/specs/) | Feature specs from `ai/specs/_template/` |
 | [`scripts/ai-harness.mjs`](scripts/ai-harness.mjs) | Classify changed files → recommend quality gates |
 | [`.cursor/rules/`](.cursor/rules/) | Cursor entry point + glob-scoped rules for sensitive paths |
-| [`.claude/`](.claude/) | Claude Code agents, commands, skills, and **hooks** (Pre/Post/Stop) that auto-run the harness |
+| [`scripts/ai-hooks/`](scripts/ai-hooks/) | Shared agent hooks (git guard, harness on edit/stop) used by Claude, Cursor, and Codex |
+| [`.claude/`](.claude/) | Claude Code agents, commands, skills, and hook wiring |
+| [`.cursor/hooks.json`](.cursor/hooks.json) | Cursor hook wiring → `scripts/ai-hooks/` |
+| [`.codex/hooks.json`](.codex/hooks.json) | Codex hook wiring → `scripts/ai-hooks/` |
 | [`.github/CODEOWNERS`](.github/CODEOWNERS) | Owner review required for `AGENTS.md`, personas, harness, workflows, husky, `.claude/` |
 | [`.github/pull_request_template.md`](.github/pull_request_template.md) | Canonical PR body shape |
 | [`.husky/`](.husky/) | Local guards: pre-commit (lint-staged + branch guard), pre-push (lint + harness + force-push guard) |
@@ -362,7 +365,7 @@ npm run ai:harness -- --run # execute them (lint, test:ci, build, e2e:public, �
 npm run ai:harness -- --all # classify entire repo
 ```
 
-The pre-push hook in [`.husky/pre-push`](.husky/pre-push) runs `lint` and `ai:harness` automatically before every push. Claude Code users also get auto-harness on edit/stop via [`.claude/hooks/`](.claude/hooks/).
+The pre-push hook in [`.husky/pre-push`](.husky/pre-push) runs `lint` and `ai:harness` automatically before every push. Claude Code, Cursor, and Codex users get the same guards via [`scripts/ai-hooks/`](scripts/ai-hooks/) (wired in [`.claude/settings.json`](.claude/settings.json), [`.cursor/hooks.json`](.cursor/hooks.json), [`.codex/hooks.json`](.codex/hooks.json)).
 
 Agents must satisfy [`AGENTS.md` → Definition of Done](AGENTS.md#definition-of-done) before declaring a task complete, and follow the rules in [`AGENTS.md` → Agent Safety](AGENTS.md#agent-safety) for handling untrusted content, secrets, and dangerous git operations.
 

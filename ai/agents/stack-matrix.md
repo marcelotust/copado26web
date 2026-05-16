@@ -54,6 +54,7 @@ Use this matrix when deciding which persona or verification path to use for a ch
 
 ## How To Use This In Chat
 
+- Run `npm run ai:harness` on your diff — it prints **Recommended personas** with paths and Claude slash commands.
 - If the request is unclear, ask the `product-spec-writer` to shape it first.
 - If the request is clearly scoped, call the most specific agent directly.
 - If the change crosses boundaries, ask `repo-architect` before any code edit.

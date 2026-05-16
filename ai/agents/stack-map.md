@@ -45,8 +45,10 @@ For this repo, the non-negotiable rule is that vendor skills can supplement the 
 
 | Tool | Native entrypoint |
 | --- | --- |
-| Claude Code | `CLAUDE.md` plus `.claude/agents/*.md` |
-| Cursor | `.cursor/rules/*.mdc` and `AGENTS.md` |
+| Claude Code | `CLAUDE.md`, `.claude/agents/*.md`, `.claude/settings.json` hooks |
+| Cursor | `.cursor/rules/*.mdc`, `.cursor/hooks.json`, `AGENTS.md` |
+| Codex | `.codex/hooks.json`, `AGENTS.md` |
 | OpenCode | `opencode.json` and `AGENTS.md` |
-| Codex | `AGENTS.md` |
+
+All three coding agents share enforcement via `scripts/ai-hooks/` (git guard, harness hint on edit, harness check on stop).
 

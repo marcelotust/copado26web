@@ -6,6 +6,8 @@ ai/                      @marcelotust @rlpereiruxo
 .cursor/                 @marcelotust @rlpereiruxo
 opencode.json            @marcelotust @rlpereiruxo
 scripts/ai-harness.mjs   @marcelotust @rlpereiruxo
+scripts/ai-hooks/        @marcelotust @rlpereiruxo
+.codex/                  @marcelotust @rlpereiruxo
 .github/workflows/       @marcelotust @rlpereiruxo
 .github/CODEOWNERS       @marcelotust @rlpereiruxo
 .husky/                  @marcelotust @rlpereiruxo

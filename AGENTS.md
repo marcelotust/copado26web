@@ -65,8 +65,9 @@ Skipping an item is allowed only when explicitly justified in the response.
 2. For UI changes: verify in the browser (or explicitly state "no browser
    verification available"). Type-checking and unit tests are not browser
    verification.
-3. For Supabase migrations: invoke the `supabase-security-reviewer` persona
-   or document why review is deferred.
+3. When `npm run ai:harness` lists **Recommended personas**, invoke each
+   (or document why deferred). Supabase migrations always need
+   `supabase-security-reviewer` unless explicitly waived.
 4. Confirm no `.env*`, `*.local.json`, or other gitignored sensitive file
    was staged or committed.
 5. Resolve or remove any TODO comments introduced in this task.
@@ -100,6 +101,9 @@ Skipping an item is allowed only when explicitly justified in the response.
 - Claude Code slash commands: `.claude/commands/*.md` wrap the common repo personas.
 - Claude Code project skills: `.claude/skills/*.md` hold repo-specific reusable workflows.
 - Cursor project rules: `.cursor/rules/00-project.mdc` imports the same canonical files.
+- Cursor hooks: `.cursor/hooks.json` → `scripts/ai-hooks/adapters/*` (shell guard, post-edit harness hint, stop harness).
+- Codex hooks: `.codex/hooks.json` → same adapters (`PreToolUse` / `PostToolUse` / `Stop`).
+- Claude Code hooks: `.claude/settings.json` → same adapters; `.claude/hooks/*` are thin wrappers.
 - OpenCode project instructions: `opencode.json` references the same canonical files.
 
 Prefer linking or importing canonical docs from tool-specific entry points. Only duplicate content when a tool requires a native format that cannot load the source file directly.

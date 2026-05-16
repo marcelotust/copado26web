@@ -13,8 +13,8 @@ The current state of the art has converged on a few practical patterns:
 - A deterministic local harness should choose and run checks instead of asking the model to guess.
 - Repo memory should be short, explicit, and versioned; long-lived decisions belong in docs or specs.
 - Orientation alone is not enough — enforcement lives in git hooks, CI status checks,
-  CODEOWNERS, and (for Claude Code) `PreToolUse`/`PostToolUse`/`Stop` hooks that auto-run
-  the harness and refuse dangerous commands.
+  CODEOWNERS, and agent hooks (Claude Code, Cursor, Codex) that auto-run harness hints
+  and refuse dangerous git commands via `scripts/ai-hooks/`.
 
 External references that informed this setup:
 
@@ -37,9 +37,12 @@ External references that informed this setup:
 | `ai/agents/stack-matrix.md` | Decision matrix for choosing the right agent by change type. |
 | `.cursor/rules/` | Cursor adapter — `00-project.mdc` imports canonical docs, `10-*` to `14-*` are glob-scoped safety rules. |
 | `.claude/agents/` · `.claude/commands/` · `.claude/skills/` | Claude Code adapters that mirror the canonical personas. |
-| `.claude/hooks/` | Claude Code `PreToolUse` / `PostToolUse` / `Stop` hooks that auto-run the harness and refuse dangerous git operations. |
-| `.claude/settings.json` | Hook config (shared); per-dev config lives in gitignored `.claude/settings.local.json`. |
-| `scripts/ai-harness.mjs` | Local changed-file classifier and quality gate runner. |
+| `scripts/ai-hooks/` | **Canonical** hook logic: dangerous-git guard, post-edit harness hint, stop harness check. |
+| `scripts/ai-harness.mjs` | Classify git diff → quality gates, manual checks, and **recommended personas**. |
+| `.claude/settings.json` | Claude Code hook wiring → `scripts/ai-hooks/adapters/*`. |
+| `.claude/hooks/` | Thin wrappers (backward compat) delegating to `scripts/ai-hooks/`. |
+| `.cursor/hooks.json` | Cursor hook wiring (`beforeShellExecution`, `afterFileEdit`, `stop`). |
+| `.codex/hooks.json` | Codex hook wiring (`PreToolUse`, `PostToolUse`, `Stop`). |
 | `.husky/pre-commit` · `.husky/pre-push` | Local git guards: lint-staged + branch guard on commit, lint + harness + force-push guard on push. |
 | `.github/CODEOWNERS` | Owner review required for changes to `AGENTS.md`, personas, harness, workflows, husky, `.claude/`. |
 | `.github/workflows/gitleaks.yml` | Required CI gate scanning every PR diff for committed secrets. |

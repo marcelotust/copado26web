@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "description": "Shared repo guards — canonical logic in scripts/ai-hooks/",
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "command": "scripts/ai-hooks/adapters/stdin-shell-guard.sh",
+        "failClosed": true
+      }
+    ],
+    "afterFileEdit": [
+      {
+        "command": "scripts/ai-hooks/adapters/post-edit-harness.sh"
+      }
+    ],
+    "stop": [
+      {
+        "command": "scripts/ai-hooks/adapters/stop-harness.sh",
+        "failClosed": true
+      }
+    ]
+  }
+}
