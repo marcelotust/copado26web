@@ -1,0 +1,22 @@
+---
+description: Never bypass git or hook safety. Invoke manually or by description when running git commands.
+alwaysApply: false
+---
+
+Never propose or run any of the following without explicit user
+authorization in the current session:
+
+- `git push --force`, `git push -f`, `git push --force-with-lease`.
+- `git push <remote> main` from a branch other than `main`/`master`.
+- `git commit` while the current branch is `main` or `master`.
+- `git reset --hard origin/main` or any destructive reset against
+  upstream refs.
+- `--no-verify`, `--no-gpg-sign`, or any flag that bypasses pre-commit
+  or pre-push hooks.
+- Rewriting committed history that has already been pushed.
+- `rm -rf` against any path outside the current repo working tree.
+
+**IF** a workflow appears to require any of the above, **STOP** and ask
+the user. Git hooks in `.husky/` and Claude Code hooks in
+`.claude/hooks/` will refuse most of these — do not try to circumvent
+them.

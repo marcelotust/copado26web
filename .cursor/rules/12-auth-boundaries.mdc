@@ -1,0 +1,25 @@
+---
+description: Auth boundary constraints for Supabase auth, redirects, and guest flow.
+globs:
+  - src/hooks/useAuth*
+  - src/lib/supabase*
+  - src/components/auth/**/*
+  - src/pages/Login*
+  - src/pages/Signup*
+alwaysApply: false
+---
+
+You are editing auth, session, redirect, or guest-flow code. The rules
+below are non-negotiable.
+
+- **ALWAYS** preserve the public/guest album flow with placeholder Supabase
+  env values. Public E2E and CI depend on it.
+- **NEVER** read or pass Supabase service-role keys in browser code. The
+  browser uses `VITE_SUPABASE_ANON_KEY` only.
+- **ALWAYS** validate redirect targets against an allowlist. **NEVER** trust
+  raw query-string redirect params.
+- **NEVER** store session tokens in `localStorage` outside the Supabase
+  client's own persistence — it has the right defaults.
+- **BEFORE** changing auth flow, reference
+  `ai/agents/supabase-security-reviewer.md` and run the relevant E2E
+  (`npm run test:e2e:public` for guest, authenticated suite for logged in).

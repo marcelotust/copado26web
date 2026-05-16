@@ -1,0 +1,23 @@
+---
+description: Migration safety constraints when editing Supabase migrations.
+globs:
+  - supabase/migrations/**/*.sql
+alwaysApply: false
+---
+
+You are editing a Supabase migration. The rules below are non-negotiable.
+
+- **ALWAYS** keep RLS as the source of truth. New tables MUST have RLS enabled
+  and explicit policies defined before any `GRANT`.
+- **ALWAYS** set `set search_path = pg_catalog, public` on every
+  `SECURITY DEFINER` function. **NEVER** rely on the caller's `search_path`.
+- **NEVER** grant on a table to `anon` or `authenticated` without explicit
+  RLS policies covering the same rows. Service-role behavior MUST stay
+  server-side.
+- **NEVER** drop a table, column, or index in the same migration that adds
+  new data dependencies on it. Split into two migrations.
+- **BEFORE** proposing the change, read `docs/supabase-production-security.md`
+  and reference the `supabase-security-reviewer` persona in
+  `ai/agents/supabase-security-reviewer.md`.
+- **AFTER** editing, run `npm run ai:harness`. The harness flags this path
+  for manual security review — surface that note to the user.
