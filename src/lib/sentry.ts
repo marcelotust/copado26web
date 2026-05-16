@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/react'
 import { sentryBeforeSend, scrubRecord, scrubValue } from './sentry/sanitize'
 
 const dsn = import.meta.env.VITE_SENTRY_DSN as string | undefined
+const isDev = import.meta.env.DEV as boolean
 const isProd = import.meta.env.PROD as boolean
 
 let initialized = false
@@ -22,7 +23,7 @@ function resolveRelease(): string | undefined {
 
 /** Initialise once at bootstrap — events are dropped until analytics consent is granted. */
 export function initSentryClient(): void {
-  if (!dsn || initialized) return
+  if (!dsn || isDev || initialized) return
 
   Sentry.init({
     dsn,
@@ -51,11 +52,11 @@ export function initSentryClient(): void {
 }
 
 export function isSentryCaptureEnabled(): boolean {
-  return Boolean(dsn && initialized && captureAllowed)
+  return Boolean(dsn && !isDev && initialized && captureAllowed)
 }
 
 export function grantSentryConsent(userId: string): void {
-  if (!dsn) return
+  if (!dsn || isDev) return
   if (!initialized) initSentryClient()
   captureAllowed = true
   Sentry.setUser({ id: userId })
