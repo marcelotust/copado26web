@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import AppLogo from '../components/AppLogo'
 import LandingStickerCard from '../components/LandingStickerCard'
@@ -7,6 +7,7 @@ import { useI18n } from '../i18n'
 import { LANDING_FEATURES, LANDING_PRIVACY, LANDING_STATS } from '../data/landingContent'
 import { landingFeatureKey, landingPrivacyKey, landingStatLabelKey } from '../lib/landingI18n'
 import { AnalyticsEvent, FeatureFlag, telemetry } from '../lib/telemetry'
+import { getAnonVariant } from '../lib/telemetry/anonExperiment'
 
 const FOCUS_RING = 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950'
 
@@ -17,27 +18,28 @@ type HeroCtaId = 'header_login' | 'hero_primary' | 'hero_explore_album' | 'botto
 
 export default function LandingPage() {
   const { t } = useI18n()
-  const [heroVariant, setHeroVariant] = useState<string | null>(null)
+  // Deterministic, persisted client-side bucketing for anonymous visitors.
+  // PostHog only initializes after consent (post-login), so its flag/variant
+  // resolution can't reach the landing page — every visitor would otherwise
+  // see the control arm. Exposure is reported via experiment_exposed once
+  // telemetry activates (see telemetry/index.ts).
+  const heroVariant = useMemo(
+    () => getAnonVariant(FeatureFlag.LANDING_HERO_CTA, { variants: ['control', 'treatment'] }),
+    [],
+  )
 
   useEffect(() => {
-    telemetry.track(AnalyticsEvent.LANDING_VIEWED)
-  }, [])
-
-  useEffect(() => {
-    const update = () => setHeroVariant(telemetry.variant(FeatureFlag.LANDING_HERO_CTA))
-    update()
-    return telemetry.onFeatureFlags(update)
-  }, [])
+    telemetry.track(AnalyticsEvent.LANDING_VIEWED, { hero_cta_variant: heroVariant })
+  }, [heroVariant])
 
   const heroPrimaryCopy = heroVariant === 'treatment'
     ? t('landing.hero.ctaTreatment')
     : t('landing.hero.ctaControl')
-  const resolvedHeroVariant = heroVariant ?? 'control'
 
   const trackCta = (ctaId: HeroCtaId) => () => {
     telemetry.track(AnalyticsEvent.LANDING_CTA_CLICKED, {
       cta_id: ctaId,
-      ...(ctaId === 'hero_primary' ? { cta_variant: resolvedHeroVariant } : {}),
+      ...(ctaId === 'hero_primary' ? { cta_variant: heroVariant } : {}),
     })
   }
 

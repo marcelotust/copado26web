@@ -1,3 +1,4 @@
+import { drainPendingExposures } from './anonExperiment'
 import { AnalyticsEvent, sanitizeAnalyticsProps } from './events'
 import { noopAnalytics, noopErrors } from './noop'
 import { activatePostHogAnalytics, deactivatePostHog } from './posthog'
@@ -66,6 +67,16 @@ export function syncTelemetryConsent(opts: { userId: string; consent: TelemetryC
           analyticsImpl.track(AnalyticsEvent.CONSENT_ANALYTICS_UPDATED, { granted: true })
         }
       } catch { /* private mode */ }
+      // Flush any A/B variant assignments made before consent (e.g. on the
+      // landing page) so the backing experiment can attribute the exposure.
+      for (const exp of drainPendingExposures()) {
+        analyticsImpl.track(AnalyticsEvent.EXPERIMENT_EXPOSED, {
+          experiment: exp.experiment,
+          variant: exp.variant,
+          anon_id: exp.anon_id,
+          assigned_at: exp.assigned_at,
+        })
+      }
     } catch {
       if (myGen === generation) {
         analyticsImpl = noopAnalytics
