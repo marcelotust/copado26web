@@ -7,7 +7,7 @@
       {
         "matcher": "Bash",
         "hooks": [
-          { "type": "command", "command": ".claude/hooks/block-dangerous-bash.sh" }
+          { "type": "command", "command": "scripts/ai-hooks/adapters/stdin-shell-guard.sh" }
         ]
       }
     ],
@@ -15,7 +15,7 @@
       {
         "matcher": "Edit|Write|MultiEdit",
         "hooks": [
-          { "type": "command", "command": ".claude/hooks/post-edit-harness.sh" }
+          { "type": "command", "command": "scripts/ai-hooks/adapters/post-edit-harness.sh" }
         ]
       }
     ],
@@ -23,7 +23,7 @@
       {
         "matcher": "",
         "hooks": [
-          { "type": "command", "command": ".claude/hooks/stop-harness.sh" }
+          { "type": "command", "command": "scripts/ai-hooks/adapters/stop-harness.sh" }
         ]
       }
     ]

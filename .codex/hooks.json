@@ -1,0 +1,47 @@
+{
+  "description": "Shared repo guards — canonical logic in scripts/ai-hooks/ (same behavior as .claude/settings.json hooks)",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "scripts/ai-hooks/adapters/stdin-shell-guard.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "__exec$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "scripts/ai-hooks/adapters/stdin-shell-guard.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|apply_patch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "scripts/ai-hooks/adapters/post-edit-harness.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "scripts/ai-hooks/adapters/stop-harness.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

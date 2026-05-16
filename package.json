@@ -21,6 +21,7 @@
     "test:e2e:auth": "playwright test --project=setup --project=authenticated",
     "test:coverage": "vitest run --coverage",
     "ai:harness": "node scripts/ai-harness.mjs",
+    "ai:harness:test": "node --test scripts/ai-harness.personas.test.mjs",
     "sentry:triage": "node scripts/sentry-triage.mjs",
     "posthog:metrics-check": "node scripts/posthog-metrics-check.mjs",
     "posthog:llm-ingest": "node scripts/posthog-llm-ingest.mjs",
