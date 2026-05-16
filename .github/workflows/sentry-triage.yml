@@ -1,0 +1,37 @@
+name: sentry-triage
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 9 * * *'
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: sentry-triage
+  cancel-in-progress: false
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      SENTRY_ORG: meualbum2026
+      SENTRY_PROJECT: meu-album-2026-app
+      SENTRY_QUERY: 'is:unresolved environment:production'
+      SENTRY_STATS_PERIOD: 24h
+      SENTRY_MIN_SEVERITY: P2
+      SENTRY_ISSUE_LIMIT: 50
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Create GitHub issues for critical Sentry errors
+        run: npm run sentry:triage
