@@ -1,102 +1,178 @@
-# ⚽ Meu Álbum 2026
+# Meu Álbum 2026
 
-Progressive web app for tracking your Panini FIFA World Cup 2026 sticker collection with a signed-in account and cloud sync.
+Progressive web app to track your **Panini FIFA World Cup 2026** sticker collection — mark cards, share missing lists, match trades with friends, and sync everything to your account in the cloud.
 
-Built with **React + Vite**, **Tailwind CSS**, **Supabase** (auth · Postgres · realtime), **Vercel Analytics**, and **vite-plugin-pwa** for installable bundles.
+**Live stack:** React 18 · TypeScript · Vite 8 · Tailwind CSS · Supabase · Vercel
+
+---
 
 ## Features
 
-- **All 48 qualified nations** in the printed Panini album order, plus the opening "We Are Panini" section (`FWC 01`–`FWC 08`), the World Cup history closing section (`FWC 09`–`FWC 19`), and the 14 Coca-Cola exclusive stickers.
-- **Click a sticker to add it · click again to remove it** (with a confirmation on the last copy).
-- **Greyed when missing · vibrant gradient when collected · `+N` badge for duplicates.**
-- **Missing view** with a one-tap WhatsApp share that lists every sticker you still need, grouped by team.
-- **Swaps view** with all your duplicates grouped by team.
-- **Magic-link or Google sign-in** via Supabase Auth. Data is stored server-side and syncs across devices in realtime.
-- **Settings** for sign-out, CSV export, and album reset.
-- **PWA** — installable on mobile/desktop. The catalog needs network on the first launch, but is cached afterwards.
-- **Three languages** out of the box: 🇧🇷 pt-BR · 🇺🇸 en · 🇪🇸 es.
+| Area | What you get |
+|------|----------------|
+| **Album** | All 48 nations in Panini print order, plus opening (`FWC 01–08`), history (`FWC 09–19`), and Coca-Cola exclusives (`CC`) — **994 stickers** total |
+| **Marking** | Tap to add · tap again to remove · duplicate badge (`+N`) · wide cards for specials |
+| **Missing** | Grouped list of what you still need · one-tap **WhatsApp** share with flags |
+| **Trade matcher** | Paste a friend's duplicate list · instant cross-match with your missing/swaps |
+| **Swaps** | All duplicates by team · share extras the same way |
+| **QR trade** | Generate a link/QR with your swaps for in-person meetups (`/trade`) |
+| **Dashboard** | Album %, shortcuts, recent milestones, challenge preview |
+| **Challenges** | Themed goals (groups, teams, album %) with shareable completion cards |
+| **Milestones** | Unlock celebrations at album/team thresholds |
+| **Onboarding** | First-session guided tour (feature-flagged) across the core loop |
+| **Account** | Magic link or Google · realtime sync · CSV export · album reset · account deletion |
+| **PWA** | Installable on mobile/desktop · catalog cached after first load |
+| **i18n** | pt-BR · en · es |
 
-Scanner and OCR are outside the current MVP scope and are kept out of the main app until the feature is validated separately.
+Scanner / OCR is **out of MVP scope** and not wired into the main app.
 
-## Architecture
+---
+
+## Tech stack
+
+| Layer | Tools |
+|-------|--------|
+| **UI** | React 18, React Router 7, Tailwind CSS 3 |
+| **Build** | Vite 8, TypeScript 5, `@vitejs/plugin-react` |
+| **Data** | Supabase Auth, Postgres, Realtime, RLS, `adjust_sticker` RPC |
+| **PWA** | `vite-plugin-pwa` |
+| **Analytics** | Vercel Analytics, PostHog (product events, feature flags) |
+| **Errors** | Sentry (after LGPD consent) |
+| **Quality** | ESLint 9, Vitest 4, Testing Library, Playwright |
+| **CI** | GitHub Actions · deploy on Vercel |
+
+**Runtime:** Node **24.15+** · npm **11+** (see `.nvmrc`)
+
+---
+
+## Project structure
 
 ```
-src/
-├── App.tsx                       – session gate: login vs <StickersProvider>
-├── AuthenticatedApp.tsx          – authenticated shell, tab routes, legal pages
-├── main.tsx                      – React entry point
-├── index.css                     – Tailwind directives + global resets
-├── lib/
-│   └── supabase.ts               – Supabase client (anon key)
-├── state/
-│   ├── StickersProvider.tsx      – wraps authenticated app + loads catalog
-│   ├── stickersStore.tsx         – teams + catalog + per-user quantities,
-│   │                               realtime, optimistic writes via adjust_sticker RPC
-│   └── …                         – reducers, selectors, load/realtime hooks
-├── hooks/
-│   ├── useAuth.ts                – Supabase session + magic-link / Google sign-in
-│   └── useStickerActions.ts      – per-card click handlers with debounced flushes
-├── pages/                        – AlbumPage · SwapsPage · MissingPage · SettingsPage · LoginPage · LegalPage
-├── components/                   – Header · Sidebar · TabNav · StickerCard · etc.
-└── i18n/
-    ├── index.tsx                 – provider + flattened key lookup
-    └── locales/                  – pt-BR.json · en.json · es.json
+copado26web/
+├── src/
+│   ├── main.tsx, App.tsx, AppAuthGate.tsx     # Entry, routing, auth gate
+│   ├── AuthenticatedApp.tsx                   # Shell: header, tabs, onboarding
+│   ├── AuthenticatedRoutes.tsx                # Logged-in routes (lazy pages)
+│   ├── pages/                                 # Album, Missing, Swaps, Dashboard, …
+│   ├── components/                            # UI + onboarding/
+│   ├── state/                                 # StickersProvider, store, realtime
+│   ├── hooks/                                 # Auth, stickers, challenges, milestones
+│   ├── lib/                                   # supabase, telemetry, share, trade parse
+│   ├── i18n/locales/                          # pt-BR.json · en.json · es.json
+│   └── types/                                 # DB-aligned TypeScript types
+├── supabase/migrations/                       # Versioned Postgres schema
+├── e2e/                                       # Playwright (public + authenticated)
+├── scripts/                                   # PostHog metrics, Sentry triage, AI harness
+├── docs/                                      # MVP observability, E2E, security, LGPD
+├── ai/                                        # Agent personas, specs, internal docs
+└── .github/workflows/                         # check · e2e · metrics · triage
 ```
 
-The catalog (`teams`, `stickers_catalog`) and per-user state (`user_stickers`) live in Supabase Postgres. Row-level security ties `user_stickers` access to `auth.uid()`, and increments go through a `SECURITY DEFINER` RPC (`adjust_sticker`) so reads-then-writes can never race.
+### App routes
+
+| Route | Access | Purpose |
+|-------|--------|---------|
+| `/` | Public | Marketing landing |
+| `/album` | Public (guest) / Auth | Sticker grid (paywall when guest) |
+| `/login` | Public | Magic link + Google |
+| `/trade` | Public / Auth | Trade link from QR or share |
+| `/dashboard` | Auth | Home · progress · challenges preview |
+| `/album` | Auth | Full album with sidebar |
+| `/missing` | Auth | Missing list + share + paste matcher |
+| `/swaps` | Auth | Duplicates |
+| `/challenges` | Auth | All themed challenges |
+| `/settings` | Auth | Export, consent, sign-out, delete account |
+| `/privacidade`, `/termos` | Public | Privacy · Terms |
+
+Default after login: **`/dashboard`**.
+
+---
+
+## How it works (data flow)
+
+```mermaid
+flowchart LR
+  subgraph client [Browser PWA]
+    UI[React UI]
+    Store[StickersProvider]
+  end
+  subgraph supabase [Supabase]
+    Auth[Auth]
+    PG[(Postgres + RLS)]
+    RT[Realtime]
+  end
+  subgraph observability [Observability]
+    VA[Vercel Analytics]
+    PH[PostHog]
+    SE[Sentry]
+  end
+  UI --> Store
+  Store -->|anon key| Auth
+  Store -->|adjust_sticker RPC| PG
+  PG --> RT --> Store
+  UI -->|after consent| VA
+  UI -->|after consent| PH
+  UI -->|after consent| SE
+```
+
+- **Catalog** (`teams`, `stickers_catalog`) is shared read-only data.
+- **User state** (`user_stickers`) is sparse rows keyed by `auth.uid()`; RLS enforces ownership.
+- **Writes** go through `adjust_sticker(sticker_id, delta)` so increment/decrement never races.
+
+---
 
 ## Getting started
 
 ### Prerequisites
 
-- Node.js 18+
-- npm
-- A Supabase project (free tier works) — see [Database setup](#database-setup)
+- [Node.js](https://nodejs.org/) 24.15+ (use `nvm use` — `.nvmrc` is provided)
+- npm 11+
+- A [Supabase](https://supabase.com) project (free tier is fine)
 
-### Install and run
+### Install & run
 
 ```bash
+git clone https://github.com/marcelotust/copado26web.git
+cd copado26web
 npm install
-cp .env.example .env.local           # fill in your Supabase URL + anon key
+cp .env.example .env.local   # add Supabase URL + anon key
 npm run dev
 ```
 
-Open <http://localhost:5173>.
+Open **http://localhost:5173**.
 
 ### Production build
 
 ```bash
-npm run build
-npm run preview
+npm run build      # tsc + vite build
+npm run preview    # serve dist/
 ```
 
-### Tests
-
-```bash
-npm run test:ci
-```
+---
 
 ## Environment variables
 
-Create `.env.local` for local development (see `.env.example`):
-
-```bash
-VITE_SUPABASE_URL=...
-VITE_SUPABASE_ANON_KEY=...
-VITE_SENTRY_DSN=...
-```
+Copy [`.env.example`](.env.example) to `.env.local` for local dev.
 
 | Variable | Required | Purpose |
-| --- | --- | --- |
-| `VITE_SUPABASE_URL` | ✅ | Project URL, e.g. `https://xxx.supabase.co` |
-| `VITE_SUPABASE_ANON_KEY` | ✅ | Public anon key — RLS is the source of truth for security |
-| `VITE_SENTRY_DSN` | optional | Only when Sentry error reporting is enabled |
+|----------|:--------:|---------|
+| `VITE_SUPABASE_URL` | ✅ | Supabase project URL |
+| `VITE_SUPABASE_ANON_KEY` | ✅ | Public anon key — security is RLS, not key secrecy |
+| `VITE_APP_URL` | — | Canonical origin for share/trade links (defaults to `window.location.origin`) |
+| `VITE_SENTRY_DSN` | — | Error reporting (only after analytics consent) |
+| `VITE_SENTRY_RELEASE` | — | Release label for Sentry |
+| `VITE_POSTHOG_KEY` | — | Product analytics & feature flags (e.g. onboarding) |
+| `VITE_POSTHOG_HOST` | — | PostHog ingest host (default: `https://us.i.posthog.com`) |
 
-Vercel pulls these from project settings for preview and production.
+**Vercel build-only** (source maps): `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, `SENTRY_PROJECT` — see [docs/setup-sentry-posthog.md](docs/setup-sentry-posthog.md).
+
+Never commit a `service_role` key. CI uses placeholder Supabase values for build and public E2E.
+
+---
 
 ## Database setup
 
-The Supabase schema is versioned under `supabase/migrations/`. To apply it to your project:
+Schema lives in [`supabase/migrations/`](supabase/migrations/).
 
 ```bash
 npm install -g supabase
@@ -104,42 +180,84 @@ supabase link --project-ref <your-project-ref>
 supabase db push
 ```
 
-The migrations create:
+Creates:
 
-- `teams` — 48 nations + virtual sections (`WAP`, `FWC`, `CC`) in printed Panini order.
-- `stickers_catalog` — 994 rows (9 opening + 960 team + 11 history + 14 Coca-Cola) with `player_name` populated for the 864 player stickers.
-- `user_stickers` — sparse per-user state, RLS-locked to `auth.uid()`.
-- `adjust_sticker(p_sticker_id, p_delta)` RPC for atomic upsert + clamp-at-zero increments.
+- `teams` — 51 entries (48 nations + `WAP`, `FWC`, `CC`)
+- `stickers_catalog` — 994 stickers
+- `user_stickers` — per-user quantities, RLS-scoped
+- `adjust_sticker` — atomic upsert/increment RPC
 
-Later migrations may drop deprecated objects (for example the legacy `public.stickers` table) once every client uses the new data path — read each migration’s comments before applying.
-
-Sanity checks after applying:
+Sanity check:
 
 ```sql
 select count(*) from public.teams;             -- 51
 select count(*) from public.stickers_catalog;  -- 994
-select * from public.stickers_catalog where id = 'BRA-10';
 ```
 
-## Deploy to Vercel
+Production checklist: [docs/supabase-production-security.md](docs/supabase-production-security.md).
 
-1. Import the GitHub repository in Vercel with the Vite preset.
-2. Configure `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` (and optional `VITE_SENTRY_DSN`) for preview and production.
-3. Deploy.
+---
 
-The repo ships a `vercel.json`; the framework preset is auto-detected as Vite. Alternatively:
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Vite dev server (port 5173) |
+| `npm run build` | Typecheck + production bundle |
+| `npm run preview` | Preview production build |
+| `npm run lint` | ESLint on `src/` |
+| `npm run typecheck` | `tsc --noEmit` |
+| `npm run test` / `test:ci` | Vitest unit & component tests |
+| `npm run test:watch` | Vitest watch mode |
+| `npm run test:e2e:public` | Playwright public smoke (no secrets) |
+| `npm run test:e2e:auth` | Playwright authenticated suite |
+| `npm run ai:harness` | Suggest CI gates from changed files |
+| `npm run posthog:metrics-check` | Activation/retention digest (needs PostHog API) |
+| `npm run sentry:triage` | Sentry issue triage helper |
+
+Pre-commit (Husky + lint-staged): ESLint + `tsc` on staged `src/**/*.{ts,tsx}`.
+
+---
+
+## Testing & CI
+
+| Workflow | Trigger | What it runs |
+|----------|---------|----------------|
+| [`check`](.github/workflows/check.yml) | PR + `main` | typecheck · lint · Vitest · build |
+| [`e2e`](.github/workflows/e2e.yml) | PR + `main` | Playwright **public** smoke (`smoke` required) |
+| [`e2e-authenticated`](.github/workflows/e2e-authenticated.yml) | Scheduled / manual | Full auth E2E (secrets) |
+| [`posthog-metrics-check`](.github/workflows/posthog-metrics-check.yml) | Scheduled | Metrics digest |
+| [`sentry-triage`](.github/workflows/sentry-triage.yml) | Scheduled | Error triage |
+
+Details: [docs/e2e.md](docs/e2e.md).
+
+---
+
+## Deploy (Vercel)
+
+1. Import the GitHub repo → framework preset **Vite**.
+2. Set env vars for Preview + Production (`VITE_SUPABASE_*`, optional Sentry/PostHog).
+3. Deploy — [`vercel.json`](vercel.json) configures headers and caching.
 
 ```bash
-npm i -g vercel
-vercel login
-vercel              # preview
-vercel --prod       # production
+npx vercel          # preview
+npx vercel --prod   # production
 ```
 
-## Quality and privacy docs
+---
 
-See [docs/mvp-quality-and-observability.md](docs/mvp-quality-and-observability.md) for the MVP backlog around analytics, logging, errors, LGPD, and tests.
-See [docs/supabase-production-security.md](docs/supabase-production-security.md) for the production Supabase security checklist around redirects, OTP abuse controls, API keys, Realtime/RLS, logs, and quarterly review ownership.
+## Documentation
+
+| Doc | Topic |
+|-----|--------|
+| [docs/mvp-quality-and-observability.md](docs/mvp-quality-and-observability.md) | Event taxonomy, Sentry, LGPD consent |
+| [docs/mvp-activation-retention.md](docs/mvp-activation-retention.md) | Activation & retention metrics |
+| [docs/setup-sentry-posthog.md](docs/setup-sentry-posthog.md) | Sentry + PostHog setup |
+| [docs/e2e.md](docs/e2e.md) | Playwright projects & secrets |
+| [docs/supabase-production-security.md](docs/supabase-production-security.md) | Production Supabase checklist |
+| [AGENTS.md](AGENTS.md) | AI/agent operating contract for this repo |
+
+---
 
 ## License
 
