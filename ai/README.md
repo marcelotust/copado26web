@@ -25,6 +25,8 @@ External references that informed this setup:
 | Path | Purpose |
 | --- | --- |
 | `AGENTS.md` | Repo-wide operating contract for coding agents. |
+| `ai/CONVENTIONS.md` | Branch, commit, PR, and file naming rules. |
+| `ai/ROADMAP.md` | Deferred workflow improvements and their retake triggers. |
 | `ai/specs/` | Feature specs, plans, tasks, and verification notes. |
 | `ai/specs/_template/` | Copyable templates for new spec-driven work. |
 | `ai/agents/` | Tool-agnostic personas for repeated agent workflows. |
