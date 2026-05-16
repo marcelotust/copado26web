@@ -125,34 +125,48 @@ flowchart LR
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) 24.15+ (use `nvm use` — `.nvmrc` is provided)
+- [Node.js](https://nodejs.org/) 24.15+ (`nvm use` — see `.nvmrc`)
 - npm 11+
 - A [Supabase](https://supabase.com) project (free tier is fine)
 
-### Install & run
+### Install
 
 ```bash
 git clone https://github.com/marcelotust/copado26web.git
 cd copado26web
 npm install
-cp .env.example .env.local   # add Supabase URL + anon key
-npm run dev
+cp .env.example .env.local
 ```
 
-Open **http://localhost:5173**.
+Fill in **at minimum** `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` (see [Environment variables](#environment-variables)).
 
-### Production build
+### Run locally
 
 ```bash
-npm run build      # tsc + vite build
-npm run preview    # serve dist/
+npm run dev          # Vite → http://localhost:5173
 ```
+
+| Goal | Command |
+|------|---------|
+| Production-like bundle | `npm run build && npm run preview` |
+| Typecheck only | `npm run typecheck` |
+| Lint only | `npm run lint` |
+| Unit tests (CI mode) | `npm run test:ci` |
+| Unit tests (watch) | `npm run test:watch` |
+| Public E2E smoke | See [E2E tests](#e2e-tests-playwright) |
+| Pick quality gates from your diff | `npm run ai:harness` |
+
+**First login:** open `/login`, use magic link or Google. Catalog + your stickers load after auth; realtime updates apply across tabs.
+
+**Guest mode:** `/album` works without login (paywall on sticker tap). Public E2E relies on stubbed Supabase — no real project needed.
 
 ---
 
 ## Environment variables
 
-Copy [`.env.example`](.env.example) to `.env.local` for local dev.
+Copy [`.env.example`](.env.example) to `.env.local` for local development.
+
+### App (`.env.local`)
 
 | Variable | Required | Purpose |
 |----------|:--------:|---------|
@@ -164,9 +178,38 @@ Copy [`.env.example`](.env.example) to `.env.local` for local dev.
 | `VITE_POSTHOG_KEY` | — | Product analytics & feature flags (e.g. onboarding) |
 | `VITE_POSTHOG_HOST` | — | PostHog ingest host (default: `https://us.i.posthog.com`) |
 
-**Vercel build-only** (source maps): `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, `SENTRY_PROJECT` — see [docs/setup-sentry-posthog.md](docs/setup-sentry-posthog.md).
+Full setup walkthrough: [docs/setup-sentry-posthog.md](docs/setup-sentry-posthog.md).
 
-Never commit a `service_role` key. CI uses placeholder Supabase values for build and public E2E.
+### Vercel (build / deploy)
+
+| Variable | When | Purpose |
+|----------|------|---------|
+| `VITE_SUPABASE_*` | Runtime | Same as local |
+| `VITE_SENTRY_DSN` | Runtime | Optional errors |
+| `VITE_POSTHOG_KEY` | Runtime | Optional analytics |
+| `SENTRY_AUTH_TOKEN` | **Build only** | Upload source maps |
+| `SENTRY_ORG`, `SENTRY_PROJECT` | **Build only** | Sentry plugin |
+| `VERCEL_GIT_COMMIT_SHA` | Build | Auto-set; used as Sentry release |
+
+### E2E (shell env — never in `.env.local` for CI secrets)
+
+| Variable | Public E2E | Auth E2E |
+|----------|:----------:|:--------:|
+| `VITE_SUPABASE_URL` | Placeholder OK | Test project URL |
+| `VITE_SUPABASE_ANON_KEY` | Placeholder OK | Test anon key |
+| `E2E_TEST_EMAIL` | — | ✅ |
+| `E2E_TEST_PASSWORD` | — | ✅ |
+| `E2E_SUPABASE_SERVICE_ROLE_KEY` | — | Optional (auto-create user) |
+| `PLAYWRIGHT_PORT` | — | Default `5190` (dev server) |
+| `PLAYWRIGHT_BASE_URL` | — | Override base URL |
+| `E2E_FORCE_AUTH` | — | `1` to run auth project without full secrets (CI) |
+
+Never commit a `service_role` key in the repo. CI build + public E2E use placeholders:
+
+```bash
+VITE_SUPABASE_URL=https://placeholder.supabase.co
+VITE_SUPABASE_ANON_KEY=placeholder-anon-key
+```
 
 ---
 
@@ -198,7 +241,113 @@ Production checklist: [docs/supabase-production-security.md](docs/supabase-produ
 
 ---
 
-## Scripts
+## Unit & component tests (Vitest)
+
+Stack: **Vitest** + **React Testing Library** + **jsdom**. Tests live next to source (`*.test.ts`, `*.test.tsx`) and under `src/test/`.
+
+```bash
+npm run test:ci      # single run, verbose (same as CI)
+npm run test         # single run, default reporter
+npm run test:watch   # watch mode while developing
+npm run test:coverage
+```
+
+What to test where:
+
+| Change type | Where to add tests |
+|-------------|-------------------|
+| Pure logic, parsers, telemetry, reducers | `src/**/*.test.ts` near the module |
+| React behavior | `src/**/*.test.tsx` with Testing Library |
+
+Pre-commit hook runs **ESLint + `tsc`** on staged `src/**/*.{ts,tsx}` (via Husky + lint-staged).
+
+---
+
+## E2E tests (Playwright)
+
+Stack: **Playwright** with three projects — `public`, `setup`, `authenticated`. Config: [`playwright.config.ts`](playwright.config.ts). Specs: [`e2e/`](e2e/).
+
+| Project | Runs on | Secrets |
+|---------|---------|---------|
+| `public` | Every PR (`e2e` workflow) | None |
+| `authenticated` | Nightly / manual (`e2e-authenticated`) | Supabase test user |
+
+### Public E2E (no Supabase project needed)
+
+```bash
+npx playwright install chromium
+npm run build
+VITE_SUPABASE_URL=https://placeholder.supabase.co \
+VITE_SUPABASE_ANON_KEY=placeholder-anon-key \
+  npm run test:e2e:public
+```
+
+Without a prior build, Playwright starts Vite dev on port **5190** (`PLAYWRIGHT_PORT`). CI builds first, then uses `vite preview`.
+
+Covers: landing, guest `/album`, login form. Stubs auth/catalog; blocks service workers.
+
+### Authenticated E2E (dedicated test Supabase)
+
+Use a **separate** Supabase project — never production.
+
+```bash
+export VITE_SUPABASE_URL=https://xxx.supabase.co
+export VITE_SUPABASE_ANON_KEY=eyJ...
+export E2E_TEST_EMAIL=e2e@your-test-domain.com
+export E2E_TEST_PASSWORD='strong-test-password'
+# optional: E2E_SUPABASE_SERVICE_ROLE_KEY=eyJ...
+
+npm run test:e2e:auth    # setup + authenticated specs
+# npm run test:e2e       # full suite when env is complete
+```
+
+Session is stored in `e2e/.auth/user.json` (gitignored). Covers: album +/- sticker, tabs, settings export, analytics toggle, challenges.
+
+More detail: [docs/e2e.md](docs/e2e.md).
+
+---
+
+## AI-assisted development
+
+This repo is set up for **spec-driven, agent-assisted** work — prompts and verification live in git, not only in chat history.
+
+| Path | Purpose |
+|------|---------|
+| [`AGENTS.md`](AGENTS.md) | Repo-wide contract: stack, boundaries, commands, testing rules |
+| [`ai/README.md`](ai/README.md) | Harness overview and default workflows |
+| [`ai/agents/`](ai/agents/) | Personas (QA, telemetry, Supabase, product spec, …) |
+| [`ai/specs/`](ai/specs/) | Feature specs from `ai/specs/_template/` |
+| [`ai/CONVENTIONS.md`](ai/CONVENTIONS.md) | Branch, commit, PR conventions |
+| [`.cursor/rules/`](.cursor/rules/) · [`.claude/`](.claude/) | Tool-specific entry points → same canonical docs |
+| [`scripts/ai-harness.mjs`](scripts/ai-harness.mjs) | Classify changed files → recommend quality gates |
+
+### Quick workflow
+
+**Small fix**
+
+1. Read nearby code + tests.
+2. Implement the smallest coherent change.
+3. Run `npm run ai:harness` → run the gates it recommends (or document why skipped).
+
+**Feature / ambiguous product change**
+
+1. Copy `ai/specs/_template/` → `ai/specs/YYYY-MM-DD-short-slug/`.
+2. Fill `spec.md` before coding.
+3. Implement in slices; update `verification.md` with commands run.
+
+**Run recommended gates automatically**
+
+```bash
+npm run ai:harness          # print recommended gates from git diff
+npm run ai:harness -- --run # execute them (lint, test:ci, build, e2e:public, …)
+npm run ai:harness -- --all # classify entire repo
+```
+
+Product boundaries agents must respect: no scanner/OCR in MVP unless asked; UI copy via `src/i18n/locales/*.json`; analytics only after LGPD consent; never ship `service_role` keys in the client.
+
+---
+
+## Scripts reference
 
 | Command | Description |
 |---------|-------------|
@@ -207,29 +356,35 @@ Production checklist: [docs/supabase-production-security.md](docs/supabase-produ
 | `npm run preview` | Preview production build |
 | `npm run lint` | ESLint on `src/` |
 | `npm run typecheck` | `tsc --noEmit` |
-| `npm run test` / `test:ci` | Vitest unit & component tests |
-| `npm run test:watch` | Vitest watch mode |
-| `npm run test:e2e:public` | Playwright public smoke (no secrets) |
-| `npm run test:e2e:auth` | Playwright authenticated suite |
-| `npm run ai:harness` | Suggest CI gates from changed files |
-| `npm run posthog:metrics-check` | Activation/retention digest (needs PostHog API) |
-| `npm run sentry:triage` | Sentry issue triage helper |
-
-Pre-commit (Husky + lint-staged): ESLint + `tsc` on staged `src/**/*.{ts,tsx}`.
+| `npm run test` / `test:ci` | Vitest |
+| `npm run test:watch` | Vitest watch |
+| `npm run test:e2e:public` | Playwright public smoke |
+| `npm run test:e2e:auth` | Playwright authenticated |
+| `npm run test:e2e` | Full Playwright suite (needs auth env) |
+| `npm run ai:harness` | Changed-file gate recommender |
+| `npm run posthog:metrics-check` | Activation/retention digest (PostHog API) |
+| `npm run sentry:triage` | Sentry triage helper |
 
 ---
 
-## Testing & CI
+## CI
 
 | Workflow | Trigger | What it runs |
 |----------|---------|----------------|
 | [`check`](.github/workflows/check.yml) | PR + `main` | typecheck · lint · Vitest · build |
-| [`e2e`](.github/workflows/e2e.yml) | PR + `main` | Playwright **public** smoke (`smoke` required) |
-| [`e2e-authenticated`](.github/workflows/e2e-authenticated.yml) | Scheduled / manual | Full auth E2E (secrets) |
+| [`e2e`](.github/workflows/e2e.yml) | PR + `main` | Playwright **public** smoke (**required** for merge) |
+| [`e2e-authenticated`](.github/workflows/e2e-authenticated.yml) | Scheduled / manual | Authenticated E2E (GitHub secrets) |
 | [`posthog-metrics-check`](.github/workflows/posthog-metrics-check.yml) | Scheduled | Metrics digest |
 | [`sentry-triage`](.github/workflows/sentry-triage.yml) | Scheduled | Error triage |
 
-Details: [docs/e2e.md](docs/e2e.md).
+**Suggested pre-PR checklist**
+
+```bash
+npm run ai:harness -- --run
+# or manually:
+npm run typecheck && npm run lint && npm run test:ci && npm run build
+VITE_SUPABASE_URL=https://placeholder.supabase.co VITE_SUPABASE_ANON_KEY=placeholder-anon-key npm run test:e2e:public
+```
 
 ---
 
@@ -253,9 +408,11 @@ npx vercel --prod   # production
 | [docs/mvp-quality-and-observability.md](docs/mvp-quality-and-observability.md) | Event taxonomy, Sentry, LGPD consent |
 | [docs/mvp-activation-retention.md](docs/mvp-activation-retention.md) | Activation & retention metrics |
 | [docs/setup-sentry-posthog.md](docs/setup-sentry-posthog.md) | Sentry + PostHog setup |
-| [docs/e2e.md](docs/e2e.md) | Playwright projects & secrets |
+| [docs/e2e.md](docs/e2e.md) | Playwright projects & secrets (extended) |
 | [docs/supabase-production-security.md](docs/supabase-production-security.md) | Production Supabase checklist |
-| [AGENTS.md](AGENTS.md) | AI/agent operating contract for this repo |
+| [AGENTS.md](AGENTS.md) | AI/agent operating contract |
+| [ai/README.md](ai/README.md) | AI harness & spec-driven workflow |
+| [ai/agents/stack-matrix.md](ai/agents/stack-matrix.md) | Which agent persona to use |
 
 ---
 
