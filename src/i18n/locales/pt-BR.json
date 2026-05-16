@@ -260,33 +260,12 @@
   },
 
   "header": {
-    "swaps": "Trocas",
-    "scan": "Escanear"
+    "swaps": "Trocas"
   },
 
   "grid": {
     "loading": "Carregando figurinhas…",
     "hint": "Clique para adicionar · Clique direito para remover"
-  },
-
-  "scanner": {
-    "title": "Scanner",
-    "ocrLoading": "Carregando OCR…",
-    "scanning": "Escaneando…",
-    "ready": "Pronto",
-    "capture": "📸 Capturar Agora",
-    "typeLabel": "✏️ Digite o código manualmente",
-    "placeholder": "ex: BRA 10",
-    "add": "Adicionar",
-    "logTitle": "Registro",
-    "empty": "Nenhum scan ainda",
-    "added": "+1 adicionada",
-    "notFound": "não encontrada",
-    "showRaw": "▼ Mostrar texto OCR",
-    "hideRaw": "▲ Ocultar",
-    "alignHint": "Alinhe o código da figurinha na caixa · como",
-    "camError": "Câmera indisponível",
-    "useManual": "Use a entrada manual abaixo."
   },
 
   "swaps": {
