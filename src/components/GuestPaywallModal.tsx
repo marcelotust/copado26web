@@ -1,5 +1,4 @@
 import { useState, lazy, Suspense } from 'react'
-import { useNavigate } from 'react-router-dom'
 import AppLogo from './AppLogo'
 import LoginEmailForm from './LoginEmailForm'
 import LoginMagicLinkPanel from './LoginMagicLinkPanel'
@@ -16,7 +15,6 @@ export default function GuestPaywallModal({ onClose }: Props) {
   const { t } = useI18n()
   const { sendMagicLink, signInWithGoogle, magicLinkSent, errorKey } = useAuth()
   const [submittedEmail, setSubmittedEmail] = useState('')
-  const navigate = useNavigate()
 
   async function handleSendLink(email: string) {
     try { sessionStorage.setItem(AUTH_POST_LOGIN_PATH_KEY, '/album') } catch { /* private mode */ }
@@ -27,7 +25,6 @@ export default function GuestPaywallModal({ onClose }: Props) {
   async function handleGoogleLogin() {
     try { sessionStorage.setItem(AUTH_POST_LOGIN_PATH_KEY, '/album') } catch { /* private mode */ }
     await signInWithGoogle()
-    navigate('/login')
   }
 
   function handleDismiss() {
@@ -37,7 +34,7 @@ export default function GuestPaywallModal({ onClose }: Props) {
 
   return (
     <div
-      className='fixed inset-0 z-50 flex items-end justify-center'
+      className='fixed inset-0 z-50 flex items-end'
       role='dialog'
       aria-modal='true'
       aria-labelledby='paywall-heading'
@@ -48,7 +45,7 @@ export default function GuestPaywallModal({ onClose }: Props) {
         aria-hidden='true'
       />
 
-      <div className='relative w-full max-w-lg flex flex-col rounded-t-3xl overflow-hidden shadow-2xl' style={{ maxHeight: '78dvh' }}>
+      <div className='relative w-full flex flex-col rounded-t-3xl overflow-hidden shadow-2xl' style={{ maxHeight: '78dvh' }}>
 
         <div className='relative h-40 shrink-0 overflow-hidden flex flex-col items-center justify-center'>
           <Suspense fallback={null}>
@@ -64,25 +61,27 @@ export default function GuestPaywallModal({ onClose }: Props) {
           </div>
         </div>
 
-        <div className='bg-slate-800 px-6 pt-5 pb-8 flex flex-col gap-4 overflow-y-auto'>
-          {magicLinkSent
-            ? <LoginMagicLinkPanel email={submittedEmail} />
-            : (
-              <LoginEmailForm
-                onSendLink={handleSendLink}
-                onGoogleLogin={handleGoogleLogin}
-                errorKey={errorKey}
-              />
-            )
-          }
-          {!magicLinkSent && (
-            <button
-              onClick={handleDismiss}
-              className='text-slate-500 hover:text-slate-300 text-sm transition-colors text-center'
-            >
-              {t('guest.paywall.dismiss')}
-            </button>
-          )}
+        <div className='bg-slate-800 px-6 pt-5 pb-8 overflow-y-auto'>
+          <div className='mx-auto w-full max-w-md flex flex-col gap-4'>
+            {magicLinkSent
+              ? <LoginMagicLinkPanel email={submittedEmail} />
+              : (
+                <LoginEmailForm
+                  onSendLink={handleSendLink}
+                  onGoogleLogin={handleGoogleLogin}
+                  errorKey={errorKey}
+                />
+              )
+            }
+            {!magicLinkSent && (
+              <button
+                onClick={handleDismiss}
+                className='text-slate-500 hover:text-slate-300 text-sm transition-colors text-center'
+              >
+                {t('guest.paywall.dismiss')}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
