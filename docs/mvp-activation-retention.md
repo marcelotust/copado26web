@@ -45,7 +45,7 @@ Contar `nav_tab_selected` agrupando por `tab`. Aba `settings` é acessada pelo m
 2. D1: % desses visitantes com qualquer evento customizado no dia seguinte.
 3. D7: % com evento entre D+1 e D+7 (inclusive).
 
-Quando precisar de cohorts/retention visuais sem planilha, use **PostHog** (já integrado com a mesma taxonomia) — fora do escopo mínimo desta issue, mas compatível.
+Quando precisar de cohorts/retention visuais sem planilha, use **PostHog** (já integrado com a mesma taxonomia). Check diário automatizado: `docs/metricas/README.md` e `npm run posthog:metrics-check`.
 
 ## Validação em preview
 
