@@ -83,6 +83,7 @@ describe('ChallengeCompletedModal', () => {
       expect(open).toHaveBeenCalledWith(
         expect.stringContaining('https://wa.me/?text='),
         '_blank',
+        'noopener,noreferrer',
       )
     })
   })
