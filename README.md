@@ -191,7 +191,7 @@ Full setup walkthrough: [docs/setup-sentry-posthog.md](docs/setup-sentry-posthog
 | `SENTRY_ORG`, `SENTRY_PROJECT` | **Build only** | Sentry plugin |
 | `VERCEL_GIT_COMMIT_SHA` | Build | Auto-set; used as Sentry release |
 
-### E2E (shell env — never in `.env.local` for CI secrets)
+### E2E (shell env — for local runs; CI uses [GitHub secrets](#repository-secrets))
 
 | Variable | Public E2E | Auth E2E |
 |----------|:----------:|:--------:|
@@ -367,17 +367,83 @@ Product boundaries agents must respect: no scanner/OCR in MVP unless asked; UI c
 
 ---
 
-## CI
+## GitHub Actions & secrets
 
-| Workflow | Trigger | What it runs |
-|----------|---------|----------------|
-| [`check`](.github/workflows/check.yml) | PR + `main` | typecheck · lint · Vitest · build |
-| [`e2e`](.github/workflows/e2e.yml) | PR + `main` | Playwright **public** smoke (**required** for merge) |
-| [`e2e-authenticated`](.github/workflows/e2e-authenticated.yml) | Scheduled / manual | Authenticated E2E (GitHub secrets) |
-| [`posthog-metrics-check`](.github/workflows/posthog-metrics-check.yml) | Scheduled | Metrics digest |
-| [`sentry-triage`](.github/workflows/sentry-triage.yml) | Scheduled | Error triage |
+Workflows live in [`.github/workflows/`](.github/workflows/).
 
-**Suggested pre-PR checklist**
+### Workflows
+
+| Workflow | File | Trigger | Merge gate | What it does |
+|----------|------|---------|:----------:|--------------|
+| **check** | [`check.yml`](.github/workflows/check.yml) | PR · push `main` | ✅ | `npm run typecheck` · `lint` · `test:ci` · `build` (placeholder Supabase) |
+| **e2e** (`smoke`) | [`e2e.yml`](.github/workflows/e2e.yml) | PR · push `main` | ✅ | Build + Playwright **public** project; uploads report on failure |
+| **e2e-authenticated** | [`e2e-authenticated.yml`](.github/workflows/e2e-authenticated.yml) | Daily 06:00 UTC · manual | — | Playwright **authenticated** suite against test Supabase (skipped if secrets missing) |
+| **posthog-metrics-check** | [`posthog-metrics-check.yml`](.github/workflows/posthog-metrics-check.yml) | Daily 09:15 UTC · manual | — | `npm run posthog:metrics-check` — activation/retention alerts + daily digest commit |
+| **sentry-triage** | [`sentry-triage.yml`](.github/workflows/sentry-triage.yml) | Daily 09:00 UTC · manual | — | `npm run sentry:triage` — opens GitHub issues for critical production Sentry errors |
+
+PRs must pass **check** + **e2e (smoke)**. Vercel deploys preview/production separately (not a GitHub Actions job in this repo).
+
+### Repository secrets
+
+Configure under **GitHub → Settings → Secrets and variables → Actions → Secrets**.
+
+| Secret | Used by | Purpose |
+|--------|---------|---------|
+| `VITE_SUPABASE_URL` | `e2e-authenticated` | Supabase **test** project URL (also set on Vercel for deploy) |
+| `VITE_SUPABASE_ANON_KEY` | `e2e-authenticated` | Test project anon key (also on Vercel) |
+| `E2E_TEST_EMAIL` | `e2e-authenticated` | Dedicated E2E user email |
+| `E2E_TEST_PASSWORD` | `e2e-authenticated` | E2E user password |
+| `E2E_SUPABASE_SERVICE_ROLE_KEY` | `e2e-authenticated` | Optional — create/reset test user via Admin API |
+| `SENTRY_AUTH_TOKEN` | `sentry-triage` | Sentry API token ([setup](docs/setup-sentry-posthog.md)) |
+| `POSTHOG_PERSONAL_API_KEY` | `posthog-metrics-check` | PostHog personal key with **Query Read** scope |
+| `POSTHOG_PROJECT_ID` | `posthog-metrics-check` | PostHog project ID |
+
+**Not required for PR CI:** `check` and `e2e` use inline placeholder Supabase values. **Never** add `service_role` keys to client `VITE_*` vars.
+
+### Repository variables
+
+Configure under **Settings → Secrets and variables → Actions → Variables** (non-sensitive).
+
+| Variable | Used by | Default | Purpose |
+|----------|---------|---------|---------|
+| `POSTHOG_HOST` | `posthog-metrics-check` | `https://us.posthog.com` | PostHog **API** host (not the ingest `us.i.posthog.com` URL) |
+
+### Built-in / workflow env
+
+| Name | Source | Used by |
+|------|--------|---------|
+| `GITHUB_TOKEN` | Auto (per run) | `posthog-metrics-check`, `sentry-triage` | Create issues, commit digest, API calls |
+| `github.token` | Checkout / permissions | `posthog-metrics-check` | Write `docs/metricas/` digest commits |
+
+**`sentry-triage`** also sets fixed env in the workflow: `SENTRY_ORG=meualbum2026`, `SENTRY_PROJECT=meu-album-2026-app`, query/stats filters — see [`.github/workflows/sentry-triage.yml`](.github/workflows/sentry-triage.yml).
+
+**`e2e-authenticated`** sets `E2E_FORCE_AUTH=1` and `CI=true` when running the auth suite.
+
+### Vercel (deploy secrets)
+
+Not stored in GitHub Actions — set in the **Vercel project** for Preview + Production:
+
+| Variable | Required |
+|----------|:--------:|
+| `VITE_SUPABASE_URL` | ✅ |
+| `VITE_SUPABASE_ANON_KEY` | ✅ |
+| `VITE_SENTRY_DSN` | optional |
+| `VITE_POSTHOG_KEY` | optional |
+| `SENTRY_AUTH_TOKEN` | Build only (source maps) |
+| `SENTRY_ORG`, `SENTRY_PROJECT` | Build only |
+
+See [Deploy (Vercel)](#deploy-vercel) and [docs/setup-sentry-posthog.md](docs/setup-sentry-posthog.md).
+
+### Run scheduled workflows locally
+
+Same scripts as CI; export the matching secrets first (see [docs/metricas/README.md](docs/metricas/README.md) for PostHog):
+
+```bash
+npm run sentry:triage
+npm run posthog:metrics-check -- --dry-run   # no issues/commit
+```
+
+### Pre-PR checklist (mirrors merge gates)
 
 ```bash
 npm run ai:harness -- --run
@@ -409,6 +475,7 @@ npx vercel --prod   # production
 | [docs/mvp-activation-retention.md](docs/mvp-activation-retention.md) | Activation & retention metrics |
 | [docs/setup-sentry-posthog.md](docs/setup-sentry-posthog.md) | Sentry + PostHog setup |
 | [docs/e2e.md](docs/e2e.md) | Playwright projects & secrets (extended) |
+| [docs/metricas/README.md](docs/metricas/README.md) | PostHog metrics workflow & local dry-run |
 | [docs/supabase-production-security.md](docs/supabase-production-security.md) | Production Supabase checklist |
 | [AGENTS.md](AGENTS.md) | AI/agent operating contract |
 | [ai/README.md](ai/README.md) | AI harness & spec-driven workflow |
