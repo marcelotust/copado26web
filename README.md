@@ -2,7 +2,7 @@
 
 Progressive web app for tracking your Panini FIFA World Cup 2026 sticker collection with a signed-in account and cloud sync.
 
-Built with **React + Vite**, **Tailwind CSS**, **Supabase** (auth · Postgres · realtime), **Vercel Analytics**, and **vite-plugin-pwa** for installable bundles.
+Built with **React + Vite**, **Tailwind CSS**, **Supabase** (auth · Postgres · realtime), **Vercel Analytics**, **Tesseract.js** for camera OCR, and **vite-plugin-pwa** for installable bundles.
 
 ## Features
 
@@ -11,12 +11,13 @@ Built with **React + Vite**, **Tailwind CSS**, **Supabase** (auth · Postgres ·
 - **Greyed when missing · vibrant gradient when collected · `+N` badge for duplicates.**
 - **Missing view** with a one-tap WhatsApp share that lists every sticker you still need, grouped by team.
 - **Swaps view** with all your duplicates grouped by team.
+- **OCR scanner** — point the rear camera at a sticker code like `BRA 10` and Tesseract maps it to the catalog. The opening section's printed codes `FWC 1`–`FWC 8` are mapped to the catalog's `WAP-01`–`WAP-08` automatically.
 - **Magic-link or Google sign-in** via Supabase Auth. Data is stored server-side and syncs across devices in realtime.
 - **Settings** for sign-out, CSV export, and album reset.
 - **PWA** — installable on mobile/desktop. The catalog needs network on the first launch, but is cached afterwards.
 - **Three languages** out of the box: 🇧🇷 pt-BR · 🇺🇸 en · 🇪🇸 es.
 
-Scanner and OCR are outside the current MVP scope and are kept out of the main app until the feature is validated separately.
+Scanner and OCR remain experimental and are outside the current MVP scope.
 
 ## Architecture
 
@@ -35,8 +36,10 @@ src/
 │   └── …                         – reducers, selectors, load/realtime hooks
 ├── hooks/
 │   ├── useAuth.ts                – Supabase session + magic-link / Google sign-in
-│   └── useStickerActions.ts      – per-card click handlers with debounced flushes
-├── pages/                        – AlbumPage · SwapsPage · MissingPage · SettingsPage · LoginPage · LegalPage
+│   ├── useStickerActions.ts      – per-card click handlers with debounced flushes
+│   ├── useScannerLog.ts          – scanner write path + printed-code → catalog-id mapping
+│   └── useOCR.ts                 – Tesseract worker management
+├── pages/                        – AlbumPage · SwapsPage · MissingPage · SettingsPage · LoginPage · ScannerPage · LegalPage
 ├── components/                   – Header · Sidebar · TabNav · StickerCard · etc.
 └── i18n/
     ├── index.tsx                 – provider + flattened key lookup
@@ -140,6 +143,13 @@ vercel --prod       # production
 
 See [docs/mvp-quality-and-observability.md](docs/mvp-quality-and-observability.md) for the MVP backlog around analytics, logging, errors, LGPD, and tests.
 See [docs/supabase-production-security.md](docs/supabase-production-security.md) for the production Supabase security checklist around redirects, OTP abuse controls, API keys, Realtime/RLS, logs, and quarterly review ownership.
+
+## OCR tips
+
+- Hold the physical sticker **2–5 cm from the camera** in good light.
+- The scanner accepts patterns like `BRA 10`, `ESP-03`, `FWC 12`.
+- A 2-second cooldown prevents duplicate adds from a single scan.
+- The Tesseract worker is initialized once and reused — the first scan takes ~3 seconds.
 
 ## License
 
