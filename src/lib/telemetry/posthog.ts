@@ -25,10 +25,11 @@ function readVariant(ph: PostHog, key: string): string | null {
 
 function createAdapter(ph: PostHog): TelemetryAnalyticsPort {
   return {
-    track(event, props) {
+    track(event, props, options) {
       try {
         const safe = sanitizeAnalyticsProps(props)
-        ph.capture(event, safe as Record<string, unknown> | undefined)
+        const captureOpts = options?.timestamp ? { timestamp: options.timestamp } : undefined
+        ph.capture(event, safe as Record<string, unknown> | undefined, captureOpts)
       } catch {
         /* ad-block / private mode */
       }

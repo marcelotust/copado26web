@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import {
   __resetAnonExperimentForTests,
-  drainPendingExposures,
   getAnonId,
   getAnonVariant,
 } from './anonExperiment'
@@ -22,21 +21,6 @@ describe('anonExperiment', () => {
     const a = getAnonVariant('exp_foo', { variants: ['control', 'treatment'] })
     const b = getAnonVariant('exp_foo', { variants: ['control', 'treatment'] })
     expect(a).toBe(b)
-  })
-
-  it('queues exactly one pending exposure per experiment per anon id', () => {
-    getAnonVariant('exp_foo', { variants: ['control', 'treatment'] })
-    getAnonVariant('exp_foo', { variants: ['control', 'treatment'] })
-    const pending = drainPendingExposures()
-    expect(pending).toHaveLength(1)
-    expect(pending[0]?.experiment).toBe('exp_foo')
-    expect(pending[0]?.variant).toMatch(/^(control|treatment)$/)
-  })
-
-  it('drains pending exposures only once', () => {
-    getAnonVariant('exp_foo', { variants: ['control', 'treatment'] })
-    expect(drainPendingExposures()).toHaveLength(1)
-    expect(drainPendingExposures()).toHaveLength(0)
   })
 
   it('splits a population roughly 50/50 across many anon ids', () => {

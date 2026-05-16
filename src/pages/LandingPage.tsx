@@ -19,16 +19,22 @@ type HeroCtaId = 'header_login' | 'hero_primary' | 'hero_explore_album' | 'botto
 export default function LandingPage() {
   const { t } = useI18n()
   // Deterministic, persisted client-side bucketing for anonymous visitors.
-  // PostHog only initializes after consent (post-login), so its flag/variant
-  // resolution can't reach the landing page — every visitor would otherwise
-  // see the control arm. Exposure is reported via experiment_exposed once
-  // telemetry activates (see telemetry/index.ts).
+  // PostHog only initializes after consent (post-login), so its native flag
+  // evaluation can't reach the landing page — every visitor would otherwise
+  // see the control arm. The matching `$feature_flag_called` exposure event
+  // is buffered by the queueing analytics layer and replayed with this
+  // mount-time timestamp once telemetry activates (see telemetry/queue.ts).
   const heroVariant = useMemo(
     () => getAnonVariant(FeatureFlag.LANDING_HERO_CTA, { variants: ['control', 'treatment'] }),
     [],
   )
 
   useEffect(() => {
+    // Emit exposure FIRST so its timestamp is earliest in the funnel.
+    telemetry.track('$feature_flag_called', {
+      $feature_flag: FeatureFlag.LANDING_HERO_CTA,
+      $feature_flag_response: heroVariant,
+    })
     telemetry.track(AnalyticsEvent.LANDING_VIEWED, { hero_cta_variant: heroVariant })
   }, [heroVariant])
 

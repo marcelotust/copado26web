@@ -40,7 +40,6 @@ export const AnalyticsEvent = {
   TRADE_LOGIN_REQUIRED: 'trade_login_required',
   LANDING_VIEWED: 'landing_viewed',
   LANDING_CTA_CLICKED: 'landing_cta_clicked',
-  EXPERIMENT_EXPOSED: 'experiment_exposed',
   GUEST_ALBUM_VIEWED: 'guest_album_viewed',
   GUEST_STICKER_TAPPED: 'guest_sticker_tapped',
 } as const
