@@ -14,7 +14,7 @@ const alertsOnly = args.has('--alerts-only')
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 
 const config = {
-  posthogHost: (process.env.POSTHOG_HOST ?? 'https://us.posthog.com').replace(/\/$/, ''),
+  posthogHost: (process.env.POSTHOG_HOST || 'https://us.posthog.com').replace(/\/$/, ''),
   posthogProjectId: process.env.POSTHOG_PROJECT_ID,
   posthogToken: process.env.POSTHOG_PERSONAL_API_KEY ?? process.env.POSTHOG_API_KEY,
   githubRepo: process.env.GITHUB_REPOSITORY,

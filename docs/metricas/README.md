@@ -17,7 +17,7 @@ Espelha o padrão de `scripts/sentry-triage.mjs`.
 |--------|------------|
 | `POSTHOG_PERSONAL_API_KEY` | PostHog → Settings → [Personal API keys](https://us.posthog.com/settings/user-api-keys) (scope **Query Read**) |
 | `POSTHOG_PROJECT_ID` | PostHog → Project Settings → Project ID |
-| `POSTHOG_HOST` | API host, ex. `https://us.posthog.com` (não o ingest `us.i.posthog.com`) |
+| `POSTHOG_HOST` | **Repository variable** — API host, ex. `https://us.posthog.com` (não o ingest `us.i.posthog.com`) |
 
 `GITHUB_TOKEN` é injetado pelo workflow.
 
