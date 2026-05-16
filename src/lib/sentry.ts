@@ -73,11 +73,11 @@ export function isSentryCaptureEnabled(): boolean {
   return Boolean(dsn && !isDev && initialized && captureAllowed)
 }
 
-export function grantSentryConsent(userId: string): void {
+export function grantSentryConsent(userTelemetryId: string): void {
   if (!dsn || isDev) return
   if (!initialized) initSentryClient()
   captureAllowed = true
-  Sentry.setUser({ id: userId })
+  Sentry.setUser({ id: userTelemetryId })
 }
 
 export function revokeSentryConsent(): void {

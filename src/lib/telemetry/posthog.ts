@@ -66,7 +66,7 @@ function createAdapter(ph: PostHog): TelemetryAnalyticsPort {
  * Loads PostHog only after consent. Dynamic import keeps the chunk optional and
  * lets ad-blockers fail without breaking the app.
  */
-export async function activatePostHogAnalytics(userId: string): Promise<TelemetryAnalyticsPort | null> {
+export async function activatePostHogAnalytics(userTelemetryId: string): Promise<TelemetryAnalyticsPort | null> {
   if (import.meta.env.DEV) return null
   const key = import.meta.env.VITE_POSTHOG_KEY
   if (!key) return null
@@ -83,7 +83,7 @@ export async function activatePostHogAnalytics(userId: string): Promise<Telemetr
         persistence: 'localStorage+cookie',
         loaded: (ph) => {
           try {
-            ph.identify(userId)
+            ph.identify(userTelemetryId)
           } catch {
             /* noop */
           }
@@ -93,7 +93,7 @@ export async function activatePostHogAnalytics(userId: string): Promise<Telemetr
     } else {
       try {
         client.opt_in_capturing()
-        client.identify(userId)
+        client.identify(userTelemetryId)
       } catch {
         /* noop */
       }
