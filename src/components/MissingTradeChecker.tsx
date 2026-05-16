@@ -57,7 +57,10 @@ export default function MissingTradeChecker({
   }
 
   return (
-    <div className='flex flex-col gap-3 rounded-lg border border-slate-800 bg-slate-900/45 p-4'>
+    <div
+      className='flex flex-col gap-3 rounded-lg border border-slate-800 bg-slate-900/45 p-4'
+      data-onboarding-target='missing-trade-checker'
+    >
       <p className='text-white font-bold text-sm'>{t('missing.tradeChecker.title')}</p>
       <p className='text-slate-500 text-xs'>{t('missing.tradeChecker.hint')}</p>
       <textarea

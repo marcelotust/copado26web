@@ -9,9 +9,16 @@ type Props = {
   shareLabel: string
   copiedLabel: string
   surface: ShareSurface
+  onboardingTarget?: string
 }
 
-export default function StickerShareActions({ getShareText, shareLabel, copiedLabel, surface }: Props) {
+export default function StickerShareActions({
+  getShareText,
+  shareLabel,
+  copiedLabel,
+  surface,
+  onboardingTarget,
+}: Props) {
   const [copied, setCopied] = useState(false)
 
   async function handleShare() {
@@ -45,7 +52,10 @@ export default function StickerShareActions({ getShareText, shareLabel, copiedLa
   }
 
   return (
-    <div className='flex flex-wrap gap-1.5 justify-end w-full min-w-0 sm:w-auto sm:flex-nowrap sm:gap-2'>
+    <div
+      className='flex flex-wrap gap-1.5 justify-end w-full min-w-0 sm:w-auto sm:flex-nowrap sm:gap-2'
+      data-onboarding-target={onboardingTarget}
+    >
       <button
         type='button'
         onClick={handleWhatsApp}

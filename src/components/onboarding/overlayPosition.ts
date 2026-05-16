@@ -10,7 +10,9 @@ function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max)
 }
 
-export function spotlightStyle(targetRect: TargetRect | null): CSSProperties | undefined {
+export { SPOTLIGHT_PADDING }
+
+export function spotlightFrameStyle(targetRect: TargetRect | null): CSSProperties | undefined {
   if (!targetRect) return undefined
   return {
     top: targetRect.top - SPOTLIGHT_PADDING,

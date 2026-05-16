@@ -164,6 +164,7 @@
     "shortcuts": "Atalhos rápidos",
     "seeAll": "Ver todos",
     "challengesPreview": "Desafios em destaque",
+    "noChallengesYet": "Marque figurinhas para desbloquear os desafios.",
     "recentBadges": "Conquistas recentes",
     "noMilestones": "Nenhuma conquista ainda",
     "leastComplete": "Menos completos",
@@ -423,17 +424,39 @@
     "back": "Voltar",
     "next": "Próximo",
     "start": "Começar",
+    "finish": "Bora!",
+    "markFirstHint": "Toque em uma figurinha no álbum para continuar.",
     "step1": {
       "title": "Toque em qualquer figurinha",
       "body": "Marque as que você já tem. Toque de novo no botão de adicionar para registrar repetidas."
     },
     "step2": {
-      "title": "Veja o que está faltando",
-      "body": "A aba Faltando organiza sua lista e deixa tudo pronto para compartilhar com o grupo."
+      "title": "Compartilhe no WhatsApp",
+      "body": "Na aba Faltando, mande a lista formatada pro grupo com um toque — bandeirinhas e tudo."
     },
     "step3": {
-      "title": "Tudo sincronizado",
-      "body": "Seu álbum fica salvo na sua conta e acompanha você em outros dispositivos."
+      "title": "Cole a lista de trocas",
+      "body": "Recebeu repetidas de alguém? Cole aqui e o app cruza com o que você precisa."
+    },
+    "step4": {
+      "title": "Suas repetidas",
+      "body": "Tudo que sobra aparece na aba Repetidas — pronto pra compartilhar ou trocar."
+    },
+    "step5": {
+      "title": "Troca presencial por QR",
+      "body": "No encontro com amigos, gere um QR com suas sobras e compare na hora."
+    },
+    "step6": {
+      "title": "Acompanhe o progresso",
+      "body": "No Início você vê quanto falta pro álbum completo e atalhos pras outras abas."
+    },
+    "step7": {
+      "title": "Desafios temáticos",
+      "body": "Aqui no Início você acompanha as metas em andamento. Toque em ver todos para a lista completa e o card de conquista."
+    },
+    "step8": {
+      "title": "Bora montar o álbum?",
+      "body": "É só ir marcando as figurinhas. Cada uma conta — rumo ao álbum completo da Copa!"
     }
   },
 

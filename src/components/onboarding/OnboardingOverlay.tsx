@@ -1,8 +1,13 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useI18n } from '../../i18n'
+import { useAlbumProgress } from '../../state/stickersStore'
 import OnboardingStep from './OnboardingStep'
-import { panelStyle, spotlightStyle } from './overlayPosition'
+import OnboardingScrim from './OnboardingScrim'
+import { ONBOARDING_STEPS } from './steps'
+import { panelStyle } from './overlayPosition'
 import { useOnboardingTargetRect } from './useOnboardingTargetRect'
+import { ONBOARDING_FADE_MS, useOnboardingStepFade } from './useOnboardingStepFade'
 
 type CompletionReason = 'completed' | 'skipped'
 
@@ -10,67 +15,99 @@ type OnboardingOverlayProps = {
   onComplete: (reason?: CompletionReason) => void
 }
 
-export default function OnboardingOverlay({ onComplete }: OnboardingOverlayProps) {
+function OnboardingOverlay({ onComplete }: OnboardingOverlayProps) {
   const { t } = useI18n()
-  const [stepIndex, setStepIndex] = useState(0)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { collected } = useAlbumProgress()
+  const { stepIndex, visible, goToStep, tryReveal } = useOnboardingStepFade()
 
-  const steps = useMemo(() => [
-    {
-      title: t('onboarding.step1.title'),
-      body: t('onboarding.step1.body'),
-      target: '[data-onboarding-target="album-first-sticker"], [data-onboarding-target="album-grid"]',
-    },
-    {
-      title: t('onboarding.step2.title'),
-      body: t('onboarding.step2.body'),
-      target: '[data-onboarding-target="missing-tab"]',
-    },
-    {
-      title: t('onboarding.step3.title'),
-      body: t('onboarding.step3.body'),
-      target: null,
-    },
-  ], [t])
+  const steps = useMemo(
+    () =>
+      ONBOARDING_STEPS.map((step) => ({
+        ...step,
+        title: t(step.titleKey),
+        body: t(step.bodyKey),
+      })),
+    [t],
+  )
 
-  const activeStep = steps[stepIndex]
-  const targetRect = useOnboardingTargetRect(activeStep.target)
+  const safeStepIndex = Math.min(Math.max(0, stepIndex), Math.max(0, steps.length - 1))
+  const activeStep = steps[safeStepIndex]
   const total = steps.length
-  const isLast = stepIndex === total - 1
-  const activeSpotlightStyle = spotlightStyle(targetRect)
+  const isLast = safeStepIndex === total - 1
+
+  const needsTarget = Boolean(activeStep?.target)
+  const routeReady = Boolean(activeStep) && location.pathname === activeStep.path
+  const targetSelector = routeReady ? activeStep.target : null
+  const targetRect = useOnboardingTargetRect(targetSelector)
+  const isPositioned = !needsTarget || targetRect !== null
+  const showChrome = visible && isPositioned
+
+  const nextBlocked =
+    Boolean(activeStep?.requireSticker) && collected < 1
+
+  useEffect(() => {
+    if (!activeStep) return
+    if (location.pathname !== activeStep.path) {
+      navigate(activeStep.path)
+    }
+  }, [activeStep, location.pathname, navigate])
+
+  useEffect(() => {
+    tryReveal(targetRect, needsTarget)
+  }, [needsTarget, safeStepIndex, targetRect, tryReveal])
+
+  if (!activeStep || total === 0) return null
 
   return (
-    <div className='fixed inset-0 z-50' role='dialog' aria-modal='true' aria-label={t('onboarding.label')}>
-      <div className='absolute inset-0 bg-slate-950/78 backdrop-blur-[2px]' />
+    <div
+      className='fixed inset-0 z-50 pointer-events-none'
+      role='dialog'
+      aria-modal='true'
+      aria-label={t('onboarding.label')}
+    >
+      <div
+        className='absolute inset-0 transition-opacity ease-in-out'
+        style={{ opacity: showChrome ? 1 : 0, transitionDuration: `${ONBOARDING_FADE_MS}ms` }}
+      >
+        <OnboardingScrim targetRect={targetRect} />
+      </div>
 
-      {activeSpotlightStyle && (
-        <div
-          className='pointer-events-none absolute rounded-xl border-2 border-amber-300 shadow-[0_0_0_9999px_rgba(2,6,23,0.58),0_0_36px_rgba(251,191,36,0.55)]'
-          style={activeSpotlightStyle}
-        />
-      )}
-
-      <div className='absolute' style={panelStyle(targetRect)}>
+      <div
+        className={`absolute transition-opacity ease-in-out ${showChrome ? 'pointer-events-auto' : 'pointer-events-none'}`}
+        style={{
+          ...(targetRect ? panelStyle(targetRect) : { visibility: 'hidden' }),
+          opacity: showChrome ? 1 : 0,
+          transitionDuration: `${ONBOARDING_FADE_MS}ms`,
+        }}
+      >
         <OnboardingStep
           eyebrow={t('onboarding.eyebrow')}
           title={activeStep.title}
           body={activeStep.body}
-          current={stepIndex + 1}
+          current={safeStepIndex + 1}
           total={total}
-          canGoBack={stepIndex > 0}
+          canGoBack={safeStepIndex > 0}
+          nextDisabled={nextBlocked || !showChrome}
+          nextHint={nextBlocked ? t('onboarding.markFirstHint') : undefined}
           skipLabel={t('onboarding.skip')}
           backLabel={t('onboarding.back')}
-          nextLabel={isLast ? t('onboarding.start') : t('onboarding.next')}
+          nextLabel={isLast ? t('onboarding.finish') : t('onboarding.next')}
           onSkip={() => onComplete('skipped')}
-          onBack={() => setStepIndex((idx) => Math.max(0, idx - 1))}
+          onBack={() => goToStep(safeStepIndex - 1)}
           onNext={() => {
+            if (nextBlocked || !showChrome) return
             if (isLast) {
               onComplete('completed')
               return
             }
-            setStepIndex((idx) => Math.min(total - 1, idx + 1))
+            goToStep(safeStepIndex + 1)
           }}
         />
       </div>
     </div>
   )
 }
+
+export default OnboardingOverlay

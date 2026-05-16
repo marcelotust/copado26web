@@ -164,6 +164,7 @@
     "shortcuts": "Quick links",
     "seeAll": "See all",
     "challengesPreview": "Challenges in progress",
+    "noChallengesYet": "Mark stickers to unlock challenges.",
     "recentBadges": "Recent milestones",
     "noMilestones": "No milestones yet",
     "leastComplete": "Least complete",
@@ -423,17 +424,39 @@
     "back": "Back",
     "next": "Next",
     "start": "Start",
+    "finish": "Let's go!",
+    "markFirstHint": "Tap a sticker in the album to continue.",
     "step1": {
       "title": "Tap any sticker",
       "body": "Mark the ones you already have. Tap the add button again to log duplicates."
     },
     "step2": {
-      "title": "See what is missing",
-      "body": "The Missing tab organizes your list and gets it ready to share with your group."
+      "title": "Share on WhatsApp",
+      "body": "On the Missing tab, send a formatted list to your group in one tap — flags included."
     },
     "step3": {
-      "title": "Everything stays synced",
-      "body": "Your album is saved to your account and follows you across devices."
+      "title": "Paste a trade list",
+      "body": "Got someone's duplicates? Paste here and the app matches what you still need."
+    },
+    "step4": {
+      "title": "Your duplicates",
+      "body": "Everything extra lives on the Swaps tab — ready to share or trade."
+    },
+    "step5": {
+      "title": "In-person trade via QR",
+      "body": "Meeting friends? Generate a QR with your swaps and compare on the spot."
+    },
+    "step6": {
+      "title": "Track your progress",
+      "body": "Home shows how close you are to a full album and shortcuts to every tab."
+    },
+    "step7": {
+      "title": "Themed challenges",
+      "body": "On Home you can track goals in progress. Tap see all for the full list and a shareable completion card."
+    },
+    "step8": {
+      "title": "Ready to fill your album?",
+      "body": "Just keep tapping stickers. Every one counts — let's complete the World Cup set!"
     }
   },
 
