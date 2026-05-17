@@ -1,0 +1,16 @@
+# Meu Álbum 2026 — Supabase local/config-as-code.
+# Migrations: supabase/migrations/
+# Auth email HTML: supabase/templates/
+#
+# Local: supabase stop && supabase start (after supabase init/link as needed).
+# Hosted: paste HTML into Dashboard → Authentication → Email Templates, or sync
+# via Supabase GitHub integration / Management API when branching is enabled.
+# https://supabase.com/docs/guides/local-development/customizing-email-templates
+
+[auth.email.template.magic_link]
+subject = "Entrar no Meu Álbum 2026"
+content_path = "./templates/magic-link.html"
+
+[auth.email.template.confirmation]
+subject = "Confirme sua conta — Meu Álbum 2026"
+content_path = "./templates/confirm-signup.html"
