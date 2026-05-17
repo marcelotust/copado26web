@@ -228,12 +228,15 @@ VITE_SUPABASE_ANON_KEY=placeholder-anon-key
 ## Database setup
 
 Schema lives in [`supabase/migrations/`](supabase/migrations/).
+Auth email HTML lives in [`supabase/templates/`](supabase/templates/) and is wired in [`supabase/config.toml`](supabase/config.toml) (`magic_link`, `confirmation`).
 
 ```bash
 npm install -g supabase
 supabase link --project-ref <your-project-ref>
 supabase db push
 ```
+
+After editing email templates, run `npm run supabase:sync-email-templates` (needs `SUPABASE_ACCESS_TOKEN` + `SUPABASE_PROJECT_REF` from [Account → Access Tokens](https://supabase.com/dashboard/account/tokens)), or paste HTML into **Dashboard → Authentication → Email Templates**. CI: workflow `sync-supabase-email-templates` on `main` when `supabase/templates/` or `config.toml` change.
 
 Creates:
 

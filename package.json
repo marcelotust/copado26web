@@ -27,6 +27,9 @@
     "posthog:llm-ingest": "node scripts/posthog-llm-ingest.mjs",
     "posthog:llm-status": "node scripts/posthog-llm-ingest.mjs --status",
     "posthog:llm-check-env": "node scripts/posthog-llm-ingest.mjs --check-env",
+    "supabase:sync-email-templates": "node scripts/sync-auth-email-templates.mjs",
+    "supabase:sync-email-templates:check-env": "node scripts/sync-auth-email-templates.mjs --check-env",
+    "supabase:sync-email-templates:test": "node --test scripts/sync-auth-email-templates.test.mjs",
     "prepare": "husky"
   },
   "dependencies": {
