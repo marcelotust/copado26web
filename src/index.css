@@ -8,12 +8,12 @@
   .foil {
     background: conic-gradient(
       from 200deg at 50% 50%,
-      #5B8DEF,
-      #EC5B87,
-      #3EC48A,
-      #3EC48A,
-      #5B8DEF,
-      #5B8DEF
+      oklch(0.78 0.13 210),
+      oklch(0.66 0.2 340),
+      oklch(0.82 0.15 92),
+      oklch(0.66 0.18 158),
+      oklch(0.66 0.18 250),
+      oklch(0.78 0.13 210)
     );
     -webkit-background-clip: text;
     background-clip: text;
@@ -23,12 +23,20 @@
   .foil-fill {
     background: conic-gradient(
       from 200deg at 50% 50%,
-      #5B8DEF,
-      #EC5B87,
-      #3EC48A,
-      #3EC48A,
-      #5B8DEF,
-      #5B8DEF
+      oklch(0.78 0.13 210),
+      oklch(0.66 0.2 340),
+      oklch(0.82 0.15 92),
+      oklch(0.66 0.18 158),
+      oklch(0.66 0.18 250),
+      oklch(0.78 0.13 210)
+    );
+  }
+
+  .scan {
+    background-image: repeating-linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.04) 0 2px,
+      transparent 2px 6px
     );
   }
 }
