@@ -13,7 +13,6 @@ import {
 } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { pathToFileURL } from 'node:url';
 import { chromium } from '@playwright/test';
 import QRCode from 'qrcode';
 import { writeBrandSvgs } from './brand-export/write-brand-svgs.mjs';
@@ -37,11 +36,19 @@ const IOS_SPLASHES = [
   { file: 'ios-2048x2732.png', w: 2048, h: 2732 },
 ];
 
+/**
+ * Inline brand-tokens.css directly into the template <head> instead of
+ * linking it via file://. Chromium blocks file:// resource loads from the
+ * about:blank context created by page.setContent, which silently strips all
+ * brand styling — that bug was producing pure-white app icons because
+ * `var(--ink)` resolved to nothing.
+ */
 function loadTemplate(name) {
-  const cssPath = pathToFileURL(join(EXPORT_DIR, 'brand-tokens.css')).href;
-  const baseHead = readFileSync(join(TPL_DIR, 'base-head.html'), 'utf8').replace(
-    '../brand-tokens.css',
-    cssPath,
+  const tokensCss = readFileSync(join(EXPORT_DIR, 'brand-tokens.css'), 'utf8');
+  const baseHeadRaw = readFileSync(join(TPL_DIR, 'base-head.html'), 'utf8');
+  const baseHead = baseHeadRaw.replace(
+    /<link rel="stylesheet" href="\.\.\/brand-tokens\.css"\s*\/?>/,
+    `<style>${tokensCss}</style>`,
   );
   const html = readFileSync(join(TPL_DIR, name), 'utf8');
   return html.replace('<!-- BASE_HEAD -->', baseHead);
@@ -218,14 +225,20 @@ async function main() {
     created.push(out);
   }
 
-  console.log('Rendering email/selo-56.png…');
-  await page.setContent(loadTemplate('email-selo.html'), {
-    waitUntil: 'networkidle',
-  });
-  await page.locator('#selo').screenshot({
-    path: join(PUBLIC, 'email/selo-56.png'),
-  });
-  created.push('email/selo-56.png');
+  console.log('Rendering email/selo-56.png + selo-112.png (retina @2x)…');
+  for (const { px, out } of [
+    { px: 56, out: 'email/selo-56.png' },
+    { px: 112, out: 'email/selo-112.png' },
+  ]) {
+    await page.setContent(loadTemplate('email-selo.html'), {
+      waitUntil: 'networkidle',
+    });
+    await page.evaluate((px) => {
+      document.documentElement.style.setProperty('--s', px + 'px');
+    }, px);
+    await page.locator('#selo').screenshot({ path: join(PUBLIC, out) });
+    created.push(out);
+  }
 
   await browser.close();
 
