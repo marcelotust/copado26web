@@ -63,6 +63,12 @@ export function textToPath(text, { fontSize = 100, letterSpacingEm = 0 } = {}) {
     d: shifted.toPathData(2),
     width: bbox.x2 - bbox.x1,
     height: bbox.y2 - bbox.y1,
+    // Distance from the normalized top of the bbox down to the typographic
+    // baseline. For glyphs without descenders (every char we render),
+    // baseline === height — but the accent on "Á" makes "ÁLBUM" taller than
+    // "MEU" without moving the baseline, and callers need this to align
+    // mixed-accent text on a shared baseline.
+    baseline: -bbox.y1,
   };
 }
 

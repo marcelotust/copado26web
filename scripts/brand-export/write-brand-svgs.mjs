@@ -26,56 +26,91 @@ function defs() {
 }
 
 /**
- * Render a sequence of colored words on a single baseline, returning the
- * SVG fragment (already translated to (x,y)) plus the total width consumed.
- * Each word gets its own <path> filled with its color. Words are separated
- * by a horizontal gap measured in em.
+ * Render a sequence of colored words on a single shared baseline. Words with
+ * accents (e.g. "ÁLBUM") have a taller bounding box than plain caps, so the
+ * naive top-aligned layout sinks accented words below the others. Here every
+ * word is shifted down by `(maxBaseline - word.baseline)` so all baselines
+ * line up — accents extend up into the slack instead of pushing the word
+ * down.
  */
 function wordmarkInline({ words, size, x, y, gapEm = 0.32, letterSpacingEm = 0.06 }) {
+  const computed = words.map(({ text, fill }) => ({
+    fill,
+    path: textToPath(text, { fontSize: size, letterSpacingEm }),
+  }));
+  const maxBaseline = Math.max(...computed.map((c) => c.path.baseline));
+  const maxHeight = Math.max(...computed.map((c) => c.path.height));
+
   let cursor = 0;
   const parts = [];
-  let maxH = 0;
-  for (const { text, fill } of words) {
-    const p = textToPath(text, { fontSize: size, letterSpacingEm });
+  for (const { fill, path } of computed) {
+    const wy = maxBaseline - path.baseline;
     parts.push(
-      `<path d="${p.d}" fill="${fill}" transform="translate(${cursor.toFixed(2)} 0)"/>`,
+      `<path d="${path.d}" fill="${fill}" transform="translate(${cursor.toFixed(2)} ${wy.toFixed(2)})"/>`,
     );
-    cursor += p.width + gapEm * size;
-    maxH = Math.max(maxH, p.height);
+    cursor += path.width + gapEm * size;
   }
   const totalW = cursor - gapEm * size;
   return {
     svg: `<g transform="translate(${x} ${y})">${parts.join('')}</g>`,
     width: totalW,
-    height: maxH,
+    height: maxHeight,
+    baseline: maxBaseline,
   };
 }
 
 /**
- * Stacked wordmark: each word on its own line. Returns the inner <g> and
- * overall bounds so the caller can position vertically.
+ * Stacked wordmark: each word on its own line. Lines advance by a uniform
+ * `lineHeight = maxAscent + lineGap` (maxAscent = tallest baseline across
+ * words), and each word is positioned so its baseline sits on its line's
+ * baseline — not so its bounding-box top sits on the previous line's bottom.
+ * That keeps the cap-bottoms on a regular grid even when one line carries
+ * an accent.
+ *
+ * The result is normalized so y=0 == top of visible content (cap-top of the
+ * first line when it has no accent, or accent-top if it does). `height` is
+ * therefore tight to the visible content and `(canvasH - height) / 2`
+ * actually centers the wordmark — the previous version reported a height
+ * that included ascender slack above the first line, which made centered
+ * stacks land too high.
  */
 function wordmarkStacked({ words, size, x, y, lineGap = 4, letterSpacingEm = 0.06 }) {
-  let cursor = 0;
+  const computed = words.map(({ text, fill }) => ({
+    fill,
+    path: textToPath(text, { fontSize: size, letterSpacingEm }),
+  }));
+  const maxAscent = Math.max(...computed.map((c) => c.path.baseline));
+  const lineHeight = maxAscent + lineGap;
+  // First line's raw top would be (maxAscent - first.baseline). Shift the
+  // whole stack up by that so the visible content starts at y=0.
+  const firstLineBaseline = computed[0].path.baseline;
+
   const parts = [];
   let maxW = 0;
-  for (const { text, fill } of words) {
-    const p = textToPath(text, { fontSize: size, letterSpacingEm });
+  let lineBaseline = firstLineBaseline;
+  for (const { fill, path } of computed) {
+    const wy = lineBaseline - path.baseline;
     parts.push(
-      `<path d="${p.d}" fill="${fill}" transform="translate(0 ${cursor.toFixed(2)})"/>`,
+      `<path d="${path.d}" fill="${fill}" transform="translate(0 ${wy.toFixed(2)})"/>`,
     );
-    cursor += p.height + lineGap;
-    maxW = Math.max(maxW, p.width);
+    maxW = Math.max(maxW, path.width);
+    lineBaseline += lineHeight;
   }
+  // After the loop, lineBaseline sits one past the last baseline. None of
+  // our glyphs have descenders, so the visible content bottom = last baseline.
+  const lastBaseline = lineBaseline - lineHeight;
+
   return {
     svg: `<g transform="translate(${x} ${y})">${parts.join('')}</g>`,
     width: maxW,
-    height: cursor - lineGap,
+    height: lastBaseline,
+    // First line's baseline (in normalized coords) — primary lockup uses
+    // this to align the wordmark with the selo "26" baseline.
+    baseline: firstLineBaseline,
   };
 }
 
 function logoPrimary() {
-  const w = 540;
   const h = 240;
   const seloSize = 220;
   const seloX = 16;
@@ -98,7 +133,12 @@ function logoPrimary() {
     lineGap: 4,
     letterSpacingEm: 0.04,
   });
+  // Center the whole 3-line stack vertically against the selo so the visual
+  // weight lines up. wm.height already accounts for accent ascent on "ÁLBUM".
   const wmY = (h - wm.height) / 2;
+  // Size the canvas to its actual content (mirror logoInline). Hardcoding
+  // width left a ~70px dead zone on the right of every paper-bg render.
+  const w = Math.ceil(wmX + wm.width + 16);
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Meu Álbum 2026">
@@ -179,7 +219,13 @@ function logoInline() {
     gapEm: 0.28,
     letterSpacingEm: 0.06,
   });
-  const wmY = (h - wm.height) / 2;
+  // Align the wordmark baseline with the selo "26" baseline. The wordmark's
+  // own internal baseline-alignment already keeps "Meu"/"Álbum"/"2026"
+  // sharing a line — here we just place that shared baseline at the same Y
+  // as the digits inside the selo.
+  const selo26BaselineY =
+    seloY + (seloSize - glyph.height) / 2 + glyph.baseline;
+  const wmY = selo26BaselineY - wm.baseline;
   const w = Math.ceil(wmX + wm.width + 16);
 
   return `<?xml version="1.0" encoding="UTF-8"?>
