@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>OG image export</title>
+<!-- BASE_HEAD -->
+<style>
+  #stage {
+    width: 1200px;
+    height: 630px;
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+  }
+  .glow-blue {
+    position: absolute;
+    right: -160px;
+    top: -160px;
+    width: 760px;
+    height: 760px;
+    background: radial-gradient(circle, rgba(91, 141, 239, 0.35) 0%, transparent 60%);
+    opacity: 0.18;
+  }
+  .glow-rose {
+    position: absolute;
+    right: 160px;
+    bottom: -180px;
+    width: 560px;
+    height: 560px;
+    background: radial-gradient(circle, rgba(236, 91, 135, 0.35) 0%, transparent 60%);
+    opacity: 0.16;
+  }
+  .header {
+    position: absolute;
+    left: 64px;
+    top: 50px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .selo {
+    position: relative;
+    width: 64px;
+    height: 64px;
+  }
+  .selo .ring { position: absolute; inset: 0; border-radius: 9999px; }
+  .selo .inner {
+    position: absolute;
+    inset: 3px;
+    border-radius: 9999px;
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 38px;
+    line-height: 1;
+  }
+  .headline {
+    position: absolute;
+    left: 64px;
+    top: 170px;
+    width: 640px;
+    font-size: 120px;
+    line-height: 0.94;
+    color: #f8fafc;
+  }
+  .subline {
+    position: absolute;
+    left: 64px;
+    bottom: 48px;
+    font-size: 22px;
+    color: #94a3b8;
+    letter-spacing: 0.04em;
+  }
+  .stickers {
+    position: absolute;
+    right: 230px;
+    top: 200px;
+  }
+  .mini-sticker {
+    position: absolute;
+    width: 200px;
+    height: 300px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #0f172a;
+    box-shadow: 0 20px 40px rgba(0,0,0,.5);
+    border: 1px solid rgba(255,255,255,.08);
+  }
+  .mini-sticker .bar { height: 6px; }
+  .mini-sticker .num {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .mini-sticker .badge {
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    border-radius: 6px;
+    padding: 8px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .qr-wrap {
+    position: absolute;
+    right: 48px;
+    bottom: 48px;
+    width: 150px;
+  }
+  .qr-bg {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+  }
+  #qr canvas { display: block; }
+  .qr-label {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 14px;
+    color: #94a3b8;
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="glow-blue"></div>
+  <div class="glow-rose"></div>
+  <div class="header">
+    <div class="selo">
+      <div class="ring foil-fill scan"></div>
+      <div class="inner foil display">26</div>
+    </div>
+    <div class="display" style="font-size:46px; line-height:1; letter-spacing:.06em;">
+      <span style="color:var(--blue)">Meu</span>
+      <span style="color:var(--rose)"> Álbum </span>
+      <span style="color:var(--mint)">2026</span>
+    </div>
+  </div>
+  <div class="headline display">Cole o<br/>álbum<br/><span class="foil">inteiro.</span></div>
+  <div class="subline mono">994 figurinhas · 48 seleções · grátis · no celular</div>
+  <div class="stickers">
+    <div class="mini-sticker" style="left:120px; top:0; transform:rotate(8deg);">
+      <div class="bar" style="background:linear-gradient(to right,#009C3B,#FFDF00)"></div>
+      <div class="num">
+        <div class="display" style="font-size:72px;color:#009C3B;line-height:1">07</div>
+        <div class="mono" style="font-size:14px;letter-spacing:.2em;color:#475569">BRA</div>
+      </div>
+      <div class="badge mono" style="background:rgba(0,156,59,.18);color:#22c55e">✓ colada</div>
+    </div>
+    <div class="mini-sticker" style="left:-40px; top:-30px; transform:rotate(-10deg);">
+      <div class="bar" style="background:linear-gradient(to right,#74ACDF,#fff)"></div>
+      <div class="num"><div class="display" style="font-size:72px;color:#74ACDF;line-height:1">10</div>
+      <div class="mono" style="font-size:14px;letter-spacing:.2em;color:#475569">ARG</div></div>
+      <div class="badge mono" style="background:rgba(116,172,223,.18);color:#7dd3fc">✓ colada</div>
+    </div>
+    <div class="mini-sticker" style="left:280px; top:60px; transform:rotate(5deg);">
+      <div class="bar" style="background:linear-gradient(to right,#C60B1E,#FFC400)"></div>
+      <div class="num"><div class="display" style="font-size:72px;color:#475569;line-height:1">19</div>
+      <div class="mono" style="font-size:14px;letter-spacing:.2em;color:#475569">ESP</div></div>
+      <div class="badge mono" style="background:#1e293b;color:#64748b">faltando</div>
+    </div>
+  </div>
+  <div class="qr-wrap">
+    <div class="qr-bg"><div id="qr"></div></div>
+    <div class="qr-label mono">meualbum2026.app</div>
+  </div>
+</div>
+<script>
+  /* QR injected by export-brand-pack.mjs */
+  const qrSrc = window.__BRAND_QR_DATA_URL__;
+  if (qrSrc) {
+    const img = document.createElement('img');
+    img.src = qrSrc;
+    img.width = 110;
+    img.height = 110;
+    img.alt = '';
+    document.getElementById('qr').appendChild(img);
+  }
+</script>
+</body>
+</html>

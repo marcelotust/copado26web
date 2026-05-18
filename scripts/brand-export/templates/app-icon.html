@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>App icon export</title>
+<!-- BASE_HEAD -->
+<style>
+  #icon {
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+  }
+  #icon .foil-layer {
+    position: absolute;
+    inset: 0;
+    opacity: 0.5;
+  }
+  #icon .glyph {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--glyph-size);
+    line-height: 1;
+  }
+  #icon.favicon-solid {
+    background: linear-gradient(160deg, var(--blue), var(--mint));
+  }
+  #icon.favicon-solid .foil-layer,
+  #icon.favicon-solid .glyph.foil { display: none; }
+  #icon.favicon-solid .glyph.solid {
+    display: flex;
+    color: #f8fafc;
+  }
+  #icon .glyph.solid { display: none; }
+</style>
+</head>
+<body>
+<div id="icon" class="stage">
+  <div class="foil-layer foil-fill scan"></div>
+  <div class="glyph foil display">26</div>
+  <div class="glyph solid display">26</div>
+</div>
+<script>
+  const params = new URLSearchParams(location.search);
+  const size = parseInt(params.get('size') || '512', 10);
+  const radius = parseFloat(params.get('radius') || '0.171875') * size;
+  const glyphRatio = parseFloat(params.get('glyph') || '0.289');
+  const solid = params.get('solid') === '1';
+  const icon = document.getElementById('icon');
+  icon.style.width = size + 'px';
+  icon.style.height = size + 'px';
+  icon.style.borderRadius = radius + 'px';
+  icon.style.setProperty('--glyph-size', Math.round(size * glyphRatio) + 'px');
+  if (solid) icon.classList.add('favicon-solid');
+</script>
+</body>
+</html>

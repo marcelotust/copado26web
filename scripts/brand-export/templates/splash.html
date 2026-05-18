@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>Splash export</title>
+<!-- BASE_HEAD -->
+<style>
+  #stage {
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+  }
+  .glow {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 9999px;
+    pointer-events: none;
+  }
+  .selo-wrap {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .selo {
+    position: relative;
+  }
+  .selo .ring { position: absolute; inset: 0; border-radius: 9999px; }
+  .selo .inner {
+    position: absolute;
+    border-radius: 9999px;
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .wordmark {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    letter-spacing: 0.06em;
+  }
+  .loading {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #64748b;
+    letter-spacing: 0.4em;
+  }
+  .progress-wrap {
+    position: absolute;
+    left: 25%;
+    right: 25%;
+    border-radius: 9999px;
+    overflow: hidden;
+    background: #1e293b;
+  }
+  .progress-bar {
+    height: 100%;
+    width: 64%;
+    background: linear-gradient(to right, var(--blue), var(--mint));
+  }
+  .dots {
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+  }
+  .dots span {
+    width: 18px;
+    height: 18px;
+    border-radius: 9999px;
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="glow" class="glow"></div>
+  <div id="selo-wrap" class="selo-wrap">
+    <div id="selo" class="selo">
+      <div class="ring foil-fill scan"></div>
+      <div id="selo-inner" class="inner foil display">26</div>
+    </div>
+  </div>
+  <div id="wordmark" class="wordmark display"></div>
+  <div id="loading" class="loading mono">CARREGANDO…</div>
+  <div id="progress" class="progress-wrap"><div class="progress-bar"></div></div>
+  <div id="dots" class="dots">
+    <span style="background:var(--blue)"></span>
+    <span style="background:var(--rose)"></span>
+    <span style="background:var(--mint)"></span>
+  </div>
+</div>
+<script>
+function initSplash(w, h, variant) {
+  const stage = document.getElementById('stage');
+  stage.style.width = w + 'px';
+  stage.style.height = h + 'px';
+
+  const seloSize = variant === 'ipad' ? Math.round(w * 0.37) : variant === 'android' ? Math.round(w * 0.444) : Math.round(w * 0.462);
+  const inset = Math.round(seloSize * (variant === 'ipad' ? 0.034 : variant === 'android' ? 0.033 : 0.033));
+  const glyphSize = Math.round(seloSize * (variant === 'ipad' ? 0.605 : variant === 'android' ? 0.583 : 0.593));
+  const seloTop = variant === 'ipad' ? 0.42 : 0.42;
+  const wordTop = variant === 'ipad' ? 0.64 : variant === 'android' ? 0.60 : 0.60;
+  const wordSize = variant === 'ipad' ? Math.round(w * 0.063) : variant === 'android' ? Math.round(w * 0.07) : Math.round(w * 0.075);
+
+  const glow = document.getElementById('glow');
+  glow.style.width = Math.round(w * 1.37) + 'px';
+  glow.style.height = glow.style.width;
+  glow.style.background = variant === 'android'
+    ? 'radial-gradient(circle, rgba(62,196,138,.15) 0%, transparent 60%)'
+    : 'radial-gradient(circle, rgba(91,141,239,.15) 0%, transparent 60%)';
+
+  const seloWrap = document.getElementById('selo-wrap');
+  seloWrap.style.top = (h * seloTop) + 'px';
+  const selo = document.getElementById('selo');
+  selo.style.width = seloSize + 'px';
+  selo.style.height = seloSize + 'px';
+  const inner = document.getElementById('selo-inner');
+  inner.style.inset = inset + 'px';
+  inner.style.fontSize = glyphSize + 'px';
+
+  const wm = document.getElementById('wordmark');
+  wm.style.top = (h * wordTop) + 'px';
+  wm.style.fontSize = wordSize + 'px';
+  wm.style.gap = Math.round(wordSize * 0.05) + 'px';
+  wm.innerHTML = '<span style="color:var(--blue)">Meu</span><span style="color:var(--rose);margin-left:0.25em">Álbum</span><span style="color:var(--mint);margin-left:0.25em">2026</span>';
+
+  const loading = document.getElementById('loading');
+  const progress = document.getElementById('progress');
+  const dots = document.getElementById('dots');
+  if (variant === 'android') {
+    loading.style.display = 'none';
+    progress.style.display = 'none';
+    dots.style.bottom = (h * 0.14) + 'px';
+  } else if (variant === 'ipad') {
+    loading.style.display = 'none';
+    progress.style.display = 'none';
+    dots.style.display = 'none';
+  } else {
+    dots.style.display = 'none';
+    loading.style.top = (h * wordTop + wordSize * 1.8) + 'px';
+    loading.style.fontSize = Math.round(w * 0.026) + 'px';
+    progress.style.bottom = (h * 0.18) + 'px';
+    progress.style.height = Math.max(6, Math.round(w * 0.007)) + 'px';
+  }
+}
+const _p = new URLSearchParams(location.search);
+initSplash(
+  parseInt(_p.get('w') || '1170', 10),
+  parseInt(_p.get('h') || '2532', 10),
+  _p.get('variant') || 'ios',
+);
+</script>
+</body>
+</html>

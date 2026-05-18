@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 72" role="img" aria-label="Meu Álbum 2026">
+  <defs>
+    <radialGradient id="foil" cx="50%" cy="50%" r="70%" gradientUnits="objectBoundingBox">
+    <stop offset="0%" stop-color="#7eb8d4"/>
+    <stop offset="20%" stop-color="#d4568a"/>
+    <stop offset="40%" stop-color="#e8d060"/>
+    <stop offset="60%" stop-color="#3ec48a"/>
+    <stop offset="80%" stop-color="#5b8def"/>
+    <stop offset="100%" stop-color="#7eb8d4"/>
+    </radialGradient>
+    <linearGradient id="grad-blue-mint" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5b8def"/>
+      <stop offset="100%" stop-color="#3ec48a"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="72" fill="#0f172a"/>
+  <g transform="translate(8 8)">
+    <circle cx="28" cy="28" r="28" fill="url(#foil)"/>
+    <circle cx="28" cy="28" r="25" fill="#0f172a"/>
+    <g transform="translate(3 4.612903225806452) scale(0.8064516129032258)">
+    <path d="M4 0h18.5v5.2H9.8L22.8 28.4v5.2H4v-5.2h12.7L4 5.2V0zM30.2 16.4c0-8.8 6.4-14.2 13.8-14.2s13.8 5.4 13.8 14.2v1.4c0 5-2.8 9.2-7.2 11.4 4.6 2 7.2 6.2 7.2 11.6v1.4c0 8.8-6.4 14.2-13.8 14.2S30.2 49.6 30.2 40.8v-1.4c0-2.6 1.2-4.8 3.2-6.2-2.4-1.6-3.2-4-3.2-6.8V16.4zm7.4 0v10.2c0 3.6 2.8 6.4 6.4 6.4s6.4-2.8 6.4-6.4V16.4c0-3.6-2.8-6.4-6.4-6.4s-6.4 2.8-6.4 6.4zm0 23.4v1.4c0 3.6 2.8 6.4 6.4 6.4s6.4-2.8 6.4-6.4v-1.4c0-3.4-2.4-5.8-5.6-6.6-3.8 1-6.8 3.4-6.8 6.6z" fill="url(#foil)"/>
+  </g>
+  </g>
+  <g transform="translate(76 10)" font-family="'Bebas Neue', sans-serif" font-size="28" letter-spacing="0.08em">
+    <text y="28" fill="#5b8def">Meu</text>
+    <text x="52" y="28" fill="#ec5b87">Álbum</text>
+    <text x="148" y="28" fill="#3ec48a">2026</text>
+  </g>
+</svg>
