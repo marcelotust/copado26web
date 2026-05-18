@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import AppLogo from '../components/AppLogo'
+import BrandMark from '../components/brand/BrandMark'
 import LandingHeroSection from '../components/landing/LandingHeroSection'
 import { useI18n } from '../i18n'
 import { LANDING_FEATURES, LANDING_PRIVACY } from '../data/landingContent'
@@ -61,7 +61,7 @@ export default function LandingPage() {
       {/* Nav */}
       <header className='flex items-center justify-between px-6 py-4 w-full max-w-5xl mx-auto'>
         <Link to='/' aria-label={t('landing.homeAriaLabel')}>
-          <AppLogo size='md' />
+          <BrandMark className='h-10 w-auto' />
         </Link>
         <Link
           to='/login'

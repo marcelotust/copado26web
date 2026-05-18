@@ -4,7 +4,7 @@ import { GuestStickersProvider } from '../state/GuestStickersProvider'
 import { PaywallContext, type PaywallReason } from '../contexts/PaywallContext'
 import GuestAlbumContent from '../components/GuestAlbumContent'
 import GuestPaywallModal from '../components/GuestPaywallModal'
-import AppLogo from '../components/AppLogo'
+import BrandMark from '../components/brand/BrandMark'
 import { useI18n } from '../i18n'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 
@@ -39,7 +39,7 @@ export default function GuestAlbumPage() {
           <header className='shrink-0 flex items-center justify-between px-4 py-3 bg-slate-900 border-b border-slate-800'>
             <Link to='/' className='flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm'>
               <span aria-hidden='true'>←</span>
-              <AppLogo size='sm' />
+              <BrandMark className='h-8 w-auto' />
             </Link>
             <Link
               to='/login'
