@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@fontsource/bebas-neue": "^5.2.7",
     "@playwright/test": "^1.60.0",
     "@sentry/vite-plugin": "^4.9.1",
     "@testing-library/jest-dom": "^6.9.1",
@@ -64,6 +65,7 @@
     "husky": "^9.1.7",
     "jsdom": "^29.1.1",
     "lint-staged": "^17.0.4",
+    "opentype.js": "^2.0.0",
     "postcss": "^8.4.38",
     "qrcode": "^1.5.4",
     "tailwindcss": "^3.4.4",

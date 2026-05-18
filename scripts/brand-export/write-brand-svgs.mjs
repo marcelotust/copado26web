@@ -1,133 +1,219 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { FOIL_CONIC_STOPS, GLYPH_26_D, seloSvg } from './brand-glyphs.mjs';
+import {
+  blueMintLinearDef,
+  foilLinearDef,
+  seloSvg,
+  textToPath,
+  textToPathFit,
+} from './brand-glyphs.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '../..');
 const BRAND_DIR = join(ROOT, 'public/brand');
 
-function foilDefs(id = 'foil') {
-  const stops = FOIL_CONIC_STOPS.map(
-    (s) => `    <stop offset="${s.offset}" stop-color="${s.color}"/>`,
-  ).join('\n');
-  return `  <defs>
-    <radialGradient id="${id}" cx="50%" cy="50%" r="70%" gradientUnits="objectBoundingBox">
-${stops}
-    </radialGradient>
-    <linearGradient id="grad-blue-mint" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#5b8def"/>
-      <stop offset="100%" stop-color="#3ec48a"/>
-    </linearGradient>
+const INK = '#0f172a';
+const BLUE = '#5b8def';
+const ROSE = '#ec5b87';
+const MINT = '#3ec48a';
+
+function defs() {
+  return `<defs>
+    ${foilLinearDef('foil')}
+    ${blueMintLinearDef('grad-blue-mint')}
   </defs>`;
 }
 
-function glyph26Group(scale, x, y, fill = 'url(#foil)') {
-  return `<g transform="translate(${x} ${y}) scale(${scale})">
-    <path d="${GLYPH_26_D}" fill="${fill}"/>
-  </g>`;
+/**
+ * Render a sequence of colored words on a single baseline, returning the
+ * SVG fragment (already translated to (x,y)) plus the total width consumed.
+ * Each word gets its own <path> filled with its color. Words are separated
+ * by a horizontal gap measured in em.
+ */
+function wordmarkInline({ words, size, x, y, gapEm = 0.32, letterSpacingEm = 0.06 }) {
+  let cursor = 0;
+  const parts = [];
+  let maxH = 0;
+  for (const { text, fill } of words) {
+    const p = textToPath(text, { fontSize: size, letterSpacingEm });
+    parts.push(
+      `<path d="${p.d}" fill="${fill}" transform="translate(${cursor.toFixed(2)} 0)"/>`,
+    );
+    cursor += p.width + gapEm * size;
+    maxH = Math.max(maxH, p.height);
+  }
+  const totalW = cursor - gapEm * size;
+  return {
+    svg: `<g transform="translate(${x} ${y})">${parts.join('')}</g>`,
+    width: totalW,
+    height: maxH,
+  };
 }
 
-function wordmarkStacked({ x = 0, y = 0, size = 86, gap = 4 } = {}) {
-  const lh = size * 0.86;
-  return `<g transform="translate(${x} ${y})" font-family="'Bebas Neue', sans-serif" letter-spacing="0.04em">
-    <text x="0" y="${lh}" font-size="${size}" fill="#5b8def">MEU</text>
-    <text x="0" y="${lh * 2 + gap}" font-size="${size}" fill="#ec5b87">ÁLBUM</text>
-    <text x="0" y="${lh * 3 + gap * 2 + 12}" font-size="${size}" fill="url(#foil)">2026</text>
-  </g>`;
-}
-
-function wordmarkInline({ x = 0, y = 0, size = 28 } = {}) {
-  return `<g transform="translate(${x} ${y})" font-family="'Bebas Neue', sans-serif" font-size="${size}" letter-spacing="0.08em">
-    <text y="${size}" fill="#5b8def">Meu</text>
-    <text x="52" y="${size}" fill="#ec5b87">Álbum</text>
-    <text x="148" y="${size}" fill="#3ec48a">2026</text>
-  </g>`;
+/**
+ * Stacked wordmark: each word on its own line. Returns the inner <g> and
+ * overall bounds so the caller can position vertically.
+ */
+function wordmarkStacked({ words, size, x, y, lineGap = 4, letterSpacingEm = 0.06 }) {
+  let cursor = 0;
+  const parts = [];
+  let maxW = 0;
+  for (const { text, fill } of words) {
+    const p = textToPath(text, { fontSize: size, letterSpacingEm });
+    parts.push(
+      `<path d="${p.d}" fill="${fill}" transform="translate(0 ${cursor.toFixed(2)})"/>`,
+    );
+    cursor += p.height + lineGap;
+    maxW = Math.max(maxW, p.width);
+  }
+  return {
+    svg: `<g transform="translate(${x} ${y})">${parts.join('')}</g>`,
+    width: maxW,
+    height: cursor - lineGap,
+  };
 }
 
 function logoPrimary() {
-  const w = 520;
+  const w = 540;
   const h = 240;
   const seloSize = 220;
-  const scale = (seloSize - 20) / 62;
+  const seloX = 16;
+  const seloY = (h - seloSize) / 2;
+  const inset = (seloSize * 10) / 220;
+  const glyphH = (seloSize - inset * 2) * 0.62;
+  const glyph = textToPathFit('26', glyphH);
+
+  const wordmarkSize = 76;
+  const wmX = seloX + seloSize + 32;
+  const wm = wordmarkStacked({
+    words: [
+      { text: 'MEU', fill: BLUE },
+      { text: 'ÁLBUM', fill: ROSE },
+      { text: '2026', fill: 'url(#foil)' },
+    ],
+    size: wordmarkSize,
+    x: wmX,
+    y: 0,
+    lineGap: 4,
+    letterSpacingEm: 0.04,
+  });
+  const wmY = (h - wm.height) / 2;
+
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Meu Álbum 2026">
-${foilDefs()}
-  <rect width="${w}" height="${h}" fill="#0f172a"/>
-  <g transform="translate(24 10)">
+  ${defs()}
+  <rect width="${w}" height="${h}" fill="${INK}"/>
+  <g transform="translate(${seloX} ${seloY})">
     <circle cx="${seloSize / 2}" cy="${seloSize / 2}" r="${seloSize / 2}" fill="url(#foil)"/>
-    <circle cx="${seloSize / 2}" cy="${seloSize / 2}" r="${seloSize / 2 - 10}" fill="#0f172a"/>
-    ${glyph26Group(scale, (seloSize - 62 * scale) / 2, (seloSize - 58 * scale) / 2)}
-    <defs>
-      <path id="ring" d="M ${seloSize / 2},${seloSize / 2} m -98,0 a 98,98 0 1,1 196,0 a 98,98 0 1,1 -196,0"/>
-    </defs>
-    <text font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="8" fill="#cbd5e1">
-      <textPath href="#ring" startOffset="0">MEU·ÁLBUM·26·MEU·ÁLBUM·26·</textPath>
-    </text>
+    <circle cx="${seloSize / 2}" cy="${seloSize / 2}" r="${seloSize / 2 - inset}" fill="${INK}"/>
+    <g transform="translate(${((seloSize - glyph.width) / 2).toFixed(2)} ${((seloSize - glyph.height) / 2).toFixed(2)})">
+      <path d="${glyph.d}" fill="url(#foil)"/>
+    </g>
   </g>
-  <g transform="translate(270 18)">
-    <text font-family="'Bebas Neue', sans-serif" font-size="86" letter-spacing="0.04em" fill="#5b8def">MEU</text>
-    <text x="0" y="78" font-family="'Bebas Neue', sans-serif" font-size="86" letter-spacing="0.04em" fill="#ec5b87">ÁLBUM</text>
-    <line x1="0" y1="92" x2="220" y2="92" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2 6" opacity="0.35"/>
-    <text x="0" y="178" font-family="'Bebas Neue', sans-serif" font-size="86" letter-spacing="0.04em" fill="url(#foil)">2026</text>
-  </g>
+  <g transform="translate(0 ${wmY})">${wm.svg}</g>
 </svg>`;
 }
 
 function logoStacked() {
-  const w = 280;
-  const h = 220;
+  const w = 320;
+  const h = 260;
   const seloSize = 140;
-  const scale = (seloSize - 12) / 62;
+  const seloX = (w - seloSize) / 2;
+  const seloY = 18;
+  const inset = (seloSize * 6) / 140;
+  const glyphH = (seloSize - inset * 2) * 0.62;
+  const glyph = textToPathFit('26', glyphH);
+
+  const wordmarkSize = 36;
+  const wmY = seloY + seloSize + 32;
+  const wm = wordmarkInline({
+    words: [
+      { text: 'MEU', fill: BLUE },
+      { text: 'ÁLBUM', fill: ROSE },
+      { text: '2026', fill: MINT },
+    ],
+    size: wordmarkSize,
+    x: 0,
+    y: wmY,
+    gapEm: 0.32,
+    letterSpacingEm: 0.08,
+  });
+  const wmX = (w - wm.width) / 2;
+
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Meu Álbum 2026">
-${foilDefs()}
-  <rect width="${w}" height="${h}" fill="#0f172a"/>
-  <g transform="translate(${(w - seloSize) / 2} 16)">
+  ${defs()}
+  <rect width="${w}" height="${h}" fill="${INK}"/>
+  <g transform="translate(${seloX} ${seloY})">
     <circle cx="${seloSize / 2}" cy="${seloSize / 2}" r="${seloSize / 2}" fill="url(#foil)"/>
-    <circle cx="${seloSize / 2}" cy="${seloSize / 2}" r="${seloSize / 2 - 6}" fill="#0f172a"/>
-    ${glyph26Group(scale, (seloSize - 62 * scale) / 2, (seloSize - 58 * scale) / 2)}
+    <circle cx="${seloSize / 2}" cy="${seloSize / 2}" r="${seloSize / 2 - inset}" fill="${INK}"/>
+    <g transform="translate(${((seloSize - glyph.width) / 2).toFixed(2)} ${((seloSize - glyph.height) / 2).toFixed(2)})">
+      <path d="${glyph.d}" fill="url(#foil)"/>
+    </g>
   </g>
-  <text x="${w / 2}" y="188" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="30" letter-spacing="0.08em">
-    <tspan fill="#5b8def">MEU</tspan><tspan dx="8" fill="#ec5b87">ÁLBUM</tspan><tspan dx="8" fill="#3ec48a">2026</tspan>
-  </text>
+  <g transform="translate(${wmX} 0)">${wm.svg}</g>
 </svg>`;
 }
 
 function logoInline() {
-  const w = 320;
-  const h = 72;
-  const seloSize = 56;
-  const scale = (seloSize - 6) / 62;
+  const h = 80;
+  const seloSize = 64;
+  const seloX = 8;
+  const seloY = (h - seloSize) / 2;
+  const inset = (seloSize * 3) / 56;
+  const glyphH = (seloSize - inset * 2) * 0.65;
+  const glyph = textToPathFit('26', glyphH);
+
+  const wordmarkSize = 36;
+  const wmX = seloX + seloSize + 18;
+  const wm = wordmarkInline({
+    words: [
+      { text: 'Meu', fill: BLUE },
+      { text: 'Álbum', fill: ROSE },
+      { text: '2026', fill: MINT },
+    ],
+    size: wordmarkSize,
+    x: wmX,
+    y: 0,
+    gapEm: 0.28,
+    letterSpacingEm: 0.06,
+  });
+  const wmY = (h - wm.height) / 2;
+  const w = Math.ceil(wmX + wm.width + 16);
+
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Meu Álbum 2026">
-${foilDefs()}
-  <rect width="${w}" height="${h}" fill="#0f172a"/>
-  <g transform="translate(8 8)">
+  ${defs()}
+  <rect width="${w}" height="${h}" fill="${INK}"/>
+  <g transform="translate(${seloX} ${seloY})">
     <circle cx="${seloSize / 2}" cy="${seloSize / 2}" r="${seloSize / 2}" fill="url(#foil)"/>
-    <circle cx="${seloSize / 2}" cy="${seloSize / 2}" r="${seloSize / 2 - 3}" fill="#0f172a"/>
-    ${glyph26Group(scale, (seloSize - 62 * scale) / 2, (seloSize - 58 * scale) / 2)}
+    <circle cx="${seloSize / 2}" cy="${seloSize / 2}" r="${seloSize / 2 - inset}" fill="${INK}"/>
+    <g transform="translate(${((seloSize - glyph.width) / 2).toFixed(2)} ${((seloSize - glyph.height) / 2).toFixed(2)})">
+      <path d="${glyph.d}" fill="url(#foil)"/>
+    </g>
   </g>
-  ${wordmarkInline({ x: 76, y: 10, size: 28 })}
+  <g transform="translate(0 ${wmY})">${wm.svg}</g>
 </svg>`;
 }
 
 function faviconSvg() {
-  const scale = 18 / 58;
-  const tx = (26 - 62 * scale) / 2 + 3;
-  const ty = (26 - 58 * scale) / 2 + 3;
+  const glyphH = 18;
+  const glyph = textToPathFit('26', glyphH);
+  const tx = (26 - glyph.width) / 2 + 3;
+  const ty = (32 - glyph.height) / 2;
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <defs>
     <linearGradient id="g32" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#5b8def"/>
-      <stop offset="100%" stop-color="#3ec48a"/>
+      <stop offset="0%" stop-color="${BLUE}"/>
+      <stop offset="100%" stop-color="${MINT}"/>
     </linearGradient>
   </defs>
-  <rect width="32" height="32" rx="7" fill="#0F172A"/>
+  <rect width="32" height="32" rx="7" fill="${INK}"/>
   <rect x="3" y="3" width="26" height="26" rx="5" fill="url(#g32)"/>
-  <g transform="translate(${tx} ${ty}) scale(${scale})">
-    <path d="${GLYPH_26_D}" fill="#0F172A"/>
+  <g transform="translate(${tx.toFixed(2)} ${ty.toFixed(2)})">
+    <path d="${glyph.d}" fill="${INK}"/>
   </g>
 </svg>`;
 }
@@ -147,7 +233,8 @@ export function writeBrandSvgs() {
   return Object.keys(files);
 }
 
-const isMain = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+const isMain =
+  process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
 if (isMain) {
   const written = writeBrandSvgs();
   console.log('Wrote SVGs:', written.join(', '));
