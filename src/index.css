@@ -1,6 +1,37 @@
+@import './styles/tokens.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .foil {
+    background: conic-gradient(
+      from 200deg at 50% 50%,
+      #5B8DEF,
+      #EC5B87,
+      #3EC48A,
+      #3EC48A,
+      #5B8DEF,
+      #5B8DEF
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .foil-fill {
+    background: conic-gradient(
+      from 200deg at 50% 50%,
+      #5B8DEF,
+      #EC5B87,
+      #3EC48A,
+      #3EC48A,
+      #5B8DEF,
+      #5B8DEF
+    );
+  }
+}
 
 @layer base {
   * {
