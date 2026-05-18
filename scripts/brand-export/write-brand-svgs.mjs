@@ -143,7 +143,6 @@ function logoPrimary() {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Meu Álbum 2026">
   ${defs()}
-  <rect width="${w}" height="${h}" fill="${INK}"/>
   <g transform="translate(${seloX} ${seloY})">
     <circle cx="${seloSize / 2}" cy="${seloSize / 2}" r="${seloSize / 2}" fill="url(#foil)"/>
     <circle cx="${seloSize / 2}" cy="${seloSize / 2}" r="${seloSize / 2 - inset}" fill="${INK}"/>
@@ -184,7 +183,6 @@ function logoStacked() {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Meu Álbum 2026">
   ${defs()}
-  <rect width="${w}" height="${h}" fill="${INK}"/>
   <g transform="translate(${seloX} ${seloY})">
     <circle cx="${seloSize / 2}" cy="${seloSize / 2}" r="${seloSize / 2}" fill="url(#foil)"/>
     <circle cx="${seloSize / 2}" cy="${seloSize / 2}" r="${seloSize / 2 - inset}" fill="${INK}"/>
@@ -231,7 +229,6 @@ function logoInline() {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Meu Álbum 2026">
   ${defs()}
-  <rect width="${w}" height="${h}" fill="${INK}"/>
   <g transform="translate(${seloX} ${seloY})">
     <circle cx="${seloSize / 2}" cy="${seloSize / 2}" r="${seloSize / 2}" fill="url(#foil)"/>
     <circle cx="${seloSize / 2}" cy="${seloSize / 2}" r="${seloSize / 2 - inset}" fill="${INK}"/>

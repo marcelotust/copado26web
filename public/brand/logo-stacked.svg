@@ -14,7 +14,6 @@
     <stop offset="100%" stop-color="#3ec48a"/>
   </linearGradient>
   </defs>
-  <rect width="320" height="260" fill="#0f172a"/>
   <g transform="translate(90 18)">
     <circle cx="70" cy="70" r="70" fill="url(#foil)"/>
     <circle cx="70" cy="70" r="64" fill="#0f172a"/>
