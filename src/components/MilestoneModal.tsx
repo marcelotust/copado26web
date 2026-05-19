@@ -10,17 +10,24 @@ import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 type Props = { milestone: Milestone | null; onDismiss: () => void }
 
 function cardInput(milestone: Milestone, t: (key: string) => string): MilestoneDrawInput {
-  const copy = {
-    tagline: t('milestone.tagline'),
-    teamHeadline: t('milestone.teamHeadline'),
-    albumHeadline: (pct: number) => interpolate(t('milestone.albumHeadline'), { pct }),
-    albumSubline: (pct: number) => interpolate(t('milestone.albumSubline'), { pct }),
-    t,
-  }
+  const copy = { tagline: t('milestone.tagline'), t }
   if (milestone.kind === 'team') {
-    return { kind: 'team', teamCode: milestone.teamCode, flag: milestone.flag, name: milestone.name, copy }
+    return {
+      variant: 'team-complete',
+      teamCode: milestone.teamCode,
+      flag: milestone.flag,
+      name: milestone.name,
+      headline: t('milestone.teamHeadline'),
+      copy,
+    }
   }
-  return { kind: 'album', pct: milestone.pct, copy }
+  return {
+    variant: 'pct',
+    pct: milestone.pct,
+    headline: interpolate(t('milestone.albumHeadline'), { pct: milestone.pct }),
+    subline: interpolate(t('milestone.albumSubline'), { pct: milestone.pct }),
+    copy,
+  }
 }
 
 export default function MilestoneModal({ milestone, onDismiss }: Props) {

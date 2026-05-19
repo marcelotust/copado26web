@@ -1,4 +1,16 @@
 {
+  "redirects": [
+    {
+      "source": "/milestone-preview.html",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/__brand-preview.html",
+      "destination": "/",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/((?!.*\\.(?:js|css|map|png|jpg|jpeg|gif|webp|svg|ico|json|xml|txt|webmanifest|woff2)$).*)",

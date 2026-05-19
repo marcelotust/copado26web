@@ -23,13 +23,92 @@ export function buildShareUrl(opts: { flow: ShareFlow; medium: ShareMedium }): s
 }
 
 /**
- * Canonical share signature appended to every text share flow
- * (missing, swaps, milestone, challenge). Locale-driven; the bare
- * `meualbum2026.app` URL is preserved so `tradeListParse.ts` keeps
- * detecting pasted lists from any locale.
+ * Canonical share signature appended to every text share flow.
+ * Locale-driven; the bare `meualbum2026.app` URL is preserved so
+ * `tradeListParse.ts` keeps detecting pasted lists from any locale.
  */
 export function getShareSignature(t: (key: string) => string): string {
   return `\n\n${t('share.signature')}`
+}
+
+const FOIL_STOPS: ReadonlyArray<[number, string]> = [
+  [0,    '#7eb8d4'],
+  [0.2,  '#d4568a'],
+  [0.4,  '#e8d060'],
+  [0.6,  '#3ec48a'],
+  [0.8,  '#5b8def'],
+  [1,    '#7eb8d4'],
+]
+
+function foilGradient(
+  ctx: CanvasRenderingContext2D,
+  x0: number, y0: number, x1: number, y1: number,
+): CanvasGradient {
+  const g = ctx.createLinearGradient(x0, y0, x1, y1)
+  for (const [stop, color] of FOIL_STOPS) g.addColorStop(stop, color)
+  return g
+}
+
+/** Selo 26 — dark coin with foil "26", drawn pure-canvas (no SVG loading). */
+export function drawSelo26(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  radius: number,
+): void {
+  const grad = foilGradient(ctx, cx - radius, cy - radius, cx + radius, cy + radius)
+
+  ctx.beginPath()
+  ctx.arc(cx, cy, radius, 0, Math.PI * 2)
+  ctx.fillStyle = grad
+  ctx.fill()
+
+  ctx.beginPath()
+  ctx.arc(cx, cy, radius * 0.91, 0, Math.PI * 2)
+  ctx.fillStyle = '#0f172a'
+  ctx.fill()
+
+  ctx.save()
+  ctx.fillStyle = grad
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.font = `bold ${Math.round(radius * 0.95)}px system-ui, sans-serif`
+  ctx.fillText('26', cx, cy + radius * 0.04)
+  ctx.restore()
+}
+
+type HeaderOpts = {
+  width: number
+  height: number
+  t: (key: string) => string
+  /** Optional eyebrow text rendered above the wordmark (e.g. tagline). */
+  eyebrow?: string
+}
+
+/** Shared header strip drawn at the top of every share card. */
+export function drawShareHeader(ctx: CanvasRenderingContext2D, opts: HeaderOpts): void {
+  const { eyebrow } = opts
+  const PADDING = 60
+  const SELO_R = 56
+  const seloCx = PADDING + SELO_R
+  const seloCy = PADDING + SELO_R
+
+  drawSelo26(ctx, seloCx, seloCy, SELO_R)
+
+  ctx.save()
+  ctx.textAlign = 'left'
+  ctx.textBaseline = 'alphabetic'
+  ctx.fillStyle = '#f8fafc'
+  ctx.font = 'bold 52px system-ui, sans-serif'
+  const wordmarkX = seloCx + SELO_R + 28
+  ctx.fillText(BRAND_NAME, wordmarkX, seloCy + 4)
+
+  if (eyebrow) {
+    ctx.fillStyle = '#94a3b8'
+    ctx.font = '28px system-ui, sans-serif'
+    ctx.fillText(eyebrow, wordmarkX, seloCy + 44)
+  }
+  ctx.restore()
 }
 
 type FooterOpts = {
@@ -41,8 +120,8 @@ type FooterOpts = {
   tagline?: string
 }
 
-/** Centralized brand strip — brand name, URL, QR — drawn at the bottom of an image share. */
-export function drawImageBrandFooter(ctx: CanvasRenderingContext2D, opts: FooterOpts): void {
+/** Shared brand strip — brand name, URL, QR — drawn at the bottom of every share card. */
+export function drawShareFooter(ctx: CanvasRenderingContext2D, opts: FooterOpts): void {
   const { width, height, flow, t, tagline } = opts
   const QR_SIZE = 200
   const PADDING = 60
@@ -52,6 +131,7 @@ export function drawImageBrandFooter(ctx: CanvasRenderingContext2D, opts: Footer
   drawQrCode(ctx, buildShareUrl({ flow, medium: 'image' }), qrX, stripY, QR_SIZE)
 
   const textX = PADDING
+  ctx.save()
   ctx.textAlign = 'left'
   ctx.fillStyle = '#f1f5f9'
   ctx.font = 'bold 56px system-ui, sans-serif'
@@ -70,6 +150,7 @@ export function drawImageBrandFooter(ctx: CanvasRenderingContext2D, opts: Footer
   ctx.fillStyle = '#475569'
   ctx.font = '24px system-ui, sans-serif'
   ctx.fillText(t('share.scanCta'), textX, stripY + 200)
+  ctx.restore()
 }
 
 function drawQrCode(
