@@ -1,7 +1,12 @@
 import type { MissingGroup } from '../state/stickersStore'
-import { getPublicAppUrl, interpolate, pad } from './shareText'
+import { drawImageBrandFooter } from './brand/shareFooter'
+import { interpolate, pad } from './shareText'
 
 export { pad } from './shareText'
+
+const W = 1080
+const H = 1920
+const FOOTER_TOP = H - 320
 
 export async function buildShareImage(
   groups: MissingGroup[],
@@ -10,7 +15,6 @@ export async function buildShareImage(
   total: number,
   t: (key: string) => string,
 ): Promise<Blob> {
-  const W = 1080, H = 1920
   const canvas = document.createElement('canvas')
   canvas.width = W
   canvas.height = H
@@ -42,7 +46,7 @@ export async function buildShareImage(
   ctx.textAlign = 'left'
   let y = 340
   for (const { teamCode, numbers } of groups) {
-    if (y > H - 220) break
+    if (y > FOOTER_TOP - 60) break
     ctx.font = 'bold 50px system-ui, sans-serif'
     ctx.fillStyle = '#f1f5f9'
     ctx.fillText(`${teamFlag(teamCode)} ${teamName(teamCode)} (${numbers.length})`, 80, y)
@@ -54,15 +58,13 @@ export async function buildShareImage(
     y += 108
   }
 
-  ctx.textAlign = 'center'
-  const url = getPublicAppUrl()
-  const appName = t('share.appName')
-  ctx.font = '30px system-ui, sans-serif'
-  ctx.fillStyle = '#64748b'
-  ctx.fillText(url || appName, W / 2, H - 95)
-  ctx.font = '28px system-ui, sans-serif'
-  ctx.fillStyle = '#475569'
-  ctx.fillText(t('milestone.tagline'), W / 2, H - 55)
+  drawImageBrandFooter(ctx, {
+    width: W,
+    height: H,
+    flow: 'missing',
+    t,
+    tagline: t('milestone.tagline'),
+  })
 
   return new Promise(resolve => canvas.toBlob(b => resolve(b!), 'image/png'))
 }

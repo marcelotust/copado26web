@@ -1,4 +1,7 @@
+import type { Challenge } from '../data/challenges'
 import type { MissingGroup, SwapGroup } from '../state/stickersTypes'
+import { getShareSignature } from './brand/shareFooter'
+import { challengeTitle } from './challengeI18n'
 
 export function pad(n: number): string {
   return String(n).padStart(2, '0')
@@ -18,39 +21,8 @@ export function interpolate(template: string, vars: Record<string, string | numb
   return template.replace(/\{\{(\w+)\}\}/g, (_, key: string) => String(vars[key] ?? ''))
 }
 
-export type ShareFooterContent = {
-  appName: string
-  cta: string
-  url: string | null
-}
-
-/** Same strings used in shared messages (app name, URL, CTA). */
-export function getShareFooterContent(t: (key: string) => string): ShareFooterContent {
-  const urlRaw = getPublicAppUrl()
-  return {
-    appName: t('share.appName'),
-    cta: t('share.cta'),
-    url: urlRaw || null,
-  }
-}
-
-/** The "— / appName / url / cta" block, one line each, no extra surrounding newlines. */
-export function buildSharePromoBlock(t: (key: string) => string): string {
-  const { appName, cta, url } = getShareFooterContent(t)
-  const lines = ['—', appName]
-  if (url) lines.push(url)
-  lines.push(cta)
-  return lines.join('\n')
-}
-
-/** Promo block with leading blank lines (after list / end of message). */
-export function buildShareFooter(t: (key: string) => string): string {
-  return `\n\n${buildSharePromoBlock(t)}`
-}
-
-/** Same promo block after the headline, before the sticker list. */
-export function buildSharePromoAfterHeadline(t: (key: string) => string): string {
-  return `\n\n${buildSharePromoBlock(t)}\n\n`
+export function buildShareText(body: string, t: (key: string) => string): string {
+  return body + getShareSignature(t)
 }
 
 export function buildMissingShareBody(
@@ -75,7 +47,7 @@ export function buildMissingShareText(
 ): string {
   const headline = interpolate(t('share.missingHeadline'), { count: total })
   const body = buildMissingShareBody(groups, teamName, teamFlag)
-  return `${headline}${buildSharePromoAfterHeadline(t)}${body}${buildShareFooter(t)}`
+  return buildShareText(`${headline}\n\n${body}`, t)
 }
 
 export function buildSwapsShareBody(
@@ -107,5 +79,30 @@ export function buildSwapsShareText(
 ): string {
   const headline = interpolate(t('share.swapsHeadline'), { count: totalExtras })
   const body = buildSwapsShareBody(groups, teamName, teamFlag)
-  return `${headline}${buildSharePromoAfterHeadline(t)}${body}${buildShareFooter(t)}`
+  return buildShareText(`${headline}\n\n${body}`, t)
+}
+
+export function buildChallengeShareText(
+  challenge: Challenge,
+  t: (key: string) => string,
+): string {
+  const body = interpolate(t('challenges.shareText'), {
+    title: challengeTitle(challenge, t),
+  })
+  return buildShareText(body, t)
+}
+
+export type MilestoneShareInput =
+  | { kind: 'album'; pct: number }
+  | { kind: 'team'; teamCode: string; flag: string; name: string }
+
+export function buildMilestoneShareText(
+  milestone: MilestoneShareInput,
+  t: (key: string) => string,
+): string {
+  const body =
+    milestone.kind === 'album'
+      ? interpolate(t('milestone.albumHeadline'), { pct: milestone.pct })
+      : `${milestone.flag} ${milestone.name} — ${t('milestone.teamHeadline')}`
+  return buildShareText(body, t)
 }

@@ -7,7 +7,9 @@
     "cta": "¡Organiza tu álbum de cromos en la app — gratis!",
     "missingHeadline": "⚽ Copa 2026 — me faltan {{count}} cromos!",
     "swapsHeadline": "⚽ Copa 2026 — tengo {{count}} cromos repetidos para cambiar!",
-    "imageMissingCount": "me faltan {{count}} cromos"
+    "imageMissingCount": "me faltan {{count}} cromos",
+    "signature": "Arma tu álbum en meualbum2026.app — gratis,\ny cambia repetidas con la banda directo por WhatsApp.",
+    "scanCta": "Apunta tu cámara para abrir la app"
   },
 
   "milestone": {
