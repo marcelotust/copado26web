@@ -4,7 +4,7 @@ import { useI18n } from '../i18n'
 import { useAlbumProgress } from '../state/stickersStore'
 import ProgressBar from './ProgressBar'
 import HeaderMenu from './HeaderMenu'
-import AppLogo from './AppLogo'
+import BrandMark from './brand/BrandMark'
 import TradeQRModal from './TradeQRModal'
 
 type HeaderProps = { email?: string; onLogout: () => void }
@@ -17,7 +17,7 @@ export default function Header({ email, onLogout }: HeaderProps) {
   return (
     <header className='shrink-0 flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 bg-slate-900/95 backdrop-blur z-40 relative'>
       <Link to='/dashboard' className='shrink-0 px-1 py-2'>
-        <AppLogo size='sm' />
+        <BrandMark className='h-8 w-auto' />
       </Link>
 
       <ProgressBar collected={collected} total={total} />

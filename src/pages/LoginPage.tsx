@@ -1,7 +1,7 @@
 import { lazy, Suspense, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useI18n, LOCALE_META, type Locale } from '../i18n'
-import AppLogo from '../components/AppLogo'
+import BrandMark from '../components/brand/BrandMark'
 import LoginMagicLinkPanel from '../components/LoginMagicLinkPanel'
 import LoginEmailForm from '../components/LoginEmailForm'
 
@@ -36,7 +36,7 @@ export default function LoginPage({ onSendLink, onGoogleLogin, magicLinkSent, er
           className='px-6 py-10 text-center flex flex-col items-center gap-3'
           style={{ background: 'linear-gradient(135deg, #1e3a5f 0%, #1a1a2e 60%, #0d2818 100%)' }}
         >
-          <AppLogo size='lg' />
+          <BrandMark className='h-14 w-auto' />
           <p className='text-blue-200/80 text-sm max-w-xs leading-relaxed'>{t('login.tagline')}</p>
         </div>
 
