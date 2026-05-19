@@ -3,6 +3,11 @@ export default {
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
+      colors: {
+        ink: { DEFAULT: '#0F172A', 2: '#1A2236' },
+        paper: '#F6F4EF',
+        brand: { blue: '#5B8DEF', rose: '#EC5B87', mint: '#3EC48A' },
+      },
       keyframes: {
         floatUp: {
           '0%':   { opacity: '1',   transform: 'translate(-50%, -50%) scale(1.2)' },

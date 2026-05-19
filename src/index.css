@@ -1,6 +1,45 @@
+@import './styles/tokens.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .foil {
+    background: conic-gradient(
+      from 200deg at 50% 50%,
+      oklch(0.78 0.13 210),
+      oklch(0.66 0.2 340),
+      oklch(0.82 0.15 92),
+      oklch(0.66 0.18 158),
+      oklch(0.66 0.18 250),
+      oklch(0.78 0.13 210)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .foil-fill {
+    background: conic-gradient(
+      from 200deg at 50% 50%,
+      oklch(0.78 0.13 210),
+      oklch(0.66 0.2 340),
+      oklch(0.82 0.15 92),
+      oklch(0.66 0.18 158),
+      oklch(0.66 0.18 250),
+      oklch(0.78 0.13 210)
+    );
+  }
+
+  .scan {
+    background-image: repeating-linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.04) 0 2px,
+      transparent 2px 6px
+    );
+  }
+}
 
 @layer base {
   * {
