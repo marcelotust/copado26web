@@ -1,0 +1,73 @@
+:root {
+  --ink: #0f172a;
+  --ink-2: #1a2236;
+  --paper: #f6f4ef;
+  --blue: #5b8def;
+  --rose: #ec5b87;
+  --mint: #3ec48a;
+  --gold: #e8d060;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.display {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.04em;
+}
+
+.mono {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+.foil {
+  background: conic-gradient(
+    from 200deg at 50% 50%,
+    #7eb8d4,
+    #d4568a,
+    #e8d060,
+    #3ec48a,
+    #5b8def,
+    #7eb8d4
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.foil-fill {
+  background: conic-gradient(
+    from 200deg at 50% 50%,
+    #7eb8d4,
+    #d4568a,
+    #e8d060,
+    #3ec48a,
+    #5b8def,
+    #7eb8d4
+  );
+}
+
+.scan {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.04) 0 2px,
+    transparent 2px 6px
+  );
+}
+
+.perforation {
+  background-image: radial-gradient(circle, #94a3b8 1px, transparent 1.3px);
+  background-size: 8px 8px;
+  background-repeat: repeat-x;
+  background-position: center;
+  height: 8px;
+  opacity: 0.35;
+}

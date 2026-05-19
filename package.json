@@ -30,6 +30,7 @@
     "supabase:sync-email-templates": "node scripts/sync-auth-email-templates.mjs",
     "supabase:sync-email-templates:check-env": "node scripts/sync-auth-email-templates.mjs --check-env",
     "supabase:sync-email-templates:test": "node --test scripts/sync-auth-email-templates.test.mjs",
+    "brand:export": "node scripts/export-brand-pack.mjs",
     "prepare": "husky"
   },
   "dependencies": {
@@ -45,6 +46,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@fontsource/bebas-neue": "^5.2.7",
     "@playwright/test": "^1.60.0",
     "@sentry/vite-plugin": "^4.9.1",
     "@testing-library/jest-dom": "^6.9.1",
@@ -63,7 +65,9 @@
     "husky": "^9.1.7",
     "jsdom": "^29.1.1",
     "lint-staged": "^17.0.4",
+    "opentype.js": "^2.0.0",
     "postcss": "^8.4.38",
+    "qrcode": "^1.5.4",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.59.3",

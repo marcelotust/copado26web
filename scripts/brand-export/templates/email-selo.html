@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>Email selo export</title>
+<!-- BASE_HEAD -->
+<style>
+  /* Dimensions are set per-export via Playwright (default = 56). Layout
+   * stays the same; everything scales off var(--s). */
+  :root { --s: 56px; }
+  #selo {
+    width: var(--s);
+    height: var(--s);
+    position: relative;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, #5b8def, #ec5b87, #3ec48a, #5b8def);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #inner {
+    width: calc(var(--s) - 6px);
+    height: calc(var(--s) - 6px);
+    border-radius: 9999px;
+    background: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(var(--s) * 0.5);
+    line-height: 1;
+    color: #f8fafc;
+  }
+</style>
+</head>
+<body>
+<div id="selo">
+  <div id="inner" class="display">26</div>
+</div>
+</body>
+</html>
