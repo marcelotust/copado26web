@@ -7,7 +7,9 @@
     "cta": "Track your sticker album in the app — it's free!",
     "missingHeadline": "⚽ World Cup 2026 — I'm missing {{count}} stickers!",
     "swapsHeadline": "⚽ World Cup 2026 — I have {{count}} duplicate stickers to swap!",
-    "imageMissingCount": "I'm missing {{count}} stickers"
+    "imageMissingCount": "I'm missing {{count}} stickers",
+    "signature": "Track your album at meualbum2026.app — it's free,\nand you can swap dupes with friends on WhatsApp.",
+    "scanCta": "Point your camera to open the app"
   },
 
   "milestone": {

@@ -1,10 +1,11 @@
+import type { ShareFlow } from './brand/shareFooter'
+
 export type MilestoneCardCopy = {
-  brand: string
-  footer: string
   tagline: string
   teamHeadline: string
   albumHeadline: (pct: number) => string
   albumSubline: (pct: number) => string
+  t: (key: string) => string
 }
 
 export type TeamMilestoneDraw = {
@@ -21,4 +22,6 @@ export type AlbumMilestoneDraw = {
   copy: MilestoneCardCopy
 }
 
-export type MilestoneDrawInput = TeamMilestoneDraw | AlbumMilestoneDraw
+export type MilestoneDrawInput = (TeamMilestoneDraw | AlbumMilestoneDraw) & {
+  flow?: ShareFlow
+}

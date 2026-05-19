@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useI18n } from '../i18n'
-import { interpolate } from '../lib/shareText'
+import { buildMilestoneShareText, interpolate } from '../lib/shareText'
 import { drawMilestoneCard, milestoneCardToBlob } from '../lib/milestoneCardCanvas'
 import type { MilestoneDrawInput } from '../lib/milestoneCardTypes'
 import { shareOrDownloadPng } from '../lib/milestoneSharePng'
@@ -11,12 +11,11 @@ type Props = { milestone: Milestone | null; onDismiss: () => void }
 
 function cardInput(milestone: Milestone, t: (key: string) => string): MilestoneDrawInput {
   const copy = {
-    brand: t('share.appName'),
-    footer: t('share.cta'),
     tagline: t('milestone.tagline'),
     teamHeadline: t('milestone.teamHeadline'),
     albumHeadline: (pct: number) => interpolate(t('milestone.albumHeadline'), { pct }),
     albumSubline: (pct: number) => interpolate(t('milestone.albumSubline'), { pct }),
+    t,
   }
   if (milestone.kind === 'team') {
     return { kind: 'team', teamCode: milestone.teamCode, flag: milestone.flag, name: milestone.name, copy }
@@ -42,7 +41,8 @@ export default function MilestoneModal({ milestone, onDismiss }: Props) {
     setSharing(true)
     try {
       const blob = await milestoneCardToBlob(cardInput(milestone, t))
-      await shareOrDownloadPng(blob, t('share.appName'))
+      const shareText = buildMilestoneShareText(milestone, t)
+      await shareOrDownloadPng(blob, t('share.appName'), shareText)
       telemetry.track(AnalyticsEvent.MILESTONE_SHARED, {
         kind: milestone.kind,
         ...(milestone.kind === 'album' ? { pct: milestone.pct } : { team_code: milestone.teamCode }),

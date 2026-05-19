@@ -7,7 +7,9 @@
     "cta": "Organize seu álbum de figurinhas no app — grátis!",
     "missingHeadline": "⚽ Copa 2026 — me faltam {{count}} figurinhas!",
     "swapsHeadline": "⚽ Copa 2026 — tenho {{count}} figurinhas repetidas para trocar!",
-    "imageMissingCount": "me faltam {{count}} figurinhas"
+    "imageMissingCount": "me faltam {{count}} figurinhas",
+    "signature": "Cola o teu álbum em meualbum2026.app — é grátis,\ne dá pra trocar sobras com a galera direto pelo zap.",
+    "scanCta": "Aponta a câmera pra entrar no app"
   },
 
   "milestone": {

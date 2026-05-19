@@ -1,4 +1,4 @@
-import { getPublicAppUrl } from './shareText'
+import { drawImageBrandFooter } from './brand/shareFooter'
 import type { MilestoneCardCopy } from './milestoneCardTypes'
 
 export const CARD_W = 1080
@@ -42,18 +42,11 @@ export function wrapCanvasLines(
 }
 
 export function drawMilestoneFooter(ctx: CanvasRenderingContext2D, copy: MilestoneCardCopy): void {
-  const url = getPublicAppUrl()
-  ctx.textAlign = 'center'
-  ctx.font = 'bold 52px system-ui, sans-serif'
-  ctx.fillStyle = '#f1f5f9'
-  ctx.fillText(copy.brand, CARD_W / 2, CARD_H - 200)
-  ctx.font = '34px system-ui, sans-serif'
-  ctx.fillStyle = '#64748b'
-  ctx.fillText(url || copy.brand, CARD_W / 2, CARD_H - 130)
-  ctx.font = '30px system-ui, sans-serif'
-  ctx.fillStyle = '#475569'
-  ctx.fillText(copy.tagline, CARD_W / 2, CARD_H - 80)
-  ctx.fillStyle = '#334155'
-  ctx.font = '28px system-ui, sans-serif'
-  ctx.fillText(copy.footer, CARD_W / 2, CARD_H - 40)
+  drawImageBrandFooter(ctx, {
+    width: CARD_W,
+    height: CARD_H,
+    flow: 'milestone',
+    t: copy.t,
+    tagline: copy.tagline,
+  })
 }

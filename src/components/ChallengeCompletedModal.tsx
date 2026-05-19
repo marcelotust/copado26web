@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useI18n } from '../i18n'
 import { isShareAbort, logger } from '../lib/logger'
 import { challengeDescription, challengeTitle } from '../lib/challengeI18n'
-import { interpolate } from '../lib/shareText'
+import { buildChallengeShareText } from '../lib/shareText'
 import type { Challenge } from '../data/challenges'
 
 type Props = {
@@ -17,9 +17,7 @@ export default function ChallengeCompletedModal({ challenge, onDismiss }: Props)
   if (!challenge) return null
 
   async function handleShare() {
-    const text = interpolate(t('challenges.shareText'), {
-      title: challengeTitle(challenge!, t),
-    })
+    const text = buildChallengeShareText(challenge!, t)
     if (navigator.share) {
       try { await navigator.share({ text }); return } catch (err) {
         if (isShareAbort(err)) return
