@@ -1,5 +1,5 @@
 import type { MissingGroup } from '../state/stickersStore'
-import { drawImageBrandFooter } from './brand/shareFooter'
+import { drawShareFooter } from './brand/shareFooter'
 import { interpolate, pad } from './shareText'
 
 export { pad } from './shareText'
@@ -58,7 +58,7 @@ export async function buildShareImage(
     y += 108
   }
 
-  drawImageBrandFooter(ctx, {
+  drawShareFooter(ctx, {
     width: W,
     height: H,
     flow: 'missing',

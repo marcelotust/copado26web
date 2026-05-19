@@ -50,8 +50,8 @@ describe('MilestoneModal', () => {
     renderWithProviders(<MilestoneModal milestone={albumMilestone} onDismiss={() => {}} />)
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     await waitFor(() => expect(drawMilestoneCard).toHaveBeenCalled())
-    const input = drawMilestoneCard.mock.calls[0][1] as { kind: string; pct: number }
-    expect(input.kind).toBe('album')
+    const input = drawMilestoneCard.mock.calls[0][1] as { variant: string; pct: number }
+    expect(input.variant).toBe('pct')
     expect(input.pct).toBe(50)
   })
 
@@ -59,7 +59,9 @@ describe('MilestoneModal', () => {
     renderWithProviders(<MilestoneModal milestone={teamMilestone} onDismiss={() => {}} />)
     await waitFor(() => expect(drawMilestoneCard).toHaveBeenCalled())
     const input = drawMilestoneCard.mock.calls[0][1] as Record<string, unknown>
-    expect(input).toMatchObject({ kind: 'team', teamCode: 'BRA', flag: '🇧🇷', name: 'Brasil' })
+    expect(input).toMatchObject({
+      variant: 'team-complete', teamCode: 'BRA', flag: '🇧🇷', name: 'Brasil',
+    })
   })
 
   it('invokes onDismiss when the close button is clicked', () => {
