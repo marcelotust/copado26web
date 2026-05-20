@@ -14,11 +14,11 @@ export default function StickerButtons({ qty, onAdd, onRemove }: StickerButtonsP
 
   if (qty === 0) {
     return (
-      <div className='flex shrink-0 bg-slate-800'>
+      <div className='flex shrink-0 bg-slate-800 rounded-b-xl'>
         <button
           onClick={onAdd}
           aria-label='Add sticker'
-          className={[btnBase, 'text-emerald-400 hover:bg-emerald-500/20 hover:text-emerald-300 active:bg-emerald-500/30'].join(' ')}
+          className={[btnBase, 'rounded-b-xl text-emerald-400 hover:bg-emerald-500/20 hover:text-emerald-300 active:bg-emerald-500/30'].join(' ')}
         >
           +
         </button>
@@ -34,12 +34,12 @@ export default function StickerButtons({ qty, onAdd, onRemove }: StickerButtonsP
   const addCls = 'text-emerald-400 hover:bg-emerald-500/20 hover:text-emerald-300 active:bg-emerald-500/30'
 
   return (
-    <div className='flex items-center shrink-0 bg-slate-800'>
-      <button onClick={onRemove} aria-label='Remove sticker' className={[btnBase, removeCls].join(' ')}>
+    <div className='flex items-center shrink-0 bg-slate-800 rounded-b-xl'>
+      <button onClick={onRemove} aria-label='Remove sticker' className={[btnBase, 'rounded-bl-xl', removeCls].join(' ')}>
         −
       </button>
       <div className={['w-px self-stretch', dividerCls].join(' ')} />
-      <button onClick={onAdd} aria-label='Add sticker' className={[btnBase, addCls].join(' ')}>
+      <button onClick={onAdd} aria-label='Add sticker' className={[btnBase, 'rounded-br-xl', addCls].join(' ')}>
         +
       </button>
     </div>

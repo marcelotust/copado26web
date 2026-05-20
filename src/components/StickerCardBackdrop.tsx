@@ -47,10 +47,10 @@ export default function StickerCardBackdrop({
     <div
       className={[
         'absolute inset-0 overflow-hidden flex flex-col z-10 transition-all duration-150',
-        isFoil ? (collected ? 'rounded-none' : 'rounded-xl')
-          : collected ? 'shadow-lg rounded-none' : 'rounded-xl',
-        !isFoil && useEscudoSheen && 'rounded-2xl ring-2 ring-amber-400/55 ring-inset',
-        !isFoil && useWideCyanSheen && 'rounded-2xl ring-2 ring-cyan-200/25 ring-inset',
+        'rounded-none',
+        collected && !isFoil && 'shadow-lg',
+        !isFoil && useEscudoSheen && 'ring-2 ring-amber-400/55 ring-inset',
+        !isFoil && useWideCyanSheen && 'ring-2 ring-cyan-200/25 ring-inset',
       ].join(' ')}
       style={isFoil ? undefined : shellStyle}
     >
