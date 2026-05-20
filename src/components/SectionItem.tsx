@@ -1,9 +1,10 @@
 import { forwardRef } from 'react'
 import { teamColor } from '../utils'
 import { useI18n } from '../i18n'
-import { useSectionProgress } from '../state/stickersStore'
+import { useSectionProgress, useSectionSwapCount } from '../state/stickersStore'
 import type { Team } from '../types/database'
 import SectionItemSvg from './SectionItemSvg'
+import SwapsBadge from './SwapsBadge'
 
 const CIRC = 2 * Math.PI * 11
 
@@ -19,6 +20,7 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
 ) {
   const { t } = useI18n()
   const { total, collected } = useSectionProgress(team.code)
+  const swaps = useSectionSwapCount(team.code)
   const pct = total > 0 ? collected / total : 0
   const dash = pct * CIRC
   const done = collected === total && total > 0
@@ -81,6 +83,11 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
       </div>
 
       <SectionItemSvg dash={dash} done={done} pct={pct} />
+      {swaps > 0 && (
+        <div className='hidden sm:flex items-center'>
+          <SwapsBadge swaps={swaps} />
+        </div>
+      )}
     </button>
   )
 })

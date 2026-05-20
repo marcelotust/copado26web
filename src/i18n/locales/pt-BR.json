@@ -273,7 +273,9 @@
 
   "sidebar": {
     "fwc": "Abertura",
-    "group": "Grupo"
+    "group": "Grupo",
+    "expand": "Expandir navegação",
+    "collapse": "Recolher navegação"
   },
 
   "header": {

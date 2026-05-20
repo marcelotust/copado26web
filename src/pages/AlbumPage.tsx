@@ -76,20 +76,22 @@ export default function AlbumPage({ sectionCode }: { sectionCode: string }) {
             {t('grid.loading')}
           </div>
         ) : (
-          <div className={ALBUM_GRID_CLASS} data-onboarding-target='album-grid'>
-            {stickers.map((s, index) => (
-              <div
-                key={s.id}
-                className={albumStickerWrapperClass(s, sectionCode)}
-                data-onboarding-target={index === 0 ? 'album-first-sticker' : undefined}
-              >
-                <StickerCard
-                  sticker={s}
-                  teamCode={sectionCode}
-                  albumCell={albumStickerCell(sectionCode, s)}
-                />
-              </div>
-            ))}
+          <div className='mx-auto w-full max-w-6xl'>
+            <div className={ALBUM_GRID_CLASS} data-onboarding-target='album-grid'>
+              {stickers.map((s, index) => (
+                <div
+                  key={s.id}
+                  className={albumStickerWrapperClass(s, sectionCode)}
+                  data-onboarding-target={index === 0 ? 'album-first-sticker' : undefined}
+                >
+                  <StickerCard
+                    sticker={s}
+                    teamCode={sectionCode}
+                    albumCell={albumStickerCell(sectionCode, s)}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>

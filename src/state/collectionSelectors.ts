@@ -37,6 +37,20 @@ export function useSwaps(): { swapsByTeam: SwapGroup[]; total: number } {
   }, [teams, catalog, byTeam, quantities])
 }
 
+/** Total extra copies (qty − 1) in a single section. Returns 0 when no swaps. */
+export function useSectionSwapCount(teamCode: string): number {
+  const { byTeam, quantities } = useStickersContext()
+  return useMemo(() => {
+    const ids = byTeam.get(teamCode) ?? []
+    let total = 0
+    for (const id of ids) {
+      const qty = quantities.get(id) ?? 0
+      if (qty > 1) total += qty - 1
+    }
+    return total
+  }, [byTeam, quantities, teamCode])
+}
+
 /** Flat sticker IDs for QR trade payload: extras (qty > 1) and missing (qty === 0). */
 export function useTradeIdLists(): { swapIds: string[]; missingIds: string[] } {
   const { teams, catalog, byTeam, quantities } = useStickersContext()
