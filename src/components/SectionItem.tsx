@@ -77,8 +77,8 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
         </span>
       )}
 
-      {/* Code + name (desktop or full variant) */}
-      <div className={full ? 'flex flex-1 min-w-0 flex-col' : 'hidden sm:flex flex-1 min-w-0 flex-col'}>
+      {/* Code + name — fills all space up to the ring; badge floats over the name */}
+      <div className={`${full ? 'flex' : 'hidden sm:flex'} flex-1 min-w-0 flex-col relative`}>
         <span
           className={[
             'text-[13px] font-bold font-mono tracking-wide leading-none block',
@@ -90,17 +90,16 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
         <span className='text-[12px] text-slate-500 truncate block leading-tight mt-0.5'>
           {name}
         </span>
+        {swaps > 0 && (
+          <div className='absolute right-0 top-1/2 -translate-y-1/2'>
+            <SwapsBadge swaps={swaps} />
+          </div>
+        )}
       </div>
 
-      {/* Badge + progress ring — badge optional, ring always right-aligned */}
-      <div
-        className={full ? 'flex items-center gap-1.5 shrink-0' : 'hidden sm:flex items-center gap-1.5 shrink-0'}
-        style={{ width: 56 }}
-      >
-        {swaps > 0 && <SwapsBadge swaps={swaps} />}
-        <div className='ml-auto'>
-          <SectionItemSvg dash={dash} done={done} pct={pct} />
-        </div>
+      {/* Progress ring — shrink-0 so it never compresses */}
+      <div className={full ? 'shrink-0' : 'hidden sm:block shrink-0'}>
+        <SectionItemSvg dash={dash} done={done} pct={pct} />
       </div>
     </button>
   )
