@@ -1,4 +1,11 @@
-export type BrandMarkVariant = 'primary' | 'stacked' | 'inline' | 'selo'
+export type BrandMarkVariant =
+  | 'primary'
+  | 'stacked'
+  | 'inline'
+  | 'selo'
+  | 'card'
+  | 'card-tile'
+  | 'card-inline'
 
 interface Props {
   variant?: BrandMarkVariant
@@ -11,6 +18,9 @@ const SRC: Record<BrandMarkVariant, string> = {
   stacked: '/brand/logo-stacked.svg',
   inline: '/brand/logo-inline.svg',
   selo: '/brand/selo-26.svg',
+  card: '/brand/card-stack-bare.svg',
+  'card-tile': '/brand/card-stack.svg',
+  'card-inline': '/brand/card-inline.svg',
 }
 
 export default function BrandMark({

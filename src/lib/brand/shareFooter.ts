@@ -31,49 +31,107 @@ export function getShareSignature(t: (key: string) => string): string {
   return `\n\n${t('share.signature')}`
 }
 
-const FOIL_STOPS: ReadonlyArray<[number, string]> = [
-  [0,    '#7eb8d4'],
-  [0.2,  '#d4568a'],
-  [0.4,  '#e8d060'],
-  [0.6,  '#3ec48a'],
-  [0.8,  '#5b8def'],
-  [1,    '#7eb8d4'],
+const CARD_FOIL_STOPS: ReadonlyArray<[number, string]> = [
+  [0,    '#7a99d6'],
+  [0.25, '#6db9c7'],
+  [0.5,  '#c97ab8'],
+  [0.75, '#e0c177'],
+  [1,    '#5fb591'],
 ]
 
-function foilGradient(
+function roundRectPath(
   ctx: CanvasRenderingContext2D,
-  x0: number, y0: number, x1: number, y1: number,
-): CanvasGradient {
-  const g = ctx.createLinearGradient(x0, y0, x1, y1)
-  for (const [stop, color] of FOIL_STOPS) g.addColorStop(stop, color)
-  return g
+  x: number, y: number, w: number, h: number, r: number,
+): void {
+  ctx.beginPath()
+  ctx.moveTo(x + r, y)
+  ctx.lineTo(x + w - r, y)
+  ctx.arcTo(x + w, y, x + w, y + r, r)
+  ctx.lineTo(x + w, y + h - r)
+  ctx.arcTo(x + w, y + h, x + w - r, y + h, r)
+  ctx.lineTo(x + r, y + h)
+  ctx.arcTo(x, y + h, x, y + h - r, r)
+  ctx.lineTo(x, y + r)
+  ctx.arcTo(x, y, x + r, y, r)
+  ctx.closePath()
 }
 
-/** Selo 26 — dark coin with foil "26", drawn pure-canvas (no SVG loading). */
+/**
+ * Selo 26 — three-card sticker stack with rainbow paper card and yellow "+" badge.
+ * Drawn pure-canvas in the SVG 0..100 logical viewBox, then mapped to a
+ * `2*radius` square centered at (cx, cy).
+ */
 export function drawSelo26(
   ctx: CanvasRenderingContext2D,
   cx: number,
   cy: number,
   radius: number,
 ): void {
-  const grad = foilGradient(ctx, cx - radius, cy - radius, cx + radius, cy + radius)
+  ctx.save()
+  const scale = (2 * radius) / 100
+  ctx.translate(cx - radius, cy - radius)
+  ctx.scale(scale, scale)
 
-  ctx.beginPath()
-  ctx.arc(cx, cy, radius, 0, Math.PI * 2)
-  ctx.fillStyle = grad
+  roundRectPath(ctx, 0, 0, 100, 100, 20)
+  ctx.fillStyle = '#0F172A'
   ctx.fill()
 
-  ctx.beginPath()
-  ctx.arc(cx, cy, radius * 0.91, 0, Math.PI * 2)
-  ctx.fillStyle = '#0f172a'
-  ctx.fill()
+  const drawCard = (rotDeg: number, fill: string, x: number, y: number, w: number, h: number, rx: number, strokeStyle: string | CanvasGradient, strokeWidth: number) => {
+    ctx.save()
+    ctx.translate(50, 56)
+    ctx.rotate((rotDeg * Math.PI) / 180)
+    ctx.translate(-50, -56)
+    roundRectPath(ctx, x, y, w, h, rx)
+    ctx.fillStyle = fill
+    ctx.fill()
+    ctx.strokeStyle = strokeStyle
+    ctx.lineWidth = strokeWidth
+    ctx.stroke()
+    ctx.restore()
+  }
+
+  drawCard(-16, '#5fb591', 30, 22, 40, 56, 5, '#0F172A', 1.4)
+  drawCard(9,   '#c97ab8', 30, 22, 40, 56, 5, '#0F172A', 1.4)
 
   ctx.save()
-  ctx.fillStyle = grad
+  ctx.translate(50, 56)
+  ctx.rotate((-3 * Math.PI) / 180)
+  ctx.translate(-50, -56)
+
+  roundRectPath(ctx, 28, 20, 44, 60, 6)
+  ctx.fillStyle = '#F6F4EE'
+  ctx.fill()
+  const foil = ctx.createLinearGradient(28, 20, 72, 80)
+  for (const [stop, color] of CARD_FOIL_STOPS) foil.addColorStop(stop, color)
+  ctx.strokeStyle = foil
+  ctx.lineWidth = 1.6
+  ctx.stroke()
+
+  ctx.fillStyle = '#0F172A'
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
-  ctx.font = `bold ${Math.round(radius * 0.95)}px system-ui, sans-serif`
-  ctx.fillText('26', cx, cy + radius * 0.04)
+  ctx.font = '900 34px Impact, "Arial Narrow", sans-serif'
+  ctx.fillText('26', 50, 52)
+
+  ctx.beginPath()
+  ctx.arc(68, 24, 8.5, 0, Math.PI * 2)
+  ctx.fillStyle = '#e0c177'
+  ctx.fill()
+  ctx.strokeStyle = '#0F172A'
+  ctx.lineWidth = 1.6
+  ctx.stroke()
+
+  ctx.beginPath()
+  ctx.moveTo(68, 19.5)
+  ctx.lineTo(68, 28.5)
+  ctx.moveTo(63.5, 24)
+  ctx.lineTo(72.5, 24)
+  ctx.strokeStyle = '#0F172A'
+  ctx.lineWidth = 2.2
+  ctx.lineCap = 'round'
+  ctx.stroke()
+
+  ctx.restore()
   ctx.restore()
 }
 

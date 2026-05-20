@@ -8,12 +8,11 @@
       <stop offset="100%" stop-color="#5fb591"></stop>
     </linearGradient>
   </defs>
-  <rect width="100" height="100" rx="20" fill="#0F172A"></rect>
   <g transform="rotate(-16 50 56)">
-    <rect x="30" y="22" width="40" height="56" rx="5" fill="#5fb591" stroke="#0F172A" stroke-width="1.4"></rect>
+    <rect x="30" y="22" width="40" height="56" rx="5" fill="#5fb591"></rect>
   </g>
   <g transform="rotate(9 50 56)">
-    <rect x="30" y="22" width="40" height="56" rx="5" fill="#c97ab8" stroke="#0F172A" stroke-width="1.4"></rect>
+    <rect x="30" y="22" width="40" height="56" rx="5" fill="#c97ab8"></rect>
   </g>
   <g transform="rotate(-3 50 56)">
     <rect x="28" y="20" width="44" height="60" rx="6" fill="#F6F4EE" stroke="url(#r)" stroke-width="1.6"></rect>
