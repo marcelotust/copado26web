@@ -13,10 +13,10 @@ export function stickerCardShellStyle({
 }: ShellOpts): { boxShadow: string } {
   if (collected) {
     const boxShadow = useEscudoSheen
-      ? `0 0 0 1.5px ${primary}, 0 0 0 3px rgba(251,191,36,0.35), 0 8px 28px ${primary}40`
+      ? `0 8px 28px ${primary}40`
       : useWideCyanSheen
-        ? `0 0 0 1.5px ${primary}, 0 0 0 2.5px rgba(165,243,252,0.2), 0 8px 28px ${primary}38`
-        : `0 0 0 1.5px ${primary}, 0 4px 20px ${primary}35`
+        ? `0 8px 28px ${primary}38`
+        : `0 4px 20px ${primary}35`
     return { boxShadow }
   }
   const boxShadow = useEscudoSheen
