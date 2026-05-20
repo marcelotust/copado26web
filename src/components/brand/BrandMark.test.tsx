@@ -7,6 +7,8 @@ const VARIANT_SRC: Record<BrandMarkVariant, string> = {
   stacked: '/brand/logo-stacked.svg',
   inline: '/brand/logo-inline.svg',
   selo: '/brand/selo-26.svg',
+  card: '/brand/card-stack-bare.svg',
+  'card-tile': '/brand/card-stack.svg',
 }
 
 describe('BrandMark', () => {

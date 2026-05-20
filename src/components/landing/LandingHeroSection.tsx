@@ -1,5 +1,6 @@
 import { Fragment, useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import BrandMark from '../brand/BrandMark'
 import { useI18n } from '../../i18n'
 import { landingStatLabelKey } from '../../lib/landingI18n'
 import { readHeroPreviewConfig } from '../../lib/landingHeroPreview'
@@ -53,6 +54,11 @@ export default function LandingHeroSection({ heroVariant, trackCta }: Props) {
       <LandingHeroPreviewBadge config={preview} />
 
       <LandingHeroCopyShell variant={preview.text}>
+        <BrandMark
+          variant='card'
+          className='relative z-10 mb-4 h-20 w-20 sm:h-24 sm:w-24 drop-shadow-[0_8px_24px_rgba(15,23,42,0.45)]'
+          ariaLabel=''
+        />
         <h1 id='hero-heading' className={heroTitleClass(preview.text)}>
           {t('landing.hero.titleBefore')}{' '}
           <span className={heroHighlightClass(preview.text)}>
