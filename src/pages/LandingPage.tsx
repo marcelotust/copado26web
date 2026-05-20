@@ -61,7 +61,7 @@ export default function LandingPage() {
       {/* Nav */}
       <header className='flex items-center justify-between px-6 py-4 w-full max-w-5xl mx-auto'>
         <Link to='/' aria-label={t('landing.homeAriaLabel')}>
-          <BrandMark className='h-10 w-auto' />
+          <BrandMark variant='card-inline' className='h-10 w-auto' />
         </Link>
         <Link
           to='/login'
