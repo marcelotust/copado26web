@@ -5,6 +5,7 @@ export type BrandMarkVariant =
   | 'selo'
   | 'card'
   | 'card-tile'
+  | 'card-inline'
 
 interface Props {
   variant?: BrandMarkVariant
@@ -19,6 +20,7 @@ const SRC: Record<BrandMarkVariant, string> = {
   selo: '/brand/selo-26.svg',
   card: '/brand/card-stack-bare.svg',
   'card-tile': '/brand/card-stack.svg',
+  'card-inline': '/brand/card-inline.svg',
 }
 
 export default function BrandMark({
