@@ -77,15 +77,15 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
         >
           {team.code}
         </span>
-        <span className='text-[11px] text-slate-600 truncate block leading-tight mt-0.5'>
+        <span className='text-[12px] text-slate-500 truncate block leading-tight mt-0.5'>
           {name}
         </span>
       </div>
 
-      {/* Fixed-width right column keeps the ring always in the same column */}
+      {/* Fixed-width right column: badge (optional) then progress ring */}
       <div className='hidden sm:flex items-center gap-1.5 shrink-0' style={{ width: 56 }}>
-        <SectionItemSvg dash={dash} done={done} pct={pct} />
         {swaps > 0 && <SwapsBadge swaps={swaps} />}
+        <SectionItemSvg dash={dash} done={done} pct={pct} />
       </div>
     </button>
   )
