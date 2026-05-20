@@ -18,13 +18,9 @@ function isWideAlbumSticker(s: Sticker, sectionCode: string): boolean {
 }
 
 function albumStickerWrapperClass(s: Sticker, sectionCode: string): string {
-  if (!isWideAlbumSticker(s, sectionCode)) return 'min-h-0 h-full'
-  // Virtual sections (WAP/FWC/CC): fill the 2-col span as before
-  if (isVirtualAlbumSection(sectionCode)) return 'min-h-0 h-full col-span-2 aspect-[4/3]'
-  // Team photo (#13): span 2 cols but center a landscape card — no h-fill
-  // No mobile (3 col), ancora nas duas últimas colunas pra ficar na mesma linha que a #12;
-  // a partir de sm, só ocupa 2 colunas no fluxo normal (sem colar na direita da página).
-  return 'flex items-center justify-center max-sm:[grid-column:span_2/-1] sm:col-span-2'
+  if (!isWideAlbumSticker(s, sectionCode)) return ''
+  if (isVirtualAlbumSection(sectionCode)) return 'col-span-2'
+  return 'flex flex-col max-sm:[grid-column:span_2/-1] sm:col-span-2'
 }
 
 function albumStickerCell(sectionCode: string, s: Sticker): 'featured-wide' | undefined {
