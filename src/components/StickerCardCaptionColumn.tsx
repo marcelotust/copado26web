@@ -100,7 +100,6 @@ export default function StickerCardCaptionColumn({
       <div className='relative z-30'>
         <StickerButtons
           qty={qty}
-          collected={collected}
           onAdd={onAdd}
           onRemove={onRemove}
         />

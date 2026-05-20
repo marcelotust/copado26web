@@ -2,7 +2,6 @@ import type { MouseEvent } from 'react'
 
 type StickerButtonsProps = {
   qty: number
-  collected: boolean
   onAdd: (e: MouseEvent) => void
   onRemove: (e: MouseEvent) => void
 }
@@ -10,7 +9,7 @@ type StickerButtonsProps = {
 const btnBase =
   'flex-1 flex items-center justify-center h-7 text-base font-bold leading-none transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-white/80'
 
-export default function StickerButtons({ qty, collected, onAdd, onRemove }: StickerButtonsProps) {
+export default function StickerButtons({ qty, onAdd, onRemove }: StickerButtonsProps) {
   const dividerCls = 'bg-slate-600'
 
   if (qty === 0) {
