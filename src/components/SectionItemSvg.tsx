@@ -13,7 +13,7 @@ export default function SectionItemSvg({ dash, done, pct }: SectionItemSvgProps)
       width='28'
       height='28'
       viewBox='0 0 28 28'
-      className='shrink-0 hidden sm:block'
+      className='shrink-0'
       style={{ transform: 'rotate(-90deg)' }}
     >
       <circle cx='14' cy='14' r={RADIUS} fill='none' stroke='#1e293b' strokeWidth='3' />

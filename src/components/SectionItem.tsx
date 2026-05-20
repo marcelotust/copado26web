@@ -82,12 +82,11 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
         </span>
       </div>
 
-      <SectionItemSvg dash={dash} done={done} pct={pct} />
-      {swaps > 0 && (
-        <div className='hidden sm:flex items-center'>
-          <SwapsBadge swaps={swaps} />
-        </div>
-      )}
+      {/* Fixed-width right column keeps the ring always in the same column */}
+      <div className='hidden sm:flex items-center gap-1.5 shrink-0' style={{ width: 56 }}>
+        <SectionItemSvg dash={dash} done={done} pct={pct} />
+        {swaps > 0 && <SwapsBadge swaps={swaps} />}
+      </div>
     </button>
   )
 })

@@ -1,15 +1,15 @@
 import { useMemo } from 'react'
 
-// Stacked mini-cards badge showing extra (swappable) sticker count.
-// Same visual structure as DuplicatesBadge but with a red card color.
+// Stacked mini-cards badge showing extra (swappable) sticker count in the sidebar.
+// Smaller than DuplicatesBadge (sidebar context) with a larger number label.
 
-const W = 22
-const H = 31
+const W = 18
+const H = 25
 
 const BACK_LAYERS = [
-  { rotate: -14, tx: -3, ty: -9 },
-  { rotate:  -8, tx: -2, ty:  -5 },
-  { rotate:  10, tx:  7, ty:   7 },
+  { rotate: -14, tx: -3, ty: -8 },
+  { rotate:  -8, tx: -2, ty:  -4 },
+  { rotate:  10, tx:  6, ty:   6 },
   { rotate:   5, tx:  3, ty:   3 },
 ] as const
 
@@ -21,7 +21,7 @@ const CARD_BASE: React.CSSProperties = {
   boxShadow: '0 1px 3px rgba(0,0,0,0.35)',
 }
 
-const RED = '#f43f5e'
+const BLUE = '#48baf4'
 
 type SwapsBadgeProps = {
   swaps: number
@@ -42,7 +42,7 @@ export default function SwapsBadge({ swaps }: SwapsBadgeProps) {
           key={i}
           style={{
             ...CARD_BASE,
-            background: RED,
+            background: BLUE,
             transform: `rotate(${layer.rotate}deg) translate(${layer.tx}px, ${layer.ty}px)`,
           }}
         />
@@ -52,7 +52,7 @@ export default function SwapsBadge({ swaps }: SwapsBadgeProps) {
         style={{
           ...CARD_BASE,
           position: 'relative',
-          background: RED,
+          background: BLUE,
           transform: `rotate(${topRotate}deg)`,
           display: 'flex',
           alignItems: 'center',
@@ -63,7 +63,7 @@ export default function SwapsBadge({ swaps }: SwapsBadgeProps) {
         <span
           style={{
             color: '#fff',
-            fontSize: swaps >= 10 ? '10px' : '12px',
+            fontSize: swaps >= 10 ? '11px' : '14px',
             fontWeight: 900,
             lineHeight: 1,
             textShadow: '0 1px 3px rgba(0,0,0,0.5)',
