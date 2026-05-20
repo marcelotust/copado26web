@@ -178,6 +178,7 @@ export default function Sidebar({ selected, onSelect }: SidebarProps) {
                         team={team}
                         active={selected === team.code}
                         onClick={() => handleSelect(team.code)}
+                        variant='full'
                       />
                     ))}
                   </div>

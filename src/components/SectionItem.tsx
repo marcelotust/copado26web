@@ -12,10 +12,12 @@ type SectionItemProps = {
   team: Team
   active: boolean
   onClick: () => void
+  /** 'full' forces the expanded desktop layout regardless of breakpoint (used in mobile drawer) */
+  variant?: 'compact' | 'full'
 }
 
 const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function SectionItem(
-  { team, active, onClick },
+  { team, active, onClick, variant },
   ref,
 ) {
   const { t } = useI18n()
@@ -30,6 +32,8 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
   const pctRounded = Math.round(pct * 100)
   const barFill = done ? '#34d399' : pct > 0 ? '#94a3b8' : undefined
 
+  const full = variant === 'full'
+
   return (
     <button
       ref={ref}
@@ -39,36 +43,42 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
         'w-full flex items-center rounded-lg text-left transition-all duration-100',
         'hover:bg-slate-700/60 active:scale-95',
         active ? 'bg-slate-700 ring-1 ring-slate-600' : '',
-        'flex-col justify-center gap-0.5 px-1 py-2 sm:flex-row sm:gap-3 sm:px-3 sm:py-2.5',
+        full
+          ? 'flex-row gap-3 px-3 py-2.5'
+          : 'flex-col justify-center gap-0.5 px-1 py-2 sm:flex-row sm:gap-3 sm:px-3 sm:py-2.5',
       ].join(' ')}
     >
-      <div className='flex flex-row items-center justify-center gap-1.5 w-full sm:contents'>
+      {/* Flag + mobile mini-bar (hidden in full/desktop layout) */}
+      <div className={full ? 'contents' : 'flex flex-row items-center justify-center gap-1.5 w-full sm:contents'}>
         <span className='text-xl shrink-0 leading-none w-7 text-center'>{team.flag}</span>
-        <div
-          className='flex h-7 w-[3px] shrink-0 flex-col justify-end overflow-hidden rounded-full bg-slate-800 sm:hidden'
-          aria-hidden
-        >
+        {!full && (
           <div
-            className='w-full min-h-0 rounded-full transition-[height] duration-300 ease-out'
-            style={{
-              height: `${pctRounded}%`,
-              backgroundColor: barFill,
-            }}
-          />
-        </div>
+            className='flex h-7 w-[3px] shrink-0 flex-col justify-end overflow-hidden rounded-full bg-slate-800 sm:hidden'
+            aria-hidden
+          >
+            <div
+              className='w-full min-h-0 rounded-full transition-[height] duration-300 ease-out'
+              style={{ height: `${pctRounded}%`, backgroundColor: barFill }}
+            />
+          </div>
+        )}
       </div>
 
-      <span
-        className={[
-          'font-bold font-mono tracking-wide leading-none block text-center sm:hidden',
-          'text-[10px]',
-          active ? `text-${color}-300` : 'text-slate-500',
-        ].join(' ')}
-      >
-        {team.code}
-      </span>
+      {/* Mobile compact code label */}
+      {!full && (
+        <span
+          className={[
+            'font-bold font-mono tracking-wide leading-none block text-center sm:hidden',
+            'text-[10px]',
+            active ? `text-${color}-300` : 'text-slate-500',
+          ].join(' ')}
+        >
+          {team.code}
+        </span>
+      )}
 
-      <div className='hidden sm:flex flex-1 min-w-0 flex-col'>
+      {/* Code + name (desktop or full variant) */}
+      <div className={full ? 'flex flex-1 min-w-0 flex-col' : 'hidden sm:flex flex-1 min-w-0 flex-col'}>
         <span
           className={[
             'text-[13px] font-bold font-mono tracking-wide leading-none block',
@@ -82,10 +92,15 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
         </span>
       </div>
 
-      {/* Fixed-width right column: badge (optional) then progress ring */}
-      <div className='hidden sm:flex items-center gap-1.5 shrink-0' style={{ width: 56 }}>
+      {/* Badge + progress ring — badge optional, ring always right-aligned */}
+      <div
+        className={full ? 'flex items-center gap-1.5 shrink-0' : 'hidden sm:flex items-center gap-1.5 shrink-0'}
+        style={{ width: 56 }}
+      >
         {swaps > 0 && <SwapsBadge swaps={swaps} />}
-        <SectionItemSvg dash={dash} done={done} pct={pct} />
+        <div className='ml-auto'>
+          <SectionItemSvg dash={dash} done={done} pct={pct} />
+        </div>
       </div>
     </button>
   )
