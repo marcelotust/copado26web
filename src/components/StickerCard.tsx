@@ -29,6 +29,8 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
     ?? (sticker.is_special && sticker.number === 1 ? t('sticker.shield') : null)
     ?? (sticker.is_special && sticker.number === 13 ? t('sticker.teamPhoto') : null)
 
+  const isFoil = teamCode === 'WAP' || (sticker.is_special && sticker.number === 1)
+
   const fillsAlbumSpan = albumCell === 'featured-wide'
 
   const isTeamSquadWide =
@@ -85,6 +87,7 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
         silhouetteType={silhouetteType}
         labelColor={labelColor}
         displayLabel={displayLabel}
+        isFoil={isFoil}
         qty={qty}
         floats={floats}
         removals={removals}

@@ -22,6 +22,7 @@ type StickerCardCaptionColumnProps = {
   silhouetteType: SilhouetteType;
   labelColor: string;
   displayLabel: string | null;
+  isFoil: boolean;
   qty: number;
   onAdd: (e: MouseEvent) => void;
   onRemove: (e: MouseEvent) => void;
@@ -37,6 +38,7 @@ export default function StickerCardCaptionColumn({
   silhouetteType,
   labelColor,
   displayLabel,
+  isFoil,
   qty,
   onAdd,
   onRemove,
@@ -49,6 +51,7 @@ export default function StickerCardCaptionColumn({
         secondary={secondary}
         albumFace={albumFace}
         silhouetteType={silhouetteType}
+        isFoil={isFoil}
       />
 
       <div className='mb-0.5 shrink-0 flex justify-center relative z-20'>

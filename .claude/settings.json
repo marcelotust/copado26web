@@ -2,11 +2,7 @@
   "permissions": {
     "allow": [
       "Bash(npx tsc *)",
-      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__list_console_messages",
-      "Bash(npx vite *)",
-      "Bash(curl -s http://127.0.0.1:5173/src/components/StickerCard.tsx)",
-      "Bash(curl -s \"http://127.0.0.1:5173/src/components/StickerCard.tsx\")",
-      "Bash(curl -s \"http://127.0.0.1:5173/src/components/StickerFace.tsx\")"
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__list_console_messages"
     ]
   },
   "hooks": {
