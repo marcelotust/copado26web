@@ -97,7 +97,7 @@ export default function StickerCardBackdrop({
             WebkitMaskComposite: 'destination-out',
             mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
             maskComposite: 'exclude',
-            padding: albumFace === 'featured-wide' ? '10px' : '4px',
+            padding: 'clamp(2px, 0.8vmin, 8px)',
           }}
         />
       )}
