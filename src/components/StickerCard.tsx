@@ -2,9 +2,19 @@ import { useI18n } from '../i18n'
 import { useStickerActions } from '../hooks/useStickerActions'
 import { teamColors } from '../utils'
 import StickerCardBackdrop from './StickerCardBackdrop'
+import StickerButtons from './StickerButtons'
 import ConfirmModal from './ConfirmModal'
 import DuplicatesBadge from './DuplicatesBadge'
 import type { Sticker } from '../types/database'
+
+// Per-card color palette for WAP (Abertura) stickers.
+// 00–05: grey tones; 06: Canada (red/orange); 07: Mexico (greens); 08: USA (blue/red)
+function wapCardColors(n: number): { primary: string; secondary: string } {
+  if (n === 6) return { primary: '#c0392b', secondary: '#e67e22' }
+  if (n === 7) return { primary: '#1a7a3c', secondary: '#2ecc71' }
+  if (n === 8) return { primary: '#1a3a6b', secondary: '#c0392b' }
+  return { primary: '#e8f0f5', secondary: '#94a3b8' }
+}
 
 type StickerCardProps = {
   sticker: Sticker
@@ -23,7 +33,10 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
   const collected = qty > 0
   const dupes = qty - 1
   const numLabel = String(sticker.number).padStart(2, '0')
-  const { primary, secondary } = teamColors(teamCode)
+  const baseColors = teamColors(teamCode)
+  const { primary, secondary } = teamCode === 'WAP'
+    ? wapCardColors(sticker.number)
+    : baseColors
 
   const displayLabel = sticker.player_name
     ?? (sticker.is_special && sticker.number === 1 ? t('sticker.shield') : null)
@@ -35,11 +48,11 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
 
   const isTeamSquadWide =
     albumCell === 'featured-wide' &&
-    sticker.is_special &&
-    sticker.number === 13 &&
-    teamCode !== 'WAP' &&
-    teamCode !== 'FWC' &&
-    teamCode !== 'CC'
+    (
+      (sticker.is_special && sticker.number === 13 && teamCode !== 'WAP' && teamCode !== 'CC') ||
+      (teamCode === 'WAP' && sticker.number >= 0 && sticker.number <= 3) ||
+      teamCode === 'FWC'
+    )
 
   const useEscudoSheen = isTeamSquadWide
   const useWideCyanSheen = albumCell === 'featured-wide' && !isTeamSquadWide
@@ -65,36 +78,47 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
     : n >= 8  && n <= 14 ? '#ea580c'
     : '#087c8a'
 
-  return (
-    <div
-      className={[
-        'relative select-none',
-        isTeamSquadWide ? 'aspect-[3/2] w-[85%]'
-          : fillsAlbumSpan ? 'h-full w-full min-h-0'
-          : 'aspect-[2/3]',
-        popping ? 'animate-pop' : '',
-      ].join(' ')}
-    >
-      <StickerCardBackdrop
-        teamCode={teamCode}
-        collected={collected}
-        useEscudoSheen={useEscudoSheen}
-        useWideCyanSheen={useWideCyanSheen}
-        primary={primary}
-        secondary={secondary}
-        numLabel={numLabel}
-        albumFace={albumFace}
-        silhouetteType={silhouetteType}
-        labelColor={labelColor}
-        displayLabel={displayLabel}
-        isFoil={isFoil}
-        qty={qty}
-        floats={floats}
-        removals={removals}
-        onAdd={handleAdd}
-        onRemove={handleRemove}
-      />
+  const cardFace = (
+    <>
+      <div
+        className={[
+          'relative',
+          isTeamSquadWide ? 'aspect-[3/2] w-full'
+            : fillsAlbumSpan ? 'h-40 w-full'
+            : 'aspect-[2/3] w-full',
+          popping ? 'animate-pop' : '',
+        ].join(' ')}
+      >
+        <StickerCardBackdrop
+          teamCode={teamCode}
+          collected={collected}
+          useEscudoSheen={useEscudoSheen}
+          useWideCyanSheen={useWideCyanSheen}
+          primary={primary}
+          secondary={secondary}
+          numLabel={numLabel}
+          albumFace={albumFace}
+          silhouetteType={silhouetteType}
+          labelColor={labelColor}
+          displayLabel={displayLabel}
+          isFoil={isFoil}
+          floats={floats}
+          removals={removals}
+          useDarkGrayLabel={teamCode === 'WAP' || teamCode === 'FWC'}
+        />
+        {collected && dupes > 0 && (
+          <DuplicatesBadge dupes={dupes} primary={primary} secondary={secondary} />
+        )}
+      </div>
+      <StickerButtons qty={qty} onAdd={handleAdd} onRemove={handleRemove} />
+    </>
+  )
 
+  return (
+    <div className='flex flex-col select-none w-full'>
+      {isTeamSquadWide
+        ? <div className='flex flex-col w-[85%] self-center'>{cardFace}</div>
+        : cardFace}
       <ConfirmModal
         isOpen={showRemoveConfirm}
         title={t('sticker.removeTitle')}
@@ -104,10 +128,6 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
         onConfirm={handleConfirmRemove}
         onCancel={handleCancelRemove}
       />
-
-      {collected && dupes > 0 && (
-        <DuplicatesBadge dupes={dupes} primary={primary} secondary={secondary} />
-      )}
     </div>
   )
 }

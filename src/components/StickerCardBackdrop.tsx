@@ -1,4 +1,3 @@
-import type { MouseEvent } from 'react'
 import FloatPopups from './FloatPopups'
 import FoilGrid from './FoilGrid'
 import StickerCardCaptionColumn from './StickerCardCaptionColumn'
@@ -22,11 +21,9 @@ type StickerCardBackdropProps = {
   labelColor: string
   displayLabel: string | null
   isFoil: boolean
-  qty: number
   floats: number[]
   removals: number[]
-  onAdd: (e: MouseEvent) => void
-  onRemove: (e: MouseEvent) => void
+  useDarkGrayLabel?: boolean
 }
 
 export default function StickerCardBackdrop({
@@ -42,11 +39,9 @@ export default function StickerCardBackdrop({
   labelColor,
   displayLabel,
   isFoil,
-  qty,
   floats,
   removals,
-  onAdd,
-  onRemove,
+  useDarkGrayLabel = false,
 }: StickerCardBackdropProps) {
   const shellStyle = stickerCardShellStyle({ collected, useEscudoSheen, useWideCyanSheen, primary })
 
@@ -54,10 +49,10 @@ export default function StickerCardBackdrop({
     <div
       className={[
         'absolute inset-0 overflow-hidden flex flex-col z-10 transition-all duration-150',
-        isFoil ? (collected ? 'rounded-none' : 'rounded-xl')
-          : collected ? 'shadow-lg rounded-none' : 'rounded-xl',
-        !isFoil && useEscudoSheen && 'rounded-2xl ring-2 ring-amber-400/55 ring-inset',
-        !isFoil && useWideCyanSheen && 'rounded-2xl ring-2 ring-cyan-200/25 ring-inset',
+        'rounded-none',
+        collected && !isFoil && 'shadow-lg',
+        !isFoil && useEscudoSheen && !collected && 'ring-2 ring-amber-400/55 ring-inset',
+        !isFoil && useWideCyanSheen && !collected && 'ring-2 ring-cyan-200/25 ring-inset',
       ].join(' ')}
       style={isFoil ? undefined : shellStyle}
     >
@@ -113,9 +108,7 @@ export default function StickerCardBackdrop({
         labelColor={labelColor}
         displayLabel={displayLabel}
         isFoil={isFoil}
-        qty={qty}
-        onAdd={onAdd}
-        onRemove={onRemove}
+        useDarkGrayLabel={useDarkGrayLabel}
       />
 
       {isFoil && collected && <FoilGrid />}
