@@ -62,12 +62,12 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
       {!full && (
         <div className='flex flex-row items-center justify-center gap-1.5 w-full sm:hidden'>
           {/* Flag and code share the same w-7 column so the code is centred under the flag */}
-          <div className='flex flex-col items-center gap-0.5 w-7 shrink-0'>
-            <span className='text-xl leading-none text-center'>{team.flag}</span>
+          <div className='flex flex-col items-center gap-0.5 w-8 shrink-0'>
+            <span className='text-2xl leading-none text-center'>{team.flag}</span>
             <span
               className={[
                 'font-bold font-mono tracking-wide leading-none text-center',
-                'text-[12px]',
+                'text-[13px]',
                 active ? `text-${color}-300` : 'text-slate-500',
               ].join(' ')}
             >
@@ -75,7 +75,7 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
             </span>
           </div>
           <div
-            className='flex h-8 w-[3px] shrink-0 flex-col justify-end overflow-hidden rounded-full bg-slate-800'
+            className='flex h-8 w-[5px] shrink-0 flex-col justify-end overflow-hidden rounded-full bg-slate-800 -translate-y-0.5'
             aria-hidden
           >
             <div
