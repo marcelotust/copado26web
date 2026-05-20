@@ -66,12 +66,12 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
     : n >= 8  && n <= 14 ? '#ea580c'
     : '#087c8a'
 
-  return (
-    <div className='flex flex-col select-none w-full'>
+  const cardFace = (
+    <>
       <div
         className={[
           'relative',
-          isTeamSquadWide ? 'aspect-[3/2] w-[85%] self-center'
+          isTeamSquadWide ? 'aspect-[3/2] w-full'
             : fillsAlbumSpan ? 'h-40 w-full'
             : 'aspect-[2/3] w-full',
           popping ? 'animate-pop' : '',
@@ -93,18 +93,19 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
           floats={floats}
           removals={removals}
         />
-
         {collected && dupes > 0 && (
           <DuplicatesBadge dupes={dupes} primary={primary} secondary={secondary} />
         )}
       </div>
+      <StickerButtons qty={qty} onAdd={handleAdd} onRemove={handleRemove} />
+    </>
+  )
 
-      <StickerButtons
-        qty={qty}
-        onAdd={handleAdd}
-        onRemove={handleRemove}
-      />
-
+  return (
+    <div className='flex flex-col select-none w-full'>
+      {isTeamSquadWide
+        ? <div className='flex flex-col w-[85%] self-center'>{cardFace}</div>
+        : cardFace}
       <ConfirmModal
         isOpen={showRemoveConfirm}
         title={t('sticker.removeTitle')}

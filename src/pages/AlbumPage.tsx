@@ -20,7 +20,7 @@ function isWideAlbumSticker(s: Sticker, sectionCode: string): boolean {
 function albumStickerWrapperClass(s: Sticker, sectionCode: string): string {
   if (!isWideAlbumSticker(s, sectionCode)) return ''
   if (isVirtualAlbumSection(sectionCode)) return 'col-span-2'
-  return 'flex flex-col max-sm:[grid-column:span_2/-1] sm:col-span-2'
+  return 'flex flex-col self-center max-sm:[grid-column:span_2/-1] sm:col-span-2'
 }
 
 function albumStickerCell(sectionCode: string, s: Sticker): 'featured-wide' | undefined {

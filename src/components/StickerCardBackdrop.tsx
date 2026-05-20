@@ -49,8 +49,8 @@ export default function StickerCardBackdrop({
         'absolute inset-0 overflow-hidden flex flex-col z-10 transition-all duration-150',
         'rounded-none',
         collected && !isFoil && 'shadow-lg',
-        !isFoil && useEscudoSheen && 'ring-2 ring-amber-400/55 ring-inset',
-        !isFoil && useWideCyanSheen && 'ring-2 ring-cyan-200/25 ring-inset',
+        !isFoil && useEscudoSheen && !collected && 'ring-2 ring-amber-400/55 ring-inset',
+        !isFoil && useWideCyanSheen && !collected && 'ring-2 ring-cyan-200/25 ring-inset',
       ].join(' ')}
       style={isFoil ? undefined : shellStyle}
     >
