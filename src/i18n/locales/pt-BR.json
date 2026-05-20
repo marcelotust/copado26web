@@ -104,7 +104,21 @@
     "authRateLimit": "Muitas tentativas. Aguarde alguns minutos e tente novamente.",
     "authInvalid": "E-mail inválido ou credenciais incorretas.",
     "authBanned": "Esta conta não pode acessar o app.",
-    "authInitFailed": "Não foi possível iniciar o login. Recarregue a página."
+    "authInitFailed": "Não foi possível iniciar o login. Recarregue a página.",
+    "notFound": {
+      "tag": "404 · página não encontrada",
+      "title": "Essa figurinha sumiu do álbum.",
+      "subtitle": "O link que você abriu não existe — ou foi colado errado. Volte pra home e siga colando sua coleção.",
+      "primaryCta": "Voltar pra home",
+      "secondaryCta": "Explorar o álbum"
+    },
+    "serverError": {
+      "tag": "500 · erro no servidor",
+      "title": "Deu ruim do nosso lado.",
+      "subtitle": "Algo travou aqui na cola. Tenta recarregar — se continuar, a gente tá olhando.",
+      "primaryCta": "Tentar de novo",
+      "secondaryCta": "Voltar pra home"
+    }
   },
 
   "feedback": {
