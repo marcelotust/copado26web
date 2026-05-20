@@ -49,8 +49,9 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
   const isTeamSquadWide =
     albumCell === 'featured-wide' &&
     (
-      (sticker.is_special && sticker.number === 13 && teamCode !== 'WAP' && teamCode !== 'FWC' && teamCode !== 'CC') ||
-      (teamCode === 'WAP' && sticker.number >= 0 && sticker.number <= 3)
+      (sticker.is_special && sticker.number === 13 && teamCode !== 'WAP' && teamCode !== 'CC') ||
+      (teamCode === 'WAP' && sticker.number >= 0 && sticker.number <= 3) ||
+      teamCode === 'FWC'
     )
 
   const useEscudoSheen = isTeamSquadWide
