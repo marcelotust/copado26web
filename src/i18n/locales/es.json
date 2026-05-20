@@ -275,7 +275,10 @@
     "fwc": "Apertura",
     "group": "Grupo",
     "expand": "Expandir navegación",
-    "collapse": "Contraer navegación"
+    "collapse": "Contraer navegación",
+    "progressTip": "{{collected}} de {{total}} cromos ({{pct}}%)",
+    "swapsTip": "{{count}} cromo duplicado para intercambiar",
+    "swapsTipPlural": "{{count}} cromos duplicados para intercambiar"
   },
 
   "header": {

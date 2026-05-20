@@ -1,6 +1,7 @@
 import { forwardRef } from 'react'
 import { teamColor } from '../utils'
 import { useI18n } from '../i18n'
+import { formatMessage } from '../lib/formatMessage'
 import { useSectionProgress, useSectionSwapCount } from '../state/stickersStore'
 import type { Team } from '../types/database'
 import SectionItemSvg from './SectionItemSvg'
@@ -31,6 +32,15 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
 
   const pctRounded = Math.round(pct * 100)
   const barFill = done ? '#34d399' : pct > 0 ? '#94a3b8' : undefined
+
+  const progressTip = formatMessage(t('sidebar.progressTip'), {
+    collected: String(collected),
+    total: String(total),
+    pct: String(pctRounded),
+  })
+  const swapsTip = swaps > 0
+    ? formatMessage(t(swaps === 1 ? 'sidebar.swapsTip' : 'sidebar.swapsTipPlural'), { count: String(swaps) })
+    : ''
 
   const full = variant === 'full'
 
@@ -91,14 +101,14 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
           {name}
         </span>
         {swaps > 0 && (
-          <div className='absolute right-0 top-1/2 -translate-y-1/2'>
+          <div className='absolute right-0 top-1/2 -translate-y-1/2' title={swapsTip}>
             <SwapsBadge swaps={swaps} />
           </div>
         )}
       </div>
 
       {/* Progress ring — shrink-0 so it never compresses */}
-      <div className={full ? 'shrink-0' : 'hidden sm:block shrink-0'}>
+      <div className={full ? 'shrink-0' : 'hidden sm:block shrink-0'} title={progressTip}>
         <SectionItemSvg dash={dash} done={done} pct={pct} />
       </div>
     </button>

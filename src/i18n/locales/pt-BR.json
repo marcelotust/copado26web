@@ -275,7 +275,10 @@
     "fwc": "Abertura",
     "group": "Grupo",
     "expand": "Expandir navegação",
-    "collapse": "Recolher navegação"
+    "collapse": "Recolher navegação",
+    "progressTip": "{{collected}} de {{total}} figurinhas ({{pct}}%)",
+    "swapsTip": "{{count}} figurinha repetida para trocar",
+    "swapsTipPlural": "{{count}} figurinhas repetidas para trocar"
   },
 
   "header": {

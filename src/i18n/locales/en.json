@@ -275,7 +275,10 @@
     "fwc": "Opening",
     "group": "Group",
     "expand": "Expand navigation",
-    "collapse": "Collapse navigation"
+    "collapse": "Collapse navigation",
+    "progressTip": "{{collected}} of {{total}} stickers ({{pct}}%)",
+    "swapsTip": "{{count}} duplicate sticker to swap",
+    "swapsTipPlural": "{{count}} duplicate stickers to swap"
   },
 
   "header": {

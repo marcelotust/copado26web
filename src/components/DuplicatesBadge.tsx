@@ -66,7 +66,7 @@ export default function DuplicatesBadge({ dupes, primary }: DuplicatesBadgeProps
         <span
           style={{
             color: '#fff',
-            fontSize: dupes >= 10 ? '13px' : '16px',
+            fontSize: dupes >= 10 ? '15px' : '20px',
             fontWeight: 900,
             lineHeight: 1,
             textShadow: '0 1px 3px rgba(0,0,0,0.5)',
