@@ -32,6 +32,36 @@
     );
   }
 
+
+  @property --foil-x {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: -100%;
+  }
+
+  .foil-grid-mask {
+    mask-image: linear-gradient(
+      90deg,
+      transparent var(--foil-x),
+      white calc(var(--foil-x) + 20%),
+      white calc(var(--foil-x) + 80%),
+      transparent calc(var(--foil-x) + 100%)
+    );
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent var(--foil-x),
+      white calc(var(--foil-x) + 20%),
+      white calc(var(--foil-x) + 80%),
+      transparent calc(var(--foil-x) + 100%)
+    );
+    animation: foil-mask-move 7s linear infinite alternate;
+  }
+
+  @keyframes foil-mask-move {
+    from { --foil-x: -100%; }
+    to   { --foil-x: 100%; }
+  }
+
   .scan {
     background-image: repeating-linear-gradient(
       135deg,

@@ -29,6 +29,8 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
     ?? (sticker.is_special && sticker.number === 1 ? t('sticker.shield') : null)
     ?? (sticker.is_special && sticker.number === 13 ? t('sticker.teamPhoto') : null)
 
+  const isFoil = teamCode === 'WAP' || (sticker.is_special && sticker.number === 1)
+
   const fillsAlbumSpan = albumCell === 'featured-wide'
 
   const isTeamSquadWide =
@@ -45,7 +47,13 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
   const albumFace = albumCell === 'featured-wide' ? 'featured-wide' : 'default'
 
   const silhouetteType =
-    sticker.player_name ? 'player' as const
+    teamCode === 'FWC' && sticker.number >= 9 && sticker.number <= 19 ? 'team-photo' as const
+    : teamCode === 'WAP' && (sticker.number === 0 || sticker.number === 4) ? 'shield' as const
+    : teamCode === 'WAP' && (sticker.number === 1 || sticker.number === 2) ? 'trophy' as const
+    : teamCode === 'WAP' && sticker.number === 3 ? 'team-photo' as const
+    : teamCode === 'WAP' && sticker.number === 5 ? 'ball' as const
+    : teamCode === 'WAP' && sticker.number >= 6 && sticker.number <= 8 ? 'trophy' as const
+    : sticker.player_name ? 'player' as const
     : sticker.is_special && sticker.number === 1 ? 'shield' as const
     : sticker.is_special && sticker.number === 13 ? 'team-photo' as const
     : 'none' as const
@@ -79,6 +87,7 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
         silhouetteType={silhouetteType}
         labelColor={labelColor}
         displayLabel={displayLabel}
+        isFoil={isFoil}
         qty={qty}
         floats={floats}
         removals={removals}

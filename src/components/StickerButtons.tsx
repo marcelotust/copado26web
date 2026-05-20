@@ -14,7 +14,7 @@ const btnBase =
 export default function StickerButtons({ qty, collected, softFill = false, onAdd, onRemove }: StickerButtonsProps) {
   const barCls = collected
     ? ['border-t border-slate-600/80', softFill ? 'bg-slate-900/70' : 'bg-slate-900/90'].join(' ')
-    : 'border-t border-slate-700'
+    : 'border-t border-slate-700 bg-slate-900/60'
   const dividerCls = collected ? 'bg-slate-600' : 'bg-slate-700'
 
   // qty === 0: only show "+" taking full width
