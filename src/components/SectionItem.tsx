@@ -58,12 +58,24 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
           : 'flex-col justify-center gap-0.5 px-1 py-2 sm:flex-row sm:gap-3 sm:px-3 sm:py-2.5',
       ].join(' ')}
     >
-      {/* Flag + mobile mini-bar (hidden in full/desktop layout) */}
-      <div className={full ? 'contents' : 'flex flex-row items-center justify-center gap-1.5 w-full sm:contents'}>
-        <span className='text-xl shrink-0 leading-none w-7 text-center'>{team.flag}</span>
-        {!full && (
+      {/* Compact mobile layout: flag + code stacked, mini-bar beside */}
+      {!full && (
+        <div className='flex flex-row items-center justify-center gap-1.5 w-full sm:hidden'>
+          {/* Flag and code share the same w-7 column so the code is centred under the flag */}
+          <div className='flex flex-col items-center gap-0.5 w-7 shrink-0'>
+            <span className='text-xl leading-none text-center'>{team.flag}</span>
+            <span
+              className={[
+                'font-bold font-mono tracking-wide leading-none text-center',
+                'text-[12px]',
+                active ? `text-${color}-300` : 'text-slate-500',
+              ].join(' ')}
+            >
+              {team.code}
+            </span>
+          </div>
           <div
-            className='flex h-7 w-[3px] shrink-0 flex-col justify-end overflow-hidden rounded-full bg-slate-800 sm:hidden'
+            className='flex h-8 w-[3px] shrink-0 flex-col justify-end overflow-hidden rounded-full bg-slate-800'
             aria-hidden
           >
             <div
@@ -71,21 +83,13 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
               style={{ height: `${pctRounded}%`, backgroundColor: barFill }}
             />
           </div>
-        )}
-      </div>
-
-      {/* Mobile compact code label */}
-      {!full && (
-        <span
-          className={[
-            'font-bold font-mono tracking-wide leading-none block text-center sm:hidden',
-            'text-[10px]',
-            active ? `text-${color}-300` : 'text-slate-500',
-          ].join(' ')}
-        >
-          {team.code}
-        </span>
+        </div>
       )}
+
+      {/* Flag for desktop sidebar and full-variant drawer */}
+      <span className={`text-xl shrink-0 leading-none w-7 text-center ${full ? 'block' : 'hidden sm:block'}`}>
+        {team.flag}
+      </span>
 
       {/* Code + name — fills all space up to the ring; badge floats over the name */}
       <div className={`${full ? 'flex' : 'hidden sm:flex'} flex-1 min-w-0 flex-col relative`}>

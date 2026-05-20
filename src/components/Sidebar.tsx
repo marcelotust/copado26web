@@ -122,7 +122,7 @@ export default function Sidebar({ selected, onSelect }: SidebarProps) {
               ].filter(Boolean).join(' ')}
             >
               {/* Section initial aligned with the flags below */}
-              <p className='text-base font-black text-slate-600 text-center w-full py-1 leading-none'>
+              <p className='text-[11px] font-black text-slate-600 text-center w-full py-0.5 leading-none tracking-widest uppercase'>
                 {key.length === 1 ? key : key[0]}
               </p>
               {teams.map((team) => (
