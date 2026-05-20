@@ -24,9 +24,9 @@ export default {
           '100%': { backgroundPosition: '200% 0' }
         },
         'bounce-squish': {
-          '0%, 100%': { transform: 'translateY(-30%) scaleY(1)', animationTimingFunction: 'cubic-bezier(0.8,0,1,1)' },
+          '0%, 100%': { transform: 'translateY(-80%) scaleY(1)', animationTimingFunction: 'cubic-bezier(0.8,0,1,1)' },
           '45%, 55%': { transform: 'translateY(0) scaleY(0.8)', animationTimingFunction: 'cubic-bezier(0,0,0.2,1)' },
-          '75%':      { transform: 'translateY(-30%) scaleY(1)', animationTimingFunction: 'cubic-bezier(0.8,0,1,1)' },
+          '75%':      { transform: 'translateY(-80%) scaleY(1)', animationTimingFunction: 'cubic-bezier(0.8,0,1,1)' },
         }
       },
       animation: {
