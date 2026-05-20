@@ -101,15 +101,15 @@ export default function Sidebar({ selected, onSelect }: SidebarProps) {
         </nav>
       </aside>
 
-      {/* Mobile sidebar — compact strip with toggle button */}
-      <aside className='sm:hidden w-14 shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col overflow-hidden'>
-        {/* Toggle button stays fixed at top while list scrolls */}
+      {/* Mobile sidebar — compact strip with toggle button (w-[76px] = 56 + 20) */}
+      <aside className='sm:hidden w-[76px] shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col overflow-hidden'>
+        {/* Toggle button — fixed at top, does not scroll */}
         <button
-          className='shrink-0 flex items-center justify-center h-10 w-full text-slate-400 hover:text-white hover:bg-slate-800 transition-colors border-b border-slate-800'
+          className='shrink-0 flex items-center justify-center h-12 w-full text-slate-400 hover:text-white hover:bg-slate-800 transition-colors border-b border-slate-800'
           onClick={() => setMobileExpanded(v => !v)}
           aria-label={t(mobileExpanded ? 'sidebar.collapse' : 'sidebar.expand')}
         >
-          <span className='text-base leading-none'>{mobileExpanded ? '✕' : '☰'}</span>
+          <span className='text-2xl leading-none'>{mobileExpanded ? '✕' : '☰'}</span>
         </button>
 
         <nav className='flex-1 overflow-y-auto py-1 px-1'>
@@ -118,9 +118,13 @@ export default function Sidebar({ selected, onSelect }: SidebarProps) {
               key={key}
               className={[
                 'mb-1',
-                index > 0 && 'border-t border-slate-800 pt-2 mt-1.5',
+                index > 0 && 'border-t border-slate-800 pt-1 mt-1',
               ].filter(Boolean).join(' ')}
             >
+              {/* Section initial aligned with the flags below */}
+              <p className='text-base font-black text-slate-600 text-center w-full py-1 leading-none'>
+                {key.length === 1 ? key : key[0]}
+              </p>
               {teams.map((team) => (
                 <SectionItem
                   key={team.code}
@@ -148,11 +152,11 @@ export default function Sidebar({ selected, onSelect }: SidebarProps) {
             onClick={e => e.stopPropagation()}
           >
             <button
-              className='shrink-0 flex items-center justify-center h-10 w-full text-slate-400 hover:text-white hover:bg-slate-800 transition-colors border-b border-slate-800'
+              className='shrink-0 flex items-center justify-center h-12 w-full text-slate-400 hover:text-white hover:bg-slate-800 transition-colors border-b border-slate-800'
               onClick={() => setMobileExpanded(false)}
               aria-label={t('sidebar.collapse')}
             >
-              <span className='text-base leading-none'>✕</span>
+              <span className='text-2xl leading-none'>✕</span>
             </button>
 
             <nav className='flex-1 overflow-y-auto py-1 px-1'>
