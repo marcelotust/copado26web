@@ -1,17 +1,22 @@
 import playerSvg from "../assets/silhouette-player.svg";
 import shieldSvg from "../assets/silhouette-shield.svg";
 import teamSvg from "../assets/silhouette-team.svg";
+// TODO: replace with real SVGs when provided
+import ballSvg from "../assets/silhouette-ball.svg";
+import trophySvg from "../assets/silhouette-trophy.svg";
 
 // The circular number + team-code badge in the center of every sticker card.
 // Heavily styled — split out so StickerCard can stay readable.
 
 type AlbumFace = "default" | "featured-wide";
-type SilhouetteType = "player" | "team-photo" | "shield" | "none";
+type SilhouetteType = "player" | "team-photo" | "shield" | "ball" | "trophy" | "none";
 
 const silhouetteSrc: Record<Exclude<SilhouetteType, "none">, string> = {
   player: playerSvg,
   "team-photo": teamSvg,
   shield: shieldSvg,
+  ball: ballSvg,
+  trophy: trophySvg,
 };
 
 function isWhite(color: string): boolean {
@@ -20,8 +25,6 @@ function isWhite(color: string): boolean {
 }
 
 type StickerFaceProps = {
-  numLabel: string;
-  teamCode: string;
   collected: boolean;
   primary: string;
   secondary: string;
@@ -31,8 +34,6 @@ type StickerFaceProps = {
 };
 
 export default function StickerFace({
-  numLabel,
-  teamCode,
   collected,
   primary,
   secondary,
@@ -46,16 +47,6 @@ export default function StickerFace({
     albumFace === "featured-wide"
       ? "aspect-square h-full max-h-[9.25rem] w-auto max-w-[min(9.25rem,100%)] shrink-0 mx-auto"
       : "w-full aspect-square";
-
-  const numSize =
-    albumFace === "featured-wide"
-      ? { fontSize: "clamp(22px, 5.5vw, 34px)" }
-      : { fontSize: "clamp(26px, 8vw, 38px)" };
-
-  const codeSize =
-    albumFace === "featured-wide"
-      ? { fontSize: "clamp(9px, 2.2vw, 12px)" }
-      : { fontSize: "clamp(9px, 2.5vw, 13px)" };
 
   return (
     <div
@@ -78,13 +69,15 @@ export default function StickerFace({
         {silhouetteType !== "none" && (
           <div
             className={`absolute inset-0 rounded-full overflow-hidden flex justify-center ${
-              silhouetteType === "shield" ? "items-center p-[12%]" : "items-end"
+              silhouetteType === "shield" || silhouetteType === "ball" || silhouetteType === "trophy"
+                ? "items-center p-[12%]"
+                : "items-end"
             }`}
           >
             <img
               src={silhouetteSrc[silhouetteType]}
               className={`${
-                silhouetteType === "shield"
+                silhouetteType === "shield" || silhouetteType === "ball" || silhouetteType === "trophy"
                   ? "w-full h-full"
                   : silhouetteType === "player"
                     ? "w-[70%]"
@@ -100,27 +93,6 @@ export default function StickerFace({
             />
           </div>
         )}
-        <span
-          className={`relative z-10 font-black leading-none tabular-nums ${silhouetteType === "player" || silhouetteType === "team-photo" ? "mt-[60%]" : ""}`}
-          style={{
-            fontFamily: "'Bebas Neue', Impact, sans-serif",
-            ...numSize,
-            color: collected ? "#000" : "#64748b",
-            textShadow: "none",
-          }}
-        >
-          {numLabel}
-        </span>
-        <span
-          className='relative z-10 font-black tracking-widest uppercase leading-none -mt-2'
-          style={{
-            ...codeSize,
-            color: collected ? "#000" : "#475569",
-            textShadow: "none",
-          }}
-        >
-          {teamCode}
-        </span>
       </div>
     </div>
   );

@@ -1,13 +1,23 @@
 {
-  "enabledPlugins": {
-    "vercel@claude-plugins-official": true
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__list_console_messages",
+      "Bash(npx vite *)",
+      "Bash(curl -s http://127.0.0.1:5173/src/components/StickerCard.tsx)",
+      "Bash(curl -s \"http://127.0.0.1:5173/src/components/StickerCard.tsx\")",
+      "Bash(curl -s \"http://127.0.0.1:5173/src/components/StickerFace.tsx\")"
+    ]
   },
   "hooks": {
     "PreToolUse": [
       {
         "matcher": "Bash",
         "hooks": [
-          { "type": "command", "command": "scripts/ai-hooks/adapters/stdin-shell-guard.sh" }
+          {
+            "type": "command",
+            "command": "scripts/ai-hooks/adapters/stdin-shell-guard.sh"
+          }
         ]
       }
     ],
@@ -15,7 +25,10 @@
       {
         "matcher": "Edit|Write|MultiEdit",
         "hooks": [
-          { "type": "command", "command": "scripts/ai-hooks/adapters/post-edit-harness.sh" }
+          {
+            "type": "command",
+            "command": "scripts/ai-hooks/adapters/post-edit-harness.sh"
+          }
         ]
       }
     ],
@@ -23,9 +36,15 @@
       {
         "matcher": "",
         "hooks": [
-          { "type": "command", "command": "scripts/ai-hooks/adapters/stop-harness.sh" }
+          {
+            "type": "command",
+            "command": "scripts/ai-hooks/adapters/stop-harness.sh"
+          }
         ]
       }
     ]
+  },
+  "enabledPlugins": {
+    "vercel@claude-plugins-official": true
   }
 }

@@ -6,7 +6,7 @@ import { stickerCardShellStyle } from './stickerCardShellStyle'
 
 type AlbumFace = 'featured-wide' | 'default'
 
-type SilhouetteType = 'player' | 'team-photo' | 'shield' | 'none'
+type SilhouetteType = 'player' | 'team-photo' | 'shield' | 'ball' | 'trophy' | 'none'
 
 type StickerCardBackdropProps = {
   teamCode: string

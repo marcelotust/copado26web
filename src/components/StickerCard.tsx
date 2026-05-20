@@ -45,7 +45,13 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
   const albumFace = albumCell === 'featured-wide' ? 'featured-wide' : 'default'
 
   const silhouetteType =
-    sticker.player_name ? 'player' as const
+    teamCode === 'FWC' && sticker.number >= 9 && sticker.number <= 19 ? 'team-photo' as const
+    : teamCode === 'WAP' && (sticker.number === 0 || sticker.number === 4) ? 'shield' as const
+    : teamCode === 'WAP' && (sticker.number === 1 || sticker.number === 2) ? 'trophy' as const
+    : teamCode === 'WAP' && sticker.number === 3 ? 'team-photo' as const
+    : teamCode === 'WAP' && sticker.number === 5 ? 'ball' as const
+    : teamCode === 'WAP' && sticker.number >= 6 && sticker.number <= 8 ? 'trophy' as const
+    : sticker.player_name ? 'player' as const
     : sticker.is_special && sticker.number === 1 ? 'shield' as const
     : sticker.is_special && sticker.number === 13 ? 'team-photo' as const
     : 'none' as const
