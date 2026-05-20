@@ -54,7 +54,7 @@ export default function GuestPaywallModal({ onClose }: Props) {
           <div className='absolute inset-0 bg-gradient-to-b from-slate-950/75 via-slate-950/50 to-slate-800' />
           <div className='relative z-10 flex flex-col items-center gap-1.5 px-6 text-center'>
             <div className='w-10 h-1 rounded-full bg-white/25 mb-2' aria-hidden='true' />
-            <BrandMark className='h-10 w-auto' />
+            <BrandMark variant='card-inline' className='h-10 w-auto' />
             <p className='text-blue-200/90 text-xs max-w-xs leading-relaxed' id='paywall-heading'>
               {t('guest.paywall.tagline')}
             </p>

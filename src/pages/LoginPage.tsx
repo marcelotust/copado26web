@@ -36,8 +36,7 @@ export default function LoginPage({ onSendLink, onGoogleLogin, magicLinkSent, er
           className='px-6 py-10 text-center flex flex-col items-center gap-3'
           style={{ background: 'linear-gradient(135deg, #1e3a5f 0%, #1a1a2e 60%, #0d2818 100%)' }}
         >
-          <BrandMark variant='card' className='h-20 w-20' />
-          <BrandMark className='h-6 w-auto opacity-90' />
+          <BrandMark variant='card-inline' className='h-14 w-auto' />
           <p className='text-blue-200/80 text-sm max-w-xs leading-relaxed'>{t('login.tagline')}</p>
         </div>
 

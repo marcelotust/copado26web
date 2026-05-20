@@ -55,9 +55,8 @@ export default function LandingHeroSection({ heroVariant, trackCta }: Props) {
 
       <LandingHeroCopyShell variant={preview.text}>
         <BrandMark
-          variant='card'
-          className='relative z-10 mb-4 h-20 w-20 sm:h-24 sm:w-24 drop-shadow-[0_8px_24px_rgba(15,23,42,0.45)]'
-          ariaLabel=''
+          variant='card-inline'
+          className='relative z-10 mb-2 h-12 sm:h-14 w-auto drop-shadow-[0_8px_24px_rgba(15,23,42,0.45)]'
         />
         <h1 id='hero-heading' className={heroTitleClass(preview.text)}>
           {t('landing.hero.titleBefore')}{' '}
