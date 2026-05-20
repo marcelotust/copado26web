@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import type { Milestone } from './lib/milestoneDetection'
 import type { ConsentState } from './hooks/useAnalyticsConsent'
 import LoadingScreen from './components/LoadingScreen'
@@ -11,6 +11,7 @@ const DashboardPage = lazy(() => import('./pages/DashboardPage'))
 const MissingPage = lazy(() => import('./pages/MissingPage'))
 const SettingsPage = lazy(() => import('./pages/SettingsPage'))
 const SwapsPage = lazy(() => import('./pages/SwapsPage'))
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 type AuthenticatedRoutesProps = {
   userId: string
@@ -56,7 +57,7 @@ export default function AuthenticatedRoutes({
             />
           }
         />
-        <Route path='*' element={<Navigate to='/dashboard' replace />} />
+        <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </Suspense>
   )

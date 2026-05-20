@@ -103,7 +103,21 @@
     "authRateLimit": "Too many attempts. Wait a few minutes and try again.",
     "authInvalid": "Invalid email or credentials.",
     "authBanned": "This account cannot access the app.",
-    "authInitFailed": "Could not start sign-in. Reload the page."
+    "authInitFailed": "Could not start sign-in. Reload the page.",
+    "notFound": {
+      "tag": "404 · page not found",
+      "title": "This sticker isn't in the album.",
+      "subtitle": "The link you opened doesn't exist — or it was mistyped. Head back home and keep building your collection.",
+      "primaryCta": "Back to home",
+      "secondaryCta": "Explore the album"
+    },
+    "serverError": {
+      "tag": "500 · server error",
+      "title": "Something broke on our side.",
+      "subtitle": "Our glue came unstuck. Try reloading — if it keeps happening, we're on it.",
+      "primaryCta": "Try again",
+      "secondaryCta": "Back to home"
+    }
   },
 
   "feedback": {

@@ -1,4 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react'
+import ServerErrorPage from '../pages/ServerErrorPage'
 
 type AppErrorBoundaryProps = {
   children: ReactNode
@@ -29,12 +30,9 @@ export default class AppErrorBoundary extends Component<AppErrorBoundaryProps, A
   override render() {
     if (this.state.error) {
       return (
-        <div style={{ padding: '2rem', color: '#fff', background: '#0f172a', minHeight: '100vh' }}>
-          <h1 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>Algo deu errado</h1>
-          <p style={{ opacity: 0.6, fontSize: '0.875rem' }}>
-            {import.meta.env.DEV ? this.state.error.message : 'Erro inesperado. Tente recarregar a página.'}
-          </p>
-        </div>
+        <ServerErrorPage
+          detail={import.meta.env.DEV ? this.state.error.message : undefined}
+        />
       )
     }
 
