@@ -7,6 +7,15 @@ import ConfirmModal from './ConfirmModal'
 import DuplicatesBadge from './DuplicatesBadge'
 import type { Sticker } from '../types/database'
 
+// Per-card color palette for WAP (Abertura) stickers.
+// 00–05: grey tones; 06: Canada (red/orange); 07: Mexico (greens); 08: USA (blue/red)
+function wapCardColors(n: number): { primary: string; secondary: string } {
+  if (n === 6) return { primary: '#c0392b', secondary: '#e67e22' }
+  if (n === 7) return { primary: '#1a7a3c', secondary: '#2ecc71' }
+  if (n === 8) return { primary: '#1a3a6b', secondary: '#c0392b' }
+  return { primary: '#7ba4c0', secondary: '#b8d4e8' }
+}
+
 type StickerCardProps = {
   sticker: Sticker
   teamCode: string
@@ -24,7 +33,10 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
   const collected = qty > 0
   const dupes = qty - 1
   const numLabel = String(sticker.number).padStart(2, '0')
-  const { primary, secondary } = teamColors(teamCode)
+  const baseColors = teamColors(teamCode)
+  const { primary, secondary } = teamCode === 'WAP'
+    ? wapCardColors(sticker.number)
+    : baseColors
 
   const displayLabel = sticker.player_name
     ?? (sticker.is_special && sticker.number === 1 ? t('sticker.shield') : null)
@@ -92,6 +104,7 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
           isFoil={isFoil}
           floats={floats}
           removals={removals}
+          useDarkGrayLabel={teamCode === 'WAP' || teamCode === 'FWC'}
         />
         {collected && dupes > 0 && (
           <DuplicatesBadge dupes={dupes} primary={primary} secondary={secondary} />

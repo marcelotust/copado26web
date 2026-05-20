@@ -23,6 +23,7 @@ type StickerCardBackdropProps = {
   isFoil: boolean
   floats: number[]
   removals: number[]
+  useDarkGrayLabel?: boolean
 }
 
 export default function StickerCardBackdrop({
@@ -40,6 +41,7 @@ export default function StickerCardBackdrop({
   isFoil,
   floats,
   removals,
+  useDarkGrayLabel = false,
 }: StickerCardBackdropProps) {
   const shellStyle = stickerCardShellStyle({ collected, useEscudoSheen, useWideCyanSheen, primary })
 
@@ -106,6 +108,7 @@ export default function StickerCardBackdrop({
         labelColor={labelColor}
         displayLabel={displayLabel}
         isFoil={isFoil}
+        useDarkGrayLabel={useDarkGrayLabel}
       />
 
       {isFoil && collected && <FoilGrid />}

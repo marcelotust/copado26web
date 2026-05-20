@@ -21,6 +21,7 @@ type StickerCardCaptionColumnProps = {
   labelColor: string;
   displayLabel: string | null;
   isFoil: boolean;
+  useDarkGrayLabel?: boolean;
 };
 
 export default function StickerCardCaptionColumn({
@@ -34,7 +35,10 @@ export default function StickerCardCaptionColumn({
   labelColor,
   displayLabel,
   isFoil,
+  useDarkGrayLabel = false,
 }: StickerCardCaptionColumnProps) {
+  const activeLabelBg = useDarkGrayLabel ? '#374151' : labelColor
+  const inactiveLabelBg = useDarkGrayLabel ? '#1e293b' : `${primary}25`
   return (
     <div className='relative z-10 flex flex-col h-full min-h-0'>
       <StickerFace
@@ -49,7 +53,7 @@ export default function StickerCardCaptionColumn({
       <div className='mb-[10px] shrink-0 flex justify-center relative z-20'>
         <div
           className='flex items-center justify-center gap-1 px-3 pt-[5px] pb-[3px]'
-          style={{ borderRadius: "0 14px 0 14px", background: collected ? labelColor : `${primary}25` }}
+          style={{ borderRadius: "0 14px 0 14px", background: collected ? activeLabelBg : inactiveLabelBg }}
         >
           <span
             className='text-[22px] font-normal leading-none tracking-wide whitespace-nowrap'
@@ -77,7 +81,7 @@ export default function StickerCardCaptionColumn({
         teamCode === "FWC") && (
         <div
           className='mx-1.5 mb-[10px] shrink-0 rounded-full px-2 py-1 text-center'
-          style={{ background: collected ? labelColor : `${primary}25` }}
+          style={{ background: collected ? activeLabelBg : inactiveLabelBg }}
         >
           <p
             className='text-[11px] font-bold leading-tight truncate'
