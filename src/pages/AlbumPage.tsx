@@ -7,6 +7,12 @@ import type { Sticker } from '../types/database'
 const ALBUM_GRID_CLASS =
   'grid grid-flow-dense grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2'
 
+// Virtual sections (WAP/FWC/CC) have only wide (col-span-2) cards or a mix where
+// dense flow on odd-column grids breaks ordering. Use even-column counts so wide
+// cards always divide evenly into rows, and drop grid-flow-dense.
+const VIRTUAL_ALBUM_GRID_CLASS =
+  'grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6 gap-2'
+
 function isVirtualAlbumSection(code: string): boolean {
   return code === 'WAP' || code === 'FWC' || code === 'CC'
 }
@@ -19,7 +25,7 @@ function isWideAlbumSticker(s: Sticker, sectionCode: string): boolean {
 
 function albumStickerWrapperClass(s: Sticker, sectionCode: string): string {
   if (!isWideAlbumSticker(s, sectionCode)) return ''
-  if (isVirtualAlbumSection(sectionCode)) return 'col-span-2'
+  if (isVirtualAlbumSection(sectionCode)) return 'col-span-2 self-center'
   return 'flex flex-col self-center max-sm:[grid-column:span_2/-1] sm:col-span-2'
 }
 
@@ -73,7 +79,7 @@ export default function AlbumPage({ sectionCode }: { sectionCode: string }) {
           </div>
         ) : (
           <div className='mx-auto w-full max-w-6xl'>
-            <div className={ALBUM_GRID_CLASS} data-onboarding-target='album-grid'>
+            <div className={isVirtualAlbumSection(sectionCode) ? VIRTUAL_ALBUM_GRID_CLASS : ALBUM_GRID_CLASS} data-onboarding-target='album-grid'>
               {stickers.map((s, index) => (
                 <div
                   key={s.id}
