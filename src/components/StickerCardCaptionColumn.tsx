@@ -1,5 +1,3 @@
-import type { MouseEvent } from "react";
-import StickerButtons from "./StickerButtons";
 import StickerFace from "./StickerFace";
 
 type AlbumFace = "featured-wide" | "default";
@@ -23,9 +21,6 @@ type StickerCardCaptionColumnProps = {
   labelColor: string;
   displayLabel: string | null;
   isFoil: boolean;
-  qty: number;
-  onAdd: (e: MouseEvent) => void;
-  onRemove: (e: MouseEvent) => void;
 };
 
 export default function StickerCardCaptionColumn({
@@ -39,9 +34,6 @@ export default function StickerCardCaptionColumn({
   labelColor,
   displayLabel,
   isFoil,
-  qty,
-  onAdd,
-  onRemove,
 }: StickerCardCaptionColumnProps) {
   return (
     <div className='relative z-10 flex flex-col h-full min-h-0'>
@@ -96,14 +88,6 @@ export default function StickerCardCaptionColumn({
           </p>
         </div>
       )}
-
-      <div className='relative z-30'>
-        <StickerButtons
-          qty={qty}
-          onAdd={onAdd}
-          onRemove={onRemove}
-        />
-      </div>
     </div>
   );
 }

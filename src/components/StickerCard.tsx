@@ -2,6 +2,7 @@ import { useI18n } from '../i18n'
 import { useStickerActions } from '../hooks/useStickerActions'
 import { teamColors } from '../utils'
 import StickerCardBackdrop from './StickerCardBackdrop'
+import StickerButtons from './StickerButtons'
 import ConfirmModal from './ConfirmModal'
 import DuplicatesBadge from './DuplicatesBadge'
 import type { Sticker } from '../types/database'
@@ -66,31 +67,40 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
     : '#087c8a'
 
   return (
-    <div
-      className={[
-        'relative select-none',
-        isTeamSquadWide ? 'aspect-[3/2] w-[85%]'
-          : fillsAlbumSpan ? 'h-full w-full min-h-0'
-          : 'aspect-[2/3]',
-        popping ? 'animate-pop' : '',
-      ].join(' ')}
-    >
-      <StickerCardBackdrop
-        teamCode={teamCode}
-        collected={collected}
-        useEscudoSheen={useEscudoSheen}
-        useWideCyanSheen={useWideCyanSheen}
-        primary={primary}
-        secondary={secondary}
-        numLabel={numLabel}
-        albumFace={albumFace}
-        silhouetteType={silhouetteType}
-        labelColor={labelColor}
-        displayLabel={displayLabel}
-        isFoil={isFoil}
+    <div className='flex flex-col select-none w-full'>
+      <div
+        className={[
+          'relative',
+          isTeamSquadWide ? 'aspect-[3/2] w-[85%] self-center'
+            : fillsAlbumSpan ? 'h-40 w-full'
+            : 'aspect-[2/3] w-full',
+          popping ? 'animate-pop' : '',
+        ].join(' ')}
+      >
+        <StickerCardBackdrop
+          teamCode={teamCode}
+          collected={collected}
+          useEscudoSheen={useEscudoSheen}
+          useWideCyanSheen={useWideCyanSheen}
+          primary={primary}
+          secondary={secondary}
+          numLabel={numLabel}
+          albumFace={albumFace}
+          silhouetteType={silhouetteType}
+          labelColor={labelColor}
+          displayLabel={displayLabel}
+          isFoil={isFoil}
+          floats={floats}
+          removals={removals}
+        />
+
+        {collected && dupes > 0 && (
+          <DuplicatesBadge dupes={dupes} primary={primary} secondary={secondary} />
+        )}
+      </div>
+
+      <StickerButtons
         qty={qty}
-        floats={floats}
-        removals={removals}
         onAdd={handleAdd}
         onRemove={handleRemove}
       />
@@ -104,10 +114,6 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
         onConfirm={handleConfirmRemove}
         onCancel={handleCancelRemove}
       />
-
-      {collected && dupes > 0 && (
-        <DuplicatesBadge dupes={dupes} primary={primary} secondary={secondary} />
-      )}
     </div>
   )
 }

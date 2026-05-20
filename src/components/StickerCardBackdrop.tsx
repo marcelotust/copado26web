@@ -1,4 +1,3 @@
-import type { MouseEvent } from 'react'
 import FloatPopups from './FloatPopups'
 import FoilGrid from './FoilGrid'
 import StickerCardCaptionColumn from './StickerCardCaptionColumn'
@@ -22,11 +21,8 @@ type StickerCardBackdropProps = {
   labelColor: string
   displayLabel: string | null
   isFoil: boolean
-  qty: number
   floats: number[]
   removals: number[]
-  onAdd: (e: MouseEvent) => void
-  onRemove: (e: MouseEvent) => void
 }
 
 export default function StickerCardBackdrop({
@@ -42,11 +38,8 @@ export default function StickerCardBackdrop({
   labelColor,
   displayLabel,
   isFoil,
-  qty,
   floats,
   removals,
-  onAdd,
-  onRemove,
 }: StickerCardBackdropProps) {
   const shellStyle = stickerCardShellStyle({ collected, useEscudoSheen, useWideCyanSheen, primary })
 
@@ -113,9 +106,6 @@ export default function StickerCardBackdrop({
         labelColor={labelColor}
         displayLabel={displayLabel}
         isFoil={isFoil}
-        qty={qty}
-        onAdd={onAdd}
-        onRemove={onRemove}
       />
 
       {isFoil && collected && <FoilGrid />}
