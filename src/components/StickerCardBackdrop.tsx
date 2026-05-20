@@ -1,5 +1,6 @@
 import type { MouseEvent } from 'react'
 import FloatPopups from './FloatPopups'
+import FoilGrid from './FoilGrid'
 import StickerCardCaptionColumn from './StickerCardCaptionColumn'
 import StickerCardSheens from './StickerCardSheens'
 import { stickerCardShellStyle } from './stickerCardShellStyle'
@@ -88,14 +89,10 @@ export default function StickerCardBackdrop({
       />
 
       {isFoil && collected && (
-        <div className='absolute inset-0 pointer-events-none foil-shine' />
-      )}
-
-      {isFoil && collected && (
         <div
           className='absolute inset-0 pointer-events-none rounded-none'
           style={{
-            background: 'linear-gradient(45deg, #909090 0%, #909090 15%, #ffffff 18%, #ffffff 22%, #888888 25%, #888888 45%, #f5f5f5 48%, #f5f5f5 52%, #909090 55%, #909090 75%, #ffffff 78%, #ffffff 82%, #909090 85%, #909090 100%)',
+            background: 'linear-gradient(45deg, #f9f9f9 0%, #cbcbcb 22.22%, #808080 28.46%, #ffffff 35.31%, #d2d2d2 40.79%, #969696 56.77%, #f9f9f9 100%)',
             WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
             WebkitMaskComposite: 'destination-out',
             mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
@@ -120,6 +117,8 @@ export default function StickerCardBackdrop({
         onAdd={onAdd}
         onRemove={onRemove}
       />
+
+      {isFoil && collected && <FoilGrid />}
 
       <FloatPopups floats={floats} removals={removals} />
 

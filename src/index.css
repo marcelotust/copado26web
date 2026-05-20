@@ -33,25 +33,33 @@
   }
 
 
-  .foil-shine {
-    background: linear-gradient(
-      105deg,
-      transparent 20%,
-      oklch(0.85 0.18 210 / 0.4) 35%,
-      oklch(0.88 0.20 300 / 0.4) 50%,
-      oklch(0.90 0.18 60  / 0.4) 65%,
-      transparent 80%
-    );
-    background-size: 300% 300%;
-    background-repeat: no-repeat;
-    mix-blend-mode: screen;
-    animation: foil-sweep 6s ease-in-out infinite;
+  @property --foil-x {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: -100%;
   }
 
-  @keyframes foil-sweep {
-    0%   { background-position: 200% 200%; }
-    70%  { background-position: -100% -100%; }
-    100% { background-position: -100% -100%; }
+  .foil-grid-mask {
+    mask-image: linear-gradient(
+      90deg,
+      transparent var(--foil-x),
+      white calc(var(--foil-x) + 20%),
+      white calc(var(--foil-x) + 80%),
+      transparent calc(var(--foil-x) + 100%)
+    );
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent var(--foil-x),
+      white calc(var(--foil-x) + 20%),
+      white calc(var(--foil-x) + 80%),
+      transparent calc(var(--foil-x) + 100%)
+    );
+    animation: foil-mask-move 7s linear infinite alternate;
+  }
+
+  @keyframes foil-mask-move {
+    from { --foil-x: -100%; }
+    to   { --foil-x: 100%; }
   }
 
   .scan {
