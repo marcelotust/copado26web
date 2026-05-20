@@ -37,8 +37,8 @@ export default function StickerCardCaptionColumn({
   isFoil,
   useDarkGrayLabel = false,
 }: StickerCardCaptionColumnProps) {
-  const activeLabelBg = useDarkGrayLabel ? '#374151' : labelColor
-  const inactiveLabelBg = useDarkGrayLabel ? '#1e293b' : `${primary}25`
+  const activeLabelBg = useDarkGrayLabel ? '#6b7280' : labelColor
+  const inactiveLabelBg = useDarkGrayLabel ? '#374151' : `${primary}25`
   return (
     <div className='relative z-10 flex flex-col h-full min-h-0'>
       <StickerFace

@@ -13,7 +13,7 @@ function wapCardColors(n: number): { primary: string; secondary: string } {
   if (n === 6) return { primary: '#c0392b', secondary: '#e67e22' }
   if (n === 7) return { primary: '#1a7a3c', secondary: '#2ecc71' }
   if (n === 8) return { primary: '#1a3a6b', secondary: '#c0392b' }
-  return { primary: '#7ba4c0', secondary: '#b8d4e8' }
+  return { primary: '#e8f0f5', secondary: '#94a3b8' }
 }
 
 type StickerCardProps = {
