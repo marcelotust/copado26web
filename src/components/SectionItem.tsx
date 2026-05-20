@@ -1,9 +1,11 @@
 import { forwardRef } from 'react'
 import { teamColor } from '../utils'
 import { useI18n } from '../i18n'
-import { useSectionProgress } from '../state/stickersStore'
+import { formatMessage } from '../lib/formatMessage'
+import { useSectionProgress, useSectionSwapCount } from '../state/stickersStore'
 import type { Team } from '../types/database'
 import SectionItemSvg from './SectionItemSvg'
+import SwapsBadge from './SwapsBadge'
 
 const CIRC = 2 * Math.PI * 11
 
@@ -11,14 +13,17 @@ type SectionItemProps = {
   team: Team
   active: boolean
   onClick: () => void
+  /** 'full' forces the expanded desktop layout regardless of breakpoint (used in mobile drawer) */
+  variant?: 'compact' | 'full'
 }
 
 const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function SectionItem(
-  { team, active, onClick },
+  { team, active, onClick, variant },
   ref,
 ) {
   const { t } = useI18n()
   const { total, collected } = useSectionProgress(team.code)
+  const swaps = useSectionSwapCount(team.code)
   const pct = total > 0 ? collected / total : 0
   const dash = pct * CIRC
   const done = collected === total && total > 0
@@ -27,6 +32,17 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
 
   const pctRounded = Math.round(pct * 100)
   const barFill = done ? '#34d399' : pct > 0 ? '#94a3b8' : undefined
+
+  const progressTip = formatMessage(t('sidebar.progressTip'), {
+    collected: String(collected),
+    total: String(total),
+    pct: String(pctRounded),
+  })
+  const swapsTip = swaps > 0
+    ? formatMessage(t(swaps === 1 ? 'sidebar.swapsTip' : 'sidebar.swapsTipPlural'), { count: String(swaps) })
+    : ''
+
+  const full = variant === 'full'
 
   return (
     <button
@@ -37,36 +53,46 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
         'w-full flex items-center rounded-lg text-left transition-all duration-100',
         'hover:bg-slate-700/60 active:scale-95',
         active ? 'bg-slate-700 ring-1 ring-slate-600' : '',
-        'flex-col justify-center gap-0.5 px-1 py-2 sm:flex-row sm:gap-3 sm:px-3 sm:py-2.5',
+        full
+          ? 'flex-row gap-3 px-3 py-2.5'
+          : 'flex-col justify-center gap-0.5 px-1 py-2 sm:flex-row sm:gap-3 sm:px-3 sm:py-2.5',
       ].join(' ')}
     >
-      <div className='flex flex-row items-center justify-center gap-1.5 w-full sm:contents'>
-        <span className='text-xl shrink-0 leading-none w-7 text-center'>{team.flag}</span>
-        <div
-          className='flex h-7 w-[3px] shrink-0 flex-col justify-end overflow-hidden rounded-full bg-slate-800 sm:hidden'
-          aria-hidden
-        >
+      {/* Compact mobile layout: flag + code stacked, mini-bar beside */}
+      {!full && (
+        <div className='flex flex-row items-center justify-center gap-1.5 w-full sm:hidden'>
+          {/* Flag and code share the same w-7 column so the code is centred under the flag */}
+          <div className='flex flex-col items-center gap-0.5 w-8 shrink-0'>
+            <span className='text-2xl leading-none text-center'>{team.flag}</span>
+            <span
+              className={[
+                'font-bold font-mono tracking-wide leading-none text-center',
+                'text-[13px]',
+                active ? `text-${color}-300` : 'text-slate-500',
+              ].join(' ')}
+            >
+              {team.code}
+            </span>
+          </div>
           <div
-            className='w-full min-h-0 rounded-full transition-[height] duration-300 ease-out'
-            style={{
-              height: `${pctRounded}%`,
-              backgroundColor: barFill,
-            }}
-          />
+            className='flex h-8 w-[5px] shrink-0 flex-col justify-end overflow-hidden rounded-full bg-slate-800 -translate-y-0.5'
+            aria-hidden
+          >
+            <div
+              className='w-full min-h-0 rounded-full transition-[height] duration-300 ease-out'
+              style={{ height: `${pctRounded}%`, backgroundColor: barFill }}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
-      <span
-        className={[
-          'font-bold font-mono tracking-wide leading-none block text-center sm:hidden',
-          'text-[10px]',
-          active ? `text-${color}-300` : 'text-slate-500',
-        ].join(' ')}
-      >
-        {team.code}
+      {/* Flag for desktop sidebar and full-variant drawer */}
+      <span className={`text-xl shrink-0 leading-none w-7 text-center ${full ? 'block' : 'hidden sm:block'}`}>
+        {team.flag}
       </span>
 
-      <div className='hidden sm:flex flex-1 min-w-0 flex-col'>
+      {/* Code + name — fills all space up to the ring; badge floats over the name */}
+      <div className={`${full ? 'flex' : 'hidden sm:flex'} flex-1 min-w-0 flex-col relative`}>
         <span
           className={[
             'text-[13px] font-bold font-mono tracking-wide leading-none block',
@@ -75,12 +101,20 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
         >
           {team.code}
         </span>
-        <span className='text-[11px] text-slate-600 truncate block leading-tight mt-0.5'>
+        <span className='text-[12px] text-slate-500 truncate block leading-tight mt-0.5'>
           {name}
         </span>
+        {swaps > 0 && (
+          <div className='absolute right-0 top-1/2 -translate-y-1/2' title={swapsTip}>
+            <SwapsBadge swaps={swaps} />
+          </div>
+        )}
       </div>
 
-      <SectionItemSvg dash={dash} done={done} pct={pct} />
+      {/* Progress ring — shrink-0 so it never compresses */}
+      <div className={full ? 'shrink-0' : 'hidden sm:block shrink-0'} title={progressTip}>
+        <SectionItemSvg dash={dash} done={done} pct={pct} />
+      </div>
     </button>
   )
 })

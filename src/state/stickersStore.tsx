@@ -12,6 +12,7 @@ export {
   useSwaps,
   useMissing,
   useTradeIdLists,
+  useSectionSwapCount,
   useAdjustSticker,
   useResetAlbum,
   useReplaceAllQuantities,

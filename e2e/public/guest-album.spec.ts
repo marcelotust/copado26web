@@ -8,5 +8,6 @@ test('guest album renders catalog without login', async ({ page }) => {
   })
 
   // Once stubbed catalog loads, the team sidebar renders (locale-agnostic).
-  await expect(page.locator('aside nav')).toBeVisible({ timeout: 15_000 })
+  // Use first() because the sidebar renders two <aside> elements (desktop + mobile).
+  await expect(page.locator('aside nav').first()).toBeVisible({ timeout: 15_000 })
 })
