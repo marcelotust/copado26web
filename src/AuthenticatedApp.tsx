@@ -20,6 +20,10 @@ import CatalogErrorScreen from './components/CatalogErrorScreen'
 import ChallengeCompletedModal from './components/ChallengeCompletedModal'
 import { useChallengeCompletion } from './hooks/useChallengeCompletion'
 import OnboardingGate from './components/onboarding/OnboardingGate'
+import { FeatureFlag, telemetry } from './lib/telemetry'
+import { useProfile } from './state/friends'
+import NicknameBanner from './components/friends/NicknameBanner'
+import NicknameSetupModal from './components/friends/NicknameSetupModal'
 const DEFAULT_SECTION = 'BRA'
 type AuthenticatedAppProps = { session: Session; signOut: () => Promise<void> }
 export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppProps) {
@@ -33,6 +37,9 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
     t,
   })
   const { activeCompletion, dismissCompletion } = useChallengeCompletion(session.user.id)
+  const friendsEnabled = telemetry.flag(FeatureFlag.FRIENDS_V1)
+  const { profile, setNickname } = useProfile(session.user.id)
+  const [nicknameModalOpen, setNicknameModalOpen] = useState(false)
   const teams = useTeams()
   const [section, setSection] = useState(() => readLastAlbumSection() ?? DEFAULT_SECTION)
   const navigate = useNavigate()
@@ -65,6 +72,9 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
     <div className='fixed inset-0 flex flex-col bg-slate-950 text-white'>
       <Header onLogout={handleSignOut} email={email} />
       <TabNav />
+      {friendsEnabled && !profile && (
+        <NicknameBanner onSetNickname={() => setNicknameModalOpen(true)} />
+      )}
       <div className='flex flex-1 min-h-0'>
         {showAlbumSidebar && (
           <Sidebar
@@ -90,6 +100,16 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
       <MilestoneModal milestone={activeMilestone} onDismiss={dismissMilestone} />
       <ChallengeCompletedModal challenge={activeCompletion} onDismiss={dismissCompletion} />
       <OnboardingGate userId={session.user.id} consent={consent} />
+      {friendsEnabled && (
+        <NicknameSetupModal
+          isOpen={nicknameModalOpen}
+          onClose={() => setNicknameModalOpen(false)}
+          onSave={async (nick) => {
+            const result = await setNickname(nick)
+            return { ok: result.ok, error: result.error }
+          }}
+        />
+      )}
     </div>
   )
 }

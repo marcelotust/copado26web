@@ -11,6 +11,8 @@ const DashboardPage = lazy(() => import('./pages/DashboardPage'))
 const MissingPage = lazy(() => import('./pages/MissingPage'))
 const SettingsPage = lazy(() => import('./pages/SettingsPage'))
 const SwapsPage = lazy(() => import('./pages/SwapsPage'))
+const FriendsPage = lazy(() => import('./pages/FriendsPage'))
+const FriendProfilePage = lazy(() => import('./pages/FriendProfilePage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 type AuthenticatedRoutesProps = {
@@ -44,6 +46,9 @@ export default function AuthenticatedRoutes({
         <Route path='/missing' element={<MissingPage />} />
         <Route path='/swaps' element={<SwapsPage />} />
         <Route path='/challenges' element={<ChallengesPage />} />
+        <Route path='/friends' element={<FriendsPage userId={userId} />} />
+        <Route path='/friends/add' element={<FriendsPage userId={userId} />} />
+        <Route path='/u/:nickname' element={<FriendProfilePage currentUserId={userId} />} />
         <Route
           path='/settings'
           element={

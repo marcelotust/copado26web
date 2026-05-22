@@ -42,11 +42,26 @@ export const AnalyticsEvent = {
   LANDING_CTA_CLICKED: 'landing_cta_clicked',
   GUEST_ALBUM_VIEWED: 'guest_album_viewed',
   GUEST_STICKER_TAPPED: 'guest_sticker_tapped',
+  // Friends & Trades (friends_v1)
+  NICKNAME_SET: 'nickname_set',
+  NICKNAME_CHANGED: 'nickname_changed',
+  PROFILE_VISIBILITY_CHANGED: 'profile_visibility_changed',
+  FRIEND_REQUEST_SENT: 'friend_request_sent',
+  FRIEND_REQUEST_RECEIVED: 'friend_request_received',
+  FRIEND_REQUEST_ACCEPTED: 'friend_request_accepted',
+  FRIEND_REQUEST_DECLINED: 'friend_request_declined',
+  FRIEND_REMOVED: 'friend_removed',
+  FRIEND_PROFILE_VIEWED: 'friend_profile_viewed',
+  TRADE_SUGGESTION_VIEWED: 'trade_suggestion_viewed',
+  TRADE_SUGGESTION_MATCH_COUNT: 'trade_suggestion_match_count',
+  QR_PROFILE_GENERATED: 'qr_profile_generated',
+  QR_PROFILE_SCANNED: 'qr_profile_scanned',
 } as const
 
 /** PostHog feature-flag keys used by the app. Centralized so search-by-key works. */
 export const FeatureFlag = {
   LANDING_HERO_CTA: 'landing_hero_cta',
+  FRIENDS_V1: 'friends_v1',
 } as const
 
 export type FeatureFlagKey = (typeof FeatureFlag)[keyof typeof FeatureFlag]

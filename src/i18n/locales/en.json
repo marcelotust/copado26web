@@ -1,7 +1,6 @@
 {
   "appSubtitle": "Sticker Album",
   "loading": "Setting up your album…",
-
   "share": {
     "appName": "My Album 2026",
     "cta": "Track your sticker album in the app — it's free!",
@@ -11,7 +10,6 @@
     "signature": "Track your album at meualbum2026.app — it's free,\nand you can swap dupes with friends on WhatsApp.",
     "scanCta": "Point your camera to open the app"
   },
-
   "milestone": {
     "tagline": "FIFA World Cup 2026",
     "teamHeadline": "Squad complete! 🎉",
@@ -23,7 +21,6 @@
     "share": "Share",
     "sharing": "Preparing…"
   },
-
   "conf": {
     "CONMEBOL": "South America",
     "CONCACAF": "N/C America",
@@ -35,7 +32,6 @@
     "SPECIAL": "Special",
     "FWC": "FIFA World Cup"
   },
-
   "teams": {
     "ARG": "Argentina",
     "BRA": "Brazil",
@@ -86,19 +82,17 @@
     "NZL": "New Zealand",
     "CUW": "Curaçao"
   },
-
   "sections": {
     "wap": "Opening",
     "fwc": "World Cup History",
-    "cc":  "Coca-Cola"
+    "cc": "Coca-Cola"
   },
-
   "errors": {
     "offlineTitle": "You're offline",
-    "offlineDesc":  "The app needs an internet connection the first time it opens. Connect and try again.",
+    "offlineDesc": "The app needs an internet connection the first time it opens. Connect and try again.",
     "catalogTitle": "Could not load the album",
-    "catalogDesc":  "Please try again in a moment.",
-    "retry":        "Try again",
+    "catalogDesc": "Please try again in a moment.",
+    "retry": "Try again",
     "authGeneric": "Could not sign in. Please try again in a moment.",
     "authRateLimit": "Too many attempts. Wait a few minutes and try again.",
     "authInvalid": "Invalid email or credentials.",
@@ -119,7 +113,6 @@
       "secondaryCta": "Back to home"
     }
   },
-
   "feedback": {
     "dismiss": "Close",
     "exportSuccess": "CSV exported successfully.",
@@ -128,10 +121,8 @@
     "importFailed": "Could not import the album. Please try again.",
     "restoreFailed": "Could not restore the backup. Please try again.",
     "stickerUpdateFailed": "Could not save the sticker. Try again.",
-    "deleteAccountFailed": "Could not delete your account. Try again or contact support.",
     "deleteAccountFailed": "Could not delete your account. Try again or contact support."
   },
-
   "consent": {
     "label": "Analytics consent banner",
     "message": "We use anonymous usage data to improve the app. No personally identifiable information is collected.",
@@ -139,7 +130,6 @@
     "accept": "Accept",
     "decline": "Decline"
   },
-
   "nav": {
     "home": "Home",
     "album": "Album",
@@ -148,7 +138,6 @@
     "challenges": "Challenges",
     "tradeByQr": "Trade by QR code"
   },
-
   "trade": {
     "pageTitle": "Trade by QR code",
     "backHome": "Home",
@@ -171,7 +160,6 @@
     "close": "Close",
     "emptyLists": "Mark at least one duplicate sticker in your album first, then open this again."
   },
-
   "dashboard": {
     "globalProgress": "Overall progress",
     "byGroup": "By group",
@@ -189,7 +177,6 @@
     "milestoneAlbum": "{{pct}}% of album",
     "replay": "▶ replay"
   },
-
   "guest": {
     "loading": "Loading album…",
     "loadError": "Could not load the album.",
@@ -199,7 +186,6 @@
       "dismiss": "Not now"
     }
   },
-
   "challenges": {
     "easy": "Easy",
     "medium": "Medium",
@@ -270,7 +256,6 @@
       }
     }
   },
-
   "sidebar": {
     "fwc": "Opening",
     "group": "Group",
@@ -280,16 +265,13 @@
     "swapsTip": "{{count}} duplicate sticker to swap",
     "swapsTipPlural": "{{count}} duplicate stickers to swap"
   },
-
   "header": {
     "swaps": "Swaps"
   },
-
   "grid": {
     "loading": "Loading stickers…",
     "hint": "Left-click to add · Right-click to remove"
   },
-
   "swaps": {
     "title": "Swaps",
     "sticker": "sticker",
@@ -301,7 +283,6 @@
     "share": "Share",
     "copied": "Copied!"
   },
-
   "login": {
     "tagline": "Your assistant to complete the greatest World Cup sticker album of all time",
     "description": "Track your sticker collection for free. No passwords — just your email.",
@@ -324,14 +305,12 @@
     "clickToSignIn": "Click it to sign in — no password needed.",
     "linkExpires": "The link expires in 1 hour."
   },
-
   "menu": {
     "logout": "Logout",
     "settings": "Settings",
     "language": "Language",
     "loggedInAs": "Logged in as"
   },
-
   "settings": {
     "title": "Settings",
     "account": "Account",
@@ -406,7 +385,6 @@
     "deleteAccountConfirmNo": "Cancel",
     "deletingAccount": "Deleting…"
   },
-
   "missing": {
     "sticker": "sticker",
     "stickers": "stickers",
@@ -428,7 +406,6 @@
       "noMatch": "No matches"
     }
   },
-
   "sticker": {
     "shield": "Shield",
     "teamPhoto": "Team Photo",
@@ -437,7 +414,6 @@
     "removeConfirm": "Remove",
     "removeCancel": "Cancel"
   },
-
   "onboarding": {
     "label": "Album first steps",
     "eyebrow": "First steps",
@@ -480,7 +456,6 @@
       "body": "Just keep tapping stickers. Every one counts — let's complete the World Cup set!"
     }
   },
-
   "landing": {
     "skipToContent": "Skip to content",
     "homeAriaLabel": "My Album 2026 — home page",
@@ -496,10 +471,18 @@
       "exploreAlbum": "Explore the album"
     },
     "stats": {
-      "stickers": { "label": "stickers" },
-      "teams": { "label": "teams" },
-      "groups": { "label": "groups" },
-      "hosts": { "label": "host nations" }
+      "stickers": {
+        "label": "stickers"
+      },
+      "teams": {
+        "label": "teams"
+      },
+      "groups": {
+        "label": "groups"
+      },
+      "hosts": {
+        "label": "host nations"
+      }
     },
     "features": {
       "eyebrow": "Why My Album 2026?",
@@ -586,7 +569,6 @@
       "disclaimer": "Not affiliated with FIFA™, Panini™, or any of their subsidiaries. Independent fan project."
     }
   },
-
   "legal": {
     "back": "Back to app",
     "version": "Version 2026-05-12. Placeholder copy pending legal review.",
@@ -601,6 +583,105 @@
       "intro": "The service is provided as-is for personal sticker collection management during the MVP phase.",
       "use": "Do not misuse the service, attempt unauthorized access, or upload unlawful content through support channels.",
       "liability": "The operator is not liable for album data loss beyond reasonable efforts to maintain cloud availability."
+    }
+  },
+  "friends": {
+    "nav": {
+      "friends": "Friends"
+    },
+    "banner": {
+      "text": "Create a nickname to add friends and see trade suggestions!",
+      "cta": "Create nickname",
+      "dismiss": "Dismiss"
+    },
+    "nickname": {
+      "title": "Create nickname",
+      "hint": "Your nickname is public and lets friends find you. You can change it anytime.",
+      "label": "Nickname",
+      "placeholder": "yournickname",
+      "formatHint": "3–20 characters: lowercase letters, numbers, and _",
+      "save": "Save",
+      "saving": "Saving…",
+      "cancel": "Cancel",
+      "errorFormat": "Invalid nickname. Use 3–20 characters: a–z, 0–9, _",
+      "errorReserved": "This nickname is reserved. Try another.",
+      "errorTaken": "Nickname already taken. Try another.",
+      "errorGeneric": "Could not save. Please try again."
+    },
+    "settings": {
+      "title": "Public profile",
+      "nicknameLabel": "Nickname",
+      "noNickname": "Not set",
+      "setNickname": "Create nickname",
+      "changeNickname": "Change nickname",
+      "displayNameLabel": "Display name",
+      "displayNamePlaceholder": "How you want to be known",
+      "save": "Save",
+      "visibilityLabel": "Who can see my collection",
+      "visibilityHint": "Friends can see your duplicates to suggest trades.",
+      "public": "Public",
+      "friends": "Friends",
+      "private": "Private"
+    },
+    "page": {
+      "title": "Friends",
+      "addFriend": "Add friend",
+      "myFriends": "My friends",
+      "empty": "No friends yet. Add someone to see trade suggestions!"
+    },
+    "requests": {
+      "pending": "Pending requests",
+      "recentlyAccepted": "Recently accepted (7 days)",
+      "accept": "Accept",
+      "decline": "Decline"
+    },
+    "removeFriend": "Remove friend",
+    "removeConfirmTitle": "Remove friend?",
+    "removeConfirmDesc": "Are you sure you want to remove {{name}} from your friends?",
+    "removeConfirmYes": "Yes, remove",
+    "removeConfirmNo": "Cancel",
+    "add": {
+      "title": "Add friend",
+      "tabNickname": "Nickname",
+      "tabEmail": "Email",
+      "tabQr": "QR Code",
+      "nicknamePlaceholder": "friend's nickname",
+      "searching": "Searching…",
+      "notFound": "No user with this nickname.",
+      "emailHint": "If the account exists, the request will be sent. You won't know if the email is registered.",
+      "emailPlaceholder": "email@example.com",
+      "send": "Send request",
+      "sent": "Request sent!",
+      "sentHint": "When your friend accepts, they will appear in your list.",
+      "error": "Could not send. Please try again."
+    },
+    "qr": {
+      "hint": "This is your profile QR (@{{nickname}}). Ask a friend to scan it.",
+      "copyLink": "Copy link",
+      "copied": "Copied!",
+      "myCode": "My QR code",
+      "scanFriend": "Scan a friend's QR",
+      "scanHint": "Point the camera at your friend's QR code.",
+      "cameraDenied": "Camera blocked. Paste the link below:",
+      "pasteLink": "Paste your friend's profile link",
+      "use": "Use",
+      "loading": "Loading camera…"
+    },
+    "profile": {
+      "back": "Back",
+      "stickers": "stickers",
+      "collected": "Has",
+      "missing": "Missing",
+      "duplicates": "Duplicates",
+      "private": "This user's collection is private.",
+      "friendsOnly": "Collection is visible to friends only."
+    },
+    "trades": {
+      "title": "You can trade",
+      "empty": "No matches right now. Keep adding stickers!",
+      "private": "Your friend's collection is private.",
+      "theyHaveINeed": "They have, you need",
+      "iHaveTheyNeed": "You have, they need"
     }
   }
 }

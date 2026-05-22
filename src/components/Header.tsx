@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useI18n } from '../i18n'
 import { useAlbumProgress } from '../state/stickersStore'
+import { FeatureFlag, telemetry } from '../lib/telemetry'
 import ProgressBar from './ProgressBar'
 import HeaderMenu from './HeaderMenu'
 import BrandMark from './brand/BrandMark'
 import TradeQRModal from './TradeQRModal'
+import FriendsHeaderButton from './friends/FriendsHeaderButton'
 
 type HeaderProps = { email?: string; onLogout: () => void }
 
@@ -13,6 +15,7 @@ export default function Header({ email, onLogout }: HeaderProps) {
   const { t } = useI18n()
   const { total, collected } = useAlbumProgress()
   const [tradeQrOpen, setTradeQrOpen] = useState(false)
+  const friendsEnabled = telemetry.flag(FeatureFlag.FRIENDS_V1)
 
   return (
     <header className='shrink-0 flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 bg-slate-900/95 backdrop-blur z-40 relative'>
@@ -45,6 +48,8 @@ export default function Header({ email, onLogout }: HeaderProps) {
       >
         🏆
       </Link>
+
+      {friendsEnabled && <FriendsHeaderButton />}
 
       <TradeQRModal open={tradeQrOpen} onClose={() => setTradeQrOpen(false)} />
 
