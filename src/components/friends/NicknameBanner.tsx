@@ -11,9 +11,7 @@ function dismiss(): void {
   try { localStorage.setItem(DISMISS_KEY, '1') } catch { /* private mode */ }
 }
 
-type Props = { onSetNickname?: () => void }
-
-export default function NicknameBanner({ onSetNickname }: Props) {
+export default function NicknameBanner() {
   const { t } = useI18n()
   const [visible, setVisible] = useState(() => !isDismissed())
   const navigate = useNavigate()

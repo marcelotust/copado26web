@@ -73,7 +73,7 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
       <Header onLogout={handleSignOut} email={email} />
       <TabNav />
       {friendsEnabled && !profile && (
-        <NicknameBanner onSetNickname={() => setNicknameModalOpen(true)} />
+        <NicknameBanner />
       )}
       <div className='flex flex-1 min-h-0'>
         {showAlbumSidebar && (
