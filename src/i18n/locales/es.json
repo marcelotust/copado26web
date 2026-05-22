@@ -1,7 +1,6 @@
 {
   "appSubtitle": "Álbum de Cromos",
   "loading": "Configurando tu álbum…",
-
   "share": {
     "appName": "Mi Álbum 2026",
     "cta": "¡Organiza tu álbum de cromos en la app — gratis!",
@@ -11,7 +10,6 @@
     "signature": "Arma tu álbum en meualbum2026.app — gratis,\ny cambia repetidas con la banda directo por WhatsApp.",
     "scanCta": "Apunta tu cámara para abrir la app"
   },
-
   "milestone": {
     "tagline": "Copa Mundial FIFA 2026",
     "teamHeadline": "¡Equipo completo! 🎉",
@@ -23,7 +21,6 @@
     "share": "Compartir",
     "sharing": "Generando…"
   },
-
   "conf": {
     "CONMEBOL": "América del Sur",
     "CONCACAF": "América C/N",
@@ -35,7 +32,6 @@
     "SPECIAL": "Especial",
     "FWC": "Copa Mundial FIFA"
   },
-
   "teams": {
     "ARG": "Argentina",
     "BRA": "Brasil",
@@ -86,19 +82,17 @@
     "NZL": "Nueva Zelanda",
     "CUW": "Curazao"
   },
-
   "sections": {
     "wap": "Apertura",
     "fwc": "Historia de la Copa",
-    "cc":  "Coca-Cola"
+    "cc": "Coca-Cola"
   },
-
   "errors": {
     "offlineTitle": "Estás sin conexión",
-    "offlineDesc":  "La app necesita conexión a internet la primera vez. Conéctate y vuelve a intentar.",
+    "offlineDesc": "La app necesita conexión a internet la primera vez. Conéctate y vuelve a intentar.",
     "catalogTitle": "No se pudo cargar el álbum",
-    "catalogDesc":  "Inténtalo de nuevo en un momento.",
-    "retry":        "Reintentar",
+    "catalogDesc": "Inténtalo de nuevo en un momento.",
+    "retry": "Reintentar",
     "authGeneric": "No se pudo iniciar sesión. Inténtalo de nuevo en un momento.",
     "authRateLimit": "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
     "authInvalid": "Correo o credenciales no válidos.",
@@ -119,7 +113,6 @@
       "secondaryCta": "Volver al inicio"
     }
   },
-
   "feedback": {
     "dismiss": "Cerrar",
     "exportSuccess": "CSV exportado correctamente.",
@@ -128,10 +121,8 @@
     "importFailed": "No se pudo importar el álbum. Inténtalo de nuevo.",
     "restoreFailed": "No se pudo restaurar la copia. Inténtalo de nuevo.",
     "stickerUpdateFailed": "No se pudo guardar la figurita. Inténtalo de nuevo.",
-    "deleteAccountFailed": "No se pudo eliminar la cuenta. Inténtalo de nuevo o contacta soporte.",
     "deleteAccountFailed": "No se pudo eliminar la cuenta. Inténtalo de nuevo o contacta soporte."
   },
-
   "consent": {
     "label": "Banner de consentimiento de analítica",
     "message": "Usamos datos anónimos de uso para mejorar la app. No se recopilan datos personales identificables.",
@@ -139,7 +130,6 @@
     "accept": "Aceptar",
     "decline": "Rechazar"
   },
-
   "nav": {
     "home": "Inicio",
     "album": "Álbum",
@@ -148,7 +138,6 @@
     "challenges": "Desafíos",
     "tradeByQr": "Cambiar por código QR"
   },
-
   "trade": {
     "pageTitle": "Cambiar por código QR",
     "backHome": "Inicio",
@@ -171,7 +160,6 @@
     "close": "Cerrar",
     "emptyLists": "Marca al menos un repetido en tu álbum primero y vuelve a abrir esto."
   },
-
   "dashboard": {
     "globalProgress": "Progreso general",
     "byGroup": "Por grupo",
@@ -189,7 +177,6 @@
     "milestoneAlbum": "{{pct}}% del álbum",
     "replay": "▶ rever"
   },
-
   "guest": {
     "loading": "Cargando álbum…",
     "loadError": "No se pudo cargar el álbum.",
@@ -199,7 +186,6 @@
       "dismiss": "Ahora no"
     }
   },
-
   "challenges": {
     "easy": "Fáciles",
     "medium": "Medios",
@@ -270,7 +256,6 @@
       }
     }
   },
-
   "sidebar": {
     "fwc": "Apertura",
     "group": "Grupo",
@@ -280,16 +265,13 @@
     "swapsTip": "{{count}} cromo duplicado para intercambiar",
     "swapsTipPlural": "{{count}} cromos duplicados para intercambiar"
   },
-
   "header": {
     "swaps": "Cambios"
   },
-
   "grid": {
     "loading": "Cargando cromos…",
     "hint": "Clic para agregar · Clic derecho para quitar"
   },
-
   "swaps": {
     "title": "Cambios",
     "sticker": "cromo",
@@ -301,7 +283,6 @@
     "share": "Compartir",
     "copied": "¡Copiado!"
   },
-
   "login": {
     "tagline": "Tu asistente para completar el álbum de cromos del Mundial más grande de todos los tiempos",
     "description": "Lleva el control de tu colección de cromos gratis. Sin contraseñas — solo tu correo.",
@@ -324,14 +305,12 @@
     "clickToSignIn": "Haz clic en él para entrar — sin necesidad de contraseña.",
     "linkExpires": "El enlace expira en 1 hora."
   },
-
   "menu": {
     "logout": "Cerrar Sesión",
     "settings": "Ajustes",
     "language": "Idioma",
     "loggedInAs": "Conectado como"
   },
-
   "settings": {
     "title": "Ajustes",
     "account": "Cuenta",
@@ -406,7 +385,6 @@
     "deleteAccountConfirmNo": "Cancelar",
     "deletingAccount": "Eliminando…"
   },
-
   "missing": {
     "sticker": "cromo",
     "stickers": "cromos",
@@ -428,7 +406,6 @@
       "noMatch": "Sin coincidencias"
     }
   },
-
   "sticker": {
     "shield": "Escudo",
     "teamPhoto": "Foto del Equipo",
@@ -437,7 +414,6 @@
     "removeConfirm": "Quitar",
     "removeCancel": "Cancelar"
   },
-
   "onboarding": {
     "label": "Primeros pasos del álbum",
     "eyebrow": "Primeros pasos",
@@ -480,7 +456,6 @@
       "body": "Sigue marcando cromos. Cada uno cuenta — ¡vamos a por el álbum completo del Mundial!"
     }
   },
-
   "landing": {
     "skipToContent": "Ir al contenido",
     "homeAriaLabel": "Mi Álbum 2026 — página de inicio",
@@ -496,10 +471,18 @@
       "exploreAlbum": "Explorar el álbum"
     },
     "stats": {
-      "stickers": { "label": "cromos" },
-      "teams": { "label": "selecciones" },
-      "groups": { "label": "grupos" },
-      "hosts": { "label": "países sede" }
+      "stickers": {
+        "label": "cromos"
+      },
+      "teams": {
+        "label": "selecciones"
+      },
+      "groups": {
+        "label": "grupos"
+      },
+      "hosts": {
+        "label": "países sede"
+      }
     },
     "features": {
       "eyebrow": "¿Por qué Mi Álbum 2026?",
@@ -586,7 +569,6 @@
       "disclaimer": "No afiliado a FIFA™, Panini™ ni ninguna de sus filiales. Proyecto independiente de fans."
     }
   },
-
   "legal": {
     "back": "Volver a la app",
     "version": "Versión 2026-05-12. Texto provisional sujeto a revisión legal.",
@@ -601,6 +583,105 @@
       "intro": "El servicio se ofrece tal cual para la gestión personal del álbum durante el MVP.",
       "use": "No uses el servicio de forma abusiva, no intentes acceso no autorizado ni envíes contenido ilícito por canales de soporte.",
       "liability": "El operador no responde por pérdida de datos más allá de esfuerzos razonables para mantener la disponibilidad en la nube."
+    }
+  },
+  "friends": {
+    "nav": {
+      "friends": "Amigos"
+    },
+    "banner": {
+      "text": "¡Crea un nickname para agregar amigos y ver sugerencias de intercambio!",
+      "cta": "Crear nickname",
+      "dismiss": "Cerrar"
+    },
+    "nickname": {
+      "title": "Crear nickname",
+      "hint": "Tu nickname es público y permite que los amigos te encuentren. Puedes cambiarlo cuando quieras.",
+      "label": "Nickname",
+      "placeholder": "tunickname",
+      "formatHint": "3–20 caracteres: letras minúsculas, números y _",
+      "save": "Guardar",
+      "saving": "Guardando…",
+      "cancel": "Cancelar",
+      "errorFormat": "Nickname inválido. Usa 3–20 caracteres: a–z, 0–9, _",
+      "errorReserved": "Este nickname está reservado. Prueba otro.",
+      "errorTaken": "Nickname ya en uso. Prueba otro.",
+      "errorGeneric": "No se pudo guardar. Inténtalo de nuevo."
+    },
+    "settings": {
+      "title": "Perfil público",
+      "nicknameLabel": "Nickname",
+      "noNickname": "No definido",
+      "setNickname": "Crear nickname",
+      "changeNickname": "Cambiar nickname",
+      "displayNameLabel": "Nombre para mostrar",
+      "displayNamePlaceholder": "Cómo quieres que te llamen",
+      "save": "Guardar",
+      "visibilityLabel": "Quién puede ver mi colección",
+      "visibilityHint": "Los amigos pueden ver tus repetidos para sugerir intercambios.",
+      "public": "Público",
+      "friends": "Amigos",
+      "private": "Privado"
+    },
+    "page": {
+      "title": "Amigos",
+      "addFriend": "Agregar amigo",
+      "myFriends": "Mis amigos",
+      "empty": "¡Ningún amigo aún. Agrega a alguien para ver sugerencias de intercambio!"
+    },
+    "requests": {
+      "pending": "Solicitudes pendientes",
+      "recentlyAccepted": "Aceptados recientemente (7 días)",
+      "accept": "Aceptar",
+      "decline": "Rechazar"
+    },
+    "removeFriend": "Eliminar amigo",
+    "removeConfirmTitle": "¿Eliminar amigo?",
+    "removeConfirmDesc": "¿Seguro que quieres eliminar a {{name}} de tus amigos?",
+    "removeConfirmYes": "Sí, eliminar",
+    "removeConfirmNo": "Cancelar",
+    "add": {
+      "title": "Agregar amigo",
+      "tabNickname": "Nickname",
+      "tabEmail": "Correo",
+      "tabQr": "Código QR",
+      "nicknamePlaceholder": "nickname del amigo",
+      "searching": "Buscando…",
+      "notFound": "Ningún usuario con este nickname.",
+      "emailHint": "Si la cuenta existe, se enviará la solicitud. No sabrás si el correo está registrado.",
+      "emailPlaceholder": "correo@ejemplo.com",
+      "send": "Enviar solicitud",
+      "sent": "¡Solicitud enviada!",
+      "sentHint": "Cuando tu amigo acepte, aparecerá en tu lista.",
+      "error": "No se pudo enviar. Inténtalo de nuevo."
+    },
+    "qr": {
+      "hint": "Este es el QR de tu perfil (@{{nickname}}). Pídele a un amigo que lo escanee.",
+      "copyLink": "Copiar enlace",
+      "copied": "¡Copiado!",
+      "myCode": "Mi código QR",
+      "scanFriend": "Escanear QR de un amigo",
+      "scanHint": "Apunta la cámara al código QR de tu amigo.",
+      "cameraDenied": "Cámara bloqueada. Pega el enlace abajo:",
+      "pasteLink": "Pega el enlace del perfil de tu amigo",
+      "use": "Usar",
+      "loading": "Cargando cámara…"
+    },
+    "profile": {
+      "back": "Volver",
+      "stickers": "cromos",
+      "collected": "Tiene",
+      "missing": "Faltan",
+      "duplicates": "Repetidos",
+      "private": "La colección de este usuario es privada.",
+      "friendsOnly": "La colección solo es visible para amigos."
+    },
+    "trades": {
+      "title": "Pueden intercambiar",
+      "empty": "¡Sin coincidencias por ahora. Sigue pegando cromos!",
+      "private": "La colección de tu amigo es privada.",
+      "theyHaveINeed": "Él tiene, tú necesitas",
+      "iHaveTheyNeed": "Tú tienes, él necesita"
     }
   }
 }

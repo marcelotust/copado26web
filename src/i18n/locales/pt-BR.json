@@ -1,7 +1,6 @@
 {
   "appSubtitle": "Álbum Digital Copa 2026",
   "loading": "Configurando seu álbum…",
-
   "share": {
     "appName": "Meu Álbum 2026",
     "cta": "Organize seu álbum de figurinhas no app — grátis!",
@@ -11,7 +10,6 @@
     "signature": "Cola o teu álbum em meualbum2026.app — é grátis,\ne dá pra trocar sobras com a galera direto pelo zap.",
     "scanCta": "Aponta a câmera pra entrar no app"
   },
-
   "milestone": {
     "tagline": "Copa do Mundo FIFA 2026",
     "teamHeadline": "Time completo! 🎉",
@@ -23,7 +21,6 @@
     "share": "Compartilhar",
     "sharing": "Gerando…"
   },
-
   "conf": {
     "CONMEBOL": "América do Sul",
     "CONCACAF": "América C/N",
@@ -36,7 +33,6 @@
     "LEG": "Lendas",
     "FWC": "Copa do Mundo FIFA"
   },
-
   "teams": {
     "ARG": "Argentina",
     "BRA": "Brasil",
@@ -87,19 +83,17 @@
     "NZL": "Nova Zelândia",
     "CUW": "Curaçao"
   },
-
   "sections": {
     "wap": "Abertura",
     "fwc": "Copas do Mundo",
-    "cc":  "Coca-Cola"
+    "cc": "Coca-Cola"
   },
-
   "errors": {
     "offlineTitle": "Sem conexão",
-    "offlineDesc":  "Você precisa estar online na primeira vez que abrir o app. Conecte-se à internet e tente novamente.",
+    "offlineDesc": "Você precisa estar online na primeira vez que abrir o app. Conecte-se à internet e tente novamente.",
     "catalogTitle": "Não foi possível carregar o álbum",
-    "catalogDesc":  "Tente novamente em alguns instantes.",
-    "retry":        "Tentar novamente",
+    "catalogDesc": "Tente novamente em alguns instantes.",
+    "retry": "Tentar novamente",
     "authGeneric": "Não foi possível entrar. Tente de novo em instantes.",
     "authRateLimit": "Muitas tentativas. Aguarde alguns minutos e tente novamente.",
     "authInvalid": "E-mail inválido ou credenciais incorretas.",
@@ -120,7 +114,6 @@
       "secondaryCta": "Voltar pra home"
     }
   },
-
   "feedback": {
     "dismiss": "Fechar",
     "exportSuccess": "CSV exportado com sucesso.",
@@ -131,7 +124,6 @@
     "stickerUpdateFailed": "Não foi possível salvar a figurinha. Tente de novo.",
     "deleteAccountFailed": "Não foi possível excluir a conta. Tente novamente ou contate o suporte."
   },
-
   "consent": {
     "label": "Banner de consentimento de analytics",
     "message": "Usamos dados anônimos de uso para melhorar o app. Nenhum dado pessoal identificável é coletado.",
@@ -139,7 +131,6 @@
     "accept": "Aceitar",
     "decline": "Recusar"
   },
-
   "nav": {
     "home": "Início",
     "album": "Álbum",
@@ -148,7 +139,6 @@
     "challenges": "Desafios",
     "tradeByQr": "Trocar por QR code"
   },
-
   "trade": {
     "pageTitle": "Trocar por QR code",
     "backHome": "Início",
@@ -171,7 +161,6 @@
     "close": "Fechar",
     "emptyLists": "Marque pelo menos uma repetida no álbum primeiro e abra de novo."
   },
-
   "dashboard": {
     "globalProgress": "Progresso geral",
     "byGroup": "Por grupo",
@@ -189,7 +178,6 @@
     "milestoneAlbum": "{{pct}}% do álbum",
     "replay": "▶ rever"
   },
-
   "guest": {
     "loading": "Carregando álbum…",
     "loadError": "Não foi possível carregar o álbum.",
@@ -199,7 +187,6 @@
       "dismiss": "Agora não"
     }
   },
-
   "challenges": {
     "easy": "Fáceis",
     "medium": "Médios",
@@ -270,7 +257,6 @@
       }
     }
   },
-
   "sidebar": {
     "fwc": "Abertura",
     "group": "Grupo",
@@ -280,16 +266,13 @@
     "swapsTip": "{{count}} figurinha repetida para trocar",
     "swapsTipPlural": "{{count}} figurinhas repetidas para trocar"
   },
-
   "header": {
     "swaps": "Trocas"
   },
-
   "grid": {
     "loading": "Carregando figurinhas…",
     "hint": "Clique para adicionar · Clique direito para remover"
   },
-
   "swaps": {
     "title": "Trocas",
     "sticker": "figurinha",
@@ -301,7 +284,6 @@
     "share": "Compartilhar",
     "copied": "Copiado!"
   },
-
   "login": {
     "tagline": "Seu assistente para completar o maior álbum de Copa do Mundo de todos os tempos",
     "description": "Acompanhe sua coleção de figurinhas gratuitamente. Sem senhas — só o seu e-mail.",
@@ -324,14 +306,12 @@
     "clickToSignIn": "Clique nele para entrar — sem precisar de senha.",
     "linkExpires": "O link expira em 1 hora."
   },
-
   "menu": {
     "logout": "Sair",
     "settings": "Configurações",
     "language": "Idioma",
     "loggedInAs": "Logado como"
   },
-
   "settings": {
     "title": "Configurações",
     "account": "Conta",
@@ -406,7 +386,6 @@
     "deleteAccountConfirmNo": "Cancelar",
     "deletingAccount": "Excluindo…"
   },
-
   "missing": {
     "sticker": "figurinha",
     "stickers": "figurinhas",
@@ -428,7 +407,6 @@
       "noMatch": "Nenhuma coincidência"
     }
   },
-
   "sticker": {
     "shield": "Escudo",
     "teamPhoto": "Foto do Time",
@@ -437,7 +415,6 @@
     "removeConfirm": "Remover",
     "removeCancel": "Cancelar"
   },
-
   "onboarding": {
     "label": "Primeiros passos no álbum",
     "eyebrow": "Primeiros passos",
@@ -480,7 +457,6 @@
       "body": "É só ir marcando as figurinhas. Cada uma conta — rumo ao álbum completo da Copa!"
     }
   },
-
   "landing": {
     "skipToContent": "Ir para o conteúdo",
     "homeAriaLabel": "Meu Álbum 2026 — página inicial",
@@ -496,10 +472,18 @@
       "exploreAlbum": "Explorar o álbum"
     },
     "stats": {
-      "stickers": { "label": "figurinhas" },
-      "teams": { "label": "seleções" },
-      "groups": { "label": "grupos" },
-      "hosts": { "label": "países-sede" }
+      "stickers": {
+        "label": "figurinhas"
+      },
+      "teams": {
+        "label": "seleções"
+      },
+      "groups": {
+        "label": "grupos"
+      },
+      "hosts": {
+        "label": "países-sede"
+      }
     },
     "features": {
       "eyebrow": "Por que o Meu Álbum 2026?",
@@ -586,7 +570,6 @@
       "disclaimer": "Não afiliado com FIFA™, Panini™ ou qualquer de suas subsidiárias. Projeto independente de fãs."
     }
   },
-
   "legal": {
     "back": "Voltar ao app",
     "version": "Versão 2026-05-12. Texto provisório sujeito à revisão jurídica.",
@@ -601,6 +584,105 @@
       "intro": "O serviço é oferecido no estado atual para gestão pessoal do álbum durante o MVP.",
       "use": "Não utilize o serviço de forma abusiva, não tente acesso não autorizado e não envie conteúdo ilícito por canais de suporte.",
       "liability": "O operador não se responsabiliza por perda de dados além de esforços razoáveis para manter a disponibilidade na nuvem."
+    }
+  },
+  "friends": {
+    "nav": {
+      "friends": "Amigos"
+    },
+    "banner": {
+      "text": "Crie seu nickname pra adicionar amigos e ver sugestões de trocas!",
+      "cta": "Criar nickname",
+      "dismiss": "Fechar"
+    },
+    "nickname": {
+      "title": "Criar nickname",
+      "hint": "Seu nickname é público e usado pelos amigos para te encontrar. Pode trocar quando quiser.",
+      "label": "Nickname",
+      "placeholder": "seunickname",
+      "formatHint": "3–20 caracteres: letras minúsculas, números e _",
+      "save": "Salvar",
+      "saving": "Salvando…",
+      "cancel": "Cancelar",
+      "errorFormat": "Nickname inválido. Use 3–20 caracteres: a–z, 0–9, _",
+      "errorReserved": "Este nickname é reservado. Tente outro.",
+      "errorTaken": "Este nickname já está em uso. Tente outro.",
+      "errorGeneric": "Não foi possível salvar. Tente de novo."
+    },
+    "settings": {
+      "title": "Perfil público",
+      "nicknameLabel": "Nickname",
+      "noNickname": "Não definido",
+      "setNickname": "Criar nickname",
+      "changeNickname": "Trocar nickname",
+      "displayNameLabel": "Nome de exibição",
+      "displayNamePlaceholder": "Como quer ser chamado",
+      "save": "Salvar",
+      "visibilityLabel": "Quem pode ver minha coleção",
+      "visibilityHint": "Amigos podem ver suas repetidas para sugerir trocas.",
+      "public": "Público",
+      "friends": "Amigos",
+      "private": "Privado"
+    },
+    "page": {
+      "title": "Amigos",
+      "addFriend": "Adicionar amigo",
+      "myFriends": "Meus amigos",
+      "empty": "Nenhum amigo ainda. Adicione alguém para ver sugestões de trocas!"
+    },
+    "requests": {
+      "pending": "Pedidos pendentes",
+      "recentlyAccepted": "Aceitos recentemente (7 dias)",
+      "accept": "Aceitar",
+      "decline": "Recusar"
+    },
+    "removeFriend": "Remover amigo",
+    "removeConfirmTitle": "Remover amigo?",
+    "removeConfirmDesc": "Tem certeza que quer remover {{name}} dos seus amigos?",
+    "removeConfirmYes": "Sim, remover",
+    "removeConfirmNo": "Cancelar",
+    "add": {
+      "title": "Adicionar amigo",
+      "tabNickname": "Nickname",
+      "tabEmail": "E-mail",
+      "tabQr": "QR Code",
+      "nicknamePlaceholder": "nickname do amigo",
+      "searching": "Buscando…",
+      "notFound": "Nenhum usuário com este nickname.",
+      "emailHint": "Se a conta existir, o pedido será enviado. Você não saberá se o e-mail está cadastrado.",
+      "emailPlaceholder": "email@exemplo.com",
+      "send": "Enviar pedido",
+      "sent": "Pedido enviado!",
+      "sentHint": "Quando seu amigo aceitar, ele vai aparecer na lista.",
+      "error": "Não foi possível enviar. Tente novamente."
+    },
+    "qr": {
+      "hint": "Este é o QR do seu perfil (@{{nickname}}). Peça pra um amigo escanear.",
+      "copyLink": "Copiar link",
+      "copied": "Copiado!",
+      "myCode": "Meu QR code",
+      "scanFriend": "Escanear QR de um amigo",
+      "scanHint": "Aponte a câmera pro QR code do seu amigo.",
+      "cameraDenied": "Câmera bloqueada. Cole o link abaixo:",
+      "pasteLink": "Cole o link do perfil do amigo",
+      "use": "Usar",
+      "loading": "Carregando câmera…"
+    },
+    "profile": {
+      "back": "Voltar",
+      "stickers": "figurinhas",
+      "collected": "Tem",
+      "missing": "Faltam",
+      "duplicates": "Repetidas",
+      "private": "A coleção deste usuário está privada.",
+      "friendsOnly": "A coleção é visível só para amigos."
+    },
+    "trades": {
+      "title": "Vocês podem trocar",
+      "empty": "Sem matches no momento. Continue colando figurinhas!",
+      "private": "A coleção do seu amigo está privada.",
+      "theyHaveINeed": "Ele tem, você precisa",
+      "iHaveTheyNeed": "Você tem, ele precisa"
     }
   }
 }

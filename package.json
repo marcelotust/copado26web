@@ -37,6 +37,7 @@
     "@sentry/react": "^10.53.1",
     "@supabase/supabase-js": "^2.105.4",
     "@vercel/analytics": "^2.0.1",
+    "@yudiel/react-qr-scanner": "^2.6.0",
     "lz-string": "^1.5.0",
     "posthog-js": "^1.373.4",
     "qrcode.react": "^4.2.0",
