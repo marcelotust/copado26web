@@ -413,7 +413,20 @@
       "register": "Record trade",
       "registering": "Recording…",
       "registered": "Trade recorded: +{{received}} / −{{given}}",
-      "registerFailed": "Couldn't record. Try again."
+      "registerFailed": "Couldn't record. Try again.",
+      "qrScan": "Scan friend's QR",
+      "qrMine": "My QR",
+      "qrInvalid": "QR not recognized. Point at the app's trade QR.",
+      "qrVersionMismatch": "This QR is from a different album version. Update the app on both sides.",
+      "qrMyTitle": "My trade QR",
+      "qrMyHint": "Show it to your friend to scan — they'll instantly see what you can trade.",
+      "qrMyEmpty": "Your album is still empty.",
+      "qrClose": "Close",
+      "qrCameraDenied": "No camera access. Paste the QR code:",
+      "qrUse": "Use",
+      "qrLoading": "Opening camera…",
+      "qrScanHint": "Point at your friend's trade QR.",
+      "qrCancel": "Cancel"
     }
   },
   "sticker": {

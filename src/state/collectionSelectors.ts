@@ -69,6 +69,15 @@ export function useTradeIdLists(): { swapIds: string[]; missingIds: string[] } {
   }, [teams, catalog, byTeam, quantities])
 }
 
+/** All catalog ids in canonical order (by sort_order) — the album bitmap index. */
+export function useCatalogOrder(): string[] {
+  const { catalog } = useStickersContext()
+  return useMemo(
+    () => [...catalog.values()].sort((a, b) => a.sort_order - b.sort_order).map(c => c.id),
+    [catalog],
+  )
+}
+
 export function useMissing(): MissingGroup[] {
   const { teams, catalog, byTeam, quantities } = useStickersContext()
   return useMemo(() => {

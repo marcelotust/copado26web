@@ -2,9 +2,12 @@ import { useState } from 'react'
 import { useI18n } from '../i18n'
 import { interpolate } from '../lib/shareText'
 import { analyzeTradeListPaste, type TradeListKind } from '../lib/tradeListParse'
-import { useApplyTrade } from '../state/stickersStore'
+import { useApplyTrade, useCatalogOrder } from '../state/stickersStore'
+import { decodeAlbumBitmap } from '../lib/albumBitmap'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import TradeChips from './TradeChips'
+import AlbumQRModal from './AlbumQRModal'
+import AlbumQRScanner from './AlbumQRScanner'
 
 type Props = {
   missingIds: Set<string>
@@ -13,13 +16,19 @@ type Props = {
   teamFlag: (code: string) => string
 }
 
-type Result = { theyHave: string[]; youHave: string[]; kind: TradeListKind }
+type Result = {
+  theyHave: string[]
+  youHave: string[]
+  kind: TradeListKind
+  source: 'paste' | 'qr'
+}
 
 export default function MissingTradeChecker({
   missingIds, swapIds, validTeamCodes, teamFlag,
 }: Props) {
   const { t } = useI18n()
   const applyTrade = useApplyTrade()
+  const order = useCatalogOrder()
   const [text, setText] = useState('')
   const [result, setResult] = useState<Result | null>(null)
   const [formatError, setFormatError] = useState<string | null>(null)
@@ -28,6 +37,8 @@ export default function MissingTradeChecker({
   const [selGiven, setSelGiven] = useState<Set<string>>(new Set())
   const [applying, setApplying] = useState(false)
   const [done, setDone] = useState<{ received: number; given: number } | null>(null)
+  const [showMyQr, setShowMyQr] = useState(false)
+  const [scanning, setScanning] = useState(false)
 
   function resetOutput() {
     setResult(null)
@@ -59,6 +70,32 @@ export default function MissingTradeChecker({
       theyHave: [...parsed].filter(id => missingIds.has(id)),
       youHave: [...swapIds].filter(id => parsed.has(id)),
       kind: analysis.kind,
+      source: 'paste',
+    })
+  }
+
+  function handleQrDecode(raw: string) {
+    const decoded = decodeAlbumBitmap(raw, order)
+    if (decoded.status === 'invalid') {
+      setFormatWarning(t('missing.tradeChecker.qrInvalid'))
+      return // keep the scanner open so the user can try the right QR
+    }
+    setScanning(false)
+    if (decoded.status === 'version_mismatch') {
+      setFormatError(t('missing.tradeChecker.qrVersionMismatch'))
+      return
+    }
+    setFormatError(null)
+    setFormatWarning(null)
+    setDone(null)
+    setSelReceived(new Set())
+    setSelGiven(new Set())
+    telemetry.track(AnalyticsEvent.QR_ALBUM_SCANNED)
+    setResult({
+      theyHave: decoded.swaps.filter(id => missingIds.has(id)),
+      youHave: decoded.missing.filter(id => swapIds.has(id)),
+      kind: 'unknown',
+      source: 'qr',
     })
   }
 
@@ -95,7 +132,7 @@ export default function MissingTradeChecker({
       telemetry.track(AnalyticsEvent.TRADE_RECORDED, {
         received_count: received.length,
         given_count: given.length,
-        source: 'paste',
+        source: result.source,
         list_kind: result.kind,
       })
       setDone({ received: received.length, given: given.length })
@@ -109,11 +146,13 @@ export default function MissingTradeChecker({
     }
   }
 
-  const shareHint = result && result.kind === 'swaps'
-    ? t('missing.tradeChecker.detectedSwaps')
-    : result && result.kind === 'missing'
-      ? t('missing.tradeChecker.detectedMissing')
-      : null
+  const shareHint = result?.source !== 'paste'
+    ? null
+    : result.kind === 'swaps'
+      ? t('missing.tradeChecker.detectedSwaps')
+      : result.kind === 'missing'
+        ? t('missing.tradeChecker.detectedMissing')
+        : null
 
   return (
     <div
@@ -137,6 +176,24 @@ export default function MissingTradeChecker({
       >
         {t('missing.tradeChecker.analyze')}
       </button>
+
+      <div className='flex flex-wrap items-center gap-2'>
+        <button
+          type='button'
+          onClick={() => { setScanning(true); setFormatError(null); setFormatWarning(null) }}
+          className='rounded-lg border border-slate-600 px-3 py-1.5 text-xs font-semibold text-slate-200 transition-colors hover:border-slate-400'
+        >
+          {t('missing.tradeChecker.qrScan')}
+        </button>
+        <button
+          type='button'
+          onClick={() => setShowMyQr(true)}
+          className='rounded-lg border border-slate-600 px-3 py-1.5 text-xs font-semibold text-slate-200 transition-colors hover:border-slate-400'
+        >
+          {t('missing.tradeChecker.qrMine')}
+        </button>
+      </div>
+      {scanning && <AlbumQRScanner onDecode={handleQrDecode} onClose={() => setScanning(false)} />}
 
       {formatError && <p className='text-rose-400 text-xs leading-relaxed' role='alert'>{formatError}</p>}
       {shareHint && !formatError && <p className='text-sky-400/90 text-xs leading-relaxed'>{shareHint}</p>}
@@ -170,7 +227,7 @@ export default function MissingTradeChecker({
               : <>
                   <TradeChips ids={result.youHave} selected={selGiven} teamFlag={teamFlag} tone='amber'
                     onToggle={id => toggle(selGiven, setSelGiven, id)} />
-                  {result.kind !== 'missing' && (
+                  {result.source === 'paste' && result.kind !== 'missing' && (
                     <p className='text-amber-400/80 text-[11px] leading-relaxed'>{t('missing.tradeChecker.giveCaution')}</p>
                   )}
                 </>}
@@ -199,6 +256,8 @@ export default function MissingTradeChecker({
           )}
         </div>
       )}
+
+      <AlbumQRModal open={showMyQr} onClose={() => setShowMyQr(false)} />
     </div>
   )
 }
