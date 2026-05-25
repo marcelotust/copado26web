@@ -14,6 +14,7 @@ export {
   useTradeIdLists,
   useSectionSwapCount,
   useAdjustSticker,
+  useApplyTrade,
   useResetAlbum,
   useReplaceAllQuantities,
   useCatalogSnapshot,

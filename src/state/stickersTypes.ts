@@ -1,4 +1,5 @@
 import type { CatalogSticker, Sticker, Team } from '../types/database'
+import type { TradeResultRow } from '../lib/supabase'
 
 export type Status = 'idle' | 'loading' | 'ready' | 'error'
 
@@ -23,6 +24,8 @@ export type ContextValue = State & {
   /** Bumps on album reset so challenge/milestone hooks reload local caches. */
   progressGeneration: number
   adjust: (stickerId: string, delta: number) => Promise<number | null>
+  /** Atomic batch trade: +1 for each received id, -1 for each given id. */
+  applyTrade: (received: string[], given: string[]) => Promise<TradeResultRow[]>
   resetAll: () => Promise<void>
   /** Full replace of quantities (used by CSV import / restore). */
   replaceAllQuantities: (next: Map<string, number>) => Promise<void>

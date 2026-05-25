@@ -12,6 +12,10 @@ export function useAdjustSticker() {
   return useStickersContext().adjust
 }
 
+export function useApplyTrade() {
+  return useStickersContext().applyTrade
+}
+
 export function useResetAlbum() {
   return useStickersContext().resetAll
 }

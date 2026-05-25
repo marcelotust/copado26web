@@ -62,7 +62,6 @@ export default function MissingPage() {
               missingIds={missingIds}
               swapIds={swapIds}
               validTeamCodes={new Set(teams.map(team => team.code))}
-              teamName={teamName}
               teamFlag={teamFlag}
             />
 

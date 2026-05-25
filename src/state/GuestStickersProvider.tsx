@@ -55,6 +55,10 @@ export function GuestStickersProvider({ onPaywall, children }: Props) {
       onPaywall('sticker_toggle')
       return null
     },
+    applyTrade: async (_received: string[], _given: string[]) => {
+      onPaywall('sticker_toggle')
+      return []
+    },
     resetAll: async () => {},
     replaceAllQuantities: async () => {},
   }), [state, onPaywall])
