@@ -81,6 +81,21 @@ Convenção: `snake_case`, propriedades estáveis, sem dados pessoais.
 | `landing_cta_clicked` | Clique em CTA da landing | `cta_id` (`header_login`, `hero_primary`, `hero_explore_album`, `bottom_signup`), `cta_variant` (apenas em `hero_primary`) |
 | `guest_album_viewed` | Visitante abre `/album` sem login | — |
 | `guest_sticker_tapped` | Visitante clica em uma figurinha (dispara paywall) | — |
+| `nickname_set` | Apelido definido pela 1ª vez | — |
+| `nickname_changed` | Apelido alterado | — |
+| `profile_visibility_changed` | Visibilidade do acervo alterada nas Configurações | `from`, `to` (`public`, `friends`, `private`) |
+| `friend_request_sent` | Pedido de amizade enviado | `discovery_method` (`nickname`, `email`) |
+| `friend_request_received` | Novos pedidos recebidos detectados | `count` |
+| `friend_request_accepted` | Pedido de amizade aceito | — |
+| `friend_request_declined` | Pedido de amizade recusado | — |
+| `friend_removed` | Amigo removido | — |
+| `friend_profile_viewed` | Perfil de amigo aberto | — |
+| `trade_suggestion_viewed` | Sugestões de troca carregadas para um amigo | — |
+| `trade_suggestion_match_count` | Contagem de matches de troca calculada | `they_have_i_need_count`, `i_have_they_need_count` |
+| `qr_profile_generated` | QR do próprio perfil gerado | — |
+| `qr_profile_scanned` | QR de perfil escaneado com sucesso | — |
+
+> Eventos `friends_v1` (Amigos & Trocas): apelidos, pedidos de amizade, perfis e sugestões de troca. Sem PII — apenas enums, contagens e códigos. Gated por consentimento como os demais.
 
 ### Feature flags
 
