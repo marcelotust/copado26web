@@ -3,7 +3,7 @@
 
 export { useStickersStatus, useTeams, useTeam }                  from './progressSelectors'
 export { useSectionProgress, useAlbumProgress }                  from './progressSelectors'
-export { useSectionStickers, useSwaps, useMissing, useTradeIdLists, useSectionSwapCount } from './collectionSelectors'
+export { useSectionStickers, useSwaps, useMissing, useTradeIdLists, useSectionSwapCount, useCatalogOrder } from './collectionSelectors'
 
 import { useStickersContext } from './StickersProvider'
 import type { ContextValue } from './stickersTypes'

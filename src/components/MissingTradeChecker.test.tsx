@@ -11,11 +11,29 @@ const { applyTradeMock, trackMock } = vi.hoisted(() => ({
 
 vi.mock('../state/stickersStore', () => ({
   useApplyTrade: () => applyTradeMock,
+  useCatalogOrder: () => [],
 }))
 
 vi.mock('../lib/telemetry', () => ({
   telemetry: { track: trackMock },
-  AnalyticsEvent: { TRADE_RECORDED: 'trade_recorded' },
+  AnalyticsEvent: {
+    TRADE_RECORDED: 'trade_recorded',
+    QR_ALBUM_SCANNED: 'qr_album_scanned',
+    QR_ALBUM_GENERATED: 'qr_album_generated',
+  },
+}))
+
+// Decoding correctness is covered by albumBitmap.test.ts — here we stub a
+// successful decode so the scan-into-checker wiring can be exercised.
+vi.mock('../lib/albumBitmap', () => ({
+  decodeAlbumBitmap: () => ({ status: 'ok', swaps: ['BRA-01'], missing: ['ARG-05'] }),
+}))
+
+vi.mock('./AlbumQRModal', () => ({ default: () => null }))
+vi.mock('./AlbumQRScanner', () => ({
+  default: ({ onDecode }: { onDecode: (raw: string) => void }) => (
+    <button type='button' onClick={() => onDecode('mab:stub')}>mockscan</button>
+  ),
 }))
 
 function renderChecker() {
@@ -73,6 +91,22 @@ describe('MissingTradeChecker — register trade', () => {
     expect(serialized).not.toContain('BRA-01')
     expect(serialized).not.toContain('ARG-05')
     expect(serialized).not.toContain('repetidas')
+  })
+
+  it('fills the match from a scanned QR and records source qr', async () => {
+    const user = userEvent.setup()
+    renderChecker()
+
+    await user.click(screen.getByRole('button', { name: /scan friend|escanear qr|escanear qr del/i }))
+    await user.click(screen.getByRole('button', { name: /mockscan/i }))
+    await user.click(screen.getByRole('button', { name: /troquei todas|traded all|intercambié todos/i }))
+    await user.click(screen.getByRole('button', { name: /registrar|record trade/i }))
+    await screen.findByRole('status')
+
+    // Friend's spare BRA-01 (I'm missing it) → +1; their gap ARG-05 (my spare) → -1.
+    expect(applyTradeMock).toHaveBeenCalledWith(['BRA-01'], ['ARG-05'])
+    const tradeCall = trackMock.mock.calls.find(c => c[0] === 'trade_recorded')
+    expect(tradeCall?.[1]).toMatchObject({ source: 'qr', received_count: 1, given_count: 1 })
   })
 
   it('does not apply anything when nothing is selected', async () => {

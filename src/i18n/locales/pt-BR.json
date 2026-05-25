@@ -414,7 +414,20 @@
       "register": "Registrar troca",
       "registering": "Registrando…",
       "registered": "Troca registrada: +{{received}} / −{{given}}",
-      "registerFailed": "Não foi possível registrar. Tente de novo."
+      "registerFailed": "Não foi possível registrar. Tente de novo.",
+      "qrScan": "Escanear QR do amigo",
+      "qrMine": "Meu QR",
+      "qrInvalid": "QR não reconhecido. Aponte para o QR de troca do app.",
+      "qrVersionMismatch": "Esse QR é de uma versão diferente do álbum. Atualizem o app dos dois lados.",
+      "qrMyTitle": "Meu QR de troca",
+      "qrMyHint": "Mostre para o amigo escanear — ele vê na hora o que vocês podem trocar.",
+      "qrMyEmpty": "Seu álbum ainda está vazio.",
+      "qrClose": "Fechar",
+      "qrCameraDenied": "Sem acesso à câmera. Cole o código do QR:",
+      "qrUse": "Usar",
+      "qrLoading": "Abrindo câmera…",
+      "qrScanHint": "Aponte para o QR de troca do amigo.",
+      "qrCancel": "Cancelar"
     }
   },
   "sticker": {

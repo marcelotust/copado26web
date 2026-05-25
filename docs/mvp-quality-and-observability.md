@@ -76,7 +76,9 @@ Convenção: `snake_case`, propriedades estáveis, sem dados pessoais.
 | `trade_match_viewed` | Painel de match aberto com payload válido | `you_receive`, `you_give`, `has_peer_missing_list` |
 | `trade_link_invalid` | Link de troca inválido / parâmetro ausente | `reason` (`missing_param`, `invalid_payload`) |
 | `trade_login_required` | Visitante abre link de troca válido sem sessão | — |
-| `trade_recorded` | Troca presencial registrada a partir do paste da lista do amigo (aplica +1/−1 no acervo) | `received_count`, `given_count`, `source` (`paste`), `list_kind` (`swaps`, `missing`, `unknown`) |
+| `trade_recorded` | Troca presencial registrada (aplica +1/−1 no acervo) | `received_count`, `given_count`, `source` (`paste`, `qr`), `list_kind` (`swaps`, `missing`, `unknown`) |
+| `qr_album_generated` | QR do álbum inteiro gerado para troca presencial | — |
+| `qr_album_scanned` | QR do álbum de um amigo lido e decodificado com sucesso | — |
 | `landing_viewed` | Landing pública exibida | — |
 | `landing_cta_clicked` | Clique em CTA da landing | `cta_id` (`header_login`, `hero_primary`, `hero_explore_album`, `bottom_signup`), `cta_variant` (apenas em `hero_primary`) |
 | `guest_album_viewed` | Visitante abre `/album` sem login | — |
