@@ -38,6 +38,7 @@ export const AnalyticsEvent = {
   TRADE_MATCH_VIEWED: 'trade_match_viewed',
   TRADE_LINK_INVALID: 'trade_link_invalid',
   TRADE_LOGIN_REQUIRED: 'trade_login_required',
+  TRADE_RECORDED: 'trade_recorded',
   LANDING_VIEWED: 'landing_viewed',
   LANDING_CTA_CLICKED: 'landing_cta_clicked',
   GUEST_ALBUM_VIEWED: 'guest_album_viewed',

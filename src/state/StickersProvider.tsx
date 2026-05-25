@@ -6,7 +6,7 @@ import {
   type ReactNode,
 } from 'react'
 import { resetMyAlbumRpc, logAuditEvent } from '../lib/audit'
-import { supabase, adjustStickerRpc } from '../lib/supabase'
+import { supabase, adjustStickerRpc, applyTradeRpc, type TradeResultRow } from '../lib/supabase'
 import { buildAlbumCsv } from '../lib/albumCsv'
 import { clearUserProgressCaches } from '../lib/userProgressStorage'
 import { upsertTodayAlbumBackup } from '../lib/albumBackupStorage'
@@ -88,6 +88,58 @@ export function StickersProvider({ userId, children }: { userId: string; childre
     return data ?? null
   }, [state.catalog, state.quantities, state.status, scheduleLocalDailyBackup])
 
+  const applyTrade = useCallback(
+    async (received: string[], given: string[]): Promise<TradeResultRow[]> => {
+      // Net delta per sticker so the same id in both lists cancels out.
+      const deltas = new Map<string, number>()
+      for (const id of received) deltas.set(id, (deltas.get(id) ?? 0) + 1)
+      for (const id of given) deltas.set(id, (deltas.get(id) ?? 0) - 1)
+
+      const previous = new Map<string, number>()
+      for (const [id, delta] of deltas) {
+        if (delta === 0) continue
+        const prev = state.quantities.get(id) ?? 0
+        previous.set(id, prev)
+        pendingRef.current.set(id, (pendingRef.current.get(id) ?? 0) + 1)
+        dispatch({ type: 'SET_QUANTITY', id, qty: Math.max(0, prev + delta) })
+      }
+
+      const { data, error } = await applyTradeRpc(received, given)
+
+      for (const id of previous.keys()) {
+        const remaining = (pendingRef.current.get(id) ?? 1) - 1
+        if (remaining <= 0) pendingRef.current.delete(id)
+        else pendingRef.current.set(id, remaining)
+      }
+
+      if (error) {
+        const code = errorCodeFrom(error)
+        reportError('apply trade failed', error, { feature: 'stickers', action: 'apply_trade', error_code: code }, { received: received.length, given: given.length })
+        telemetry.track(AnalyticsEvent.STICKER_UPDATE_FAILED, { action: 'apply_trade', error_code: code })
+        for (const [id, prev] of previous) dispatch({ type: 'SET_QUANTITY', id, qty: prev })
+        throw error
+      }
+
+      const rows = data ?? []
+      for (const row of rows) dispatch({ type: 'SET_QUANTITY', id: row.sticker_id, qty: row.quantity })
+
+      if (state.status === 'ready') {
+        const next = new Map(state.quantities)
+        for (const [id, delta] of deltas) {
+          if (delta !== 0) next.set(id, Math.max(0, (state.quantities.get(id) ?? 0) + delta))
+        }
+        for (const row of rows) {
+          if (row.quantity <= 0) next.delete(row.sticker_id)
+          else next.set(row.sticker_id, row.quantity)
+        }
+        scheduleLocalDailyBackup(state.catalog, next)
+      }
+
+      return rows
+    },
+    [state.catalog, state.quantities, state.status, scheduleLocalDailyBackup],
+  )
+
   const resetAll = useCallback(async (): Promise<void> => {
     await resetMyAlbumRpc()
     dispatch({ type: 'CLEAR_ALL_QUANTITIES' })
@@ -131,8 +183,8 @@ export function StickersProvider({ userId, children }: { userId: string; childre
   }, [userId, state.catalog])
 
   const value = useMemo<ContextValue>(
-    () => ({ ...state, userId, progressGeneration, adjust, resetAll, replaceAllQuantities }),
-    [state, userId, progressGeneration, adjust, resetAll, replaceAllQuantities],
+    () => ({ ...state, userId, progressGeneration, adjust, applyTrade, resetAll, replaceAllQuantities }),
+    [state, userId, progressGeneration, adjust, applyTrade, resetAll, replaceAllQuantities],
   )
   return (
     <StickersContext.Provider value={value}>

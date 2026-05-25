@@ -18,3 +18,22 @@ export async function adjustStickerRpc(
   const result = await (supabase.rpc as any)('adjust_sticker', { p_sticker_id, p_delta })
   return { data: result.data as number | null, error: result.error as Error | null }
 }
+
+export type TradeResultRow = { sticker_id: string; quantity: number }
+
+// Typed wrapper around the apply_trade RPC (atomic batch +1/-1 reconciliation).
+// Returns the resulting quantities so the caller can reconcile optimistic state.
+export async function applyTradeRpc(
+  p_received: string[],
+  p_given: string[],
+): Promise<{ data: TradeResultRow[] | null; error: Error | null }> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const result = await (supabase.rpc as any)('apply_trade', { p_received, p_given })
+  // RPC returns rows with out_sticker_id / out_quantity columns.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const rows = (result.data as any[] | null)?.map((row) => ({
+    sticker_id: row.out_sticker_id as string,
+    quantity: row.out_quantity as number,
+  })) ?? null
+  return { data: rows, error: result.error as Error | null }
+}

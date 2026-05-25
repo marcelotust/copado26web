@@ -13,11 +13,25 @@ const APP_SHARE_MARKERS = [
   /sobras|repetida/i,
 ] as const
 
+/** Headline of the "missing" share — the codes are what the sender NEEDS. */
+const MISSING_MARKER = /\bfaltam\b|\bme\s+faltam\b/i
+/** Headline of the "swaps" share — the codes are what the sender HAS spare. */
+const SWAPS_MARKER = /sobras|repetida/i
+
+/**
+ * What the pasted codes represent, inferred from the share headline:
+ * - `swaps`: sender's duplicates (they HAVE) → feeds the "+1, I pick up" side.
+ * - `missing`: sender's gaps (they NEED) → feeds the "-1, I hand over" side.
+ * - `unknown`: manual list / both / neither marker → treat the -1 side with care.
+ */
+export type TradeListKind = 'swaps' | 'missing' | 'unknown'
+
 export type TradeListAnalysis = {
   ids: string[]
   unknownTeamCodes: string[]
   noCodesFound: boolean
   fromAppShare: boolean
+  kind: TradeListKind
 }
 
 /** Parses pasted lists (WhatsApp share, manual) into catalog ids like `BRA-03`. */
@@ -32,7 +46,7 @@ export function analyzeTradeListPaste(
 ): TradeListAnalysis {
   const trimmed = text.trim()
   if (!trimmed) {
-    return { ids: [], unknownTeamCodes: [], noCodesFound: false, fromAppShare: false }
+    return { ids: [], unknownTeamCodes: [], noCodesFound: false, fromAppShare: false, kind: 'unknown' }
   }
 
   const ids = parseTradeList(trimmed)
@@ -46,10 +60,16 @@ export function analyzeTradeListPaste(
 
   const fromAppShare = APP_SHARE_MARKERS.some(re => re.test(trimmed))
 
+  const hasMissing = MISSING_MARKER.test(trimmed)
+  const hasSwaps = SWAPS_MARKER.test(trimmed)
+  const kind: TradeListKind =
+    hasMissing && !hasSwaps ? 'missing' : hasSwaps && !hasMissing ? 'swaps' : 'unknown'
+
   return {
     ids,
     unknownTeamCodes,
     noCodesFound: ids.length === 0,
     fromAppShare,
+    kind,
   }
 }

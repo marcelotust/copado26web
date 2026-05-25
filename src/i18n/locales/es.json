@@ -403,7 +403,17 @@
       "shareDetected": "Lista del app detectada — usamos solo los códigos de cromo.",
       "theyHave": "Tiene lo que tú necesitas ({{count}})",
       "youHave": "Tú tienes lo que él necesita ({{count}})",
-      "noMatch": "Sin coincidencias"
+      "noMatch": "Sin coincidencias",
+      "selectHint": "Toca para marcar lo que intercambiaste.",
+      "detectedSwaps": "Detectamos sus repetidos — revisa el lado de arriba (+1).",
+      "detectedMissing": "Detectamos sus faltantes — revisa el lado de abajo (−1).",
+      "giveCaution": "Atención: estos salen de tu álbum.",
+      "tradeAll": "Intercambié todos",
+      "clearSelection": "Limpiar",
+      "register": "Registrar intercambio",
+      "registering": "Registrando…",
+      "registered": "Intercambio registrado: +{{received}} / −{{given}}",
+      "registerFailed": "No se pudo registrar. Inténtalo de nuevo."
     }
   },
   "sticker": {

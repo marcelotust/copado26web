@@ -403,7 +403,17 @@
       "shareDetected": "App share list detected — we only use sticker codes.",
       "theyHave": "They have what you need ({{count}})",
       "youHave": "You have what they need ({{count}})",
-      "noMatch": "No matches"
+      "noMatch": "No matches",
+      "selectHint": "Tap to mark what you traded.",
+      "detectedSwaps": "Detected their duplicates — check the top side (+1).",
+      "detectedMissing": "Detected their missing list — check the bottom side (−1).",
+      "giveCaution": "Heads up: these leave your album.",
+      "tradeAll": "Traded all",
+      "clearSelection": "Clear",
+      "register": "Record trade",
+      "registering": "Recording…",
+      "registered": "Trade recorded: +{{received}} / −{{given}}",
+      "registerFailed": "Couldn't record. Try again."
     }
   },
   "sticker": {

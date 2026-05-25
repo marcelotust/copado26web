@@ -47,4 +47,20 @@ describe('analyzeTradeListPaste', () => {
     expect(r.fromAppShare).toBe(true)
     expect(r.ids).toEqual(['BRA-01'])
   })
+
+  describe('kind classification', () => {
+    it('classifies the missing share as the friend needs (feeds -1)', () => {
+      expect(analyzeTradeListPaste('me faltam 5 figurinhas\nBRA 01', TEAMS).kind).toBe('missing')
+    })
+
+    it('classifies the swaps share as the friend has spare (feeds +1)', () => {
+      expect(analyzeTradeListPaste('tenho 3 repetidas para trocar\nBRA 03', TEAMS).kind).toBe('swaps')
+      expect(analyzeTradeListPaste('Tenho 3 sobras\nESP 01', TEAMS).kind).toBe('swaps')
+    })
+
+    it('falls back to unknown for manual lists or mixed markers', () => {
+      expect(analyzeTradeListPaste('BRA 03 · ESP 01', TEAMS).kind).toBe('unknown')
+      expect(analyzeTradeListPaste('faltam: BRA 01 / repetidas: ESP 02', TEAMS).kind).toBe('unknown')
+    })
+  })
 })

@@ -1,60 +1,119 @@
 import { useState } from 'react'
 import { useI18n } from '../i18n'
 import { interpolate } from '../lib/shareText'
-import { analyzeTradeListPaste } from '../lib/tradeListParse'
+import { analyzeTradeListPaste, type TradeListKind } from '../lib/tradeListParse'
+import { useApplyTrade } from '../state/stickersStore'
+import { AnalyticsEvent, telemetry } from '../lib/telemetry'
+import TradeChips from './TradeChips'
 
 type Props = {
   missingIds: Set<string>
   swapIds: Set<string>
   validTeamCodes: ReadonlySet<string>
-  teamName: (code: string) => string
   teamFlag: (code: string) => string
 }
 
+type Result = { theyHave: string[]; youHave: string[]; kind: TradeListKind }
+
 export default function MissingTradeChecker({
-  missingIds,
-  swapIds,
-  validTeamCodes,
-  teamName,
-  teamFlag,
+  missingIds, swapIds, validTeamCodes, teamFlag,
 }: Props) {
   const { t } = useI18n()
+  const applyTrade = useApplyTrade()
   const [text, setText] = useState('')
-  const [result, setResult] = useState<{ theyHave: string[]; youHave: string[] } | null>(null)
+  const [result, setResult] = useState<Result | null>(null)
   const [formatError, setFormatError] = useState<string | null>(null)
   const [formatWarning, setFormatWarning] = useState<string | null>(null)
-  const [shareHint, setShareHint] = useState(false)
+  const [selReceived, setSelReceived] = useState<Set<string>>(new Set())
+  const [selGiven, setSelGiven] = useState<Set<string>>(new Set())
+  const [applying, setApplying] = useState(false)
+  const [done, setDone] = useState<{ received: number; given: number } | null>(null)
+
+  function resetOutput() {
+    setResult(null)
+    setFormatError(null)
+    setFormatWarning(null)
+    setSelReceived(new Set())
+    setSelGiven(new Set())
+    setDone(null)
+  }
 
   function analyze() {
     const analysis = analyzeTradeListPaste(text, validTeamCodes)
     if (analysis.noCodesFound) {
+      resetOutput()
       setFormatError(t('missing.tradeChecker.invalidFormat'))
-      setFormatWarning(null)
-      setShareHint(false)
-      setResult(null)
       return
     }
-
     setFormatError(null)
-    setShareHint(analysis.fromAppShare)
+    setDone(null)
+    setSelReceived(new Set())
+    setSelGiven(new Set())
     setFormatWarning(
       analysis.unknownTeamCodes.length > 0
-        ? interpolate(t('missing.tradeChecker.unknownTeams'), {
-          teams: analysis.unknownTeamCodes.join(', '),
-        })
+        ? interpolate(t('missing.tradeChecker.unknownTeams'), { teams: analysis.unknownTeamCodes.join(', ') })
         : null,
     )
-
     const parsed = new Set(analysis.ids)
-    const theyHave = [...parsed].filter(id => missingIds.has(id))
-    const youHave = [...swapIds].filter(id => parsed.has(id))
-    setResult({ theyHave, youHave })
+    setResult({
+      theyHave: [...parsed].filter(id => missingIds.has(id)),
+      youHave: [...swapIds].filter(id => parsed.has(id)),
+      kind: analysis.kind,
+    })
   }
 
-  function labelFor(id: string) {
-    const [team, num] = id.split('-')
-    return `${teamFlag(team)} ${teamName(team)} ${num}`
+  function toggle(set: Set<string>, setSet: (s: Set<string>) => void, id: string) {
+    const next = new Set(set)
+    if (next.has(id)) next.delete(id)
+    else next.add(id)
+    setSet(next)
   }
+
+  const total = (result?.theyHave.length ?? 0) + (result?.youHave.length ?? 0)
+  const selCount = selReceived.size + selGiven.size
+  const allSelected = total > 0 && selCount === total
+
+  function toggleAll() {
+    if (!result) return
+    if (allSelected) {
+      setSelReceived(new Set())
+      setSelGiven(new Set())
+    } else {
+      setSelReceived(new Set(result.theyHave))
+      setSelGiven(new Set(result.youHave))
+    }
+  }
+
+  async function register() {
+    if (!result || selCount === 0 || applying) return
+    const received = [...selReceived]
+    const given = [...selGiven]
+    setApplying(true)
+    setFormatError(null)
+    try {
+      await applyTrade(received, given)
+      telemetry.track(AnalyticsEvent.TRADE_RECORDED, {
+        received_count: received.length,
+        given_count: given.length,
+        source: 'paste',
+        list_kind: result.kind,
+      })
+      setDone({ received: received.length, given: given.length })
+      setResult(null)
+      setSelReceived(new Set())
+      setSelGiven(new Set())
+    } catch {
+      setFormatError(t('missing.tradeChecker.registerFailed'))
+    } finally {
+      setApplying(false)
+    }
+  }
+
+  const shareHint = result && result.kind === 'swaps'
+    ? t('missing.tradeChecker.detectedSwaps')
+    : result && result.kind === 'missing'
+      ? t('missing.tradeChecker.detectedMissing')
+      : null
 
   return (
     <div
@@ -65,13 +124,7 @@ export default function MissingTradeChecker({
       <p className='text-slate-500 text-xs'>{t('missing.tradeChecker.hint')}</p>
       <textarea
         value={text}
-        onChange={e => {
-          setText(e.target.value)
-          setResult(null)
-          setFormatError(null)
-          setFormatWarning(null)
-          setShareHint(false)
-        }}
+        onChange={e => { setText(e.target.value); resetOutput() }}
         placeholder={t('missing.tradeChecker.placeholder')}
         rows={3}
         className='w-full resize-none rounded-lg border border-slate-700 bg-slate-950/45 px-3 py-2 font-mono text-sm text-slate-200 focus:border-emerald-500 focus:outline-none'
@@ -85,36 +138,65 @@ export default function MissingTradeChecker({
         {t('missing.tradeChecker.analyze')}
       </button>
 
-      {formatError && (
-        <p className='text-rose-400 text-xs leading-relaxed' role='alert'>{formatError}</p>
-      )}
-      {shareHint && !formatError && (
-        <p className='text-sky-400/90 text-xs leading-relaxed'>{t('missing.tradeChecker.shareDetected')}</p>
-      )}
-      {formatWarning && (
-        <p className='text-amber-400/90 text-xs leading-relaxed'>{formatWarning}</p>
+      {formatError && <p className='text-rose-400 text-xs leading-relaxed' role='alert'>{formatError}</p>}
+      {shareHint && !formatError && <p className='text-sky-400/90 text-xs leading-relaxed'>{shareHint}</p>}
+      {formatWarning && <p className='text-amber-400/90 text-xs leading-relaxed'>{formatWarning}</p>}
+      {done && (
+        <p className='text-emerald-400 text-xs font-semibold' role='status'>
+          {interpolate(t('missing.tradeChecker.registered'), { received: done.received, given: done.given })}
+        </p>
       )}
 
       {result && (
         <div className='flex flex-col gap-3 pt-1'>
-          <div>
-            <p className='text-green-400 text-xs font-bold mb-1'>
+          <p className='text-slate-500 text-xs'>{t('missing.tradeChecker.selectHint')}</p>
+
+          <div className='flex flex-col gap-1.5'>
+            <p className='text-green-400 text-xs font-bold'>
               {interpolate(t('missing.tradeChecker.theyHave'), { count: result.theyHave.length })}
             </p>
             {result.theyHave.length === 0
               ? <p className='text-slate-600 text-xs'>{t('missing.tradeChecker.noMatch')}</p>
-              : <p className='text-slate-300 text-xs font-mono leading-relaxed'>{result.theyHave.map(labelFor).join(' · ')}</p>
-            }
+              : <TradeChips ids={result.theyHave} selected={selReceived} teamFlag={teamFlag} tone='green'
+                  onToggle={id => toggle(selReceived, setSelReceived, id)} />}
           </div>
-          <div>
-            <p className='text-amber-400 text-xs font-bold mb-1'>
+
+          <div className='flex flex-col gap-1.5'>
+            <p className='text-amber-400 text-xs font-bold'>
               {interpolate(t('missing.tradeChecker.youHave'), { count: result.youHave.length })}
             </p>
             {result.youHave.length === 0
               ? <p className='text-slate-600 text-xs'>{t('missing.tradeChecker.noMatch')}</p>
-              : <p className='text-slate-300 text-xs font-mono leading-relaxed'>{result.youHave.map(labelFor).join(' · ')}</p>
-            }
+              : <>
+                  <TradeChips ids={result.youHave} selected={selGiven} teamFlag={teamFlag} tone='amber'
+                    onToggle={id => toggle(selGiven, setSelGiven, id)} />
+                  {result.kind !== 'missing' && (
+                    <p className='text-amber-400/80 text-[11px] leading-relaxed'>{t('missing.tradeChecker.giveCaution')}</p>
+                  )}
+                </>}
           </div>
+
+          {total > 0 && (
+            <div className='flex flex-wrap items-center gap-2 pt-1'>
+              <button
+                type='button'
+                onClick={toggleAll}
+                className='rounded-lg border border-slate-600 px-3 py-1.5 text-xs font-semibold text-slate-200 transition-colors hover:border-slate-400'
+              >
+                {allSelected ? t('missing.tradeChecker.clearSelection') : t('missing.tradeChecker.tradeAll')}
+              </button>
+              <button
+                type='button'
+                onClick={register}
+                disabled={selCount === 0 || applying}
+                className='rounded-lg bg-emerald-600 px-4 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-emerald-500 disabled:opacity-40'
+              >
+                {applying
+                  ? t('missing.tradeChecker.registering')
+                  : `${t('missing.tradeChecker.register')} (+${selReceived.size} / −${selGiven.size})`}
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>
