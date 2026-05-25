@@ -19,4 +19,16 @@ describe('sentry sanitize', () => {
     expect(event?.user).toEqual({ id: 'u1' })
     expect(event?.extra).toEqual({ sticker_id: 'x', authorization: '[redacted]' })
   })
+
+  it('redacts email/jwt from exception messages while keeping context', () => {
+    const event = sentryBeforeSend({
+      message: 'token eyJabc.def.ghi rejected',
+      exception: {
+        values: [{ type: 'PostgrestError', value: 'Key (email)=(user@example.com) already exists' }],
+      },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any)
+    expect(event?.message).toBe('token [redacted-jwt] rejected')
+    expect(event?.exception?.values?.[0].value).toBe('Key (email)=([redacted-email]) already exists')
+  })
 })
