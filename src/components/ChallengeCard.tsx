@@ -5,21 +5,24 @@ import type { ChallengeResult } from '../hooks/useChallengeProgress'
 import type { ChallengeDifficulty } from '../data/challenges'
 
 export const DIFFICULTY_COLOR: Record<ChallengeDifficulty, string> = {
-  easy:   'bg-emerald-500',
-  medium: 'bg-amber-500',
-  hard:   'bg-rose-500',
+  easy:      'bg-emerald-500',
+  medium:    'bg-amber-500',
+  hard:      'bg-rose-500',
+  legendary: 'bg-yellow-400',
 }
 
 export const DIFFICULTY_TRACK: Record<ChallengeDifficulty, string> = {
-  easy:   'bg-emerald-900/40',
-  medium: 'bg-amber-900/40',
-  hard:   'bg-rose-900/40',
+  easy:      'bg-emerald-900/40',
+  medium:    'bg-amber-900/40',
+  hard:      'bg-rose-900/40',
+  legendary: 'bg-yellow-900/40',
 }
 
 export const DIFFICULTY_BORDER: Record<ChallengeDifficulty, string> = {
-  easy:   'border-emerald-800/40',
-  medium: 'border-amber-800/40',
-  hard:   'border-rose-800/40',
+  easy:      'border-emerald-800/40',
+  medium:    'border-amber-800/40',
+  hard:      'border-rose-800/40',
+  legendary: 'border-yellow-500/60',
 }
 
 export default function ChallengeCard({ result }: { result: ChallengeResult }) {
