@@ -55,8 +55,8 @@ describe('challenges catalog audit', () => {
     expect(albumTotal).toBe(994)
   })
 
-  it('has exactly 15 challenges', () => {
-    expect(CHALLENGES).toHaveLength(15)
+  it('has exactly 17 challenges', () => {
+    expect(CHALLENGES).toHaveLength(17)
   })
 
   for (const challenge of CHALLENGES) {
@@ -143,5 +143,24 @@ describe('challenges catalog audit', () => {
     const c = CHALLENGES.find(ch => ch.id === 'full-album')!
     const r = resolveChallengeProgress(c, teams, byTeam, new Map(), 994)
     expect(r).toEqual({ owned: 994, total: 994 })
+  })
+
+  it('all-champions requires all stickers from 7 champion teams', () => {
+    const c = CHALLENGES.find(ch => ch.id === 'all-champions')!
+    expect(c.teamCodes).toHaveLength(7)
+    expect(c.teamCodes).toEqual(expect.arrayContaining(['BRA', 'GER', 'ARG', 'FRA', 'URU', 'ENG', 'ESP']))
+    // With 0 stickers, owned = 0
+    const r = resolveChallengeProgress(c, teams, byTeam, new Map(), 0)
+    expect(r.total).toBe(7)
+    expect(r.owned).toBe(0)
+  })
+
+  it('all-foil requires all 130 special stickers', () => {
+    const c = CHALLENGES.find(ch => ch.id === 'all-foil')!
+    expect(c.targetIds).toHaveLength(130)
+    // With 0 stickers, owned = 0
+    const r = resolveChallengeProgress(c, teams, byTeam, new Map(), 0)
+    expect(r.total).toBe(130)
+    expect(r.owned).toBe(0)
   })
 })
