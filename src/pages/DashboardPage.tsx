@@ -6,7 +6,7 @@ import { useStickersContext } from '../state/StickersProvider'
 import { useChallengeProgress } from '../hooks/useChallengeProgress'
 import { loadPersistedMilestones } from '../lib/milestoneStorage'
 import type { Milestone } from '../lib/milestoneDetection'
-import { DIFFICULTY_COLOR, DIFFICULTY_BORDER } from '../components/ChallengeCard'
+import { DIFFICULTY_COLOR, DIFFICULTY_BORDER, DIFFICULTY_GRADIENT } from '../components/ChallengeCard'
 import { challengeTitle } from '../lib/challengeI18n'
 import { interpolate } from '../lib/shareText'
 import CompactTeamCard from '../components/CompactTeamCard'
@@ -157,8 +157,7 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
           >
             {/* Album % */}
             <div className='relative overflow-hidden flex flex-col gap-1.5 rounded-xl bg-gradient-to-br from-sky-900/60 to-slate-900 border border-sky-700/30 px-3 py-3 md:px-4 md:py-4'>
-              <span className='absolute top-2 right-2 text-xl opacity-20 select-none pointer-events-none'>📊</span>
-              <span className='text-2xl md:text-3xl font-black text-white tabular-nums leading-none'>{albumPct}%</span>
+              <span className='text-3xl md:text-4xl font-black text-white tabular-nums leading-none'>{albumPct}%</span>
               <div>{progressBar(albumPct, 'bg-sky-500', 'bg-sky-900/50')}</div>
               <span className='text-[10px] text-sky-300/70 tabular-nums'>{albumCollected}/{albumTotal}</span>
             </div>
@@ -168,8 +167,7 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
               onClick={() => navigate('/missing')}
               className='relative overflow-hidden flex flex-col gap-1 rounded-xl bg-gradient-to-br from-amber-900/60 to-slate-900 border border-amber-700/30 px-3 py-3 md:px-4 md:py-4 text-left hover:border-amber-600/50 transition-colors'
             >
-              <span className='absolute top-2 right-2 text-xl opacity-20 select-none pointer-events-none'>🎯</span>
-              <span className='text-2xl md:text-3xl font-black text-amber-400 tabular-nums leading-none'>{totalMissing}</span>
+              <span className='text-3xl md:text-4xl font-black text-amber-400 tabular-nums leading-none'>{totalMissing}</span>
               <span className='text-[10px] text-amber-300/70 mt-auto'>{t('nav.missing')}</span>
             </button>
             {/* Repeated */}
@@ -178,8 +176,7 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
               onClick={() => navigate('/swaps')}
               className='relative overflow-hidden flex flex-col gap-1 rounded-xl bg-gradient-to-br from-rose-900/60 to-slate-900 border border-rose-700/30 px-3 py-3 md:px-4 md:py-4 text-left hover:border-rose-600/50 transition-colors'
             >
-              <span className='absolute top-2 right-2 text-xl opacity-20 select-none pointer-events-none'>🃏</span>
-              <span className='text-2xl md:text-3xl font-black text-rose-400 tabular-nums leading-none'>{totalSwaps}</span>
+              <span className='text-3xl md:text-4xl font-black text-rose-400 tabular-nums leading-none'>{totalSwaps}</span>
               <span className='text-[10px] text-rose-300/70 mt-auto'>{t('nav.swaps')}</span>
             </button>
           </div>
@@ -217,15 +214,25 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
               <>
               <div className='flex flex-col gap-2'>
                 {topChallenges.map(r => (
-                  <div key={r.challenge.id}
-                    className={`flex items-center gap-3 rounded-xl border px-3 py-2.5 ${DIFFICULTY_BORDER[r.challenge.difficulty]}`}>
+                  <button
+                    key={r.challenge.id}
+                    type='button'
+                    onClick={() => navigate('/challenges')}
+                    className={[
+                      'flex items-center gap-3 rounded-xl border px-3 py-2.5 w-full text-left',
+                      'bg-gradient-to-br',
+                      DIFFICULTY_GRADIENT[r.challenge.difficulty],
+                      DIFFICULTY_BORDER[r.challenge.difficulty],
+                      'hover:brightness-110 transition-all',
+                    ].join(' ')}
+                  >
                     <span className='text-xl'>{r.challenge.icon}</span>
                     <div className='flex min-w-0 flex-1 flex-col gap-1'>
                       <p className='truncate text-xs font-semibold text-white'>{challengeTitle(r.challenge, t)}</p>
                       {progressBar(r.pct, DIFFICULTY_COLOR[r.challenge.difficulty])}
                     </div>
                     <span className='shrink-0 text-xs font-bold tabular-nums text-slate-400'>{r.pct}%</span>
-                  </div>
+                  </button>
                 ))}
               </div>
               <button type='button' onClick={() => navigate('/challenges')}
@@ -247,10 +254,10 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
                   key={s.team.code}
                   type='button'
                   onClick={() => onNavigateToTeam(s.team.code)}
-                  title={s.team.code}
-                  className='text-2xl hover:scale-110 transition-transform'
+                  className='flex flex-col items-center gap-0.5 hover:scale-110 transition-transform'
                 >
-                  {s.team.flag}
+                  <span className='text-2xl'>{s.team.flag}</span>
+                  <span className='text-[9px] font-bold text-slate-400 tracking-wide'>{s.team.code}</span>
                 </button>
               ))}
             </div>
