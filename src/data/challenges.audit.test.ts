@@ -55,8 +55,8 @@ describe('challenges catalog audit', () => {
     expect(albumTotal).toBe(994)
   })
 
-  it('has exactly 14 challenges', () => {
-    expect(CHALLENGES).toHaveLength(14)
+  it('has exactly 15 challenges', () => {
+    expect(CHALLENGES).toHaveLength(15)
   })
 
   for (const challenge of CHALLENGES) {
@@ -131,5 +131,17 @@ describe('challenges catalog audit', () => {
     ])
     const r = resolveChallengeProgress(c, teams, byTeam, qty, 0)
     expect(r).toEqual({ owned: 5, total: 5 })
+  })
+
+  it('full-album resolves to total=994 and owned=0 when empty', () => {
+    const c = CHALLENGES.find(ch => ch.id === 'full-album')!
+    const r = resolveChallengeProgress(c, teams, byTeam, new Map(), 0)
+    expect(r).toEqual({ owned: 0, total: 994 })
+  })
+
+  it('full-album resolves to completed when albumCollected=994', () => {
+    const c = CHALLENGES.find(ch => ch.id === 'full-album')!
+    const r = resolveChallengeProgress(c, teams, byTeam, new Map(), 994)
+    expect(r).toEqual({ owned: 994, total: 994 })
   })
 })
