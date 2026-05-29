@@ -20,17 +20,12 @@ type Props = {
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
-const SPECIAL_SECTIONS = [
-  { code: 'WAP', labelKey: 'sections.wap' },
-  { code: 'FWC', labelKey: 'sections.fwc' },
-  { code: 'CC',  labelKey: 'sections.cc'  },
-] as const
 const SPECIAL_CODES = new Set(['WAP', 'FWC', 'CC'])
 
-function pctColor(pct: number): string {
-  if (pct >= 75) return 'text-emerald-400'
-  if (pct >= 40) return 'text-amber-400'
-  return 'text-slate-400'
+function pctFillColor(pct: number): string {
+  if (pct >= 75) return 'bg-emerald-500'
+  if (pct >= 40) return 'bg-amber-500'
+  return 'bg-sky-500'
 }
 
 function progressBar(pct: number, color = 'bg-sky-500', track = 'bg-slate-800') {
@@ -47,18 +42,6 @@ function sectionHeader(label: string) {
 
 function fraction(stat: { collected: number; total: number }): string {
   return `${stat.collected}/${stat.total}`
-}
-
-function groupRow(key: string, label: string, collected: number, total: number) {
-  if (total === 0) return null
-  const pct = Math.round((collected / total) * 100)
-  return (
-    <div key={key} className='flex items-center gap-3'>
-      <span className='w-28 shrink-0 truncate text-xs text-slate-300'>{label}</span>
-      {progressBar(pct)}
-      <span className={`shrink-0 w-8 text-right text-xs font-semibold tabular-nums ${pctColor(pct)}`}>{pct}%</span>
-    </div>
-  )
 }
 
 // ── component ─────────────────────────────────────────────────────────────────
@@ -78,11 +61,13 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
 
   const groupRows = useMemo(() => {
     const rows: Array<{ key: string; label: string; collected: number; total: number }> = []
-    for (const { code, labelKey } of SPECIAL_SECTIONS) {
-      const ids = byTeam.get(code) ?? []
-      const collected = ids.filter(id => (quantities.get(id) ?? 0) >= 1).length
-      if (ids.length > 0) rows.push({ key: code, label: t(labelKey), collected, total: ids.length })
-    }
+
+    // 1. WAP (opening section) — matches sidebar order
+    const wapIds = byTeam.get('WAP') ?? []
+    const wapCollected = wapIds.filter(id => (quantities.get(id) ?? 0) >= 1).length
+    if (wapIds.length > 0) rows.push({ key: 'WAP', label: t('sections.wap'), collected: wapCollected, total: wapIds.length })
+
+    // 2. Groups A → L
     const letters = [...new Set(teams.filter(tm => tm.group_letter).map(tm => tm.group_letter!))].sort()
     for (const letter of letters) {
       const teamsInGroup = teams.filter(tm => tm.group_letter === letter)
@@ -90,6 +75,14 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
       const collected = allIds.filter(id => (quantities.get(id) ?? 0) >= 1).length
       rows.push({ key: `group-${letter}`, label: `${t('sidebar.group')} ${letter}`, collected, total: allIds.length })
     }
+
+    // 3. FWC then CC — closing sections
+    for (const [code, labelKey] of [['FWC', 'sections.fwc'], ['CC', 'sections.cc']] as const) {
+      const ids = byTeam.get(code) ?? []
+      const collected = ids.filter(id => (quantities.get(id) ?? 0) >= 1).length
+      if (ids.length > 0) rows.push({ key: code, label: t(labelKey), collected, total: ids.length })
+    }
+
     return rows
   }, [teams, byTeam, quantities, t])
 
@@ -320,8 +313,18 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
         {/* 5 — Group progress (moved to bottom) */}
         <section className='flex flex-col gap-3'>
           {sectionHeader(t('dashboard.byGroup'))}
-          <div className='flex flex-col gap-2 rounded-2xl bg-slate-900 border border-slate-800 px-4 py-3'>
-            {groupRows.map(r => groupRow(r.key, r.label, r.collected, r.total))}
+          <div className='flex flex-col gap-2'>
+            {groupRows.map(r => {
+              const pct = r.total > 0 ? Math.round((r.collected / r.total) * 100) : 0
+              return (
+                <FatProgressBar
+                  key={r.key}
+                  pct={pct}
+                  color={pctFillColor(pct)}
+                  label={r.label}
+                />
+              )
+            })}
           </div>
         </section>
 
