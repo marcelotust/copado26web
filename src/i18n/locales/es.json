@@ -172,9 +172,11 @@
     "recentBadges": "Logros recientes",
     "noMilestones": "Sin logros aún",
     "leastComplete": "Menos completos",
+    "completedTeams": "Equipos completos",
     "ofAlbum": "del álbum",
     "stickersOf": "de {{total}} cromos",
     "milestoneAlbum": "{{pct}}% del álbum",
+    "teamMissing": "faltando {{n}}",
     "replay": "▶ rever"
   },
   "guest": {
@@ -190,6 +192,7 @@
     "easy": "Fáciles",
     "medium": "Medios",
     "hard": "Difíciles",
+    "legendary": "Legendarios",
     "completed": "Completado",
     "progress": "{{owned}} de {{total}}",
     "modalTitle": "¡Desafío completado! 🎉",
@@ -253,6 +256,10 @@
       "halfway": {
         "title": "Medio Álbum",
         "description": "Pega 497 cromos — la mitad del álbum completo."
+      },
+      "full-album": {
+        "title": "Álbum Completo",
+        "description": "Pega los 994 cromos del álbum. El desafío definitivo."
       }
     }
   },

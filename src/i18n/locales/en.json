@@ -172,9 +172,11 @@
     "recentBadges": "Recent milestones",
     "noMilestones": "No milestones yet",
     "leastComplete": "Least complete",
+    "completedTeams": "Completed teams",
     "ofAlbum": "of album",
     "stickersOf": "of {{total}} stickers",
     "milestoneAlbum": "{{pct}}% of album",
+    "teamMissing": "{{n}} left",
     "replay": "▶ replay"
   },
   "guest": {
@@ -190,6 +192,7 @@
     "easy": "Easy",
     "medium": "Medium",
     "hard": "Hard",
+    "legendary": "Legendary",
     "completed": "Completed",
     "progress": "{{owned}} of {{total}}",
     "modalTitle": "Challenge completed! 🎉",
@@ -253,6 +256,10 @@
       "halfway": {
         "title": "Half Album",
         "description": "Collect 497 stickers — half of the full album."
+      },
+      "full-album": {
+        "title": "Full Album",
+        "description": "Collect all 994 stickers. The ultimate challenge."
       }
     }
   },

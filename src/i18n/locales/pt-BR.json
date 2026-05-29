@@ -173,9 +173,11 @@
     "recentBadges": "Conquistas recentes",
     "noMilestones": "Nenhuma conquista ainda",
     "leastComplete": "Menos completos",
+    "completedTeams": "Times completos",
     "ofAlbum": "do álbum",
     "stickersOf": "de {{total}} figurinhas",
     "milestoneAlbum": "{{pct}}% do álbum",
+    "teamMissing": "faltando {{n}}",
     "replay": "▶ rever"
   },
   "guest": {
@@ -191,6 +193,7 @@
     "easy": "Fáceis",
     "medium": "Médios",
     "hard": "Difíceis",
+    "legendary": "Lendários",
     "completed": "Concluído",
     "progress": "{{owned}} de {{total}}",
     "modalTitle": "Desafio concluído! 🎉",
@@ -254,6 +257,10 @@
       "halfway": {
         "title": "Meio Álbum",
         "description": "Cole 497 figurinhas — metade do álbum completo."
+      },
+      "full-album": {
+        "title": "Álbum Completo",
+        "description": "Cole todas as 994 figurinhas do álbum. O desafio definitivo."
       }
     }
   },
