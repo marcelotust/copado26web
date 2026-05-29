@@ -261,6 +261,14 @@
       "full-album": {
         "title": "Álbum Completo",
         "description": "Cole todas as 994 figurinhas do álbum. O desafio definitivo."
+      },
+      "all-champions": {
+        "title": "Campeões do Mundo",
+        "description": "Complete 100% das figurinhas de todas as seleções campeãs presentes no álbum: BRA, GER, ARG, FRA, URU, ENG e ESP."
+      },
+      "all-foil": {
+        "title": "Coleção FOIL",
+        "description": "Cole todas as 130 figurinhas especiais (foil) do álbum — as brilhantes de cada seleção e as seções especiais."
       }
     }
   },

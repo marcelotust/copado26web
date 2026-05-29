@@ -260,6 +260,14 @@
       "full-album": {
         "title": "Full Album",
         "description": "Collect all 994 stickers. The ultimate challenge."
+      },
+      "all-champions": {
+        "title": "World Champions",
+        "description": "Complete 100% of the stickers for every World Cup champion nation in the album: BRA, GER, ARG, FRA, URU, ENG and ESP."
+      },
+      "all-foil": {
+        "title": "FOIL Collection",
+        "description": "Collect all 130 special (foil) stickers in the album — the shiny stickers from every nation and the special sections."
       }
     }
   },
