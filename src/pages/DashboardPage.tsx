@@ -44,6 +44,10 @@ function sectionHeader(label: string) {
   return <h2 className='px-1 text-xs font-bold uppercase tracking-widest text-slate-500'>{label}</h2>
 }
 
+function fraction(stat: { collected: number; total: number }): string {
+  return `${stat.collected}/${stat.total}`
+}
+
 function groupRow(key: string, label: string, collected: number, total: number) {
   if (total === 0) return null
   const pct = Math.round((collected / total) * 100)
@@ -140,8 +144,6 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
       return { icon: tm?.flag ?? '🏅', label: tm ? t(tm.name_key) : m.teamCode, milestone }
     }), [userId, teams, t])
 
-  const missingLabel = t('dashboard.teamMissing')
-
   return (
     <div className='flex flex-col h-full'>
       <div className='flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-6'>
@@ -154,28 +156,31 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
             data-onboarding-target='dashboard-global-progress'
           >
             {/* Album % */}
-            <div className='flex flex-col gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-3 py-3'>
-              <span className='text-2xl font-black text-white tabular-nums leading-none'>{albumPct}%</span>
-              <div>{progressBar(albumPct, 'bg-sky-500', 'bg-slate-700')}</div>
-              <span className='text-[10px] text-slate-500 tabular-nums'>{albumCollected}/{albumTotal}</span>
+            <div className='relative overflow-hidden flex flex-col gap-1.5 rounded-xl bg-gradient-to-br from-sky-900/60 to-slate-900 border border-sky-700/30 px-3 py-3 md:px-4 md:py-4'>
+              <span className='absolute top-2 right-2 text-xl opacity-20 select-none pointer-events-none'>📊</span>
+              <span className='text-2xl md:text-3xl font-black text-white tabular-nums leading-none'>{albumPct}%</span>
+              <div>{progressBar(albumPct, 'bg-sky-500', 'bg-sky-900/50')}</div>
+              <span className='text-[10px] text-sky-300/70 tabular-nums'>{albumCollected}/{albumTotal}</span>
             </div>
             {/* Missing */}
             <button
               type='button'
               onClick={() => navigate('/missing')}
-              className='flex flex-col gap-1 rounded-xl bg-slate-900 border border-slate-800 px-3 py-3 text-left hover:border-amber-800 transition-colors'
+              className='relative overflow-hidden flex flex-col gap-1 rounded-xl bg-gradient-to-br from-amber-900/60 to-slate-900 border border-amber-700/30 px-3 py-3 md:px-4 md:py-4 text-left hover:border-amber-600/50 transition-colors'
             >
-              <span className='text-2xl font-black text-amber-400 tabular-nums leading-none'>{totalMissing}</span>
-              <span className='text-[10px] text-slate-500 mt-auto'>{t('nav.missing')}</span>
+              <span className='absolute top-2 right-2 text-xl opacity-20 select-none pointer-events-none'>🎯</span>
+              <span className='text-2xl md:text-3xl font-black text-amber-400 tabular-nums leading-none'>{totalMissing}</span>
+              <span className='text-[10px] text-amber-300/70 mt-auto'>{t('nav.missing')}</span>
             </button>
             {/* Repeated */}
             <button
               type='button'
               onClick={() => navigate('/swaps')}
-              className='flex flex-col gap-1 rounded-xl bg-slate-900 border border-slate-800 px-3 py-3 text-left hover:border-rose-800 transition-colors'
+              className='relative overflow-hidden flex flex-col gap-1 rounded-xl bg-gradient-to-br from-rose-900/60 to-slate-900 border border-rose-700/30 px-3 py-3 md:px-4 md:py-4 text-left hover:border-rose-600/50 transition-colors'
             >
-              <span className='text-2xl font-black text-rose-400 tabular-nums leading-none'>{totalSwaps}</span>
-              <span className='text-[10px] text-slate-500 mt-auto'>{t('nav.swaps')}</span>
+              <span className='absolute top-2 right-2 text-xl opacity-20 select-none pointer-events-none'>🃏</span>
+              <span className='text-2xl md:text-3xl font-black text-rose-400 tabular-nums leading-none'>{totalSwaps}</span>
+              <span className='text-[10px] text-rose-300/70 mt-auto'>{t('nav.swaps')}</span>
             </button>
           </div>
         </section>
@@ -262,7 +267,7 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
                 <CompactTeamCard
                   key={s.team.code}
                   stat={s}
-                  missingLabel={missingLabel}
+                  secondaryStat={interpolate(t('dashboard.teamMissing'), { n: s.total - s.collected })}
                   accentColor='text-emerald-400'
                   onClick={() => onNavigateToTeam(s.team.code)}
                 />
@@ -275,7 +280,7 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
                 <CompactTeamCard
                   key={s.team.code}
                   stat={s}
-                  missingLabel={missingLabel}
+                  secondaryStat={fraction(s)}
                   accentColor='text-rose-400'
                   onClick={() => onNavigateToTeam(s.team.code)}
                 />
@@ -292,7 +297,7 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
                   <CompactTeamCard
                     key={s.team.code}
                     stat={s}
-                    missingLabel={missingLabel}
+                    secondaryStat={interpolate(t('dashboard.teamMissing'), { n: s.total - s.collected })}
                     accentColor='text-amber-400'
                     onClick={() => onNavigateToTeam(s.team.code)}
                   />
