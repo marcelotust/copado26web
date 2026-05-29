@@ -3,7 +3,7 @@ import { useChallengeProgress } from '../hooks/useChallengeProgress'
 import { CHALLENGES, type ChallengeDifficulty } from '../data/challenges'
 import ChallengeCard from '../components/ChallengeCard'
 
-const DIFFICULTY_ORDER: ChallengeDifficulty[] = ['easy', 'medium', 'hard']
+const DIFFICULTY_ORDER: ChallengeDifficulty[] = ['legendary', 'easy', 'medium', 'hard']
 
 export default function ChallengesPage() {
   const { t } = useI18n()
