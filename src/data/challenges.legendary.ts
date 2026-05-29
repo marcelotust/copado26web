@@ -2,21 +2,6 @@ import type { Challenge } from './challenges.types'
 
 export const CHALLENGES_LEGENDARY: Challenge[] = [
   {
-    id: 'full-album',
-    icon: '🏆',
-    difficulty: 'legendary',
-    albumTotal: true,
-    requiredQty: 994,
-  },
-  {
-    id: 'all-champions',
-    icon: '👑',
-    difficulty: 'legendary',
-    teamCodes: ['BRA', 'GER', 'ARG', 'FRA', 'URU', 'ENG', 'ESP'],
-    requiredQty: 'all',
-    perTeam: true,
-  },
-  {
     id: 'all-foil',
     icon: '✨',
     difficulty: 'legendary',
@@ -38,5 +23,20 @@ export const CHALLENGES_LEGENDARY: Challenge[] = [
       'CC-01', 'CC-02', 'CC-03', 'CC-04', 'CC-05', 'CC-06', 'CC-07', 'CC-08', 'CC-09', 'CC-10', 'CC-11', 'CC-12', 'CC-13', 'CC-14',
     ],
     requiredQty: 'all',
+  },
+  {
+    id: 'all-champions',
+    icon: '👑',
+    difficulty: 'legendary',
+    teamCodes: ['BRA', 'GER', 'ARG', 'FRA', 'URU', 'ENG', 'ESP'],
+    requiredQty: 'all',
+    perTeam: true,
+  },
+  {
+    id: 'full-album',
+    icon: '🏆',
+    difficulty: 'legendary',
+    albumTotal: true,
+    requiredQty: 994,
   },
 ]

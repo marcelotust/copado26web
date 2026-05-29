@@ -25,6 +25,13 @@ export const DIFFICULTY_BORDER: Record<ChallengeDifficulty, string> = {
   legendary: 'border-yellow-500/60',
 }
 
+export const DIFFICULTY_GRADIENT: Record<ChallengeDifficulty, string> = {
+  easy:      'from-emerald-900/40 to-slate-900',
+  medium:    'from-amber-900/40 to-slate-900',
+  hard:      'from-rose-900/40 to-slate-900',
+  legendary: 'from-yellow-900/40 to-slate-900',
+}
+
 export default function ChallengeCard({ result }: { result: ChallengeResult }) {
   const { t } = useI18n()
   const { challenge, owned, total, pct, completed } = result
@@ -35,7 +42,7 @@ export default function ChallengeCard({ result }: { result: ChallengeResult }) {
       className={[
         'flex gap-3 rounded-xl border p-3 transition-opacity',
         DIFFICULTY_BORDER[diff],
-        completed ? 'opacity-60' : 'bg-slate-900',
+        completed ? 'opacity-60' : `bg-gradient-to-br ${DIFFICULTY_GRADIENT[diff]}`,
       ].join(' ')}
     >
       <div className='flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-slate-800 text-2xl'>
