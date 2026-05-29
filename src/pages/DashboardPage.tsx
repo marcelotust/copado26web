@@ -227,12 +227,14 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
                       'hover:brightness-110 transition-all',
                     ].join(' ')}
                   >
-                    <span className='text-xl'>{r.challenge.icon}</span>
-                    <div className='flex min-w-0 flex-1 flex-col gap-1'>
-                      <p className='truncate text-xs font-semibold text-white'>{challengeTitle(r.challenge, t)}</p>
-                      <FatProgressBar pct={r.pct} color={DIFFICULTY_COLOR[r.challenge.difficulty]} />
+                    <span className='text-xl shrink-0'>{r.challenge.icon}</span>
+                    <div className='flex-1 min-w-0'>
+                      <FatProgressBar
+                        pct={r.pct}
+                        color={DIFFICULTY_COLOR[r.challenge.difficulty]}
+                        label={challengeTitle(r.challenge, t)}
+                      />
                     </div>
-                    <span className='shrink-0 text-xs font-bold tabular-nums text-slate-400'>{r.pct}%</span>
                   </button>
                 ))}
               </div>
