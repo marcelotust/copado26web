@@ -10,6 +10,7 @@ import { DIFFICULTY_COLOR, DIFFICULTY_BORDER, DIFFICULTY_GRADIENT } from '../com
 import { challengeTitle } from '../lib/challengeI18n'
 import { interpolate } from '../lib/shareText'
 import CompactTeamCard from '../components/CompactTeamCard'
+import FatProgressBar from '../components/FatProgressBar'
 
 type Props = {
   userId: string
@@ -229,7 +230,7 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
                     <span className='text-xl'>{r.challenge.icon}</span>
                     <div className='flex min-w-0 flex-1 flex-col gap-1'>
                       <p className='truncate text-xs font-semibold text-white'>{challengeTitle(r.challenge, t)}</p>
-                      {progressBar(r.pct, DIFFICULTY_COLOR[r.challenge.difficulty])}
+                      <FatProgressBar pct={r.pct} color={DIFFICULTY_COLOR[r.challenge.difficulty]} />
                     </div>
                     <span className='shrink-0 text-xs font-bold tabular-nums text-slate-400'>{r.pct}%</span>
                   </button>
