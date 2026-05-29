@@ -23,6 +23,7 @@ type AuthenticatedRoutesProps = {
   onGrantAnalytics: () => void
   onDeclineAnalytics: () => void
   onShowMilestone: (m: Milestone) => void
+  onNavigateToTeam: (code: string) => void
   onSignOut: () => Promise<void>
 }
 
@@ -34,6 +35,7 @@ export default function AuthenticatedRoutes({
   onGrantAnalytics,
   onDeclineAnalytics,
   onShowMilestone,
+  onNavigateToTeam,
   onSignOut,
 }: AuthenticatedRoutesProps) {
   const { t } = useI18n()
@@ -41,7 +43,7 @@ export default function AuthenticatedRoutes({
   return (
     <Suspense fallback={<LoadingScreen label={t('loading')} />}>
       <Routes>
-        <Route path='/dashboard' element={<DashboardPage userId={userId} onShowMilestone={onShowMilestone} />} />
+        <Route path='/dashboard' element={<DashboardPage userId={userId} onShowMilestone={onShowMilestone} onNavigateToTeam={onNavigateToTeam} />} />
         <Route path='/album' element={<AlbumPage sectionCode={section} />} />
         <Route path='/missing' element={<MissingPage />} />
         <Route path='/swaps' element={<SwapsPage />} />

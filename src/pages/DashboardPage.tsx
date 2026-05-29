@@ -9,11 +9,12 @@ import type { Milestone } from '../lib/milestoneDetection'
 import { DIFFICULTY_COLOR, DIFFICULTY_BORDER } from '../components/ChallengeCard'
 import { challengeTitle } from '../lib/challengeI18n'
 import { interpolate } from '../lib/shareText'
-import type { Team } from '../types/database'
+import CompactTeamCard from '../components/CompactTeamCard'
 
 type Props = {
   userId: string
   onShowMilestone: (m: Milestone) => void
+  onNavigateToTeam: (code: string) => void
 }
 
 // ── helpers ──────────────────────────────────────────────────────────────────
@@ -55,26 +56,9 @@ function groupRow(key: string, label: string, collected: number, total: number) 
   )
 }
 
-function teamCard(
-  team: Team, pct: number, collected: number, total: number,
-  barColor = 'bg-emerald-500', accentColor = 'text-emerald-400',
-) {
-  return (
-    <div key={team.code} className='flex items-center gap-2.5 rounded-xl bg-slate-900 border border-slate-800 px-3 py-2'>
-      <span className='text-xl'>{team.flag}</span>
-      <div className='flex min-w-0 flex-1 flex-col gap-1'>
-        <p className='truncate text-xs font-semibold text-white'>{team.code}</p>
-        {progressBar(pct, barColor, 'bg-slate-700')}
-      </div>
-      <span className={`shrink-0 text-xs font-bold tabular-nums ${accentColor}`}>{pct}%</span>
-      <span className='shrink-0 text-[10px] text-slate-500'>{collected}/{total}</span>
-    </div>
-  )
-}
-
 // ── component ─────────────────────────────────────────────────────────────────
 
-export default function DashboardPage({ userId, onShowMilestone }: Props) {
+export default function DashboardPage({ userId, onShowMilestone, onNavigateToTeam }: Props) {
   const { t } = useI18n()
   const navigate = useNavigate()
   const { total: albumTotal, collected: albumCollected } = useAlbumProgress()
@@ -114,9 +98,27 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
       return { team: tm, collected, total, pct }
     }), [teams, byTeam, quantities])
 
-  const topTeams     = useMemo(() => [...teamStats].sort((a, b) => b.pct - a.pct).slice(0, 3), [teamStats])
-  const bottomTeams  = useMemo(() => [...teamStats].filter(s => s.pct < 100).sort((a, b) => a.pct - b.pct).slice(0, 3), [teamStats])
-  const nearComplete = useMemo(() => teamStats.filter(s => s.total > 0 && s.total - s.collected <= 3 && s.collected < s.total), [teamStats])
+  const completedTeams = useMemo(() =>
+    teamStats.filter(s => s.total > 0 && s.collected >= s.total),
+    [teamStats])
+
+  const topTeams = useMemo(() =>
+    [...teamStats]
+      .filter(s => s.pct < 100)
+      .sort((a, b) => b.pct - a.pct)
+      .slice(0, 5),
+    [teamStats])
+
+  const bottomTeams = useMemo(() =>
+    [...teamStats]
+      .filter(s => s.pct < 100)
+      .sort((a, b) => a.pct - b.pct)
+      .slice(0, 5),
+    [teamStats])
+
+  const nearComplete = useMemo(() =>
+    teamStats.filter(s => s.total > 0 && s.total - s.collected <= 3 && s.collected < s.total),
+    [teamStats])
 
   const topChallenges = useMemo(
     () => challengeResults.filter(r => !r.completed).sort((a, b) => b.pct - a.pct).slice(0, 5),
@@ -138,50 +140,47 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
       return { icon: tm?.flag ?? '🏅', label: tm ? t(tm.name_key) : m.teamCode, milestone }
     }), [userId, teams, t])
 
+  const missingLabel = t('dashboard.teamMissing')
+
   return (
     <div className='flex flex-col h-full'>
       <div className='flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-6'>
 
-        {/* 1 — Global progress */}
+        {/* 1 — Global progress: 3-column stat grid */}
         <section className='flex flex-col gap-3'>
           {sectionHeader(t('dashboard.globalProgress'))}
           <div
-            className='flex items-center gap-4 rounded-2xl bg-slate-900 border border-slate-800 px-5 py-4'
+            className='grid grid-cols-3 gap-2'
             data-onboarding-target='dashboard-global-progress'
           >
-            <div className='flex flex-col items-center'>
-              <span className='text-4xl font-black text-white tabular-nums'>{albumPct}%</span>
-              <span className='text-[10px] text-slate-500 uppercase tracking-wide mt-0.5'>{t('dashboard.ofAlbum')}</span>
+            {/* Album % */}
+            <div className='flex flex-col gap-1.5 rounded-xl bg-slate-900 border border-slate-800 px-3 py-3'>
+              <span className='text-2xl font-black text-white tabular-nums leading-none'>{albumPct}%</span>
+              <div>{progressBar(albumPct, 'bg-sky-500', 'bg-slate-700')}</div>
+              <span className='text-[10px] text-slate-500 tabular-nums'>{albumCollected}/{albumTotal}</span>
             </div>
-            <div className='flex-1 flex flex-col gap-1.5'>
-              {progressBar(albumPct, 'bg-sky-500')}
-              <p className='text-xs text-slate-400'>
-                <span className='text-white font-semibold'>{albumCollected}</span>
-                {' '}
-                {interpolate(t('dashboard.stickersOf'), { total: albumTotal })}
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* 2 — Quick links */}
-        <section className='flex flex-col gap-3'>
-          {sectionHeader(t('dashboard.shortcuts'))}
-          <div className='grid grid-cols-2 gap-3'>
-            <button type='button' onClick={() => navigate('/missing')}
-              className='flex flex-col gap-1 rounded-xl bg-slate-900 border border-slate-800 p-4 text-left hover:border-emerald-800 transition-colors'>
-              <span className='text-2xl font-black text-emerald-400 tabular-nums'>{totalMissing}</span>
-              <span className='text-xs text-slate-400'>{t('nav.missing')}</span>
+            {/* Missing */}
+            <button
+              type='button'
+              onClick={() => navigate('/missing')}
+              className='flex flex-col gap-1 rounded-xl bg-slate-900 border border-slate-800 px-3 py-3 text-left hover:border-amber-800 transition-colors'
+            >
+              <span className='text-2xl font-black text-amber-400 tabular-nums leading-none'>{totalMissing}</span>
+              <span className='text-[10px] text-slate-500 mt-auto'>{t('nav.missing')}</span>
             </button>
-            <button type='button' onClick={() => navigate('/swaps')}
-              className='flex flex-col gap-1 rounded-xl bg-slate-900 border border-slate-800 p-4 text-left hover:border-rose-800 transition-colors'>
-              <span className='text-2xl font-black text-rose-400 tabular-nums'>{totalSwaps}</span>
-              <span className='text-xs text-slate-400'>{t('nav.swaps')}</span>
+            {/* Repeated */}
+            <button
+              type='button'
+              onClick={() => navigate('/swaps')}
+              className='flex flex-col gap-1 rounded-xl bg-slate-900 border border-slate-800 px-3 py-3 text-left hover:border-rose-800 transition-colors'
+            >
+              <span className='text-2xl font-black text-rose-400 tabular-nums leading-none'>{totalSwaps}</span>
+              <span className='text-[10px] text-slate-500 mt-auto'>{t('nav.swaps')}</span>
             </button>
           </div>
         </section>
 
-        {/* 3 — Badges + Challenges (2 col desktop / stacked mobile) */}
+        {/* 2 — Badges + Challenges (2-col desktop / stacked mobile) */}
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
 
           <section className='flex flex-col gap-3'>
@@ -233,38 +232,82 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
           </section>
         </div>
 
-        {/* 4 — Group progress */}
+        {/* 3 — Completed teams (only when ≥1 team is 100%) */}
+        {completedTeams.length > 0 && (
+          <section className='flex flex-col gap-3'>
+            {sectionHeader(t('dashboard.completedTeams'))}
+            <div className='flex flex-wrap gap-3 rounded-2xl bg-slate-900 border border-slate-800 px-4 py-3'>
+              {completedTeams.map(s => (
+                <button
+                  key={s.team.code}
+                  type='button'
+                  onClick={() => onNavigateToTeam(s.team.code)}
+                  title={s.team.code}
+                  className='text-2xl hover:scale-110 transition-transform'
+                >
+                  {s.team.flag}
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* 4 — Most complete / Least complete (2-col simplified, 5 each) */}
+        <section className='flex flex-col gap-3'>
+          <div className='grid grid-cols-2 gap-3'>
+            {/* Most complete */}
+            <div className='flex flex-col gap-2'>
+              {sectionHeader(t('dashboard.topTeams'))}
+              {topTeams.map(s => (
+                <CompactTeamCard
+                  key={s.team.code}
+                  stat={s}
+                  missingLabel={missingLabel}
+                  accentColor='text-emerald-400'
+                  onClick={() => onNavigateToTeam(s.team.code)}
+                />
+              ))}
+            </div>
+            {/* Least complete */}
+            <div className='flex flex-col gap-2'>
+              {sectionHeader(t('dashboard.leastComplete'))}
+              {bottomTeams.map(s => (
+                <CompactTeamCard
+                  key={s.team.code}
+                  stat={s}
+                  missingLabel={missingLabel}
+                  accentColor='text-rose-400'
+                  onClick={() => onNavigateToTeam(s.team.code)}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Near complete sub-section */}
+          {nearComplete.length > 0 && (
+            <>
+              <p className='px-1 text-xs font-semibold text-amber-400 mt-1'>{t('dashboard.nearComplete')} 🔥</p>
+              <div className='flex flex-col gap-2'>
+                {nearComplete.map(s => (
+                  <CompactTeamCard
+                    key={s.team.code}
+                    stat={s}
+                    missingLabel={missingLabel}
+                    accentColor='text-amber-400'
+                    onClick={() => onNavigateToTeam(s.team.code)}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </section>
+
+        {/* 5 — Group progress (moved to bottom) */}
         <section className='flex flex-col gap-3'>
           {sectionHeader(t('dashboard.byGroup'))}
           <div className='flex flex-col gap-2 rounded-2xl bg-slate-900 border border-slate-800 px-4 py-3'>
             {groupRows.map(r => groupRow(r.key, r.label, r.collected, r.total))}
           </div>
-        </section>
-
-        {/* 5 — Team highlights */}
-        <section className='flex flex-col gap-3'>
-          {sectionHeader(t('dashboard.topTeams'))}
-          <div className='flex flex-col gap-2'>
-            {topTeams.map(s => teamCard(s.team, s.pct, s.collected, s.total))}
-          </div>
-
-          {nearComplete.length > 0 && (
-            <>
-              <p className='px-1 text-xs font-semibold text-amber-400 mt-1'>{t('dashboard.nearComplete')} 🔥</p>
-              <div className='flex flex-col gap-2'>
-                {nearComplete.map(s => teamCard(s.team, s.pct, s.collected, s.total))}
-              </div>
-            </>
-          )}
-
-          {bottomTeams.length > 0 && (
-            <>
-              <p className='px-1 text-xs font-semibold text-slate-500 mt-1'>{t('dashboard.leastComplete')}</p>
-              <div className='flex flex-col gap-2'>
-                {bottomTeams.map(s => teamCard(s.team, s.pct, s.collected, s.total, 'bg-rose-500', 'text-rose-400'))}
-              </div>
-            </>
-          )}
         </section>
 
       </div>

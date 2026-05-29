@@ -91,6 +91,7 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
             onGrantAnalytics={grant}
             onDeclineAnalytics={decline}
             onShowMilestone={showMilestone}
+            onNavigateToTeam={code => { setSection(code); navigate('/album') }}
             onSignOut={handleSignOut}
           />
         </main>
