@@ -175,7 +175,8 @@
     "completedTeams": "Completed",
     "ofAlbum": "of album",
     "stickersOf": "of {{total}} stickers",
-    "milestoneAlbum": "{{pct}}% of album",
+    "milestoneAlbum": "{{pct}}% of album done!",
+    "milestoneTeam": "{{name}} complete!",
     "teamMissing": "{{n}} left",
     "replay": "▶ replay"
   },

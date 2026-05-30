@@ -176,7 +176,8 @@
     "completedTeams": "Completos",
     "ofAlbum": "do álbum",
     "stickersOf": "de {{total}} figurinhas",
-    "milestoneAlbum": "{{pct}}% do álbum",
+    "milestoneAlbum": "{{pct}}% do álbum completo!",
+    "milestoneTeam": "{{name}} completo!",
     "teamMissing": "faltando {{n}}",
     "replay": "▶ rever"
   },

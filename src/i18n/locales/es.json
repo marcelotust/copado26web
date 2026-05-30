@@ -175,7 +175,8 @@
     "completedTeams": "Completos",
     "ofAlbum": "del álbum",
     "stickersOf": "de {{total}} cromos",
-    "milestoneAlbum": "{{pct}}% del álbum",
+    "milestoneAlbum": "¡{{pct}}% del álbum!",
+    "milestoneTeam": "¡{{name}} completa!",
     "teamMissing": "faltando {{n}}",
     "replay": "▶ rever"
   },

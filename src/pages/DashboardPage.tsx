@@ -116,7 +116,7 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
   )
 
   const earnedMilestones = useMemo(() =>
-    loadPersistedMilestones(userId).slice(-5).reverse().map(m => {
+    loadPersistedMilestones(userId).slice(-6).reverse().map(m => {
       if (m.kind === 'album') {
         const milestone: Milestone = { kind: 'album', pct: m.pct }
         return {
@@ -127,7 +127,11 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
       }
       const tm = teams.find(team => team.code === m.teamCode)
       const milestone: Milestone = { kind: 'team', teamCode: m.teamCode, flag: tm?.flag ?? '🏅', name: tm ? t(tm.name_key) : m.teamCode }
-      return { icon: tm?.flag ?? '🏅', label: tm ? t(tm.name_key) : m.teamCode, milestone }
+      return {
+        icon: tm?.flag ?? '🏅',
+        label: interpolate(t('dashboard.milestoneTeam'), { name: tm ? t(tm.name_key) : m.teamCode }),
+        milestone,
+      }
     }), [userId, teams, t])
 
   return (
@@ -184,13 +188,12 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
             {earnedMilestones.length === 0 ? (
               <p className='px-1 text-xs text-slate-500'>{t('dashboard.noMilestones')}</p>
             ) : (
-              <div className='flex flex-col gap-2'>
+              <div className='grid grid-cols-2 gap-2'>
                 {earnedMilestones.map((m, i) => (
                   <button key={i} type='button' onClick={() => onShowMilestone(m.milestone)}
-                    className='flex items-center gap-3 rounded-xl bg-slate-900 border border-slate-800 px-3 py-2 text-left hover:border-amber-700 transition-colors group'>
-                    <span className='text-xl'>{m.icon}</span>
-                    <p className='flex-1 text-sm font-semibold text-white'>{m.label}</p>
-                    <span className='text-[10px] text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity'>{t('dashboard.replay')}</span>
+                    className='flex flex-col gap-2 rounded-xl bg-gradient-to-br from-amber-900/30 to-slate-900 border border-amber-800/30 px-3 py-3 text-left hover:border-amber-600/50 transition-colors'>
+                    <span className='text-2xl'>{m.icon}</span>
+                    <p className='text-xs font-bold text-white leading-snug'>{m.label}</p>
                   </button>
                 ))}
               </div>
