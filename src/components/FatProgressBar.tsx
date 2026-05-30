@@ -46,8 +46,8 @@ export default function FatProgressBar({
         className={`absolute inset-0 flex items-center ${textLayout} px-3 gap-2 overflow-hidden pointer-events-none`}
         style={{ clipPath: `inset(0 0 0 ${clamped}%)` }}
       >
-        {label && <span className={`${labelClass} text-white`}>{label}</span>}
-        <span className={`${valueClass} text-white`}>{pctLabel}</span>
+        {label && <span className={`${labelClass} text-white/90`}>{label}</span>}
+        <span className={`${valueClass} text-white/90`}>{pctLabel}</span>
       </div>
     </div>
   )
