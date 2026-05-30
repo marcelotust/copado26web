@@ -28,14 +28,6 @@ function pctFillColor(pct: number): string {
   return 'bg-sky-500'
 }
 
-function progressBar(pct: number, color = 'bg-sky-500', track = 'bg-slate-800') {
-  return (
-    <div className={`h-1.5 flex-1 overflow-hidden rounded-full ${track}`}>
-      <div className={`h-full rounded-full transition-all duration-500 ${color}`} style={{ width: `${pct}%` }} />
-    </div>
-  )
-}
-
 function sectionHeader(label: string) {
   return <h2 className='px-1 text-xs font-bold uppercase tracking-widest text-slate-500'>{label}</h2>
 }
@@ -150,10 +142,14 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
             data-onboarding-target='dashboard-global-progress'
           >
             {/* Album % */}
-            <div className='relative overflow-hidden flex flex-col gap-1.5 rounded-xl bg-gradient-to-br from-sky-900/60 to-slate-900 border border-sky-700/30 px-3 py-3 md:px-4 md:py-4'>
+            <div className='relative overflow-hidden flex flex-col gap-2 rounded-xl bg-gradient-to-br from-sky-900/60 to-slate-900 border border-sky-700/30 px-3 py-3 md:px-4 md:py-4'>
               <span className='text-3xl md:text-4xl font-black text-white tabular-nums leading-none'>{albumPct}%</span>
-              <div>{progressBar(albumPct, 'bg-sky-500', 'bg-sky-900/50')}</div>
-              <span className='text-[10px] text-sky-300/70 tabular-nums'>{albumCollected}/{albumTotal}</span>
+              <FatProgressBar
+                pct={albumPct}
+                color='bg-sky-500'
+                track='bg-sky-900/60'
+                label={`${albumCollected}/${albumTotal}`}
+              />
             </div>
             {/* Missing */}
             <button
