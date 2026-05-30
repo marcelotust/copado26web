@@ -1,4 +1,4 @@
-export type ChallengeDifficulty = 'easy' | 'medium' | 'hard'
+export type ChallengeDifficulty = 'easy' | 'medium' | 'hard' | 'legendary'
 
 export type Challenge = {
   id: string

@@ -9,13 +9,19 @@ export default function GuestTabNav({ onRestrictedClick }: Props) {
 
   return (
     <nav className='shrink-0 relative flex justify-center gap-1 px-4 py-2 bg-slate-900'>
+      <button
+        onClick={restricted}
+        className='flex items-center gap-1.5 px-5 py-1.5 rounded-full text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-150'
+      >
+        {t('nav.home')}
+      </button>
       <span
         className='flex items-center gap-1.5 px-5 py-1.5 rounded-full text-sm font-semibold text-white'
         style={{ backgroundColor: '#3B82F6' }}
       >
         {t('nav.album')}
       </span>
-      {(['nav.home', 'nav.missing', 'nav.swaps'] as const).map(key => (
+      {(['nav.missing', 'nav.swaps'] as const).map(key => (
         <button
           key={key}
           onClick={restricted}

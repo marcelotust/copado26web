@@ -163,7 +163,7 @@
   "dashboard": {
     "globalProgress": "Progreso general",
     "byGroup": "Por grupo",
-    "topTeams": "Más completos",
+    "topTeams": "En lo alto",
     "nearComplete": "Casi listos",
     "shortcuts": "Accesos rápidos",
     "seeAll": "Ver todos",
@@ -171,10 +171,13 @@
     "noChallengesYet": "Marca cromos para desbloquear los desafíos.",
     "recentBadges": "Logros recientes",
     "noMilestones": "Sin logros aún",
-    "leastComplete": "Menos completos",
+    "leastComplete": "Para explorar",
+    "completedTeams": "Completos",
     "ofAlbum": "del álbum",
     "stickersOf": "de {{total}} cromos",
-    "milestoneAlbum": "{{pct}}% del álbum",
+    "milestoneAlbum": "¡{{pct}}% del álbum!",
+    "milestoneTeam": "¡{{name}} completa!",
+    "teamMissing": "faltando {{n}}",
     "replay": "▶ rever"
   },
   "guest": {
@@ -190,6 +193,7 @@
     "easy": "Fáciles",
     "medium": "Medios",
     "hard": "Difíciles",
+    "legendary": "Legendarios",
     "completed": "Completado",
     "progress": "{{owned}} de {{total}}",
     "modalTitle": "¡Desafío completado! 🎉",
@@ -253,6 +257,18 @@
       "halfway": {
         "title": "Medio Álbum",
         "description": "Pega 497 cromos — la mitad del álbum completo."
+      },
+      "full-album": {
+        "title": "Álbum Completo",
+        "description": "Pega los 994 cromos del álbum. El desafío definitivo."
+      },
+      "all-champions": {
+        "title": "Campeones del Mundo",
+        "description": "Completa el 100% de los cromos de todas las selecciones campeonas en el álbum: BRA, GER, ARG, FRA, URU, ENG y ESP."
+      },
+      "all-foil": {
+        "title": "Colección FOIL",
+        "description": "Pega los 130 cromos especiales (foil) del álbum — los brillantes de cada selección y las secciones especiales."
       }
     }
   },

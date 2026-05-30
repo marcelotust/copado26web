@@ -5,21 +5,31 @@ import type { ChallengeResult } from '../hooks/useChallengeProgress'
 import type { ChallengeDifficulty } from '../data/challenges'
 
 export const DIFFICULTY_COLOR: Record<ChallengeDifficulty, string> = {
-  easy:   'bg-emerald-500',
-  medium: 'bg-amber-500',
-  hard:   'bg-rose-500',
+  easy:      'bg-emerald-500',
+  medium:    'bg-amber-500',
+  hard:      'bg-rose-500',
+  legendary: 'bg-yellow-400',
 }
 
 export const DIFFICULTY_TRACK: Record<ChallengeDifficulty, string> = {
-  easy:   'bg-emerald-900/40',
-  medium: 'bg-amber-900/40',
-  hard:   'bg-rose-900/40',
+  easy:      'bg-emerald-900/40',
+  medium:    'bg-amber-900/40',
+  hard:      'bg-rose-900/40',
+  legendary: 'bg-yellow-900/40',
 }
 
 export const DIFFICULTY_BORDER: Record<ChallengeDifficulty, string> = {
-  easy:   'border-emerald-800/40',
-  medium: 'border-amber-800/40',
-  hard:   'border-rose-800/40',
+  easy:      'border-emerald-800/40',
+  medium:    'border-amber-800/40',
+  hard:      'border-rose-800/40',
+  legendary: 'border-yellow-500/60',
+}
+
+export const DIFFICULTY_GRADIENT: Record<ChallengeDifficulty, string> = {
+  easy:      'from-emerald-900/40 to-slate-900',
+  medium:    'from-amber-900/40 to-slate-900',
+  hard:      'from-rose-900/40 to-slate-900',
+  legendary: 'from-yellow-900/40 to-slate-900',
 }
 
 export default function ChallengeCard({ result }: { result: ChallengeResult }) {
@@ -32,7 +42,7 @@ export default function ChallengeCard({ result }: { result: ChallengeResult }) {
       className={[
         'flex gap-3 rounded-xl border p-3 transition-opacity',
         DIFFICULTY_BORDER[diff],
-        completed ? 'opacity-60' : 'bg-slate-900',
+        completed ? 'opacity-60' : `bg-gradient-to-br ${DIFFICULTY_GRADIENT[diff]}`,
       ].join(' ')}
     >
       <div className='flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-slate-800 text-2xl'>

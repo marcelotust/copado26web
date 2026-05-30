@@ -163,7 +163,7 @@
   "dashboard": {
     "globalProgress": "Overall progress",
     "byGroup": "By group",
-    "topTeams": "Most complete",
+    "topTeams": "Leaders",
     "nearComplete": "Almost there",
     "shortcuts": "Quick links",
     "seeAll": "See all",
@@ -171,10 +171,13 @@
     "noChallengesYet": "Mark stickers to unlock challenges.",
     "recentBadges": "Recent milestones",
     "noMilestones": "No milestones yet",
-    "leastComplete": "Least complete",
+    "leastComplete": "To explore",
+    "completedTeams": "Completed",
     "ofAlbum": "of album",
     "stickersOf": "of {{total}} stickers",
-    "milestoneAlbum": "{{pct}}% of album",
+    "milestoneAlbum": "{{pct}}% of album done!",
+    "milestoneTeam": "{{name}} complete!",
+    "teamMissing": "{{n}} left",
     "replay": "▶ replay"
   },
   "guest": {
@@ -190,6 +193,7 @@
     "easy": "Easy",
     "medium": "Medium",
     "hard": "Hard",
+    "legendary": "Legendary",
     "completed": "Completed",
     "progress": "{{owned}} of {{total}}",
     "modalTitle": "Challenge completed! 🎉",
@@ -253,6 +257,18 @@
       "halfway": {
         "title": "Half Album",
         "description": "Collect 497 stickers — half of the full album."
+      },
+      "full-album": {
+        "title": "Full Album",
+        "description": "Collect all 994 stickers. The ultimate challenge."
+      },
+      "all-champions": {
+        "title": "World Champions",
+        "description": "Complete 100% of the stickers for every World Cup champion nation in the album: BRA, GER, ARG, FRA, URU, ENG and ESP."
+      },
+      "all-foil": {
+        "title": "FOIL Collection",
+        "description": "Collect all 130 special (foil) stickers in the album — the shiny stickers from every nation and the special sections."
       }
     }
   },

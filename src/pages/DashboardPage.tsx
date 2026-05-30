@@ -6,75 +6,39 @@ import { useStickersContext } from '../state/StickersProvider'
 import { useChallengeProgress } from '../hooks/useChallengeProgress'
 import { loadPersistedMilestones } from '../lib/milestoneStorage'
 import type { Milestone } from '../lib/milestoneDetection'
-import { DIFFICULTY_COLOR, DIFFICULTY_BORDER } from '../components/ChallengeCard'
+import { DIFFICULTY_COLOR, DIFFICULTY_BORDER, DIFFICULTY_GRADIENT } from '../components/ChallengeCard'
 import { challengeTitle } from '../lib/challengeI18n'
 import { interpolate } from '../lib/shareText'
-import type { Team } from '../types/database'
+import CompactTeamCard from '../components/CompactTeamCard'
+import FatProgressBar from '../components/FatProgressBar'
 
 type Props = {
   userId: string
   onShowMilestone: (m: Milestone) => void
+  onNavigateToTeam: (code: string) => void
 }
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
-const SPECIAL_SECTIONS = [
-  { code: 'WAP', labelKey: 'sections.wap' },
-  { code: 'FWC', labelKey: 'sections.fwc' },
-  { code: 'CC',  labelKey: 'sections.cc'  },
-] as const
 const SPECIAL_CODES = new Set(['WAP', 'FWC', 'CC'])
 
-function pctColor(pct: number): string {
-  if (pct >= 75) return 'text-emerald-400'
-  if (pct >= 40) return 'text-amber-400'
-  return 'text-slate-400'
-}
-
-function progressBar(pct: number, color = 'bg-sky-500', track = 'bg-slate-800') {
-  return (
-    <div className={`h-1.5 flex-1 overflow-hidden rounded-full ${track}`}>
-      <div className={`h-full rounded-full transition-all duration-500 ${color}`} style={{ width: `${pct}%` }} />
-    </div>
-  )
+function pctFillColor(pct: number): string {
+  if (pct >= 75) return 'bg-emerald-500'
+  if (pct >= 40) return 'bg-amber-500'
+  return 'bg-sky-500'
 }
 
 function sectionHeader(label: string) {
   return <h2 className='px-1 text-xs font-bold uppercase tracking-widest text-slate-500'>{label}</h2>
 }
 
-function groupRow(key: string, label: string, collected: number, total: number) {
-  if (total === 0) return null
-  const pct = Math.round((collected / total) * 100)
-  return (
-    <div key={key} className='flex items-center gap-3'>
-      <span className='w-28 shrink-0 truncate text-xs text-slate-300'>{label}</span>
-      {progressBar(pct)}
-      <span className={`shrink-0 w-8 text-right text-xs font-semibold tabular-nums ${pctColor(pct)}`}>{pct}%</span>
-    </div>
-  )
-}
-
-function teamCard(
-  team: Team, pct: number, collected: number, total: number,
-  barColor = 'bg-emerald-500', accentColor = 'text-emerald-400',
-) {
-  return (
-    <div key={team.code} className='flex items-center gap-2.5 rounded-xl bg-slate-900 border border-slate-800 px-3 py-2'>
-      <span className='text-xl'>{team.flag}</span>
-      <div className='flex min-w-0 flex-1 flex-col gap-1'>
-        <p className='truncate text-xs font-semibold text-white'>{team.code}</p>
-        {progressBar(pct, barColor, 'bg-slate-700')}
-      </div>
-      <span className={`shrink-0 text-xs font-bold tabular-nums ${accentColor}`}>{pct}%</span>
-      <span className='shrink-0 text-[10px] text-slate-500'>{collected}/{total}</span>
-    </div>
-  )
+function fraction(stat: { collected: number; total: number }): string {
+  return `${stat.collected}/${stat.total}`
 }
 
 // ── component ─────────────────────────────────────────────────────────────────
 
-export default function DashboardPage({ userId, onShowMilestone }: Props) {
+export default function DashboardPage({ userId, onShowMilestone, onNavigateToTeam }: Props) {
   const { t } = useI18n()
   const navigate = useNavigate()
   const { total: albumTotal, collected: albumCollected } = useAlbumProgress()
@@ -89,11 +53,13 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
 
   const groupRows = useMemo(() => {
     const rows: Array<{ key: string; label: string; collected: number; total: number }> = []
-    for (const { code, labelKey } of SPECIAL_SECTIONS) {
-      const ids = byTeam.get(code) ?? []
-      const collected = ids.filter(id => (quantities.get(id) ?? 0) >= 1).length
-      if (ids.length > 0) rows.push({ key: code, label: t(labelKey), collected, total: ids.length })
-    }
+
+    // 1. WAP (opening section) — matches sidebar order
+    const wapIds = byTeam.get('WAP') ?? []
+    const wapCollected = wapIds.filter(id => (quantities.get(id) ?? 0) >= 1).length
+    if (wapIds.length > 0) rows.push({ key: 'WAP', label: t('sections.wap'), collected: wapCollected, total: wapIds.length })
+
+    // 2. Groups A → L
     const letters = [...new Set(teams.filter(tm => tm.group_letter).map(tm => tm.group_letter!))].sort()
     for (const letter of letters) {
       const teamsInGroup = teams.filter(tm => tm.group_letter === letter)
@@ -101,6 +67,14 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
       const collected = allIds.filter(id => (quantities.get(id) ?? 0) >= 1).length
       rows.push({ key: `group-${letter}`, label: `${t('sidebar.group')} ${letter}`, collected, total: allIds.length })
     }
+
+    // 3. FWC then CC — closing sections
+    for (const [code, labelKey] of [['FWC', 'sections.fwc'], ['CC', 'sections.cc']] as const) {
+      const ids = byTeam.get(code) ?? []
+      const collected = ids.filter(id => (quantities.get(id) ?? 0) >= 1).length
+      if (ids.length > 0) rows.push({ key: code, label: t(labelKey), collected, total: ids.length })
+    }
+
     return rows
   }, [teams, byTeam, quantities, t])
 
@@ -114,9 +88,27 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
       return { team: tm, collected, total, pct }
     }), [teams, byTeam, quantities])
 
-  const topTeams     = useMemo(() => [...teamStats].sort((a, b) => b.pct - a.pct).slice(0, 3), [teamStats])
-  const bottomTeams  = useMemo(() => [...teamStats].filter(s => s.pct < 100).sort((a, b) => a.pct - b.pct).slice(0, 3), [teamStats])
-  const nearComplete = useMemo(() => teamStats.filter(s => s.total > 0 && s.total - s.collected <= 3 && s.collected < s.total), [teamStats])
+  const completedTeams = useMemo(() =>
+    teamStats.filter(s => s.total > 0 && s.collected >= s.total),
+    [teamStats])
+
+  const topTeams = useMemo(() =>
+    [...teamStats]
+      .filter(s => s.pct < 100)
+      .sort((a, b) => b.pct - a.pct)
+      .slice(0, 5),
+    [teamStats])
+
+  const bottomTeams = useMemo(() =>
+    [...teamStats]
+      .filter(s => s.pct < 100)
+      .sort((a, b) => a.pct - b.pct)
+      .slice(0, 5),
+    [teamStats])
+
+  const nearComplete = useMemo(() =>
+    teamStats.filter(s => s.total > 0 && s.total - s.collected <= 3 && s.collected < s.total),
+    [teamStats])
 
   const topChallenges = useMemo(
     () => challengeResults.filter(r => !r.completed).sort((a, b) => b.pct - a.pct).slice(0, 5),
@@ -124,7 +116,7 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
   )
 
   const earnedMilestones = useMemo(() =>
-    loadPersistedMilestones(userId).slice(-5).reverse().map(m => {
+    loadPersistedMilestones(userId).slice(-6).reverse().map(m => {
       if (m.kind === 'album') {
         const milestone: Milestone = { kind: 'album', pct: m.pct }
         return {
@@ -135,53 +127,60 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
       }
       const tm = teams.find(team => team.code === m.teamCode)
       const milestone: Milestone = { kind: 'team', teamCode: m.teamCode, flag: tm?.flag ?? '🏅', name: tm ? t(tm.name_key) : m.teamCode }
-      return { icon: tm?.flag ?? '🏅', label: tm ? t(tm.name_key) : m.teamCode, milestone }
+      return {
+        icon: tm?.flag ?? '🏅',
+        label: interpolate(t('dashboard.milestoneTeam'), { name: tm ? t(tm.name_key) : m.teamCode }),
+        milestone,
+      }
     }), [userId, teams, t])
 
   return (
     <div className='flex flex-col h-full'>
       <div className='flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-6'>
 
-        {/* 1 — Global progress */}
+        {/* 1 — Global progress: 3-column stat grid */}
         <section className='flex flex-col gap-3'>
           {sectionHeader(t('dashboard.globalProgress'))}
           <div
-            className='flex items-center gap-4 rounded-2xl bg-slate-900 border border-slate-800 px-5 py-4'
+            className='grid grid-cols-2 md:grid-cols-3 gap-2'
             data-onboarding-target='dashboard-global-progress'
           >
-            <div className='flex flex-col items-center'>
-              <span className='text-4xl font-black text-white tabular-nums'>{albumPct}%</span>
-              <span className='text-[10px] text-slate-500 uppercase tracking-wide mt-0.5'>{t('dashboard.ofAlbum')}</span>
+            {/* Album % — full width on mobile, 1 col on desktop */}
+            <div className='col-span-2 md:col-span-1 relative overflow-hidden flex flex-col gap-2 rounded-xl bg-gradient-to-br from-sky-900/60 to-slate-900 border border-sky-700/30 px-3 py-3 md:px-4 md:py-4'>
+              <span className='text-3xl md:text-4xl font-black text-white tabular-nums leading-none'>{albumPct}%</span>
+              <FatProgressBar
+                pct={albumPct}
+                color='bg-sky-500'
+                track='bg-sky-900/60'
+                valueLabel={`${albumCollected}/${albumTotal}`}
+              />
             </div>
-            <div className='flex-1 flex flex-col gap-1.5'>
-              {progressBar(albumPct, 'bg-sky-500')}
-              <p className='text-xs text-slate-400'>
-                <span className='text-white font-semibold'>{albumCollected}</span>
-                {' '}
-                {interpolate(t('dashboard.stickersOf'), { total: albumTotal })}
-              </p>
-            </div>
+            {/* Missing */}
+            <button
+              type='button'
+              onClick={() => navigate('/missing')}
+              className='relative overflow-hidden flex flex-col justify-center gap-1 rounded-xl bg-gradient-to-br from-amber-900/60 to-slate-900 border border-amber-700/30 px-3 py-3 md:px-4 md:py-4 text-left hover:border-amber-600/50 transition-colors'
+            >
+              <div className='flex items-baseline gap-2 md:flex-col md:gap-1'>
+                <span className='text-3xl md:text-4xl font-black text-amber-400 tabular-nums leading-none'>{totalMissing}</span>
+                <span className='text-sm font-bold uppercase tracking-wide text-amber-300/70 md:text-[10px]'>{t('nav.missing')}</span>
+              </div>
+            </button>
+            {/* Repeated */}
+            <button
+              type='button'
+              onClick={() => navigate('/swaps')}
+              className='relative overflow-hidden flex flex-col justify-center gap-1 rounded-xl bg-gradient-to-br from-rose-900/60 to-slate-900 border border-rose-700/30 px-3 py-3 md:px-4 md:py-4 text-left hover:border-rose-600/50 transition-colors'
+            >
+              <div className='flex items-baseline gap-2 md:flex-col md:gap-1'>
+                <span className='text-3xl md:text-4xl font-black text-rose-400 tabular-nums leading-none'>{totalSwaps}</span>
+                <span className='text-sm font-bold uppercase tracking-wide text-rose-300/70 md:text-[10px]'>{t('nav.swaps')}</span>
+              </div>
+            </button>
           </div>
         </section>
 
-        {/* 2 — Quick links */}
-        <section className='flex flex-col gap-3'>
-          {sectionHeader(t('dashboard.shortcuts'))}
-          <div className='grid grid-cols-2 gap-3'>
-            <button type='button' onClick={() => navigate('/missing')}
-              className='flex flex-col gap-1 rounded-xl bg-slate-900 border border-slate-800 p-4 text-left hover:border-emerald-800 transition-colors'>
-              <span className='text-2xl font-black text-emerald-400 tabular-nums'>{totalMissing}</span>
-              <span className='text-xs text-slate-400'>{t('nav.missing')}</span>
-            </button>
-            <button type='button' onClick={() => navigate('/swaps')}
-              className='flex flex-col gap-1 rounded-xl bg-slate-900 border border-slate-800 p-4 text-left hover:border-rose-800 transition-colors'>
-              <span className='text-2xl font-black text-rose-400 tabular-nums'>{totalSwaps}</span>
-              <span className='text-xs text-slate-400'>{t('nav.swaps')}</span>
-            </button>
-          </div>
-        </section>
-
-        {/* 3 — Badges + Challenges (2 col desktop / stacked mobile) */}
+        {/* 2 — Badges + Challenges (2-col desktop / stacked mobile) */}
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
 
           <section className='flex flex-col gap-3'>
@@ -192,10 +191,9 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
               <div className='flex flex-col gap-2'>
                 {earnedMilestones.map((m, i) => (
                   <button key={i} type='button' onClick={() => onShowMilestone(m.milestone)}
-                    className='flex items-center gap-3 rounded-xl bg-slate-900 border border-slate-800 px-3 py-2 text-left hover:border-amber-700 transition-colors group'>
-                    <span className='text-xl'>{m.icon}</span>
-                    <p className='flex-1 text-sm font-semibold text-white'>{m.label}</p>
-                    <span className='text-[10px] text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity'>{t('dashboard.replay')}</span>
+                    className='flex items-center gap-3 rounded-xl bg-gradient-to-br from-amber-900/30 to-slate-900 border border-amber-800/30 px-3 py-2.5 text-left hover:border-amber-600/50 transition-colors'>
+                    <span className='text-xl shrink-0'>{m.icon}</span>
+                    <p className='flex-1 text-sm font-bold text-white leading-snug'>{m.label}</p>
                   </button>
                 ))}
               </div>
@@ -213,15 +211,27 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
               <>
               <div className='flex flex-col gap-2'>
                 {topChallenges.map(r => (
-                  <div key={r.challenge.id}
-                    className={`flex items-center gap-3 rounded-xl border px-3 py-2.5 ${DIFFICULTY_BORDER[r.challenge.difficulty]}`}>
-                    <span className='text-xl'>{r.challenge.icon}</span>
-                    <div className='flex min-w-0 flex-1 flex-col gap-1'>
-                      <p className='truncate text-xs font-semibold text-white'>{challengeTitle(r.challenge, t)}</p>
-                      {progressBar(r.pct, DIFFICULTY_COLOR[r.challenge.difficulty])}
+                  <button
+                    key={r.challenge.id}
+                    type='button'
+                    onClick={() => navigate('/challenges')}
+                    className={[
+                      'flex items-center gap-3 rounded-xl border px-3 py-2.5 w-full text-left',
+                      'bg-gradient-to-br',
+                      DIFFICULTY_GRADIENT[r.challenge.difficulty],
+                      DIFFICULTY_BORDER[r.challenge.difficulty],
+                      'hover:brightness-110 transition-all',
+                    ].join(' ')}
+                  >
+                    <span className='text-xl shrink-0'>{r.challenge.icon}</span>
+                    <div className='flex-1 min-w-0'>
+                      <FatProgressBar
+                        pct={r.pct}
+                        color={DIFFICULTY_COLOR[r.challenge.difficulty]}
+                        label={challengeTitle(r.challenge, t)}
+                      />
                     </div>
-                    <span className='shrink-0 text-xs font-bold tabular-nums text-slate-400'>{r.pct}%</span>
-                  </div>
+                  </button>
                 ))}
               </div>
               <button type='button' onClick={() => navigate('/challenges')}
@@ -233,38 +243,92 @@ export default function DashboardPage({ userId, onShowMilestone }: Props) {
           </section>
         </div>
 
-        {/* 4 — Group progress */}
-        <section className='flex flex-col gap-3'>
-          {sectionHeader(t('dashboard.byGroup'))}
-          <div className='flex flex-col gap-2 rounded-2xl bg-slate-900 border border-slate-800 px-4 py-3'>
-            {groupRows.map(r => groupRow(r.key, r.label, r.collected, r.total))}
-          </div>
-        </section>
+        {/* 3 — Completed teams (only when ≥1 team is 100%) */}
+        {completedTeams.length > 0 && (
+          <section className='flex flex-col gap-3'>
+            {sectionHeader(t('dashboard.completedTeams'))}
+            <div className='flex flex-wrap gap-3 rounded-2xl bg-slate-900 border border-slate-800 px-4 py-3'>
+              {completedTeams.map(s => (
+                <button
+                  key={s.team.code}
+                  type='button'
+                  onClick={() => onNavigateToTeam(s.team.code)}
+                  className='flex flex-col items-center gap-0.5 hover:scale-110 transition-transform'
+                >
+                  <span className='text-2xl'>{s.team.flag}</span>
+                  <span className='text-[9px] font-bold text-slate-400 tracking-wide'>{s.team.code}</span>
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
 
-        {/* 5 — Team highlights */}
+        {/* 4 — Most complete / Least complete (2-col simplified, 5 each) */}
         <section className='flex flex-col gap-3'>
-          {sectionHeader(t('dashboard.topTeams'))}
-          <div className='flex flex-col gap-2'>
-            {topTeams.map(s => teamCard(s.team, s.pct, s.collected, s.total))}
+          <div className='grid grid-cols-2 gap-3'>
+            {/* Most complete */}
+            <div className='flex flex-col gap-2'>
+              {sectionHeader(t('dashboard.topTeams'))}
+              {topTeams.map(s => (
+                <CompactTeamCard
+                  key={s.team.code}
+                  stat={s}
+                  secondaryStat={interpolate(t('dashboard.teamMissing'), { n: s.total - s.collected })}
+                  accentColor='text-emerald-400'
+                  onClick={() => onNavigateToTeam(s.team.code)}
+                />
+              ))}
+            </div>
+            {/* Least complete */}
+            <div className='flex flex-col gap-2'>
+              {sectionHeader(t('dashboard.leastComplete'))}
+              {bottomTeams.map(s => (
+                <CompactTeamCard
+                  key={s.team.code}
+                  stat={s}
+                  secondaryStat={fraction(s)}
+                  accentColor='text-rose-400'
+                  onClick={() => onNavigateToTeam(s.team.code)}
+                />
+              ))}
+            </div>
           </div>
 
+          {/* Near complete sub-section */}
           {nearComplete.length > 0 && (
             <>
               <p className='px-1 text-xs font-semibold text-amber-400 mt-1'>{t('dashboard.nearComplete')} 🔥</p>
               <div className='flex flex-col gap-2'>
-                {nearComplete.map(s => teamCard(s.team, s.pct, s.collected, s.total))}
+                {nearComplete.map(s => (
+                  <CompactTeamCard
+                    key={s.team.code}
+                    stat={s}
+                    secondaryStat={interpolate(t('dashboard.teamMissing'), { n: s.total - s.collected })}
+                    accentColor='text-amber-400'
+                    onClick={() => onNavigateToTeam(s.team.code)}
+                  />
+                ))}
               </div>
             </>
           )}
+        </section>
 
-          {bottomTeams.length > 0 && (
-            <>
-              <p className='px-1 text-xs font-semibold text-slate-500 mt-1'>{t('dashboard.leastComplete')}</p>
-              <div className='flex flex-col gap-2'>
-                {bottomTeams.map(s => teamCard(s.team, s.pct, s.collected, s.total, 'bg-rose-500', 'text-rose-400'))}
-              </div>
-            </>
-          )}
+        {/* 5 — Group progress (moved to bottom) */}
+        <section className='flex flex-col gap-3'>
+          {sectionHeader(t('dashboard.byGroup'))}
+          <div className='grid grid-cols-1 md:grid-cols-3 gap-2'>
+            {groupRows.map(r => {
+              const pct = r.total > 0 ? Math.round((r.collected / r.total) * 100) : 0
+              return (
+                <FatProgressBar
+                  key={r.key}
+                  pct={pct}
+                  color={pctFillColor(pct)}
+                  label={r.label}
+                />
+              )
+            })}
+          </div>
         </section>
 
       </div>
