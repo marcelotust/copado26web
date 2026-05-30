@@ -183,11 +183,9 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
         {/* 2 — Badges + Challenges (2-col desktop / stacked mobile) */}
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
 
-          <section className='flex flex-col gap-3'>
-            {sectionHeader(t('dashboard.recentBadges'))}
-            {earnedMilestones.length === 0 ? (
-              <p className='px-1 text-xs text-slate-500'>{t('dashboard.noMilestones')}</p>
-            ) : (
+          {earnedMilestones.length > 0 && (
+            <section className='flex flex-col gap-3'>
+              {sectionHeader(t('dashboard.recentBadges'))}
               <div className='flex flex-col gap-2'>
                 {earnedMilestones.map((m, i) => (
                   <button key={i} type='button' onClick={() => onShowMilestone(m.milestone)}
@@ -197,8 +195,8 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
                   </button>
                 ))}
               </div>
-            )}
-          </section>
+            </section>
+          )}
 
           <section
             className='flex flex-col gap-3'
