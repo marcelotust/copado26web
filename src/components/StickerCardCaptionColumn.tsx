@@ -53,7 +53,7 @@ export default function StickerCardCaptionColumn({
         isFoil={isFoil}
       />
 
-      <div className='mb-[6px] md:mb-[10px] shrink-0 flex justify-center relative z-20'>
+      <div className='mb-[4px] md:mb-[6px] shrink-0 flex justify-center relative z-20'>
         <div
           className='flex items-center justify-center gap-1 px-3 pt-[5px] pb-[3px]'
           style={{ borderRadius: "0 14px 0 14px", background: collected ? activeLabelBg : inactiveLabelBg }}
@@ -83,7 +83,7 @@ export default function StickerCardCaptionColumn({
         teamCode === "WAP" ||
         teamCode === "FWC") && (
         <div
-          className='mx-1.5 mb-[6px] md:mb-[10px] shrink-0 rounded-full px-2 py-1 text-center'
+          className='mx-1.5 mb-[4px] md:mb-[6px] shrink-0 rounded-full px-2 py-[3px]'
           style={{ background: collected ? activeLabelBg : inactiveLabelBg }}
         >
           <MarqueeText
