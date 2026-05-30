@@ -188,12 +188,12 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
             {earnedMilestones.length === 0 ? (
               <p className='px-1 text-xs text-slate-500'>{t('dashboard.noMilestones')}</p>
             ) : (
-              <div className='grid grid-cols-2 gap-2'>
+              <div className='flex flex-col gap-2'>
                 {earnedMilestones.map((m, i) => (
                   <button key={i} type='button' onClick={() => onShowMilestone(m.milestone)}
-                    className='flex flex-col gap-2 rounded-xl bg-gradient-to-br from-amber-900/30 to-slate-900 border border-amber-800/30 px-3 py-3 text-left hover:border-amber-600/50 transition-colors'>
-                    <span className='text-2xl'>{m.icon}</span>
-                    <p className='text-xs font-bold text-white leading-snug'>{m.label}</p>
+                    className='flex items-center gap-3 rounded-xl bg-gradient-to-br from-amber-900/30 to-slate-900 border border-amber-800/30 px-3 py-2.5 text-left hover:border-amber-600/50 transition-colors'>
+                    <span className='text-xl shrink-0'>{m.icon}</span>
+                    <p className='flex-1 text-sm font-bold text-white leading-snug'>{m.label}</p>
                   </button>
                 ))}
               </div>
