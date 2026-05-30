@@ -155,19 +155,23 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
             <button
               type='button'
               onClick={() => navigate('/missing')}
-              className='relative overflow-hidden flex flex-col gap-1 rounded-xl bg-gradient-to-br from-amber-900/60 to-slate-900 border border-amber-700/30 px-3 py-3 md:px-4 md:py-4 text-left hover:border-amber-600/50 transition-colors'
+              className='relative overflow-hidden flex flex-col justify-center gap-1 rounded-xl bg-gradient-to-br from-amber-900/60 to-slate-900 border border-amber-700/30 px-3 py-3 md:px-4 md:py-4 text-left hover:border-amber-600/50 transition-colors'
             >
-              <span className='text-3xl md:text-4xl font-black text-amber-400 tabular-nums leading-none'>{totalMissing}</span>
-              <span className='text-[10px] text-amber-300/70 mt-auto'>{t('nav.missing')}</span>
+              <div className='flex items-baseline gap-2 md:flex-col md:gap-1'>
+                <span className='text-3xl md:text-4xl font-black text-amber-400 tabular-nums leading-none'>{totalMissing}</span>
+                <span className='text-sm font-bold uppercase tracking-wide text-amber-300/70 md:text-[10px]'>{t('nav.missing')}</span>
+              </div>
             </button>
             {/* Repeated */}
             <button
               type='button'
               onClick={() => navigate('/swaps')}
-              className='relative overflow-hidden flex flex-col gap-1 rounded-xl bg-gradient-to-br from-rose-900/60 to-slate-900 border border-rose-700/30 px-3 py-3 md:px-4 md:py-4 text-left hover:border-rose-600/50 transition-colors'
+              className='relative overflow-hidden flex flex-col justify-center gap-1 rounded-xl bg-gradient-to-br from-rose-900/60 to-slate-900 border border-rose-700/30 px-3 py-3 md:px-4 md:py-4 text-left hover:border-rose-600/50 transition-colors'
             >
-              <span className='text-3xl md:text-4xl font-black text-rose-400 tabular-nums leading-none'>{totalSwaps}</span>
-              <span className='text-[10px] text-rose-300/70 mt-auto'>{t('nav.swaps')}</span>
+              <div className='flex items-baseline gap-2 md:flex-col md:gap-1'>
+                <span className='text-3xl md:text-4xl font-black text-rose-400 tabular-nums leading-none'>{totalSwaps}</span>
+                <span className='text-sm font-bold uppercase tracking-wide text-rose-300/70 md:text-[10px]'>{t('nav.swaps')}</span>
+              </div>
             </button>
           </div>
         </section>
