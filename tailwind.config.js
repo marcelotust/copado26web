@@ -27,13 +27,19 @@ export default {
           '0%, 100%': { transform: 'translateY(-80%) scaleY(1)', animationTimingFunction: 'cubic-bezier(0.8,0,1,1)' },
           '45%, 55%': { transform: 'translateY(0) scaleY(0.8)', animationTimingFunction: 'cubic-bezier(0,0,0.2,1)' },
           '75%':      { transform: 'translateY(-80%) scaleY(1)', animationTimingFunction: 'cubic-bezier(0.8,0,1,1)' },
-        }
+        },
+        'marquee-scroll': {
+          '0%, 20%':  { transform: 'translateX(0)' },
+          '70%, 80%': { transform: 'translateX(calc(var(--scroll-dist, 0px) * -1))' },
+          '100%':     { transform: 'translateX(0)' },
+        },
       },
       animation: {
         floatUp: 'floatUp 0.75s cubic-bezier(0.22,1,0.36,1) forwards',
         pop: 'pop 0.2s ease-out',
         shimmer: 'shimmer 1.8s linear infinite',
         'bounce-squish': 'bounce-squish 0.8s infinite',
+        'marquee-scroll': 'marquee-scroll 4s ease-in-out infinite',
       }
     }
   },
