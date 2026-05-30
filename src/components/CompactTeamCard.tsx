@@ -1,20 +1,18 @@
-import { interpolate } from '../lib/shareText'
 import type { Team } from '../types/database'
 
 export type TeamStat = { team: Team; collected: number; total: number; pct: number }
 
 export default function CompactTeamCard({
   stat,
-  missingLabel,
+  secondaryStat,
   accentColor,
   onClick,
 }: {
   stat: TeamStat
-  missingLabel: string
+  secondaryStat: string
   accentColor: string
   onClick: () => void
 }) {
-  const missing = stat.total - stat.collected
   return (
     <button
       type='button'
@@ -24,7 +22,7 @@ export default function CompactTeamCard({
       <span className='text-lg'>{stat.team.flag}</span>
       <span className='flex-1 truncate text-xs font-semibold text-white'>{stat.team.code}</span>
       <span className={`shrink-0 text-xs font-bold tabular-nums ${accentColor}`}>{stat.pct}%</span>
-      <span className='shrink-0 text-[10px] text-slate-500'>{interpolate(missingLabel, { n: missing })}</span>
+      <span className='shrink-0 text-[10px] text-slate-500'>{secondaryStat}</span>
     </button>
   )
 }
