@@ -138,11 +138,11 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
         <section className='flex flex-col gap-3'>
           {sectionHeader(t('dashboard.globalProgress'))}
           <div
-            className='grid grid-cols-3 gap-2'
+            className='grid grid-cols-2 md:grid-cols-3 gap-2'
             data-onboarding-target='dashboard-global-progress'
           >
-            {/* Album % */}
-            <div className='relative overflow-hidden flex flex-col gap-2 rounded-xl bg-gradient-to-br from-sky-900/60 to-slate-900 border border-sky-700/30 px-3 py-3 md:px-4 md:py-4'>
+            {/* Album % — full width on mobile, 1 col on desktop */}
+            <div className='col-span-2 md:col-span-1 relative overflow-hidden flex flex-col gap-2 rounded-xl bg-gradient-to-br from-sky-900/60 to-slate-900 border border-sky-700/30 px-3 py-3 md:px-4 md:py-4'>
               <span className='text-3xl md:text-4xl font-black text-white tabular-nums leading-none'>{albumPct}%</span>
               <FatProgressBar
                 pct={albumPct}

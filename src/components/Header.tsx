@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useI18n } from '../i18n'
 import { useAlbumProgress } from '../state/stickersStore'
 import { FeatureFlag, telemetry } from '../lib/telemetry'
-import ProgressBar from './ProgressBar'
+import FatProgressBar from './FatProgressBar'
 import HeaderMenu from './HeaderMenu'
 import BrandMark from './brand/BrandMark'
 import TradeQRModal from './TradeQRModal'
@@ -23,7 +23,15 @@ export default function Header({ email, onLogout }: HeaderProps) {
         <BrandMark variant='card-inline' className='h-8 w-auto' />
       </Link>
 
-      <ProgressBar collected={collected} total={total} />
+      <div className='flex-1 min-w-0'>
+        <FatProgressBar
+          pct={total > 0 ? Math.round((collected / total) * 100) : 0}
+          color='bg-emerald-500'
+          track='bg-slate-800'
+          label={`${collected}/${total}`}
+          height='h-6'
+        />
+      </div>
 
       <button
         type='button'

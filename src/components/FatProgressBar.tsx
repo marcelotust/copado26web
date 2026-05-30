@@ -3,9 +3,16 @@ type Props = {
   color: string
   track?: string
   label?: string
+  height?: string
 }
 
-export default function FatProgressBar({ pct, color, track = 'bg-slate-700/60', label }: Props) {
+export default function FatProgressBar({
+  pct,
+  color,
+  track = 'bg-slate-700/60',
+  label,
+  height = 'h-7',
+}: Props) {
   const clamped = Math.max(0, Math.min(100, pct))
   const pctLabel = `${clamped}%`
   const textLayout = label ? 'justify-between' : 'justify-center'
@@ -14,7 +21,7 @@ export default function FatProgressBar({ pct, color, track = 'bg-slate-700/60', 
   const valueClass = 'text-xs font-bold uppercase tabular-nums shrink-0 select-none leading-none'
 
   return (
-    <div className={`relative h-7 rounded-full overflow-hidden ${track}`}>
+    <div className={`relative ${height} rounded-full overflow-hidden ${track}`}>
       {/* Fill with top shine */}
       <div
         className={`absolute inset-y-0 left-0 rounded-full transition-all duration-500 ${color}`}
