@@ -26,7 +26,10 @@ export default function MarqueeText({ label, color }: MarqueeTextProps) {
   const animName = `mq-${scrollPx}`;
 
   return (
-    <div ref={containerRef} className="overflow-hidden w-full flex items-center justify-center">
+    <div
+      ref={containerRef}
+      className={`overflow-hidden w-full flex items-center ${scrollPx > 0 ? "justify-start" : "justify-center"}`}
+    >
       {scrollPx > 0 && (
         <style>{`@keyframes ${animName}{0%{transform:translateX(0)}100%{transform:translateX(-${scrollPx}px)}}`}</style>
       )}
@@ -43,7 +46,7 @@ export default function MarqueeText({ label, color }: MarqueeTextProps) {
         }
       >
         {firstName && (
-          <span style={{ color, fontWeight: 600 }}>{firstName}{" "}</span>
+          <span style={{ color, fontWeight: 600 }}>{firstName} </span>
         )}
         <span style={{ color, fontWeight: 700 }}>{lastName}</span>
       </span>
