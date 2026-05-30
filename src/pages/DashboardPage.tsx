@@ -148,7 +148,7 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
                 pct={albumPct}
                 color='bg-sky-500'
                 track='bg-sky-900/60'
-                label={`${albumCollected}/${albumTotal}`}
+                valueLabel={`${albumCollected}/${albumTotal}`}
               />
             </div>
             {/* Missing */}

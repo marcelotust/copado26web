@@ -3,6 +3,7 @@ type Props = {
   color: string
   track?: string
   label?: string
+  valueLabel?: string
   height?: string
 }
 
@@ -11,10 +12,11 @@ export default function FatProgressBar({
   color,
   track = 'bg-slate-700/60',
   label,
+  valueLabel,
   height = 'h-7',
 }: Props) {
   const clamped = Math.max(0, Math.min(100, pct))
-  const pctLabel = `${clamped}%`
+  const pctLabel = valueLabel ?? `${clamped}%`
   const textLayout = label ? 'justify-between' : 'justify-center'
 
   const labelClass = 'text-xs font-bold uppercase tracking-wide truncate min-w-0 select-none leading-none'

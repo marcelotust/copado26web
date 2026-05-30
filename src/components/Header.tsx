@@ -28,7 +28,7 @@ export default function Header({ email, onLogout }: HeaderProps) {
           pct={total > 0 ? Math.round((collected / total) * 100) : 0}
           color='bg-emerald-500'
           track='bg-slate-800'
-          label={`${collected}/${total}`}
+          valueLabel={`${collected}/${total}`}
           height='h-6'
         />
       </div>
