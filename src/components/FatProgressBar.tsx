@@ -17,7 +17,7 @@ export default function FatProgressBar({
 }: Props) {
   const clamped = Math.max(0, Math.min(100, pct))
   const pctLabel = valueLabel ?? `${clamped}%`
-  const textLayout = label ? 'justify-between' : 'justify-center'
+  const textLayout = label ? 'justify-between' : 'justify-end'
 
   const labelClass = 'text-xs font-bold uppercase tracking-wide truncate min-w-0 select-none leading-none'
   const valueClass = 'text-xs font-bold uppercase tabular-nums shrink-0 select-none leading-none'
