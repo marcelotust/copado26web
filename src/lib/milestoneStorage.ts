@@ -46,6 +46,20 @@ export function loadPersistedMilestones(userId: string): PersistedMilestone[] {
   }
 }
 
+/**
+ * Writes a batch of milestones in one shot, only when localStorage is empty for this user.
+ * Used for cross-device backfill on first login from a new device.
+ * Never overwrites existing data.
+ */
+export function backfillMilestones(userId: string, events: PersistedMilestone[]): void {
+  if (typeof localStorage === 'undefined' || events.length === 0) return
+  const existing = loadPersistedMilestones(userId)
+  if (existing.length > 0) return
+  try {
+    localStorage.setItem(storageKey(userId), JSON.stringify({ v: 1, events }))
+  } catch { /* quota or private mode */ }
+}
+
 export function appendPersistedMilestone(userId: string, entry: PersistedMilestone): void {
   if (typeof localStorage === 'undefined') return
   const prev = loadPersistedMilestones(userId)

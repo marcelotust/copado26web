@@ -7,6 +7,7 @@ import { useTelemetryConsentSync, useTelemetrySignOut } from './hooks/useTelemet
 import ConsentBanner from './components/ConsentBanner'
 import { useI18n } from './i18n'
 import { useMilestoneDetector } from './hooks/useMilestoneDetector'
+import { useMilestoneBackfill } from './hooks/useMilestoneBackfill'
 import MilestoneModal from './components/MilestoneModal'
 import { useStickersStatus, useTeams } from './state/stickersStore'
 import { readLastAlbumSection, writeLastAlbumSection } from './lib/lastAlbumSectionStorage'
@@ -37,6 +38,7 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
     t,
   })
   const { activeCompletion, dismissCompletion } = useChallengeCompletion(session.user.id)
+  useMilestoneBackfill(session.user.id)
   const friendsEnabled = telemetry.flag(FeatureFlag.FRIENDS_V1)
   const { profile, setNickname } = useProfile(session.user.id)
   const [nicknameModalOpen, setNicknameModalOpen] = useState(false)
