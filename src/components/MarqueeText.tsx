@@ -14,8 +14,16 @@ export default function MarqueeText({ label, color }: MarqueeTextProps) {
     const container = containerRef.current;
     const text = textRef.current;
     if (!container || !text) return;
-    const overflow = text.scrollWidth - container.clientWidth;
-    setScrollPx(overflow > 2 ? overflow : 0);
+
+    const measure = () => {
+      const overflow = text.scrollWidth - container.clientWidth;
+      setScrollPx(overflow > 2 ? overflow : 0);
+    };
+
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(container);
+    return () => ro.disconnect();
   }, [label]);
 
   const upper = label.toUpperCase().trim();
