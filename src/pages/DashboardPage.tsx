@@ -313,7 +313,7 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
         {/* 5 — Group progress (moved to bottom) */}
         <section className='flex flex-col gap-3'>
           {sectionHeader(t('dashboard.byGroup'))}
-          <div className='flex flex-col gap-2'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
             {groupRows.map(r => {
               const pct = r.total > 0 ? Math.round((r.collected / r.total) * 100) : 0
               return (
