@@ -1,11 +1,6 @@
 {
   "redirects": [
     {
-      "source": "/milestone-preview.html",
-      "destination": "/",
-      "permanent": false
-    },
-    {
       "source": "/__brand-preview.html",
       "destination": "/",
       "permanent": false

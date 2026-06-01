@@ -11,15 +11,17 @@ type Props = {
   onResult: (nickname: string) => void
 }
 
-function extractNickname(text: string): string | null {
+const NICKNAME_RE = /^[a-z0-9_]{3,20}$/
+
+export function extractNickname(text: string): string | null {
+  let candidate: string | null = null
   try {
     const url = new URL(text)
-    const code = url.searchParams.get('code')
-    if (code) return code
-  } catch { /* not a URL — try raw nickname */ }
-  // Raw nickname format
-  if (/^[a-z0-9_]{3,20}$/.test(text.trim().toLowerCase())) return text.trim().toLowerCase()
-  return null
+    candidate = url.searchParams.get('code')
+  } catch { /* not a URL — fall through to raw text */ }
+  if (candidate === null) candidate = text
+  const normalized = candidate.trim().toLowerCase()
+  return NICKNAME_RE.test(normalized) ? normalized : null
 }
 
 export default function QRScanner({ onResult }: Props) {
