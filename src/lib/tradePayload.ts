@@ -36,25 +36,39 @@ export function encodeTradeSwapsOnly(swaps: string[]): string {
   return compressToEncodedURIComponent(JSON.stringify({ swaps }))
 }
 
-export type TradeEncodeKind = 'swaps' | 'missing'
+export type TradeEncodeKind = 'both' | 'swaps' | 'missing'
 
 /**
- * Pick the smaller of the sender's two lists and encode it. Sender's swaps lets the receiver
- * compute "you receive"; sender's missing lets the receiver compute "you give". Since swaps
- * and missing are disjoint, min(swaps, missing) ≤ total/2 — keeping the QR scannable.
+ * Try to send both lists so the receiver sees both directions in one scan. When the joint
+ * payload is too large for a QR, fall back to the smaller of {swaps, missing} alone — since
+ * those are disjoint, min(swaps, missing) ≤ total/2, which always fits.
  *
- * When one side is empty, send the non-empty one (useful even if it's larger). When both are
- * empty, returns kind='swaps' with an empty list — caller should treat as nothing-to-share.
+ * When both lists are empty, returns kind='swaps' with an empty payload; caller should treat
+ * as nothing-to-share.
  */
-export function encodeTradeSmaller(swaps: string[], missing: string[]): { d: string; kind: TradeEncodeKind } {
-  let kind: TradeEncodeKind
-  if (swaps.length === 0 && missing.length === 0) kind = 'swaps'
-  else if (swaps.length === 0) kind = 'missing'
+export function encodeTradePayload(
+  swaps: string[],
+  missing: string[],
+): { d: string; kind: TradeEncodeKind } {
+  if (swaps.length === 0 && missing.length === 0) {
+    return { d: compressToEncodedURIComponent(JSON.stringify({ swaps: [] })), kind: 'swaps' }
+  }
+
+  if (swaps.length > 0 && missing.length > 0) {
+    const both = compressToEncodedURIComponent(JSON.stringify({ swaps, missing }))
+    if (both.length <= MAX_TRADE_PARAM_LENGTH) return { d: both, kind: 'both' }
+  }
+
+  let kind: 'swaps' | 'missing'
+  if (swaps.length === 0) kind = 'missing'
   else if (missing.length === 0) kind = 'swaps'
   else kind = swaps.length <= missing.length ? 'swaps' : 'missing'
   const payload = kind === 'swaps' ? { swaps } : { missing }
   return { d: compressToEncodedURIComponent(JSON.stringify(payload)), kind }
 }
+
+/** @deprecated Use encodeTradePayload — picks the best shape automatically. */
+export const encodeTradeSmaller = encodeTradePayload
 
 export function decodeTradePayload(d: string | null | undefined): TradePayload | null {
   if (d === undefined || d === null) return null

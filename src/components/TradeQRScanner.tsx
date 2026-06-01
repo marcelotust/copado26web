@@ -66,8 +66,14 @@ export default function TradeQRScanner({ onScanned }: Props) {
             <Scanner
               onScan={handleScan}
               onError={handleError}
-              styles={{ container: { maxHeight: 280 } }}
-              constraints={{ facingMode: 'environment' }}
+              formats={['qr_code']}
+              scanDelay={250}
+              styles={{ container: { maxHeight: 360 } }}
+              constraints={{
+                facingMode: 'environment',
+                width: { ideal: 1920 },
+                height: { ideal: 1080 },
+              }}
             />
           </div>
           <p className='text-slate-500 text-xs text-center'>{t('trade.scanHint')}</p>

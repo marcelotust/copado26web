@@ -4,7 +4,7 @@ import { QRCodeSVG } from 'qrcode.react'
 import { useI18n } from '../i18n'
 import { useTradeIdLists } from '../state/stickersStore'
 import { isShareAbort, logger } from '../lib/logger'
-import { encodeTradeSmaller, MAX_TRADE_PARAM_LENGTH } from '../lib/tradePayload'
+import { encodeTradePayload, MAX_TRADE_PARAM_LENGTH } from '../lib/tradePayload'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import TradeQRScanner from './TradeQRScanner'
 
@@ -26,7 +26,7 @@ export default function TradeQRModal({ open, onClose, initialTab = 'show' }: Tra
     if (swapIds.length === 0 && missingIds.length === 0) {
       return { tradeUrl: '', tradeKind: 'swaps' as const, tooLong: false, empty: true }
     }
-    const { d, kind } = encodeTradeSmaller(swapIds, missingIds)
+    const { d, kind } = encodeTradePayload(swapIds, missingIds)
     if (d.length > MAX_TRADE_PARAM_LENGTH) {
       return { tradeUrl: '', tradeKind: kind, tooLong: true, empty: false }
     }
@@ -45,7 +45,10 @@ export default function TradeQRModal({ open, onClose, initialTab = 'show' }: Tra
 
   useEffect(() => {
     if (open && tab === 'show' && tradeUrl) {
-      const count = tradeKind === 'swaps' ? swapIds.length : missingIds.length
+      let count: number
+      if (tradeKind === 'both') count = swapIds.length + missingIds.length
+      else if (tradeKind === 'swaps') count = swapIds.length
+      else count = missingIds.length
       telemetry.track(AnalyticsEvent.TRADE_LINK_GENERATED, { swap_count: count, kind: tradeKind })
     }
   }, [open, tab, tradeUrl, tradeKind, swapIds.length, missingIds.length])
@@ -106,7 +109,11 @@ export default function TradeQRModal({ open, onClose, initialTab = 'show' }: Tra
         {tab === 'show' && (
           <>
             <p className='text-slate-400 text-xs mb-4 leading-relaxed'>
-              {tradeKind === 'swaps' ? t('trade.generateHintSwaps') : t('trade.generateHintMissing')}
+              {tradeKind === 'both'
+                ? t('trade.generateHintBoth')
+                : tradeKind === 'swaps'
+                  ? t('trade.generateHintSwaps')
+                  : t('trade.generateHintMissing')}
             </p>
             {empty && <p className='text-amber-300/90 text-sm mb-4'>{t('trade.emptyLists')}</p>}
             {tooLong && <p className='text-amber-300/90 text-sm mb-4'>{t('trade.payloadTooLong')}</p>}
