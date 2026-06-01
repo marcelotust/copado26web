@@ -694,7 +694,8 @@
       "send": "Send request",
       "sent": "Request sent!",
       "sentHint": "When your friend accepts, they will appear in your list.",
-      "error": "Could not send. Please try again."
+      "error": "Could not send. Please try again.",
+      "privateProfile": "Private profile"
     },
     "qr": {
       "hint": "This is your profile QR (@{{nickname}}). Ask a friend to scan it.",

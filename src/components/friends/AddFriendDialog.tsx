@@ -23,7 +23,7 @@ export default function AddFriendDialog({ isOpen, onClose, myNickname, initialNi
   const [tab, setTab] = useState<Tab>('nickname')
   const [nicknameValue, setNicknameValue] = useState(initialNickname ?? '')
   const [emailValue, setEmailValue] = useState('')
-  const [found, setFound] = useState<{ user_id: string; nickname: string; display_name: string; avatar_url: string | null } | null>(null)
+  const [found, setFound] = useState<{ user_id: string; nickname: string; display_name: string | null; avatar_url: string | null } | null>(null)
   const [searching, setSearching] = useState(false)
   const [sending, setSending] = useState(false)
   const [done, setDone] = useState(false)
@@ -144,9 +144,16 @@ export default function AddFriendDialog({ isOpen, onClose, myNickname, initialNi
                   )}
                   {found && (
                     <div className='flex items-center gap-3 p-3 rounded-xl bg-slate-800'>
-                      <Avatar userId={found.user_id} displayName={found.display_name} avatarUrl={found.avatar_url} size='md' />
+                      <Avatar
+                        userId={found.user_id}
+                        displayName={found.display_name ?? '?'}
+                        avatarUrl={found.avatar_url}
+                        size='md'
+                      />
                       <div className='min-w-0 flex-1'>
-                        <p className='text-white text-sm font-medium'>{found.display_name}</p>
+                        <p className='text-white text-sm font-medium'>
+                          {found.display_name ?? t('friends.add.privateProfile')}
+                        </p>
                         <p className='text-slate-400 text-xs'>@{found.nickname}</p>
                       </div>
                     </div>
