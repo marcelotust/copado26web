@@ -43,7 +43,7 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
   useMilestoneBackfill(session.user.id)
   const friendsEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.FRIENDS_V1)
   const socialEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.SOCIAL_V1)
-  const { profile, setNickname } = useProfile(session.user.id)
+  const { profile, setNickname, updateSharingSettings } = useProfile(session.user.id)
   const { seen: sharingConsentSeen, markSeen: markSharingConsentSeen } = useDataSharingConsent(session.user.id)
   const [nicknameModalOpen, setNicknameModalOpen] = useState(false)
   const teams = useTeams()
@@ -107,8 +107,23 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
       <MilestoneModal milestone={activeMilestone} onDismiss={dismissMilestone} />
       {socialEnabled && profile?.nickname && !sharingConsentSeen && (
         <DataSharingConsentModal
-          onDismiss={markSharingConsentSeen}
-          onGoToSettings={() => navigate('/settings')}
+          onDismiss={() => {
+            void updateSharingSettings({
+              ranking_public: true,
+              trading_public: true,
+              email_trade_optin: profile?.email_trade_optin ?? false,
+            })
+            markSharingConsentSeen()
+          }}
+          onGoToSettings={() => {
+            void updateSharingSettings({
+              ranking_public: true,
+              trading_public: true,
+              email_trade_optin: profile?.email_trade_optin ?? false,
+            })
+            navigate('/settings')
+            markSharingConsentSeen()
+          }}
         />
       )}
       <ChallengeCompletedModal challenge={activeCompletion} onDismiss={dismissCompletion} />

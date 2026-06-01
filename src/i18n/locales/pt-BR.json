@@ -766,6 +766,14 @@
     "emptyHint": "Continue colando figurinhas — quando outros usuários tiverem repetidas que você precisa, eles aparecem aqui.",
     "notOptedIn": "Você não está visível para sugestões de troca.",
     "activateInSettings": "Ativar em Configurações →",
-    "findPartners": "Parceiros de troca →"
+    "findPartners": "Parceiros de troca →",
+    "seeCards": "Ver listas",
+    "hideCards": "Ocultar listas",
+    "theyHaveINeedList": "{{n}} que você precisa (eles têm)",
+    "iHaveTheyNeedList": "{{n}} que eles precisam (você tem)",
+    "shareWhatsapp": "WhatsApp",
+    "shareDetailHeadline": "⚽ Copa 2026 — vamos trocar figurinhas?",
+    "shareDetailTheyHave": "@{{nickname}} tem {{n}} que você precisa:",
+    "shareDetailIHave": "Você tem {{m}} que @{{nickname}} precisa:"
   }
 }

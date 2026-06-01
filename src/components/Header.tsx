@@ -34,45 +34,50 @@ export default function Header({ email, onLogout }: HeaderProps) {
         />
       </div>
 
-      <button
-        type='button'
-        onClick={() => setTradeQrOpen(true)}
-        data-onboarding-target='trade-qr-button'
-        className='shrink-0 flex items-center gap-1.5 px-2 sm:px-2.5 h-8 rounded-lg text-emerald-400 hover:bg-emerald-500/15 transition-colors text-lg border border-transparent hover:border-emerald-500/20'
-        aria-label={t('nav.tradeByQr')}
-      >
-        <svg className='w-[1.125rem] h-[1.125rem] shrink-0' viewBox='0 0 24 24' fill='currentColor' aria-hidden>
-          <path d='M3 3h7v7H3V3zm2 2v3h3V5H5zm9-2h7v7h-7V3zm2 2v3h3V5h-3zM3 14h7v7H3v-7zm2 2v3h3v-3H5zm12-2h2v2h-2v-2zm-4 0h2v2h-2v-2zm2 2h2v2h-2v-2zm-6 4h2v2H9v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm0-4h2v2h-2v-2z' />
-        </svg>
-        <span className='hidden sm:inline text-xs font-semibold text-emerald-300/90 max-w-[7.5rem] truncate'>
-          {t('nav.tradeByQr')}
-        </span>
-      </button>
+      {/* spacer on mobile so nav items stay right */}
+      <div className='flex-1 sm:hidden' />
 
-      <Link
-        to='/challenges'
-        data-onboarding-target='challenges-nav'
-        className='shrink-0 flex items-center justify-center w-8 h-8 rounded-lg text-amber-400 hover:bg-amber-500/20 transition-colors text-lg'
-        aria-label={t('nav.challenges')}
-      >
-        🏆
-      </Link>
-
-      {socialEnabled && (
-        <Link
-          to='/ranking'
-          className='shrink-0 flex items-center justify-center w-8 h-8 rounded-lg text-indigo-400 hover:bg-indigo-500/20 transition-colors text-lg'
-          aria-label='Ranking'
+      <div className='flex items-center gap-2 sm:gap-3'>
+        <button
+          type='button'
+          onClick={() => setTradeQrOpen(true)}
+          data-onboarding-target='trade-qr-button'
+          className='shrink-0 flex items-center gap-1.5 px-2 sm:px-2.5 h-8 rounded-lg text-emerald-400 hover:bg-emerald-500/15 transition-colors text-lg border border-transparent hover:border-emerald-500/20'
+          aria-label={t('nav.tradeByQr')}
         >
-          🏅
-        </Link>
-      )}
+          <svg className='w-[1.125rem] h-[1.125rem] shrink-0' viewBox='0 0 24 24' fill='currentColor' aria-hidden>
+            <path d='M3 3h7v7H3V3zm2 2v3h3V5H5zm9-2h7v7h-7V3zm2 2v3h3V5h-3zM3 14h7v7H3v-7zm2 2v3h3v-3H5zm12-2h2v2h-2v-2zm-4 0h2v2h-2v-2zm2 2h2v2h-2v-2zm-6 4h2v2H9v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm0-4h2v2h-2v-2z' />
+          </svg>
+          <span className='hidden sm:inline text-xs font-semibold text-emerald-300/90 max-w-[7.5rem] truncate'>
+            {t('nav.tradeByQr')}
+          </span>
+        </button>
 
-      {friendsEnabled && <FriendsHeaderButton />}
+        <Link
+          to='/challenges'
+          data-onboarding-target='challenges-nav'
+          className='shrink-0 flex items-center justify-center w-8 h-8 rounded-lg text-amber-400 hover:bg-amber-500/20 transition-colors text-lg'
+          aria-label={t('nav.challenges')}
+        >
+          🏆
+        </Link>
+
+        {socialEnabled && (
+          <Link
+            to='/ranking'
+            className='shrink-0 flex items-center justify-center w-8 h-8 rounded-lg text-indigo-400 hover:bg-indigo-500/20 transition-colors text-lg'
+            aria-label='Ranking'
+          >
+            🏅
+          </Link>
+        )}
+
+        {friendsEnabled && <FriendsHeaderButton />}
+
+        <HeaderMenu onLogout={onLogout} email={email} />
+      </div>
 
       <TradeQRModal open={tradeQrOpen} onClose={() => setTradeQrOpen(false)} />
-
-      <HeaderMenu onLogout={onLogout} email={email} />
 
       <div className='absolute bottom-0 left-0 right-0 h-px flex'>
         <div className='flex-1' style={{ backgroundColor: '#3B82F6' }} />

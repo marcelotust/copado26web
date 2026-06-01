@@ -765,6 +765,14 @@
     "emptyHint": "Keep adding stickers — when other users have duplicates you need, they'll show up here.",
     "notOptedIn": "You are not visible for trade suggestions.",
     "activateInSettings": "Enable in Settings →",
-    "findPartners": "Trade Partners →"
+    "findPartners": "Trade Partners →",
+    "seeCards": "See lists",
+    "hideCards": "Hide lists",
+    "theyHaveINeedList": "{{n}} you need (they have)",
+    "iHaveTheyNeedList": "{{n}} they need (you have)",
+    "shareWhatsapp": "WhatsApp",
+    "shareDetailHeadline": "⚽ World Cup 2026 — want to trade stickers?",
+    "shareDetailTheyHave": "@{{nickname}} has {{n}} you need:",
+    "shareDetailIHave": "You have {{m}} @{{nickname}} needs:"
   }
 }

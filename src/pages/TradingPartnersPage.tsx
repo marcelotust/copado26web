@@ -51,19 +51,13 @@ export default function TradingPartnersPage({ userId }: Props) {
               <p className='text-xs text-slate-500'>{t('tradingPartners.emptyHint')}</p>
             </div>
           ) : (
-            partners.map(partner => {
-              const shareText = t('tradingPartners.shareText')
-                .replace('{{nickname}}', partner.nickname)
-                .replace('{{m}}', String(partner.they_have_i_need))
-                .replace('{{n}}', String(partner.i_have_they_need))
-              return (
-                <TradePartnerCard
-                  key={partner.user_id}
-                  partner={partner}
-                  shareText={shareText}
-                />
-              )
-            })
+            partners.map(partner => (
+              <TradePartnerCard
+                key={partner.user_id}
+                partner={partner}
+                currentNickname={profile?.nickname ?? ''}
+              />
+            ))
           )}
         </div>
       </div>
