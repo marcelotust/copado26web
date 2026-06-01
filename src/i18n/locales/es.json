@@ -694,7 +694,8 @@
       "send": "Enviar solicitud",
       "sent": "¡Solicitud enviada!",
       "sentHint": "Cuando tu amigo acepte, aparecerá en tu lista.",
-      "error": "No se pudo enviar. Inténtalo de nuevo."
+      "error": "No se pudo enviar. Inténtalo de nuevo.",
+      "privateProfile": "Perfil privado"
     },
     "qr": {
       "hint": "Este es el QR de tu perfil (@{{nickname}}). Pídele a un amigo que lo escanee.",
