@@ -15,9 +15,15 @@ type Props = {
 export function extractTradePath(text: string): string | null {
   const raw = text.trim()
   if (!raw) return null
+  const base = typeof window !== 'undefined' ? window.location.origin : 'https://example.invalid'
   try {
-    const url = new URL(raw, typeof window !== 'undefined' ? window.location.origin : 'https://example.invalid')
-    if (!url.pathname.endsWith('/trade')) return null
+    const url = new URL(raw, base)
+    // Defense-in-depth: only accept relative paths or URLs from our own origin.
+    // The decoded `d` still goes through decodeTradePayload's caps, so a
+    // cross-origin /trade URL with a malformed payload would be rejected there
+    // — but rejecting earlier removes a step the attacker controls.
+    if (url.origin !== base) return null
+    if (url.pathname !== '/trade') return null
     const d = url.searchParams.get('d')
     if (!d) return null
     return `/trade?d=${encodeURIComponent(d)}`
