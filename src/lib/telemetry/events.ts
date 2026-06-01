@@ -57,12 +57,23 @@ export const AnalyticsEvent = {
   TRADE_SUGGESTION_MATCH_COUNT: 'trade_suggestion_match_count',
   QR_PROFILE_GENERATED: 'qr_profile_generated',
   QR_PROFILE_SCANNED: 'qr_profile_scanned',
+  // Social (social_v1)
+  DATA_SHARING_CONSENT_MODAL_SHOWN:       'data_sharing_consent_modal_shown',
+  DATA_SHARING_CONSENT_MODAL_TO_SETTINGS: 'data_sharing_consent_modal_to_settings',
+  RANKING_OPT_IN:                         'ranking_opt_in',
+  RANKING_OPT_OUT:                        'ranking_opt_out',
+  TRADING_PUBLIC_OPT_IN:                  'trading_public_opt_in',
+  TRADING_PUBLIC_OPT_OUT:                 'trading_public_opt_out',
+  RANKING_PAGE_VIEWED:                    'ranking_page_viewed',
+  TRADING_PARTNERS_PAGE_VIEWED:           'trading_partners_page_viewed',
+  TRADE_PARTNER_SHARE:                    'trade_partner_share',
 } as const
 
 /** PostHog feature-flag keys used by the app. Centralized so search-by-key works. */
 export const FeatureFlag = {
   LANDING_HERO_CTA: 'landing_hero_cta',
   FRIENDS_V1: 'friends_v1',
+  SOCIAL_V1: 'social_v1',
 } as const
 
 export type FeatureFlagKey = (typeof FeatureFlag)[keyof typeof FeatureFlag]
