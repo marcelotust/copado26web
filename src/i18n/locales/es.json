@@ -709,5 +709,19 @@
       "theyHaveINeed": "Él tiene, tú necesitas",
       "iHaveTheyNeed": "Tú tienes, él necesita"
     }
+  },
+  "sharing": {
+    "settingsTitle": "Compartir",
+    "rankingToggleLabel": "Aparecer en el ranking público",
+    "rankingToggleHint": "Tu nickname y % de completado son visibles para todos.",
+    "tradingToggleLabel": "Permitir sugerencias de intercambio",
+    "tradingToggleHint": "Otros usuarios pueden verte como socio de intercambio.",
+    "emailToggleLabel": "Recibir emails de socios de intercambio",
+    "emailToggleHint": "Tu email nunca se muestra. Solo recibes contacto de quienes también aceptaron.",
+    "consentModalTitle": "Tu perfil puede ser público",
+    "consentModalBody": "Si lo activas en Ajustes, tu nickname y progreso aparecerán en el ranking. Tus figuritas repetidas y faltantes podrían ser visibles para sugerencias de intercambio. Tu email puede usarse para recibir sugerencias de socios de intercambio — nunca se comparte directamente.",
+    "consentModalCta": "Gestionar en Ajustes",
+    "consentModalDismiss": "Entendido",
+    "savingError": "Error al guardar. Inténtalo de nuevo."
   }
 }

@@ -709,5 +709,19 @@
       "theyHaveINeed": "They have, you need",
       "iHaveTheyNeed": "You have, they need"
     }
+  },
+  "sharing": {
+    "settingsTitle": "Sharing",
+    "rankingToggleLabel": "Appear in public ranking",
+    "rankingToggleHint": "Your nickname and completion % are visible to everyone.",
+    "tradingToggleLabel": "Allow trade suggestions",
+    "tradingToggleHint": "Other users can see you as a trading partner.",
+    "emailToggleLabel": "Receive trade partner emails",
+    "emailToggleHint": "Your email is never shown. You only receive contact from users who also opted in.",
+    "consentModalTitle": "Your profile can be public",
+    "consentModalBody": "If you enable it in Settings, your nickname and progress will appear in the ranking. Your duplicate and missing stickers may be visible for trade suggestions. Your email can be used to receive trade partner suggestions — never shared directly.",
+    "consentModalCta": "Manage in Settings",
+    "consentModalDismiss": "Got it",
+    "savingError": "Error saving. Please try again."
   }
 }
