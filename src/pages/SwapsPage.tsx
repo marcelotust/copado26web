@@ -11,7 +11,7 @@ export default function SwapsPage() {
   const teams = useTeams()
   const { swapsByTeam, total } = useSwaps()
   const stickerWord = total === 1 ? t('swaps.sticker') : t('swaps.stickers')
-  const socialEnabled = telemetry.flag(FeatureFlag.SOCIAL_V1)
+  const socialEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.SOCIAL_V1)
 
   function teamName(code: string): string {
     const team = teams.find(team => team.code === code)

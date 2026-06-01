@@ -16,7 +16,7 @@ export default function MissingPage() {
   const { swapsByTeam } = useSwaps()
 
   const totalMissing = groups.reduce((acc, g) => acc + g.numbers.length, 0)
-  const socialEnabled = telemetry.flag(FeatureFlag.SOCIAL_V1)
+  const socialEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.SOCIAL_V1)
 
   const missingIds = new Set(
     groups.flatMap(({ teamCode, numbers }) => numbers.map(n => `${teamCode}-${pad(n)}`))

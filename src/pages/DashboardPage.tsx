@@ -51,7 +51,7 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
   const missingGroups = useMissing()
   const { byTeam, quantities } = useStickersContext()
   const challengeResults = useChallengeProgress()
-  const socialEnabled = telemetry.flag(FeatureFlag.SOCIAL_V1)
+  const socialEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.SOCIAL_V1)
   const { myRank, loading: rankLoading } = useMyRank()
   const { profile } = useProfile(userId)
 

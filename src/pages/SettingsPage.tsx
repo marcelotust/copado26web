@@ -30,8 +30,8 @@ export default function SettingsPage({
   onSignOut,
 }: SettingsPageProps) {
   const { t } = useI18n()
-  const friendsEnabled = telemetry.flag(FeatureFlag.FRIENDS_V1)
-  const socialEnabled = telemetry.flag(FeatureFlag.SOCIAL_V1)
+  const friendsEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.FRIENDS_V1)
+  const socialEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.SOCIAL_V1)
   const { profile, setNickname, updateDisplayName, updateVisibility, updateSharingSettings } = useProfile(userId)
 
   return (
