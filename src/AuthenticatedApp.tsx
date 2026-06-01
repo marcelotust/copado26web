@@ -25,6 +25,8 @@ import { FeatureFlag, telemetry } from './lib/telemetry'
 import { useProfile } from './state/friends'
 import NicknameBanner from './components/friends/NicknameBanner'
 import NicknameSetupModal from './components/friends/NicknameSetupModal'
+import { useDataSharingConsent } from './hooks/useDataSharingConsent'
+import DataSharingConsentModal from './components/sharing/DataSharingConsentModal'
 const DEFAULT_SECTION = 'BRA'
 type AuthenticatedAppProps = { session: Session; signOut: () => Promise<void> }
 export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppProps) {
@@ -40,7 +42,9 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
   const { activeCompletion, dismissCompletion } = useChallengeCompletion(session.user.id)
   useMilestoneBackfill(session.user.id)
   const friendsEnabled = telemetry.flag(FeatureFlag.FRIENDS_V1)
+  const socialEnabled = telemetry.flag(FeatureFlag.SOCIAL_V1)
   const { profile, setNickname } = useProfile(session.user.id)
+  const { seen: sharingConsentSeen, markSeen: markSharingConsentSeen } = useDataSharingConsent(session.user.id)
   const [nicknameModalOpen, setNicknameModalOpen] = useState(false)
   const teams = useTeams()
   const [section, setSection] = useState(() => readLastAlbumSection() ?? DEFAULT_SECTION)
@@ -101,6 +105,12 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
       {consent === 'granted' && <Analytics />}
       {consent === null && <ConsentBanner onAccept={grant} onDecline={decline} />}
       <MilestoneModal milestone={activeMilestone} onDismiss={dismissMilestone} />
+      {socialEnabled && profile?.nickname && !sharingConsentSeen && (
+        <DataSharingConsentModal
+          onDismiss={markSharingConsentSeen}
+          onGoToSettings={() => navigate('/settings')}
+        />
+      )}
       <ChallengeCompletedModal challenge={activeCompletion} onDismiss={dismissCompletion} />
       <OnboardingGate userId={session.user.id} consent={consent} />
       {friendsEnabled && (
