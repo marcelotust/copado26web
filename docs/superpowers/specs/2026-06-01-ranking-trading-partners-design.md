@@ -194,6 +194,8 @@ src/hooks/useTradePartners.ts
 
 - `src/AuthenticatedRoutes.tsx`: rotas `/ranking` e `/trading-partners` (lazy-loaded), gateadas por `SOCIAL_V1`.
 - `src/components/Header.tsx`: ícone 🏆 → `/ranking` ao lado do ícone de challenges, visível apenas com `SOCIAL_V1`.
+- `src/pages/MissingPage.tsx`: botão "Parceiros de troca →" adicionado ao `actions` do `StickerListPageHeader`, visível quando `totalMissing > 0 && SOCIAL_V1`. Fica ao lado dos `MissingShareButtons`. Estilo: `Link` com classe consistente com botões de share existentes.
+- `src/pages/SwapsPage.tsx`: mesmo botão "Parceiros de troca →" no `actions` do header, visível quando `total > 0 && SOCIAL_V1`. Fica ao lado dos `SwapsShareButtons`.
 
 ### Comportamento de cada página
 
@@ -289,7 +291,8 @@ Flip de `FeatureFlag.SOCIAL_V1` para `true` (via PostHog dashboard ou alteraçã
     "emptyState": "Nenhum parceiro de troca encontrado no momento.",
     "emptyHint": "Continue colando figurinhas — quando outros usuários tiverem repetidas que você precisa, eles aparecem aqui.",
     "notOptedIn": "Você não está visível para sugestões de troca.",
-    "activateInSettings": "Ativar em Configurações →"
+    "activateInSettings": "Ativar em Configurações →",
+    "findPartners": "Parceiros de troca →"
   }
 }
 ```
