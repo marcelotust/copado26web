@@ -1,6 +1,7 @@
 import type { PostHog } from 'posthog-js'
 import { withVercelAnalytics } from './composite'
 import { sanitizeAnalyticsProps } from './events'
+import { scrubPosthogProperties } from './urlScrub'
 import type { TelemetryAnalyticsPort } from './types'
 
 let client: PostHog | null = null
@@ -80,6 +81,15 @@ export async function activatePostHogAnalytics(userTelemetryId: string): Promise
         api_host: host,
         person_profiles: 'identified_only',
         capture_pageview: false,
+        // The app routes every meaningful event through manual capture(), so
+        // disable autocapture entirely — keeps stray clicks on sticker tiles,
+        // friend cards, etc. out of the funnel and removes another channel
+        // that could leak DOM text.
+        autocapture: false,
+        // Every $current_url / $pathname / $referrer goes through this scrubber
+        // so trade payloads, nicknames and Supabase auth tokens never reach the
+        // backend (still applied to manual capture() calls).
+        sanitize_properties: scrubPosthogProperties,
         persistence: 'localStorage+cookie',
         loaded: (ph) => {
           try {

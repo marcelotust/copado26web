@@ -28,9 +28,31 @@ export function scrubValue(value: unknown): unknown {
   return value
 }
 
+const EMAIL_PATTERN = /[\w.+-]+@[\w-]+\.[\w.-]+/g
+const JWT_PATTERN = /eyJ[\w-]+\.[\w-]+\.[\w-]+/g
+
+/**
+ * Redacts email/JWT substrings from free-form text (exception messages, error values)
+ * while preserving the surrounding context for debugging. Unlike scrubValue, it does not
+ * nuke the whole string — a Postgres error like `Key (email)=(a@b.com) exists` keeps its shape.
+ */
+export function scrubText(text: string): string {
+  return text.replace(EMAIL_PATTERN, '[redacted-email]').replace(JWT_PATTERN, '[redacted-jwt]')
+}
+
 export function sentryBeforeSend(event: ErrorEvent, _hint?: EventHint): ErrorEvent | null {
   if (event.user) {
     event.user = { id: event.user.id }
+  }
+  if (typeof event.message === 'string') {
+    event.message = scrubText(event.message)
+  }
+  if (event.exception?.values) {
+    for (const ex of event.exception.values) {
+      if (typeof ex.value === 'string') {
+        ex.value = scrubText(ex.value)
+      }
+    }
   }
   if (event.request?.headers) {
     event.request.headers = scrubRecord(event.request.headers as Record<string, unknown>) as typeof event.request.headers

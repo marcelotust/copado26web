@@ -12,6 +12,9 @@ playwright-report
 test-results
 e2e/.auth/
 
+# Local-only preview pages (brand kit, milestones, etc.) — not shipped to production
+public/*-preview.html
+
 # Environment variables
 .env
 .env.local

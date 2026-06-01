@@ -71,9 +71,10 @@ Convenção: `snake_case`, propriedades estáveis, sem dados pessoais.
 | `onboarding_skipped` | Tutorial pulado | — |
 | `paywall_shown` | Modal de paywall aberto no modo visitante | `reason` |
 | `paywall_dismissed` | Paywall fechado sem login | — |
-| `trade_link_generated` | URL de troca computada com sucesso no QR modal | `swap_count` |
+| `trade_link_generated` | URL de troca computada com sucesso no QR modal | `swap_count`, `kind` (`both`, `swaps`, `missing`) |
 | `trade_link_copied` | Cópia da URL de troca para o clipboard | — |
-| `trade_match_viewed` | Painel de match aberto com payload válido | `you_receive`, `you_give`, `has_peer_missing_list` |
+| `trade_link_scanned` | QR de troca decodificado com sucesso (câmera ou paste) | — |
+| `trade_match_viewed` | Painel de match aberto com payload válido | `you_receive`, `you_give`, `has_peer_swaps_list`, `has_peer_missing_list` |
 | `trade_link_invalid` | Link de troca inválido / parâmetro ausente | `reason` (`missing_param`, `invalid_payload`) |
 | `trade_login_required` | Visitante abre link de troca válido sem sessão | — |
 | `trade_recorded` | Troca presencial registrada a partir do paste da lista do amigo (aplica +1/−1 no acervo) | `received_count`, `given_count`, `source` (`paste`), `list_kind` (`swaps`, `missing`, `unknown`) |
@@ -81,15 +82,18 @@ Convenção: `snake_case`, propriedades estáveis, sem dados pessoais.
 | `landing_cta_clicked` | Clique em CTA da landing | `cta_id` (`header_login`, `hero_primary`, `hero_explore_album`, `bottom_signup`), `cta_variant` (apenas em `hero_primary`) |
 | `guest_album_viewed` | Visitante abre `/album` sem login | — |
 | `guest_sticker_tapped` | Visitante clica em uma figurinha (dispara paywall) | — |
-| `nickname_set` | Usuário cria nickname pela primeira vez | — |
-| `nickname_changed` | Usuário altera nickname existente | — |
-| `profile_visibility_changed` | Usuário altera visibilidade do perfil | `from`, `to` |
-| `friend_request_sent` | Pedido de amizade enviado | — |
+| `nickname_set` | Apelido definido pela 1ª vez | — |
+| `nickname_changed` | Apelido alterado | — |
+| `profile_visibility_changed` | Visibilidade do acervo alterada nas Configurações | `from`, `to` (`public`, `friends`, `private`) |
+| `friend_request_sent` | Pedido de amizade enviado | `discovery_method` (`nickname`, `email`) |
+| `friend_request_received` | Novos pedidos recebidos detectados | `count` |
 | `friend_request_accepted` | Pedido de amizade aceito | — |
 | `friend_request_declined` | Pedido de amizade recusado | — |
-| `friend_removed` | Amizade desfeita | — |
+| `friend_removed` | Amigo removido | — |
 | `friend_profile_viewed` | Perfil de amigo aberto | — |
-| `qr_profile_generated` | QR de perfil gerado | — |
+| `trade_suggestion_viewed` | Sugestões de troca carregadas para um amigo | — |
+| `trade_suggestion_match_count` | Contagem de matches de troca calculada | `they_have_i_need_count`, `i_have_they_need_count` |
+| `qr_profile_generated` | QR do próprio perfil gerado | — |
 | `qr_profile_scanned` | QR de perfil escaneado com sucesso | — |
 | `data_sharing_consent_modal_shown` | Modal de consentimento de compartilhamento exibido (1ª vez, por usuário com nickname) | — |
 | `data_sharing_consent_modal_to_settings` | Usuário clica "Gerenciar em Configurações" no modal de consentimento | — |
@@ -100,6 +104,8 @@ Convenção: `snake_case`, propriedades estáveis, sem dados pessoais.
 | `ranking_page_viewed` | Página `/ranking` aberta | `user_opted_in` (boolean), `user_rank` (number \| null) |
 | `trading_partners_page_viewed` | Página `/trading-partners` aberta | `partner_count` (number) |
 | `trade_partner_share` | Botão compartilhar acionado em card de parceiro de troca | `channel` (`native_share` \| `clipboard`) |
+
+> Eventos `friends_v1` e `social_v1`: apelidos, pedidos de amizade, ranking e parceiros de troca. Sem PII — apenas enums, contagens e booleanos. Gated por consentimento como os demais.
 
 ### Feature flags
 

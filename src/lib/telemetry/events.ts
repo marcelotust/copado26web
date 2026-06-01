@@ -35,6 +35,7 @@ export const AnalyticsEvent = {
   PAYWALL_DISMISSED: 'paywall_dismissed',
   TRADE_LINK_GENERATED: 'trade_link_generated',
   TRADE_LINK_COPIED: 'trade_link_copied',
+  TRADE_LINK_SCANNED: 'trade_link_scanned',
   TRADE_MATCH_VIEWED: 'trade_match_viewed',
   TRADE_LINK_INVALID: 'trade_link_invalid',
   TRADE_LOGIN_REQUIRED: 'trade_login_required',
@@ -80,7 +81,20 @@ export type FeatureFlagKey = (typeof FeatureFlag)[keyof typeof FeatureFlag]
 
 export type AnalyticsEventName = (typeof AnalyticsEvent)[keyof typeof AnalyticsEvent]
 
-const BLOCKED_PROP_KEYS = /email|password|name|message|text|label|player/i
+// PII-shaped fragments — match anywhere in the key. These names never appear
+// as benign infixes in this codebase.
+const BLOCKED_KEY_FRAGMENTS =
+  /email|password|name|nickname|message|text|label|player|secret|payload|phone|cpf|href/i
+
+// Sensitive prefixes — match only at the start of a key so existing benign
+// keys like `team_code`, `error_code`, `cta_id` keep flowing while a careless
+// `code`, `url`, `payload`, `token` etc. introduced in a new event still gets
+// dropped. Re-sweep follow-up to PR #203.
+const BLOCKED_KEY_PREFIXES = /^(code|url|query|token)(_|$)/i
+
+function isBlockedKey(key: string): boolean {
+  return BLOCKED_KEY_FRAGMENTS.test(key) || BLOCKED_KEY_PREFIXES.test(key)
+}
 
 /** Drops suspicious keys and non-scalar values before sending to analytics backends. */
 export function sanitizeAnalyticsProps(
@@ -89,7 +103,7 @@ export function sanitizeAnalyticsProps(
   if (!props) return undefined
   const out: TelemetryProperties = {}
   for (const [key, value] of Object.entries(props)) {
-    if (BLOCKED_PROP_KEYS.test(key)) continue
+    if (isBlockedKey(key)) continue
     if (value === undefined) continue
     if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean' || value === null) {
       out[key] = value
