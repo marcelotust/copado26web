@@ -4,7 +4,9 @@ export { AUTH_POST_LOGIN_PATH_KEY } from './tradeAuthStorage'
 export type TradePayload = {
   swaps: string[]
   missing: string[]
-  /** False when the QR/link only carried the other person's duplicates (smaller payload). */
+  /** True when the QR/link carried the peer's duplicates — enables computing "you receive". */
+  hasPeerSwapsList: boolean
+  /** True when the QR/link carried the peer's missing list — enables computing "you give". */
   hasPeerMissingList: boolean
 }
 
@@ -29,15 +31,34 @@ function isStringListWithinCap(value: unknown): value is string[] {
   )
 }
 
-/** QR / share link: only duplicates — enough to compute what you receive from them. */
+/** Legacy: kept for backwards compatibility with older callers / tests. */
 export function encodeTradeSwapsOnly(swaps: string[]): string {
   return compressToEncodedURIComponent(JSON.stringify({ swaps }))
+}
+
+export type TradeEncodeKind = 'swaps' | 'missing'
+
+/**
+ * Pick the smaller of the sender's two lists and encode it. Sender's swaps lets the receiver
+ * compute "you receive"; sender's missing lets the receiver compute "you give". Since swaps
+ * and missing are disjoint, min(swaps, missing) ≤ total/2 — keeping the QR scannable.
+ *
+ * When one side is empty, send the non-empty one (useful even if it's larger). When both are
+ * empty, returns kind='swaps' with an empty list — caller should treat as nothing-to-share.
+ */
+export function encodeTradeSmaller(swaps: string[], missing: string[]): { d: string; kind: TradeEncodeKind } {
+  let kind: TradeEncodeKind
+  if (swaps.length === 0 && missing.length === 0) kind = 'swaps'
+  else if (swaps.length === 0) kind = 'missing'
+  else if (missing.length === 0) kind = 'swaps'
+  else kind = swaps.length <= missing.length ? 'swaps' : 'missing'
+  const payload = kind === 'swaps' ? { swaps } : { missing }
+  return { d: compressToEncodedURIComponent(JSON.stringify(payload)), kind }
 }
 
 export function decodeTradePayload(d: string | null | undefined): TradePayload | null {
   if (d === undefined || d === null) return null
   const input = String(d).trim()
-  // Reject before decompressing: a valid param never exceeds what the encode side emits.
   if (!input || input.length > MAX_TRADE_PARAM_LENGTH) return null
   try {
     const json = decompressFromEncodedURIComponent(input)
@@ -45,16 +66,29 @@ export function decodeTradePayload(d: string | null | undefined): TradePayload |
     const o = JSON.parse(json) as unknown
     if (!o || typeof o !== 'object') return null
     const raw = o as Record<string, unknown>
-    const swaps = raw.swaps
-    if (!isStringListWithinCap(swaps)) return null
 
-    if (!Object.hasOwn(raw, 'missing')) {
-      return { swaps, missing: [], hasPeerMissingList: false }
+    const hasSwapsField = Object.hasOwn(raw, 'swaps')
+    const hasMissingField = Object.hasOwn(raw, 'missing')
+    if (!hasSwapsField && !hasMissingField) return null
+
+    let swaps: string[] = []
+    if (hasSwapsField) {
+      if (!isStringListWithinCap(raw.swaps)) return null
+      swaps = raw.swaps
     }
 
-    const missing = raw.missing
-    if (!isStringListWithinCap(missing)) return null
-    return { swaps, missing, hasPeerMissingList: true }
+    let missing: string[] = []
+    if (hasMissingField) {
+      if (!isStringListWithinCap(raw.missing)) return null
+      missing = raw.missing
+    }
+
+    return {
+      swaps,
+      missing,
+      hasPeerSwapsList: hasSwapsField,
+      hasPeerMissingList: hasMissingField,
+    }
   } catch {
     return null
   }

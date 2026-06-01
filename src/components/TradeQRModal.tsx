@@ -4,7 +4,7 @@ import { QRCodeSVG } from 'qrcode.react'
 import { useI18n } from '../i18n'
 import { useTradeIdLists } from '../state/stickersStore'
 import { isShareAbort, logger } from '../lib/logger'
-import { encodeTradeSwapsOnly, MAX_TRADE_PARAM_LENGTH } from '../lib/tradePayload'
+import { encodeTradeSmaller, MAX_TRADE_PARAM_LENGTH } from '../lib/tradePayload'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import TradeQRScanner from './TradeQRScanner'
 
@@ -18,22 +18,22 @@ type TradeQRModalProps = {
 
 export default function TradeQRModal({ open, onClose, initialTab = 'show' }: TradeQRModalProps) {
   const { t } = useI18n()
-  const { swapIds } = useTradeIdLists()
+  const { swapIds, missingIds } = useTradeIdLists()
   const [copied, setCopied] = useState(false)
   const [tab, setTab] = useState<TradeQRModalTab>(initialTab)
 
-  const { tradeUrl, tooLong, empty } = useMemo(() => {
-    if (swapIds.length === 0) {
-      return { tradeUrl: '', tooLong: false, empty: true }
+  const { tradeUrl, tradeKind, tooLong, empty } = useMemo(() => {
+    if (swapIds.length === 0 && missingIds.length === 0) {
+      return { tradeUrl: '', tradeKind: 'swaps' as const, tooLong: false, empty: true }
     }
-    const d = encodeTradeSwapsOnly(swapIds)
+    const { d, kind } = encodeTradeSmaller(swapIds, missingIds)
     if (d.length > MAX_TRADE_PARAM_LENGTH) {
-      return { tradeUrl: '', tooLong: true, empty: false }
+      return { tradeUrl: '', tradeKind: kind, tooLong: true, empty: false }
     }
     const u = new URL('/trade', typeof window !== 'undefined' ? window.location.origin : 'https://example.invalid')
     u.searchParams.set('d', d)
-    return { tradeUrl: u.toString(), tooLong: false, empty: false }
-  }, [swapIds])
+    return { tradeUrl: u.toString(), tradeKind: kind, tooLong: false, empty: false }
+  }, [swapIds, missingIds])
 
   useEffect(() => {
     if (!open) setCopied(false)
@@ -45,9 +45,10 @@ export default function TradeQRModal({ open, onClose, initialTab = 'show' }: Tra
 
   useEffect(() => {
     if (open && tab === 'show' && tradeUrl) {
-      telemetry.track(AnalyticsEvent.TRADE_LINK_GENERATED, { swap_count: swapIds.length })
+      const count = tradeKind === 'swaps' ? swapIds.length : missingIds.length
+      telemetry.track(AnalyticsEvent.TRADE_LINK_GENERATED, { swap_count: count, kind: tradeKind })
     }
-  }, [open, tab, tradeUrl, swapIds.length])
+  }, [open, tab, tradeUrl, tradeKind, swapIds.length, missingIds.length])
 
   if (!open) return null
 
@@ -104,7 +105,9 @@ export default function TradeQRModal({ open, onClose, initialTab = 'show' }: Tra
 
         {tab === 'show' && (
           <>
-            <p className='text-slate-400 text-xs mb-4 leading-relaxed'>{t('trade.generateHint')}</p>
+            <p className='text-slate-400 text-xs mb-4 leading-relaxed'>
+              {tradeKind === 'swaps' ? t('trade.generateHintSwaps') : t('trade.generateHintMissing')}
+            </p>
             {empty && <p className='text-amber-300/90 text-sm mb-4'>{t('trade.emptyLists')}</p>}
             {tooLong && <p className='text-amber-300/90 text-sm mb-4'>{t('trade.payloadTooLong')}</p>}
             {!empty && !tooLong && tradeUrl && (
