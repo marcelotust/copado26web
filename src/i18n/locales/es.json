@@ -723,5 +723,32 @@
     "consentModalCta": "Gestionar en Ajustes",
     "consentModalDismiss": "Entendido",
     "savingError": "Error al guardar. Inténtalo de nuevo."
+  },
+  "ranking": {
+    "pageTitle": "Ranking",
+    "subtitle": "Top 20 coleccionistas",
+    "myRank": "Tu ranking",
+    "rank": "#{{n}}",
+    "noRank": "No estás en el ranking",
+    "noRankHint": "Actívalo en Ajustes para aparecer.",
+    "notOptedIn": "No estás participando en el ranking público.",
+    "activateInSettings": "Activar en Ajustes →",
+    "seeFullRanking": "Ver ranking completo →",
+    "of": "de {{total}} figuritas",
+    "emptyState": "Ningún usuario participando todavía."
+  },
+  "tradingPartners": {
+    "pageTitle": "Socios de intercambio",
+    "subtitle": "Usuarios con los que puedes intercambiar",
+    "theyHaveINeed": "{{n}} figuritas que necesitas",
+    "iHaveTheyNeed": "{{n}} figuritas que necesitan de ti",
+    "share": "Compartir",
+    "shareText": "@{{nickname}} tiene {{m}} figuritas que necesitas y tú tienes {{n}} que él necesita. ¡Intercambiemos! meualbum2026.app",
+    "copied": "¡Copiado!",
+    "emptyState": "No se encontraron socios de intercambio ahora.",
+    "emptyHint": "Sigue pegando figuritas — cuando otros usuarios tengan repetidas que necesitas, aparecerán aquí.",
+    "notOptedIn": "No eres visible para sugerencias de intercambio.",
+    "activateInSettings": "Activar en Ajustes →",
+    "findPartners": "Socios de intercambio →"
   }
 }

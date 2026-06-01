@@ -723,5 +723,32 @@
     "consentModalCta": "Manage in Settings",
     "consentModalDismiss": "Got it",
     "savingError": "Error saving. Please try again."
+  },
+  "ranking": {
+    "pageTitle": "Ranking",
+    "subtitle": "Top 20 collectors",
+    "myRank": "Your ranking",
+    "rank": "#{{n}}",
+    "noRank": "You're not in the ranking",
+    "noRankHint": "Enable it in Settings to appear.",
+    "notOptedIn": "You are not participating in the public ranking.",
+    "activateInSettings": "Enable in Settings →",
+    "seeFullRanking": "See full ranking →",
+    "of": "of {{total}} stickers",
+    "emptyState": "No users participating yet."
+  },
+  "tradingPartners": {
+    "pageTitle": "Trade Partners",
+    "subtitle": "Users you can trade with",
+    "theyHaveINeed": "{{n}} stickers you need",
+    "iHaveTheyNeed": "{{n}} stickers they need from you",
+    "share": "Share",
+    "shareText": "@{{nickname}} has {{m}} stickers you need and you have {{n}} they need. Let's trade! meualbum2026.app",
+    "copied": "Copied!",
+    "emptyState": "No trade partners found right now.",
+    "emptyHint": "Keep adding stickers — when other users have duplicates you need, they'll show up here.",
+    "notOptedIn": "You are not visible for trade suggestions.",
+    "activateInSettings": "Enable in Settings →",
+    "findPartners": "Trade Partners →"
   }
 }
