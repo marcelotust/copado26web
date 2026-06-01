@@ -11,6 +11,10 @@ import { challengeTitle } from '../lib/challengeI18n'
 import { interpolate } from '../lib/shareText'
 import CompactTeamCard from '../components/CompactTeamCard'
 import FatProgressBar from '../components/FatProgressBar'
+import { useMyRank } from '../hooks/useMyRank'
+import RankingMyRankWidget from '../components/ranking/RankingMyRankWidget'
+import { FeatureFlag, telemetry } from '../lib/telemetry'
+import { useProfile } from '../state/friends'
 
 type Props = {
   userId: string
@@ -47,6 +51,9 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
   const missingGroups = useMissing()
   const { byTeam, quantities } = useStickersContext()
   const challengeResults = useChallengeProgress()
+  const socialEnabled = telemetry.flag(FeatureFlag.SOCIAL_V1)
+  const { myRank, loading: rankLoading } = useMyRank()
+  const { profile } = useProfile(userId)
 
   const albumPct     = albumTotal > 0 ? Math.round((albumCollected / albumTotal) * 100) : 0
   const totalMissing = missingGroups.reduce((acc, g) => acc + g.numbers.length, 0)
@@ -179,6 +186,15 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
             </button>
           </div>
         </section>
+
+        {/* 1b — My Rank widget (social feature flag) */}
+        {socialEnabled && (
+          <RankingMyRankWidget
+            myRank={myRank}
+            rankingPublic={profile?.ranking_public ?? false}
+            loading={rankLoading}
+          />
+        )}
 
         {/* 2 — Badges + Challenges (2-col desktop / stacked mobile) */}
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
