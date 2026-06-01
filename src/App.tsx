@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Analytics } from '@vercel/analytics/react'
+import Analytics from './lib/telemetry/ConsentedAnalytics'
 import { useLocation } from 'react-router-dom'
 import { useI18n } from './i18n'
 import { hasPendingAuthCallback, isSupabaseAuthCallback, markAuthCallbackPending } from './lib/authRedirect'
