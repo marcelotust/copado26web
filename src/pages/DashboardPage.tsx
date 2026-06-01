@@ -12,6 +12,7 @@ import { interpolate } from '../lib/shareText'
 import CompactTeamCard from '../components/CompactTeamCard'
 import FatProgressBar from '../components/FatProgressBar'
 import { useMyRank } from '../hooks/useMyRank'
+import { usePublicRanking } from '../hooks/usePublicRanking'
 import RankingMyRankWidget from '../components/ranking/RankingMyRankWidget'
 import { FeatureFlag, telemetry } from '../lib/telemetry'
 import { useProfile } from '../state/friends'
@@ -52,7 +53,8 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
   const { byTeam, quantities } = useStickersContext()
   const challengeResults = useChallengeProgress()
   const socialEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.SOCIAL_V1)
-  const { myRank, loading: rankLoading } = useMyRank()
+  const { myRank, loading: myRankLoading } = useMyRank()
+  const { entries: rankingEntries, loading: rankingLoading } = usePublicRanking()
   const { profile } = useProfile(userId)
 
   const albumPct     = albumTotal > 0 ? Math.round((albumCollected / albumTotal) * 100) : 0
@@ -192,7 +194,9 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
           <RankingMyRankWidget
             myRank={myRank}
             rankingPublic={profile?.ranking_public ?? false}
-            loading={rankLoading}
+            loading={myRankLoading || rankingLoading}
+            top3={rankingEntries}
+            currentUserId={userId}
           />
         )}
 

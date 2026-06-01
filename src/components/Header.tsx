@@ -24,7 +24,7 @@ export default function Header({ email, onLogout }: HeaderProps) {
         <BrandMark variant='card-inline' className='h-8 w-auto' />
       </Link>
 
-      <div className='flex-1 min-w-0'>
+      <div className='hidden sm:block flex-1 min-w-0'>
         <FatProgressBar
           pct={total > 0 ? Math.round((collected / total) * 100) : 0}
           color='bg-emerald-500'
