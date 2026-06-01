@@ -168,7 +168,9 @@
     "scanHint": "Apunta la cámara al QR de intercambio de otra persona.",
     "scanLoading": "Abriendo cámara…",
     "scanCameraDenied": "Sin acceso a la cámara. Pega el enlace de intercambio abajo.",
-    "scanOr": "o pega el enlace",
+    "scanOr": "o",
+    "scanFromImage": "Elegir imagen del QR",
+    "scanDecoding": "Leyendo imagen…",
     "scanPastePlaceholder": "Pega el enlace /trade?d=…",
     "scanUse": "Abrir intercambio",
     "scanInvalid": "Ese enlace de intercambio no es válido."
