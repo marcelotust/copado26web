@@ -169,7 +169,9 @@
     "scanHint": "Aponte a câmera para o QR de troca de outra pessoa.",
     "scanLoading": "Abrindo câmera…",
     "scanCameraDenied": "Sem acesso à câmera. Cole o link da troca abaixo.",
-    "scanOr": "ou cole o link",
+    "scanOr": "ou",
+    "scanFromImage": "Escolher imagem do QR",
+    "scanDecoding": "Lendo imagem…",
     "scanPastePlaceholder": "Cole o link /trade?d=…",
     "scanUse": "Abrir troca",
     "scanInvalid": "Não é um link de troca válido."

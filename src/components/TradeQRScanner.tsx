@@ -1,7 +1,8 @@
-import { lazy, Suspense, useState } from 'react'
+import { lazy, Suspense, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useI18n } from '../i18n'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
+import { logger } from '../lib/logger'
 
 const Scanner = lazy(() =>
   import('@yudiel/react-qr-scanner').then(m => ({ default: m.Scanner }))
@@ -25,12 +26,26 @@ export function extractTradePath(text: string): string | null {
   }
 }
 
+async function decodeQrFromImage(file: File): Promise<string | null> {
+  const { BarcodeDetector } = await import('barcode-detector/pure')
+  const detector = new BarcodeDetector({ formats: ['qr_code'] })
+  const bitmap = await createImageBitmap(file)
+  try {
+    const results = await detector.detect(bitmap)
+    return results[0]?.rawValue ?? null
+  } finally {
+    bitmap.close?.()
+  }
+}
+
 export default function TradeQRScanner({ onScanned }: Props) {
   const { t } = useI18n()
   const navigate = useNavigate()
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [denied, setDenied] = useState(false)
   const [manualValue, setManualValue] = useState('')
   const [invalid, setInvalid] = useState(false)
+  const [decoding, setDecoding] = useState(false)
 
   function consume(raw: string) {
     const path = extractTradePath(raw)
@@ -53,6 +68,28 @@ export default function TradeQRScanner({ onScanned }: Props) {
     const msg = String(err).toLowerCase()
     if (msg.includes('permission') || msg.includes('denied') || msg.includes('notallowed')) {
       setDenied(true)
+    }
+  }
+
+  async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file) return
+    setDecoding(true)
+    setInvalid(false)
+    try {
+      const raw = await decodeQrFromImage(file)
+      if (!raw) {
+        setInvalid(true)
+        return
+      }
+      consume(raw)
+    } catch (err) {
+      logger.warn('trade QR image decode failed', { feature: 'trade', action: 'decode_image' })
+      void err
+      setInvalid(true)
+    } finally {
+      setDecoding(false)
     }
   }
 
@@ -85,6 +122,22 @@ export default function TradeQRScanner({ onScanned }: Props) {
         <span>{t('trade.scanOr')}</span>
         <span className='h-px flex-1 bg-slate-800' />
       </div>
+
+      <input
+        ref={fileInputRef}
+        type='file'
+        accept='image/*'
+        className='sr-only'
+        onChange={handleFile}
+      />
+      <button
+        type='button'
+        onClick={() => fileInputRef.current?.click()}
+        disabled={decoding}
+        className='w-full py-2.5 rounded-xl border border-slate-600 text-slate-200 text-sm font-semibold hover:bg-slate-800 transition-colors disabled:opacity-50'
+      >
+        {decoding ? t('trade.scanDecoding') : t('trade.scanFromImage')}
+      </button>
 
       <input
         type='text'
