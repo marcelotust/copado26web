@@ -5,7 +5,7 @@ import {
   MAX_TRADE_LIST_LENGTH,
   MAX_TRADE_PARAM_LENGTH,
   decodeTradePayload,
-  encodeTradeSmaller,
+  encodeTradePayload,
   encodeTradeSwapsOnly,
 } from './tradePayload'
 
@@ -79,36 +79,34 @@ describe('decodeTradePayload', () => {
   })
 })
 
-describe('encodeTradeSmaller', () => {
-  it('sends swaps when it is the smaller list', () => {
-    const { d, kind } = encodeTradeSmaller(['A', 'B'], ['C', 'D', 'E'])
-    expect(kind).toBe('swaps')
+describe('encodeTradePayload', () => {
+  it('sends both lists when they fit (common case)', () => {
+    const { d, kind } = encodeTradePayload(['A', 'B'], ['C', 'D'])
+    expect(kind).toBe('both')
     expect(decodeTradePayload(d)).toEqual({
       swaps: ['A', 'B'],
-      missing: [],
+      missing: ['C', 'D'],
       hasPeerSwapsList: true,
-      hasPeerMissingList: false,
-    })
-  })
-
-  it('sends missing when it is the smaller list', () => {
-    const { d, kind } = encodeTradeSmaller(['A', 'B', 'C'], ['D'])
-    expect(kind).toBe('missing')
-    expect(decodeTradePayload(d)).toEqual({
-      swaps: [],
-      missing: ['D'],
-      hasPeerSwapsList: false,
       hasPeerMissingList: true,
     })
   })
 
-  it('falls back to the non-empty side when the other is empty', () => {
-    expect(encodeTradeSmaller([], ['A', 'B']).kind).toBe('missing')
-    expect(encodeTradeSmaller(['A', 'B'], []).kind).toBe('swaps')
+  it('falls back to the smaller side when the joint payload would not fit', () => {
+    // 500 distinct ids per side already approaches the cap; 1000 total blows past it.
+    const swaps = Array.from({ length: 500 }, (_, i) => `S-${i.toString().padStart(4, '0')}`)
+    const missing = Array.from({ length: 300 }, (_, i) => `M-${i.toString().padStart(4, '0')}`)
+    const { d, kind } = encodeTradePayload(swaps, missing)
+    expect(kind).toBe('missing')
+    expect(d.length).toBeLessThanOrEqual(MAX_TRADE_PARAM_LENGTH)
   })
 
-  it('breaks ties toward swaps (preserves legacy receive-first behavior)', () => {
-    const { kind } = encodeTradeSmaller(['A'], ['B'])
+  it('sends the only non-empty side when the other is empty', () => {
+    expect(encodeTradePayload([], ['A', 'B']).kind).toBe('missing')
+    expect(encodeTradePayload(['A', 'B'], []).kind).toBe('swaps')
+  })
+
+  it('returns an empty swaps payload when both lists are empty', () => {
+    const { kind } = encodeTradePayload([], [])
     expect(kind).toBe('swaps')
   })
 })

@@ -71,7 +71,7 @@ Convenção: `snake_case`, propriedades estáveis, sem dados pessoais.
 | `onboarding_skipped` | Tutorial pulado | — |
 | `paywall_shown` | Modal de paywall aberto no modo visitante | `reason` |
 | `paywall_dismissed` | Paywall fechado sem login | — |
-| `trade_link_generated` | URL de troca computada com sucesso no QR modal | `swap_count`, `kind` (`swaps`, `missing`) |
+| `trade_link_generated` | URL de troca computada com sucesso no QR modal | `swap_count`, `kind` (`both`, `swaps`, `missing`) |
 | `trade_link_copied` | Cópia da URL de troca para o clipboard | — |
 | `trade_link_scanned` | QR de troca decodificado com sucesso (câmera ou paste) | — |
 | `trade_match_viewed` | Painel de match aberto com payload válido | `you_receive`, `you_give`, `has_peer_swaps_list`, `has_peer_missing_list` |
