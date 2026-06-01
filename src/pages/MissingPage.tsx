@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useI18n } from '../i18n'
 import { useMissing, useSwaps, useTeams } from '../state/stickersStore'
 import MissingShareButtons from '../components/MissingShareButtons'
@@ -5,10 +6,12 @@ import MissingTradeChecker from '../components/MissingTradeChecker'
 import StickerCodeGroup from '../components/StickerCodeGroup'
 import MissingStickerTile from '../components/MissingStickerTile'
 import StickerListPageHeader from '../components/StickerListPageHeader'
+import TradeQRModal from '../components/TradeQRModal'
 import { pad } from '../lib/shareText'
 
 export default function MissingPage() {
   const { t } = useI18n()
+  const [scanOpen, setScanOpen] = useState(false)
   const groups = useMissing()
   const teams  = useTeams()
   const { swapsByTeam } = useSwaps()
@@ -58,6 +61,17 @@ export default function MissingPage() {
           </div>
         ) : (
           <div className='mx-auto flex w-full max-w-6xl flex-col gap-4 px-3 py-4 sm:px-4'>
+            <button
+              type='button'
+              onClick={() => setScanOpen(true)}
+              className='self-start inline-flex items-center gap-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm font-semibold text-emerald-300 transition-colors hover:bg-emerald-500/20'
+            >
+              <svg className='h-4 w-4' viewBox='0 0 24 24' fill='currentColor' aria-hidden>
+                <path d='M3 3h7v7H3V3zm2 2v3h3V5H5zm9-2h7v7h-7V3zm2 2v3h3V5h-3zM3 14h7v7H3v-7zm2 2v3h3v-3H5zm12-2h2v2h-2v-2zm-4 0h2v2h-2v-2zm2 2h2v2h-2v-2zm-6 4h2v2H9v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm0-4h2v2h-2v-2z' />
+              </svg>
+              {t('trade.scanTitle')}
+            </button>
+
             <MissingTradeChecker
               missingIds={missingIds}
               swapIds={swapIds}
@@ -82,6 +96,8 @@ export default function MissingPage() {
           </div>
         )}
       </div>
+
+      <TradeQRModal open={scanOpen} onClose={() => setScanOpen(false)} initialTab='scan' />
     </div>
   )
 }

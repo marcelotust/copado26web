@@ -35,6 +35,7 @@ export const AnalyticsEvent = {
   PAYWALL_DISMISSED: 'paywall_dismissed',
   TRADE_LINK_GENERATED: 'trade_link_generated',
   TRADE_LINK_COPIED: 'trade_link_copied',
+  TRADE_LINK_SCANNED: 'trade_link_scanned',
   TRADE_MATCH_VIEWED: 'trade_match_viewed',
   TRADE_LINK_INVALID: 'trade_link_invalid',
   TRADE_LOGIN_REQUIRED: 'trade_login_required',

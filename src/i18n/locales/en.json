@@ -158,7 +158,16 @@
     "copyLink": "Copy link",
     "copied": "Copied!",
     "close": "Close",
-    "emptyLists": "Mark at least one duplicate sticker in your album first, then open this again."
+    "emptyLists": "Mark at least one duplicate sticker in your album first, then open this again.",
+    "showTab": "My QR",
+    "scanTab": "Scan QR",
+    "scanTitle": "Scan your friend's QR",
+    "scanHint": "Point the camera at someone else's trade QR.",
+    "scanLoading": "Opening camera…",
+    "scanCameraDenied": "Camera access blocked. Paste the trade link below.",
+    "scanPastePlaceholder": "Paste the /trade?d=… link",
+    "scanUse": "Open trade",
+    "scanInvalid": "That's not a valid trade link."
   },
   "dashboard": {
     "globalProgress": "Overall progress",
