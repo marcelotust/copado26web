@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import type { Session } from '@supabase/supabase-js'
-import { Analytics } from '@vercel/analytics/react'
+import Analytics from './lib/telemetry/ConsentedAnalytics'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAnalyticsConsent } from './hooks/useAnalyticsConsent'
 import { useTelemetryConsentSync, useTelemetrySignOut } from './hooks/useTelemetry'
