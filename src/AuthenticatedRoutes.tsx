@@ -13,6 +13,8 @@ const SettingsPage = lazy(() => import('./pages/SettingsPage'))
 const SwapsPage = lazy(() => import('./pages/SwapsPage'))
 const FriendsPage = lazy(() => import('./pages/FriendsPage'))
 const FriendProfilePage = lazy(() => import('./pages/FriendProfilePage'))
+const RankingPage = lazy(() => import('./pages/RankingPage'))
+const TradingPartnersPage = lazy(() => import('./pages/TradingPartnersPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 type AuthenticatedRoutesProps = {
@@ -51,6 +53,8 @@ export default function AuthenticatedRoutes({
         <Route path='/friends' element={<FriendsPage userId={userId} />} />
         <Route path='/friends/add' element={<FriendsPage userId={userId} />} />
         <Route path='/u/:nickname' element={<FriendProfilePage currentUserId={userId} />} />
+        <Route path='/ranking' element={<RankingPage userId={userId} />} />
+        <Route path='/trading-partners' element={<TradingPartnersPage userId={userId} />} />
         <Route
           path='/settings'
           element={

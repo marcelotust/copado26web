@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
-import type { Profile } from './types'
+import type { Profile, SharingSettings } from './types'
 
 type ProfileState = { profile: Profile | null; loading: boolean; error: string | null }
 
@@ -63,5 +63,25 @@ export function useProfile(userId: string) {
     }
   }
 
-  return { ...state, refetch: fetchProfile, setNickname, updateDisplayName, updateVisibility }
+  async function updateSharingSettings(settings: SharingSettings): Promise<{ ok: boolean; error?: string }> {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase.rpc as any)('update_sharing_settings', {
+        p_ranking_public:    settings.ranking_public,
+        p_trading_public:    settings.trading_public,
+        p_email_trade_optin: settings.email_trade_optin,
+      })
+      if (error) throw error
+      setState(s =>
+        s.profile
+          ? { ...s, profile: { ...s.profile, ...settings } }
+          : s
+      )
+      return { ok: true }
+    } catch (err: unknown) {
+      return { ok: false, error: (err as { message?: string })?.message ?? String(err) }
+    }
+  }
+
+  return { ...state, refetch: fetchProfile, setNickname, updateDisplayName, updateVisibility, updateSharingSettings }
 }

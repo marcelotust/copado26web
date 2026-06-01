@@ -726,5 +726,46 @@
       "theyHaveINeed": "Ele tem, você precisa",
       "iHaveTheyNeed": "Você tem, ele precisa"
     }
+  },
+  "sharing": {
+    "settingsTitle": "Compartilhamento",
+    "rankingToggleLabel": "Aparecer no ranking público",
+    "rankingToggleHint": "Seu nickname e % de conclusão ficam visíveis para todos.",
+    "tradingToggleLabel": "Permitir sugestões de troca",
+    "tradingToggleHint": "Outros usuários podem ver que você tem figurinhas para trocar.",
+    "emailToggleLabel": "Receber emails de parceiros de troca",
+    "emailToggleHint": "Seu email nunca será exibido. Só recebe contatos de quem também optou.",
+    "consentModalTitle": "Seu perfil pode ser público",
+    "consentModalBody": "Se você ativar em Configurações, seu nickname e progresso aparecerão no ranking. Suas figurinhas repetidas e faltantes poderão ser visíveis para sugestões de troca. Seu email pode ser usado para receber sugestões de parceiros de troca — nunca compartilhado diretamente.",
+    "consentModalCta": "Gerenciar em Configurações",
+    "consentModalDismiss": "Entendi",
+    "savingError": "Erro ao salvar. Tente novamente."
+  },
+  "ranking": {
+    "pageTitle": "Ranking",
+    "subtitle": "Top 20 colecionadores",
+    "myRank": "Seu ranking",
+    "rank": "#{{n}}",
+    "noRank": "Você não está no ranking",
+    "noRankHint": "Ative em Configurações para aparecer.",
+    "notOptedIn": "Você não está participando do ranking público.",
+    "activateInSettings": "Ativar em Configurações →",
+    "seeFullRanking": "Ver ranking completo →",
+    "of": "de {{total}} figurinhas",
+    "emptyState": "Nenhum usuário participando ainda."
+  },
+  "tradingPartners": {
+    "pageTitle": "Parceiros de troca",
+    "subtitle": "Usuários com quem você pode trocar",
+    "theyHaveINeed": "{{n}} figurinhas que você precisa",
+    "iHaveTheyNeed": "{{n}} figurinhas que têm de você",
+    "share": "Compartilhar",
+    "shareText": "@{{nickname}} tem {{m}} figurinhas que você precisa e você tem {{n}} que ele precisa. Vamos trocar? meualbum2026.app",
+    "copied": "Copiado!",
+    "emptyState": "Nenhum parceiro de troca encontrado no momento.",
+    "emptyHint": "Continue colando figurinhas — quando outros usuários tiverem repetidas que você precisa, eles aparecem aqui.",
+    "notOptedIn": "Você não está visível para sugestões de troca.",
+    "activateInSettings": "Ativar em Configurações →",
+    "findPartners": "Parceiros de troca →"
   }
 }

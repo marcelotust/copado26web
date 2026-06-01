@@ -6,6 +6,7 @@ export { useFriendProfile } from './useFriendProfile'
 export { useTradeSuggestions } from './useTradeSuggestions'
 export type {
   Profile,
+  SharingSettings,
   FriendEntry,
   FriendRequest,
   FriendRequests,

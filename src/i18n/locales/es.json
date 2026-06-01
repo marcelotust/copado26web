@@ -725,5 +725,46 @@
       "theyHaveINeed": "Él tiene, tú necesitas",
       "iHaveTheyNeed": "Tú tienes, él necesita"
     }
+  },
+  "sharing": {
+    "settingsTitle": "Compartir",
+    "rankingToggleLabel": "Aparecer en el ranking público",
+    "rankingToggleHint": "Tu nickname y % de completado son visibles para todos.",
+    "tradingToggleLabel": "Permitir sugerencias de intercambio",
+    "tradingToggleHint": "Otros usuarios pueden verte como socio de intercambio.",
+    "emailToggleLabel": "Recibir emails de socios de intercambio",
+    "emailToggleHint": "Tu email nunca se muestra. Solo recibes contacto de quienes también aceptaron.",
+    "consentModalTitle": "Tu perfil puede ser público",
+    "consentModalBody": "Si lo activas en Ajustes, tu nickname y progreso aparecerán en el ranking. Tus figuritas repetidas y faltantes podrían ser visibles para sugerencias de intercambio. Tu email puede usarse para recibir sugerencias de socios de intercambio — nunca se comparte directamente.",
+    "consentModalCta": "Gestionar en Ajustes",
+    "consentModalDismiss": "Entendido",
+    "savingError": "Error al guardar. Inténtalo de nuevo."
+  },
+  "ranking": {
+    "pageTitle": "Ranking",
+    "subtitle": "Top 20 coleccionistas",
+    "myRank": "Tu ranking",
+    "rank": "#{{n}}",
+    "noRank": "No estás en el ranking",
+    "noRankHint": "Actívalo en Ajustes para aparecer.",
+    "notOptedIn": "No estás participando en el ranking público.",
+    "activateInSettings": "Activar en Ajustes →",
+    "seeFullRanking": "Ver ranking completo →",
+    "of": "de {{total}} figuritas",
+    "emptyState": "Ningún usuario participando todavía."
+  },
+  "tradingPartners": {
+    "pageTitle": "Socios de intercambio",
+    "subtitle": "Usuarios con los que puedes intercambiar",
+    "theyHaveINeed": "{{n}} figuritas que necesitas",
+    "iHaveTheyNeed": "{{n}} figuritas que necesitan de ti",
+    "share": "Compartir",
+    "shareText": "@{{nickname}} tiene {{m}} figuritas que necesitas y tú tienes {{n}} que él necesita. ¡Intercambiemos! meualbum2026.app",
+    "copied": "¡Copiado!",
+    "emptyState": "No se encontraron socios de intercambio ahora.",
+    "emptyHint": "Sigue pegando figuritas — cuando otros usuarios tengan repetidas que necesitas, aparecerán aquí.",
+    "notOptedIn": "No eres visible para sugerencias de intercambio.",
+    "activateInSettings": "Activar en Ajustes →",
+    "findPartners": "Socios de intercambio →"
   }
 }
