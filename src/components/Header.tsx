@@ -16,6 +16,7 @@ export default function Header({ email, onLogout }: HeaderProps) {
   const { total, collected } = useAlbumProgress()
   const [tradeQrOpen, setTradeQrOpen] = useState(false)
   const friendsEnabled = telemetry.flag(FeatureFlag.FRIENDS_V1)
+  const socialEnabled = telemetry.flag(FeatureFlag.SOCIAL_V1)
 
   return (
     <header className='shrink-0 flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 bg-slate-900/95 backdrop-blur z-40 relative'>
@@ -56,6 +57,16 @@ export default function Header({ email, onLogout }: HeaderProps) {
       >
         🏆
       </Link>
+
+      {socialEnabled && (
+        <Link
+          to='/ranking'
+          className='shrink-0 flex items-center justify-center w-8 h-8 rounded-lg text-indigo-400 hover:bg-indigo-500/20 transition-colors text-lg'
+          aria-label='Ranking'
+        >
+          🏅
+        </Link>
+      )}
 
       {friendsEnabled && <FriendsHeaderButton />}
 

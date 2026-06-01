@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom'
 import { useSwaps, useTeams } from '../state/stickersStore'
 import { useI18n } from '../i18n'
+import { FeatureFlag, telemetry } from '../lib/telemetry'
 import SwapTeamGroup from '../components/SwapTeamGroup'
 import SwapsShareButtons from '../components/SwapsShareButtons'
 import StickerListPageHeader from '../components/StickerListPageHeader'
@@ -9,6 +11,7 @@ export default function SwapsPage() {
   const teams = useTeams()
   const { swapsByTeam, total } = useSwaps()
   const stickerWord = total === 1 ? t('swaps.sticker') : t('swaps.stickers')
+  const socialEnabled = telemetry.flag(FeatureFlag.SOCIAL_V1)
 
   function teamName(code: string): string {
     const team = teams.find(team => team.code === code)
@@ -33,12 +36,17 @@ export default function SwapsPage() {
           </>
         )}
         actions={total > 0 ? (
-          <SwapsShareButtons
-            groups={swapsByTeam}
-            totalExtras={total}
-            teamName={teamName}
-            teamFlag={teamFlag}
-          />
+          <div className='flex items-center gap-2'>
+            <SwapsShareButtons groups={swapsByTeam} totalExtras={total} teamName={teamName} teamFlag={teamFlag} />
+            {socialEnabled && (
+              <Link
+                to='/trading-partners'
+                className='shrink-0 flex items-center gap-1.5 px-2 sm:px-2.5 h-8 rounded-lg text-indigo-400 hover:bg-indigo-500/15 border border-transparent hover:border-indigo-500/20 transition-colors text-xs font-semibold'
+              >
+                {t('tradingPartners.findPartners')}
+              </Link>
+            )}
+          </div>
         ) : undefined}
       />
 
