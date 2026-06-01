@@ -73,6 +73,7 @@ Convenção: `snake_case`, propriedades estáveis, sem dados pessoais.
 | `paywall_dismissed` | Paywall fechado sem login | — |
 | `trade_link_generated` | URL de troca computada com sucesso no QR modal | `swap_count` |
 | `trade_link_copied` | Cópia da URL de troca para o clipboard | — |
+| `trade_link_scanned` | QR de troca decodificado com sucesso (câmera ou paste) | — |
 | `trade_match_viewed` | Painel de match aberto com payload válido | `you_receive`, `you_give`, `has_peer_missing_list` |
 | `trade_link_invalid` | Link de troca inválido / parâmetro ausente | `reason` (`missing_param`, `invalid_payload`) |
 | `trade_login_required` | Visitante abre link de troca válido sem sessão | — |

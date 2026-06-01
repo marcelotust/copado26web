@@ -158,7 +158,16 @@
     "copyLink": "Copiar enlace",
     "copied": "¡Copiado!",
     "close": "Cerrar",
-    "emptyLists": "Marca al menos un repetido en tu álbum primero y vuelve a abrir esto."
+    "emptyLists": "Marca al menos un repetido en tu álbum primero y vuelve a abrir esto.",
+    "showTab": "Mi QR",
+    "scanTab": "Leer QR",
+    "scanTitle": "Lee el QR de tu amigo",
+    "scanHint": "Apunta la cámara al QR de intercambio de otra persona.",
+    "scanLoading": "Abriendo cámara…",
+    "scanCameraDenied": "Sin acceso a la cámara. Pega el enlace de intercambio abajo.",
+    "scanPastePlaceholder": "Pega el enlace /trade?d=…",
+    "scanUse": "Abrir intercambio",
+    "scanInvalid": "Ese enlace de intercambio no es válido."
   },
   "dashboard": {
     "globalProgress": "Progreso general",
