@@ -81,12 +81,33 @@ Convenção: `snake_case`, propriedades estáveis, sem dados pessoais.
 | `landing_cta_clicked` | Clique em CTA da landing | `cta_id` (`header_login`, `hero_primary`, `hero_explore_album`, `bottom_signup`), `cta_variant` (apenas em `hero_primary`) |
 | `guest_album_viewed` | Visitante abre `/album` sem login | — |
 | `guest_sticker_tapped` | Visitante clica em uma figurinha (dispara paywall) | — |
+| `nickname_set` | Usuário cria nickname pela primeira vez | — |
+| `nickname_changed` | Usuário altera nickname existente | — |
+| `profile_visibility_changed` | Usuário altera visibilidade do perfil | `from`, `to` |
+| `friend_request_sent` | Pedido de amizade enviado | — |
+| `friend_request_accepted` | Pedido de amizade aceito | — |
+| `friend_request_declined` | Pedido de amizade recusado | — |
+| `friend_removed` | Amizade desfeita | — |
+| `friend_profile_viewed` | Perfil de amigo aberto | — |
+| `qr_profile_generated` | QR de perfil gerado | — |
+| `qr_profile_scanned` | QR de perfil escaneado com sucesso | — |
+| `data_sharing_consent_modal_shown` | Modal de consentimento de compartilhamento exibido (1ª vez, por usuário com nickname) | — |
+| `data_sharing_consent_modal_to_settings` | Usuário clica "Gerenciar em Configurações" no modal de consentimento | — |
+| `ranking_opt_in` | Toggle "Aparecer no ranking público" ativado | — |
+| `ranking_opt_out` | Toggle "Aparecer no ranking público" desativado | — |
+| `trading_public_opt_in` | Toggle "Permitir sugestões de troca" ativado | — |
+| `trading_public_opt_out` | Toggle "Permitir sugestões de troca" desativado | — |
+| `ranking_page_viewed` | Página `/ranking` aberta | `user_opted_in` (boolean), `user_rank` (number \| null) |
+| `trading_partners_page_viewed` | Página `/trading-partners` aberta | `partner_count` (number) |
+| `trade_partner_share` | Botão compartilhar acionado em card de parceiro de troca | `channel` (`native_share` \| `clipboard`) |
 
 ### Feature flags
 
 | Flag | Variantes | Uso |
 |------|-----------|-----|
 | `landing_hero_cta` | `control` (cópia padrão "Começar grátis"), `treatment` (cópia alternativa "Experimente o álbum") | A/B test do CTA principal da landing. A variante atribuída pelo PostHog é refletida no `cta_variant` do evento `landing_cta_clicked` quando `cta_id = hero_primary`. |
+| `friends_v1` | `true` / `false` | Liga nickname, amizades, perfil público e sugestões de troca entre amigos. Pré-requisito para `social_v1`. |
+| `social_v1` | `true` / `false` | Liga ranking público, parceiros de troca e modal de consentimento de compartilhamento. Requer `friends_v1` ativo (usuário precisa ter nickname criado). |
 
 Eventos de ativação/retenção derivados no analytics (primeiro `sticker_quantity_changed`, retorno em D1/D7) usam os eventos acima; não exigem SDK extra no MVP. Definições operacionais e leitura na Vercel: [`mvp-activation-retention.md`](./mvp-activation-retention.md).
 
