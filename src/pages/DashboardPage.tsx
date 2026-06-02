@@ -54,7 +54,7 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
   const challengeResults = useChallengeProgress()
   const socialEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.SOCIAL_V1)
   const { myRank, loading: myRankLoading } = useMyRank()
-  const { entries: rankingEntries, loading: rankingLoading } = usePublicRanking()
+  const { entries: rankingEntries } = usePublicRanking()
   const { profile } = useProfile(userId)
 
   const albumPct     = albumTotal > 0 ? Math.round((albumCollected / albumTotal) * 100) : 0
@@ -194,7 +194,7 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
           <RankingMyRankWidget
             myRank={myRank}
             rankingPublic={profile?.ranking_public ?? false}
-            loading={myRankLoading || rankingLoading}
+            loading={myRankLoading}
             top3={rankingEntries}
             currentUserId={userId}
           />
