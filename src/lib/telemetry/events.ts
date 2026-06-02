@@ -73,8 +73,6 @@ export const AnalyticsEvent = {
 /** PostHog feature-flag keys used by the app. Centralized so search-by-key works. */
 export const FeatureFlag = {
   LANDING_HERO_CTA: 'landing_hero_cta',
-  FRIENDS_V1: 'friends_v1',
-  SOCIAL_V1: 'social_v1',
 } as const
 
 export type FeatureFlagKey = (typeof FeatureFlag)[keyof typeof FeatureFlag]

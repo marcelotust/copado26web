@@ -8,7 +8,6 @@ import SettingsDangerZone     from '../components/SettingsDangerZone'
 import SettingsDeleteAccountSection from '../components/SettingsDeleteAccountSection'
 import SettingsProfileSection from '../components/SettingsProfileSection'
 import SettingsSharingSection from '../components/sharing/SettingsSharingSection'
-import { FeatureFlag, telemetry } from '../lib/telemetry'
 import { useProfile } from '../state/friends'
 import type { ConsentState } from '../hooks/useAnalyticsConsent'
 
@@ -30,8 +29,6 @@ export default function SettingsPage({
   onSignOut,
 }: SettingsPageProps) {
   const { t } = useI18n()
-  const friendsEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.FRIENDS_V1)
-  const socialEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.SOCIAL_V1)
   const { profile, setNickname, updateDisplayName, updateVisibility, updateSharingSettings } = useProfile(userId)
 
   return (
@@ -39,27 +36,23 @@ export default function SettingsPage({
       <div className='flex-1 overflow-y-auto p-6 max-w-md mx-auto w-full flex flex-col gap-6'>
         <h1 className='text-xl font-bold text-white'>{t('settings.title')}</h1>
         <SettingsAccountSection email={email} onSignOut={onSignOut} />
-        {friendsEnabled && (
-          <SettingsProfileSection
-            profile={profile}
-            onSetNickname={setNickname}
-            onUpdateDisplayName={updateDisplayName}
-            onUpdateVisibility={updateVisibility}
-          />
-        )}
-        {socialEnabled && (
-          <SettingsSharingSection
-            profile={profile}
-            onUpdate={async (partial) => {
-              if (!profile) return { ok: false }
-              return updateSharingSettings({
-                ranking_public:    partial.ranking_public    ?? profile.ranking_public,
-                trading_public:    partial.trading_public    ?? profile.trading_public,
-                email_trade_optin: partial.email_trade_optin ?? profile.email_trade_optin,
-              })
-            }}
-          />
-        )}
+        <SettingsProfileSection
+          profile={profile}
+          onSetNickname={setNickname}
+          onUpdateDisplayName={updateDisplayName}
+          onUpdateVisibility={updateVisibility}
+        />
+        <SettingsSharingSection
+          profile={profile}
+          onUpdate={async (partial) => {
+            if (!profile) return { ok: false }
+            return updateSharingSettings({
+              ranking_public:    partial.ranking_public    ?? profile.ranking_public,
+              trading_public:    partial.trading_public    ?? profile.trading_public,
+              email_trade_optin: partial.email_trade_optin ?? profile.email_trade_optin,
+            })
+          }}
+        />
         <SettingsAnalyticsSection
           consent={consent}
           onGrant={onGrantAnalytics}
