@@ -13,7 +13,6 @@ import CompactTeamCard from '../components/CompactTeamCard'
 import FatProgressBar from '../components/FatProgressBar'
 import { useMyRank } from '../hooks/useMyRank'
 import RankingMyRankWidget from '../components/ranking/RankingMyRankWidget'
-import { FeatureFlag, telemetry } from '../lib/telemetry'
 import { useProfile } from '../state/friends'
 
 type Props = {
@@ -51,7 +50,6 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
   const missingGroups = useMissing()
   const { byTeam, quantities } = useStickersContext()
   const challengeResults = useChallengeProgress()
-  const socialEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.SOCIAL_V1)
   const { myRank, loading: myRankLoading } = useMyRank()
   const { profile, loading: profileLoading } = useProfile(userId)
 
@@ -189,16 +187,14 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
 
         {/* 2 — Ranking + Conquistas (2-col when social enabled) */}
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-          {socialEnabled && (
-            <section className='flex flex-col gap-3'>
-              {sectionHeader(t('ranking.pageTitle'))}
-              <RankingMyRankWidget
-                myRank={myRank}
-                rankingPublic={profile?.ranking_public ?? false}
-                loading={myRankLoading || profileLoading}
-              />
-            </section>
-          )}
+          <section className='flex flex-col gap-3'>
+            {sectionHeader(t('ranking.pageTitle'))}
+            <RankingMyRankWidget
+              myRank={myRank}
+              rankingPublic={profile?.ranking_public ?? false}
+              loading={myRankLoading || profileLoading}
+            />
+          </section>
 
           {earnedMilestones.length > 0 && (
             <section className='flex flex-col gap-3'>

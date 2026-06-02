@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useI18n } from '../i18n'
-import { FeatureFlag, telemetry } from '../lib/telemetry'
 import { useMissing, useSwaps, useTeams } from '../state/stickersStore'
 import MissingShareButtons from '../components/MissingShareButtons'
 import MissingTradeChecker from '../components/MissingTradeChecker'
@@ -19,7 +18,6 @@ export default function MissingPage() {
   const { swapsByTeam } = useSwaps()
 
   const totalMissing = groups.reduce((acc, g) => acc + g.numbers.length, 0)
-  const socialEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.SOCIAL_V1)
 
   const missingIds = new Set(
     groups.flatMap(({ teamCode, numbers }) => numbers.map(n => `${teamCode}-${pad(n)}`))
@@ -53,14 +51,12 @@ export default function MissingPage() {
         actions={totalMissing > 0 ? (
           <div className='flex items-center gap-2'>
             <MissingShareButtons groups={groups} total={totalMissing} teamName={teamName} teamFlag={teamFlag} />
-            {socialEnabled && (
-              <Link
-                to='/trading-partners'
-                className='shrink-0 flex items-center gap-1.5 px-2 sm:px-2.5 h-8 rounded-lg text-indigo-400 hover:bg-indigo-500/15 border border-transparent hover:border-indigo-500/20 transition-colors text-xs font-semibold'
-              >
-                {t('tradingPartners.findPartners')}
-              </Link>
-            )}
+            <Link
+              to='/trading-partners'
+              className='shrink-0 flex items-center gap-1.5 px-2 sm:px-2.5 h-8 rounded-lg text-indigo-400 hover:bg-indigo-500/15 border border-transparent hover:border-indigo-500/20 transition-colors text-xs font-semibold'
+            >
+              {t('tradingPartners.findPartners')}
+            </Link>
           </div>
         ) : undefined}
       />

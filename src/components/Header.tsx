@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useI18n } from '../i18n'
 import { useAlbumProgress } from '../state/stickersStore'
-import { FeatureFlag, telemetry } from '../lib/telemetry'
 import FatProgressBar from './FatProgressBar'
 import HeaderMenu from './HeaderMenu'
 import BrandMark from './brand/BrandMark'
@@ -15,8 +14,6 @@ export default function Header({ email, onLogout }: HeaderProps) {
   const { t } = useI18n()
   const { total, collected } = useAlbumProgress()
   const [tradeQrOpen, setTradeQrOpen] = useState(false)
-  const friendsEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.FRIENDS_V1)
-  const socialEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.SOCIAL_V1)
 
   return (
     <header className='shrink-0 flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 bg-slate-900/95 backdrop-blur z-40 relative'>
@@ -62,27 +59,23 @@ export default function Header({ email, onLogout }: HeaderProps) {
           🏆
         </Link>
 
-        {socialEnabled && (
-          <Link
-            to='/ranking'
-            className='shrink-0 flex items-center justify-center w-8 h-8 rounded-lg text-indigo-400 hover:bg-indigo-500/20 transition-colors text-lg'
-            aria-label='Ranking'
-          >
-            🏅
-          </Link>
-        )}
+        <Link
+          to='/ranking'
+          className='shrink-0 flex items-center justify-center w-8 h-8 rounded-lg text-indigo-400 hover:bg-indigo-500/20 transition-colors text-lg'
+          aria-label='Ranking'
+        >
+          🏅
+        </Link>
 
-        {socialEnabled && (
-          <Link
-            to='/trading-partners'
-            className='shrink-0 flex items-center justify-center w-8 h-8 rounded-lg text-emerald-400 hover:bg-emerald-500/20 transition-colors text-lg'
-            aria-label='Parceiros de troca'
-          >
-            🔄
-          </Link>
-        )}
+        <Link
+          to='/trading-partners'
+          className='shrink-0 flex items-center justify-center w-8 h-8 rounded-lg text-emerald-400 hover:bg-emerald-500/20 transition-colors text-lg'
+          aria-label='Parceiros de troca'
+        >
+          🔄
+        </Link>
 
-        {friendsEnabled && <FriendsHeaderButton />}
+        <FriendsHeaderButton />
 
         <HeaderMenu onLogout={onLogout} email={email} />
       </div>

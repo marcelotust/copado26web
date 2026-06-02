@@ -21,7 +21,6 @@ import CatalogErrorScreen from './components/CatalogErrorScreen'
 import ChallengeCompletedModal from './components/ChallengeCompletedModal'
 import { useChallengeCompletion } from './hooks/useChallengeCompletion'
 import OnboardingGate from './components/onboarding/OnboardingGate'
-import { FeatureFlag, telemetry } from './lib/telemetry'
 import { useProfile } from './state/friends'
 import NicknameBanner from './components/friends/NicknameBanner'
 import NicknameSetupModal from './components/friends/NicknameSetupModal'
@@ -41,8 +40,6 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
   })
   const { activeCompletion, dismissCompletion } = useChallengeCompletion(session.user.id)
   useMilestoneBackfill(session.user.id)
-  const friendsEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.FRIENDS_V1)
-  const socialEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.SOCIAL_V1)
   const { profile, setNickname, updateSharingSettings } = useProfile(session.user.id)
   const { seen: sharingConsentSeen, markSeen: markSharingConsentSeen } = useDataSharingConsent(session.user.id)
   const [nicknameModalOpen, setNicknameModalOpen] = useState(false)
@@ -78,7 +75,7 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
     <div className='fixed inset-0 flex flex-col bg-slate-950 text-white'>
       <Header onLogout={handleSignOut} email={email} />
       <TabNav />
-      {friendsEnabled && !profile && (
+      {!profile && (
         <NicknameBanner />
       )}
       <div className='flex flex-1 min-h-0'>
@@ -105,7 +102,7 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
       {consent === 'granted' && <Analytics />}
       {consent === null && <ConsentBanner onAccept={grant} onDecline={decline} />}
       <MilestoneModal milestone={activeMilestone} onDismiss={dismissMilestone} />
-      {socialEnabled && profile?.nickname && !sharingConsentSeen && (
+      {profile?.nickname && !sharingConsentSeen && (
         <DataSharingConsentModal
           onDismiss={() => {
             void updateSharingSettings({
@@ -128,16 +125,14 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
       )}
       <ChallengeCompletedModal challenge={activeCompletion} onDismiss={dismissCompletion} />
       <OnboardingGate userId={session.user.id} consent={consent} />
-      {friendsEnabled && (
-        <NicknameSetupModal
-          isOpen={nicknameModalOpen}
-          onClose={() => setNicknameModalOpen(false)}
-          onSave={async (nick) => {
-            const result = await setNickname(nick)
-            return { ok: result.ok, error: result.error }
-          }}
-        />
-      )}
+      <NicknameSetupModal
+        isOpen={nicknameModalOpen}
+        onClose={() => setNicknameModalOpen(false)}
+        onSave={async (nick) => {
+          const result = await setNickname(nick)
+          return { ok: result.ok, error: result.error }
+        }}
+      />
     </div>
   )
 }
