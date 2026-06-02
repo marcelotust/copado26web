@@ -1,44 +1,27 @@
 import { Link } from 'react-router-dom'
 import { useI18n } from '../../i18n'
 import type { MyRank } from '../../hooks/useMyRank'
-import type { RankingEntry } from '../../hooks/usePublicRanking'
 
 const MEDAL: Record<number, string> = { 1: '🥇', 2: '🥈', 3: '🥉' }
-
-function rankIcon(rank: number): string {
-  return MEDAL[rank] ?? `#${rank}`
-}
 
 type Props = {
   myRank: MyRank | null
   rankingPublic: boolean
   loading: boolean
-  top3?: RankingEntry[]
-  currentUserId?: string
 }
 
-export default function RankingMyRankWidget({
-  myRank,
-  rankingPublic,
-  loading,
-  top3 = [],
-  currentUserId,
-}: Props) {
+export default function RankingMyRankWidget({ myRank, rankingPublic, loading }: Props) {
   const { t } = useI18n()
 
   if (loading) {
     return (
-      <div className='px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 animate-pulse'>
-        <div className='h-4 w-24 bg-slate-700 rounded mb-2' />
-        <div className='h-3 w-36 bg-slate-700 rounded' />
-      </div>
+      <div className='rounded-xl bg-slate-800 border border-slate-700 animate-pulse h-32' />
     )
   }
 
   if (!rankingPublic) {
     return (
-      <div className='px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 opacity-60'>
-        <p className='text-sm font-semibold text-white mb-1'>🏆 {t('ranking.pageTitle')}</p>
+      <div className='rounded-xl bg-slate-800 border border-slate-700 px-4 py-4 opacity-60'>
         <p className='text-xs text-slate-400 mb-2'>{t('ranking.notOptedIn')}</p>
         <Link to='/settings' className='text-xs text-indigo-400 hover:text-indigo-300'>
           {t('ranking.activateInSettings')}
@@ -47,59 +30,50 @@ export default function RankingMyRankWidget({
     )
   }
 
+  if (!myRank) {
+    return (
+      <div className='rounded-xl bg-slate-800 border border-slate-700/50 px-4 py-4'>
+        <p className='text-xs text-slate-400'>{t('ranking.emptyState')}</p>
+      </div>
+    )
+  }
+
+  const medal = MEDAL[myRank.rank]
+  const isTop3 = myRank.rank <= 3
+
   return (
-    <div className='rounded-xl bg-slate-800 border border-indigo-500/30 overflow-hidden'>
-      {/* header */}
-      <div className='flex items-center justify-between px-4 pt-3 pb-2'>
-        <div className='flex items-center gap-2'>
-          <span className='text-base'>🏆</span>
-          <p className='text-sm font-semibold text-white'>{t('ranking.pageTitle')}</p>
+    <div className='relative overflow-hidden rounded-xl bg-gradient-to-br from-indigo-950/90 via-indigo-900/30 to-slate-900 border border-indigo-500/30'>
+      {/* Decorative glows */}
+      <div className='pointer-events-none absolute -top-12 -right-12 w-40 h-40 rounded-full bg-indigo-500/15 blur-2xl' />
+      <div className='pointer-events-none absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-violet-500/10 blur-xl' />
+
+      <div className='relative flex flex-col gap-4 px-4 py-4'>
+        {/* Label */}
+        <p className='text-[10px] font-bold uppercase tracking-widest text-indigo-300/60'>
+          {t('ranking.myRank')}
+        </p>
+
+        {/* Position */}
+        <div className='flex items-center gap-3'>
+          {medal && (
+            <span className='text-5xl leading-none shrink-0'>{medal}</span>
+          )}
+          <div>
+            <p className='text-3xl font-black text-white leading-none tabular-nums'>
+              {isTop3 ? `${myRank.rank}ª` : `#${myRank.rank}`}
+            </p>
+            <p className='text-xs text-slate-400 mt-1'>{t('ranking.generalPosition')}</p>
+          </div>
         </div>
-        <Link to='/ranking' className='text-xs text-indigo-400 hover:text-indigo-300'>
+
+        {/* CTA */}
+        <Link
+          to='/ranking'
+          className='flex items-center justify-center gap-1.5 w-full rounded-lg bg-indigo-600/70 hover:bg-indigo-600 border border-indigo-500/40 text-white text-xs font-semibold py-2 transition-colors'
+        >
           {t('ranking.seeFullRanking')}
         </Link>
       </div>
-
-      {/* top 3 other users */}
-      {top3.slice(0, 3).filter(e => e.user_id !== currentUserId).map(entry => (
-        <Link
-          key={entry.user_id}
-          to={`/u/${entry.nickname ?? entry.user_id}`}
-          className='flex items-center gap-3 px-4 py-2 hover:bg-slate-700/50 transition-colors'
-        >
-          <span className='w-6 text-center text-base shrink-0'>{rankIcon(entry.rank)}</span>
-          <div className='shrink-0 w-7 h-7 rounded-full bg-slate-700 overflow-hidden flex items-center justify-center text-sm'>
-            {entry.avatar_url
-              ? <img src={entry.avatar_url} alt='' className='w-full h-full object-cover' />
-              : <span>👤</span>
-            }
-          </div>
-          <p className='flex-1 text-sm text-white truncate'>
-            {entry.display_name || entry.nickname || t('ranking.unknownUser')}
-          </p>
-          <p className='text-xs text-slate-400 shrink-0'>{entry.completion_pct}%</p>
-        </Link>
-      ))}
-
-      {/* my rank — always shown when opted in, prominent like the master widget */}
-      {myRank ? (
-        <>
-          {top3.filter(e => e.user_id !== currentUserId).length > 0 && (
-            <div className='mx-4 my-1 border-t border-slate-700/60' />
-          )}
-          <div className='px-4 py-3'>
-            <p className='text-xs text-slate-400 mb-0.5'>{t('ranking.myRank')}</p>
-            <p className='text-2xl font-bold text-indigo-400 leading-none mb-1'>
-              {rankIcon(myRank.rank)}
-            </p>
-            <p className='text-xs text-slate-400'>
-              {myRank.completion_pct}% · {myRank.owned_count} {t('ranking.of').replace('{{total}}', '994')}
-            </p>
-          </div>
-        </>
-      ) : (
-        <p className='px-4 pb-3 pt-1 text-xs text-slate-400'>{t('ranking.emptyState')}</p>
-      )}
     </div>
   )
 }

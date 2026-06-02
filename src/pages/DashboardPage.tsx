@@ -12,7 +12,6 @@ import { interpolate } from '../lib/shareText'
 import CompactTeamCard from '../components/CompactTeamCard'
 import FatProgressBar from '../components/FatProgressBar'
 import { useMyRank } from '../hooks/useMyRank'
-import { usePublicRanking } from '../hooks/usePublicRanking'
 import RankingMyRankWidget from '../components/ranking/RankingMyRankWidget'
 import { FeatureFlag, telemetry } from '../lib/telemetry'
 import { useProfile } from '../state/friends'
@@ -54,7 +53,6 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
   const challengeResults = useChallengeProgress()
   const socialEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.SOCIAL_V1)
   const { myRank, loading: myRankLoading } = useMyRank()
-  const { entries: rankingEntries } = usePublicRanking()
   const { profile, loading: profileLoading } = useProfile(userId)
 
   const albumPct     = albumTotal > 0 ? Math.round((albumCollected / albumTotal) * 100) : 0
@@ -189,19 +187,18 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
           </div>
         </section>
 
-        {/* 1b — My Rank widget (social feature flag) */}
-        {socialEnabled && (
-          <RankingMyRankWidget
-            myRank={myRank}
-            rankingPublic={profile?.ranking_public ?? false}
-            loading={myRankLoading || profileLoading}
-            top3={rankingEntries}
-            currentUserId={userId}
-          />
-        )}
-
-        {/* 2 — Badges + Challenges (2-col desktop / stacked mobile) */}
+        {/* 2 — Ranking + Conquistas (2-col when social enabled) */}
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+          {socialEnabled && (
+            <section className='flex flex-col gap-3'>
+              {sectionHeader(t('ranking.pageTitle'))}
+              <RankingMyRankWidget
+                myRank={myRank}
+                rankingPublic={profile?.ranking_public ?? false}
+                loading={myRankLoading || profileLoading}
+              />
+            </section>
+          )}
 
           {earnedMilestones.length > 0 && (
             <section className='flex flex-col gap-3'>
@@ -217,49 +214,50 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
               </div>
             </section>
           )}
-
-          <section
-            className='flex flex-col gap-3'
-            data-onboarding-target='dashboard-challenges'
-          >
-            {sectionHeader(t('dashboard.challengesPreview'))}
-            {topChallenges.length === 0 ? (
-              <p className='px-1 text-xs text-slate-500'>{t('dashboard.noChallengesYet')}</p>
-            ) : (
-              <>
-              <div className='flex flex-col gap-2'>
-                {topChallenges.map(r => (
-                  <button
-                    key={r.challenge.id}
-                    type='button'
-                    onClick={() => navigate('/challenges')}
-                    className={[
-                      'flex items-center gap-3 rounded-xl border px-3 py-2.5 w-full text-left',
-                      'bg-gradient-to-br',
-                      DIFFICULTY_GRADIENT[r.challenge.difficulty],
-                      DIFFICULTY_BORDER[r.challenge.difficulty],
-                      'hover:brightness-110 transition-all',
-                    ].join(' ')}
-                  >
-                    <span className='text-xl shrink-0'>{r.challenge.icon}</span>
-                    <div className='flex-1 min-w-0'>
-                      <FatProgressBar
-                        pct={r.pct}
-                        color={DIFFICULTY_COLOR[r.challenge.difficulty]}
-                        label={challengeTitle(r.challenge, t)}
-                      />
-                    </div>
-                  </button>
-                ))}
-              </div>
-              <button type='button' onClick={() => navigate('/challenges')}
-                className='text-xs text-sky-400 hover:text-sky-300 text-left px-1 transition-colors'>
-                {t('dashboard.seeAll')} →
-              </button>
-              </>
-            )}
-          </section>
         </div>
+
+        {/* 3 — Challenges */}
+        <section
+          className='flex flex-col gap-3'
+          data-onboarding-target='dashboard-challenges'
+        >
+          {sectionHeader(t('dashboard.challengesPreview'))}
+          {topChallenges.length === 0 ? (
+            <p className='px-1 text-xs text-slate-500'>{t('dashboard.noChallengesYet')}</p>
+          ) : (
+            <>
+            <div className='flex flex-col gap-2'>
+              {topChallenges.map(r => (
+                <button
+                  key={r.challenge.id}
+                  type='button'
+                  onClick={() => navigate('/challenges')}
+                  className={[
+                    'flex items-center gap-3 rounded-xl border px-3 py-2.5 w-full text-left',
+                    'bg-gradient-to-br',
+                    DIFFICULTY_GRADIENT[r.challenge.difficulty],
+                    DIFFICULTY_BORDER[r.challenge.difficulty],
+                    'hover:brightness-110 transition-all',
+                  ].join(' ')}
+                >
+                  <span className='text-xl shrink-0'>{r.challenge.icon}</span>
+                  <div className='flex-1 min-w-0'>
+                    <FatProgressBar
+                      pct={r.pct}
+                      color={DIFFICULTY_COLOR[r.challenge.difficulty]}
+                      label={challengeTitle(r.challenge, t)}
+                    />
+                  </div>
+                </button>
+              ))}
+            </div>
+            <button type='button' onClick={() => navigate('/challenges')}
+              className='text-xs text-sky-400 hover:text-sky-300 text-left px-1 transition-colors'>
+              {t('dashboard.seeAll')} →
+            </button>
+            </>
+          )}
+        </section>
 
         {/* 3 — Completed teams (only when ≥1 team is 100%) */}
         {completedTeams.length > 0 && (

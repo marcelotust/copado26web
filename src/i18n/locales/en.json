@@ -752,7 +752,8 @@
     "seeFullRanking": "See full ranking →",
     "of": "of {{total}} stickers",
     "emptyState": "No users participating yet.",
-    "unknownUser": "User"
+    "unknownUser": "User",
+    "generalPosition": "in the overall ranking"
   },
   "tradingPartners": {
     "pageTitle": "Trade Partners",
