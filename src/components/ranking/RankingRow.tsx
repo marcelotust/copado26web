@@ -48,7 +48,8 @@ export default function RankingRow({ entry, isCurrentUser }: Props) {
       {/* Stats: pct + missing */}
       <div className='shrink-0 text-right min-w-[3.5rem]'>
         <p className='text-sm font-bold text-white'>{pctRounded}%</p>
-        <p className='text-xs text-slate-500'>{missing} falt.</p>
+        <p className='text-[10px] text-slate-500 leading-tight'>fig. faltando</p>
+        <p className='text-base font-bold text-slate-400 leading-tight'>{missing}</p>
       </div>
     </Link>
   )

@@ -39,9 +39,9 @@ export const RAW: Record<Locale, LocaleData> = {
 }
 
 export const LOCALE_META: Record<Locale, { label: string; flag: string }> = {
-  'pt-BR': { label: 'PT', flag: '🇧🇷' },
-  en:      { label: 'EN', flag: '🇺🇸' },
-  es:      { label: 'ES', flag: '🇪🇸' },
+  'pt-BR': { label: 'Português do Brasil', flag: '🇧🇷' },
+  en:      { label: 'English', flag: '🇺🇸' },
+  es:      { label: 'Español', flag: '🇪🇸' },
 }
 
 const STORAGE_KEY = 'meualbum2026_locale'

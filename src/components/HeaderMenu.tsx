@@ -24,7 +24,7 @@ export default function HeaderMenu({ onLogout, email }: HeaderMenuProps) {
     <div ref={ref} className='relative shrink-0'>
       <button
         onClick={() => setOpen(o => !o)}
-        className='flex items-center justify-center w-8 h-8 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition-colors text-base'
+        className='flex items-center justify-center w-8 h-8 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition-colors text-2xl'
         aria-label='Menu'
       >
         ⚙
@@ -72,7 +72,7 @@ export default function HeaderMenu({ onLogout, email }: HeaderMenuProps) {
               }}
               className='flex items-center gap-2 px-2 py-1.5 rounded-lg text-left transition-colors w-full text-xs text-slate-300 hover:text-white hover:bg-slate-700'
             >
-              <span>⚙</span>
+              <span className='text-xl leading-none'>⚙</span>
               <span>{t('menu.settings')}</span>
             </Link>
           </div>

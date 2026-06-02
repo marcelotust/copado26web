@@ -5,6 +5,7 @@ import { useTradePartners } from '../hooks/useTradePartners'
 import { useProfile } from '../state/friends'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import TradePartnerCard from '../components/trading/TradePartnerCard'
+import StickerListPageHeader from '../components/StickerListPageHeader'
 
 type Props = { userId: string }
 
@@ -23,12 +24,12 @@ export default function TradingPartnersPage({ userId }: Props) {
 
   return (
     <div className='flex flex-col h-full'>
-      <div className='shrink-0 border-b border-slate-800 bg-slate-900/95 px-4 py-3'>
-        <div className='mx-auto max-w-lg'>
-          <h1 className='text-lg font-bold text-white'>{t('tradingPartners.pageTitle')}</h1>
-          <p className='text-sm text-slate-400'>{t('tradingPartners.subtitle')}</p>
-        </div>
-      </div>
+      <StickerListPageHeader
+        title={t('tradingPartners.pageTitle')}
+        icon='🤝'
+        accentColor='#6366F1'
+        summary={t('tradingPartners.subtitle')}
+      />
 
       <div className='flex-1 overflow-y-auto px-3 py-4'>
         <div className='mx-auto max-w-lg flex flex-col gap-3'>

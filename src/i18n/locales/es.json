@@ -210,6 +210,7 @@
     "hard": "Difíciles",
     "legendary": "Legendarios",
     "completed": "Completado",
+    "headerSummary": "{{completed}} de {{total}} completados",
     "progress": "{{owned}} de {{total}}",
     "modalTitle": "¡Desafío completado! 🎉",
     "modalShare": "Compartir",
@@ -668,7 +669,8 @@
       "title": "Amigos",
       "addFriend": "Agregar amigo",
       "myFriends": "Mis amigos",
-      "empty": "¡Ningún amigo aún. Agrega a alguien para ver sugerencias de intercambio!"
+      "empty": "¡Ningún amigo aún. Agrega a alguien para ver sugerencias de intercambio!",
+      "subtitle": "Tus amigos y sugerencias de intercambio"
     },
     "requests": {
       "pending": "Solicitudes pendientes",
@@ -767,7 +769,7 @@
     "emptyHint": "Sigue pegando figuritas — cuando otros usuarios tengan repetidas que necesitas, aparecerán aquí.",
     "notOptedIn": "No eres visible para sugerencias de intercambio.",
     "activateInSettings": "Activar en Ajustes →",
-    "findPartners": "Socios de intercambio →",
+    "findPartners": "Socios de intercambio",
     "seeCards": "Ver listas",
     "hideCards": "Ocultar listas",
     "theyHaveINeedList": "{{n}} que necesitas (ellos tienen)",
