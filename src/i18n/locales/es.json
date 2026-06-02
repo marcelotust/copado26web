@@ -751,7 +751,8 @@
     "activateInSettings": "Activar en Ajustes →",
     "seeFullRanking": "Ver ranking completo →",
     "of": "de {{total}} figuritas",
-    "emptyState": "Ningún usuario participando todavía."
+    "emptyState": "Ningún usuario participando todavía.",
+    "unknownUser": "Usuario"
   },
   "tradingPartners": {
     "pageTitle": "Socios de intercambio",
