@@ -6,6 +6,7 @@ import FriendCard from '../components/friends/FriendCard'
 import { PendingRequestRow, AcceptedRequestRow } from '../components/friends/FriendRequestRow'
 import NicknameSetupModal from '../components/friends/NicknameSetupModal'
 import AddFriendDialog from '../components/friends/AddFriendDialog'
+import StickerListPageHeader from '../components/StickerListPageHeader'
 
 type Props = { userId: string }
 
@@ -40,25 +41,26 @@ export default function FriendsPage({ userId }: Props) {
 
   return (
     <div className='flex flex-col h-full'>
+      <StickerListPageHeader
+        title={t('friends.page.title')}
+        icon='👥'
+        accentColor='#8B5CF6'
+        summary={t('friends.page.subtitle')}
+        actions={profile ? (
+          <button
+            type='button'
+            onClick={() => setAddFriendOpen(true)}
+            className='flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition-colors'
+          >
+            <svg className='w-4 h-4' viewBox='0 0 24 24' fill='currentColor' aria-hidden>
+              <path d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z' />
+            </svg>
+            {t('friends.page.addFriend')}
+          </button>
+        ) : undefined}
+      />
       <div className='flex-1 overflow-y-auto'>
         <div className='max-w-md mx-auto w-full p-4 flex flex-col gap-6'>
-          {/* Header */}
-          <div className='flex items-center justify-between'>
-            <h1 className='text-xl font-bold text-white'>{t('friends.page.title')}</h1>
-            {profile && (
-              <button
-                type='button'
-                onClick={() => setAddFriendOpen(true)}
-                className='flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition-colors'
-              >
-                <svg className='w-4 h-4' viewBox='0 0 24 24' fill='currentColor' aria-hidden>
-                  <path d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z' />
-                </svg>
-                {t('friends.page.addFriend')}
-              </button>
-            )}
-          </div>
-
           {loading ? (
             <div className='flex flex-col gap-3'>
               {[1, 2, 3].map(i => (

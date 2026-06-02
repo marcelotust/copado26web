@@ -69,10 +69,10 @@ export default function Header({ email, onLogout }: HeaderProps) {
 
         <Link
           to='/trading-partners'
-          className='shrink-0 flex items-center justify-center w-8 h-8 rounded-lg text-emerald-400 hover:bg-emerald-500/20 transition-colors text-lg'
+          className='shrink-0 flex items-center justify-center w-8 h-8 rounded-lg text-indigo-400 hover:bg-indigo-500/20 transition-colors text-lg'
           aria-label='Parceiros de troca'
         >
-          🔄
+          🤝
         </Link>
 
         <FriendsHeaderButton />

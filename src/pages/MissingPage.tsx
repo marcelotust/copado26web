@@ -39,7 +39,7 @@ export default function MissingPage() {
     <div className='flex flex-col h-full'>
       <StickerListPageHeader
         title={t('nav.missing')}
-        icon='🏆'
+        icon='🧩'
         accentColor='#10B981'
         summary={(
           <>
@@ -49,15 +49,7 @@ export default function MissingPage() {
           </>
         )}
         actions={totalMissing > 0 ? (
-          <div className='flex items-center gap-2'>
-            <MissingShareButtons groups={groups} total={totalMissing} teamName={teamName} teamFlag={teamFlag} />
-            <Link
-              to='/trading-partners'
-              className='shrink-0 flex items-center gap-1.5 px-2 sm:px-2.5 h-8 rounded-lg text-indigo-400 hover:bg-indigo-500/15 border border-transparent hover:border-indigo-500/20 transition-colors text-xs font-semibold'
-            >
-              {t('tradingPartners.findPartners')}
-            </Link>
-          </div>
+          <MissingShareButtons groups={groups} total={totalMissing} teamName={teamName} teamFlag={teamFlag} />
         ) : undefined}
       />
 
@@ -70,16 +62,25 @@ export default function MissingPage() {
           </div>
         ) : (
           <div className='mx-auto flex w-full max-w-6xl flex-col gap-4 px-3 py-4 sm:px-4'>
-            <button
-              type='button'
-              onClick={() => setScanOpen(true)}
-              className='self-start inline-flex items-center gap-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm font-semibold text-emerald-300 transition-colors hover:bg-emerald-500/20'
-            >
-              <svg className='h-4 w-4' viewBox='0 0 24 24' fill='currentColor' aria-hidden>
-                <path d='M3 3h7v7H3V3zm2 2v3h3V5H5zm9-2h7v7h-7V3zm2 2v3h3V5h-3zM3 14h7v7H3v-7zm2 2v3h3v-3H5zm12-2h2v2h-2v-2zm-4 0h2v2h-2v-2zm2 2h2v2h-2v-2zm-6 4h2v2H9v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm0-4h2v2h-2v-2z' />
-              </svg>
-              {t('trade.scanTitle')}
-            </button>
+            <div className='flex flex-wrap gap-2'>
+              <button
+                type='button'
+                onClick={() => setScanOpen(true)}
+                className='inline-flex items-center gap-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm font-semibold text-emerald-300 transition-colors hover:bg-emerald-500/20'
+              >
+                <svg className='h-4 w-4' viewBox='0 0 24 24' fill='currentColor' aria-hidden>
+                  <path d='M3 3h7v7H3V3zm2 2v3h3V5H5zm9-2h7v7h-7V3zm2 2v3h3V5h-3zM3 14h7v7H3v-7zm2 2v3h3v-3H5zm12-2h2v2h-2v-2zm-4 0h2v2h-2v-2zm2 2h2v2h-2v-2zm-6 4h2v2H9v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm0-4h2v2h-2v-2z' />
+                </svg>
+                {t('trade.scanTitle')}
+              </button>
+              <Link
+                to='/trading-partners'
+                className='inline-flex items-center gap-2 rounded-lg border border-indigo-500/30 bg-indigo-500/10 px-3 py-2 text-sm font-semibold text-indigo-300 transition-colors hover:bg-indigo-500/20'
+              >
+                <span aria-hidden>🤝</span>
+                {t('tradingPartners.findPartners')}
+              </Link>
+            </div>
 
             <MissingTradeChecker
               missingIds={missingIds}
