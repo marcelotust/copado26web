@@ -43,25 +43,9 @@ export default function RankingMyRankWidget({
     )
   }
 
-  // ── não participando ──────────────────────────────────────────────────────
-  if (!rankingPublic) {
-    return (
-      <div className='px-4 py-3 rounded-xl bg-slate-800 border border-slate-700'>
-        <div className='flex items-center gap-2 mb-1'>
-          <span className='text-base'>🏆</span>
-          <p className='text-sm font-semibold text-white'>{t('ranking.pageTitle')}</p>
-        </div>
-        <p className='text-xs text-slate-400 mb-2'>{t('ranking.notOptedIn')}</p>
-        <Link to='/settings' className='text-xs text-indigo-400 hover:text-indigo-300'>
-          {t('ranking.activateInSettings')}
-        </Link>
-      </div>
-    )
-  }
-
-  // ── participando ──────────────────────────────────────────────────────────
+  // ── participando ou não ──────────────────────────────────────────────────
   return (
-    <div className='rounded-xl bg-slate-800 border border-indigo-500/30 overflow-hidden'>
+    <div className={`rounded-xl bg-slate-800 overflow-hidden ${rankingPublic ? 'border border-indigo-500/30' : 'border border-slate-700'}`}>
       <div className='flex items-center justify-between px-4 pt-3 pb-2'>
         <div className='flex items-center gap-2'>
           <span className='text-base'>🏆</span>
@@ -72,7 +56,7 @@ export default function RankingMyRankWidget({
         </Link>
       </div>
 
-      {/* Top 3 */}
+      {/* Top 3 — always visible */}
       {top3.slice(0, 3).map(entry => (
         <Link
           key={entry.user_id}
@@ -93,8 +77,8 @@ export default function RankingMyRankWidget({
         </Link>
       ))}
 
-      {/* Minha posição abaixo do top 3 */}
-      {myRank && (top3.length === 0 || myRank.rank > 3) && (
+      {/* Minha posição abaixo do top 3 — only when opted in */}
+      {rankingPublic && myRank && (top3.length === 0 || myRank.rank > 3) && (
         <>
           {top3.length > 0 && <div className='mx-4 my-1 border-t border-slate-700/60' />}
           <div className='flex items-center gap-3 px-4 py-2'>
@@ -110,8 +94,18 @@ export default function RankingMyRankWidget({
         </>
       )}
 
-      {/* Sem dados ainda */}
-      {top3.length === 0 && !myRank && (
+      {/* Não participando — só mostra se não há top 3 */}
+      {top3.length === 0 && !rankingPublic && (
+        <div className='px-4 pb-3 pt-1'>
+          <p className='text-xs text-slate-400 mb-1'>{t('ranking.notOptedIn')}</p>
+          <Link to='/settings' className='text-xs text-indigo-400 hover:text-indigo-300'>
+            {t('ranking.activateInSettings')}
+          </Link>
+        </div>
+      )}
+
+      {/* Sem dados ainda — só mostra se optou mas não há nada */}
+      {top3.length === 0 && rankingPublic && !myRank && (
         <p className='px-4 pb-3 pt-1 text-sm text-slate-400'>{t('ranking.emptyState')}</p>
       )}
     </div>

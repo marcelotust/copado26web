@@ -3,6 +3,12 @@ import { screen, waitFor } from '@testing-library/react'
 import { renderWithProviders } from '../test/renderWithProviders'
 import TradingPartnersPage from './TradingPartnersPage'
 
+vi.mock('../lib/supabase', () => ({
+  supabase: {
+    rpc: vi.fn().mockResolvedValue({ data: null, error: null }),
+  },
+}))
+
 vi.mock('../hooks/useTradePartners', () => ({
   useTradePartners: vi.fn().mockReturnValue({
     partners: [

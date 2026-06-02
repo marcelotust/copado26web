@@ -774,6 +774,7 @@
     "shareWhatsapp": "WhatsApp",
     "shareDetailHeadline": "⚽ Copa 2026 — vamos trocar figurinhas?",
     "shareDetailTheyHave": "@{{nickname}} tem {{n}} que você precisa:",
-    "shareDetailIHave": "Você tem {{m}} que @{{nickname}} precisa:"
+    "shareDetailIHave": "Você tem {{m}} que @{{nickname}} precisa:",
+    "detailError": "Não foi possível carregar as listas. Tente novamente."
   }
 }

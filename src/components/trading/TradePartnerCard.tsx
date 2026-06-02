@@ -22,6 +22,7 @@ export default function TradePartnerCard({ partner, currentNickname }: Props) {
   const [expanded, setExpanded] = useState(false)
   const [detail, setDetail] = useState<Detail | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
+  const [detailError, setDetailError] = useState(false)
   const [copied, setCopied] = useState(false)
 
   async function handleExpand() {
@@ -29,10 +30,14 @@ export default function TradePartnerCard({ partner, currentNickname }: Props) {
     setExpanded(true)
     if (detail) return
     setDetailLoading(true)
+    setDetailError(false)
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { data } = await (supabase.rpc as any)('get_trade_partner_detail', { p_partner_id: partner.user_id })
+      const { data, error } = await (supabase.rpc as any)('get_trade_partner_detail', { p_partner_id: partner.user_id })
+      if (error) throw error
       setDetail(data as Detail)
+    } catch {
+      setDetailError(true)
     } finally {
       setDetailLoading(false)
     }
@@ -130,6 +135,8 @@ export default function TradePartnerCard({ partner, currentNickname }: Props) {
             <div className='py-4 flex justify-center'>
               <div className='w-5 h-5 rounded-full border-2 border-indigo-500 border-t-transparent animate-spin' />
             </div>
+          ) : detailError ? (
+            <p className='py-3 text-xs text-slate-400'>{t('tradingPartners.detailError')}</p>
           ) : detail ? (
             <>
               {detail.they_have_i_need.length > 0 && (
