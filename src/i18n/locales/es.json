@@ -765,6 +765,15 @@
     "emptyHint": "Sigue pegando figuritas — cuando otros usuarios tengan repetidas que necesitas, aparecerán aquí.",
     "notOptedIn": "No eres visible para sugerencias de intercambio.",
     "activateInSettings": "Activar en Ajustes →",
-    "findPartners": "Socios de intercambio →"
+    "findPartners": "Socios de intercambio →",
+    "seeCards": "Ver listas",
+    "hideCards": "Ocultar listas",
+    "theyHaveINeedList": "{{n}} que necesitas (ellos tienen)",
+    "iHaveTheyNeedList": "{{n}} que necesitan (tú tienes)",
+    "shareWhatsapp": "WhatsApp",
+    "shareDetailHeadline": "⚽ Copa del Mundo 2026 — ¿intercambiamos figuritas?",
+    "shareDetailTheyHave": "@{{nickname}} tiene {{n}} que necesitas:",
+    "shareDetailIHave": "Tú tienes {{m}} que @{{nickname}} necesita:",
+    "detailError": "No se pudieron cargar las listas. Intenta de nuevo."
   }
 }
