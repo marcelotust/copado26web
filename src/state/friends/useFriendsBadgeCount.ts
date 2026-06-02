@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import type { FriendRequests } from './types'
 
-/** Returns (pending_count + recently_accepted_count) for the header badge. */
+/** Returns pending invite count for the header badge. */
 export function useFriendsBadgeCount() {
   const [count, setCount] = useState(0)
 
@@ -16,8 +16,7 @@ export function useFriendsBadgeCount() {
         if (cancelled) return
         const d = data as FriendRequests | null
         const pending = d?.pending?.length ?? 0
-        const accepted = d?.recently_accepted?.length ?? 0
-        setCount(pending + accepted)
+        setCount(pending)
       } catch {
         // silent — badge is non-critical
       }
