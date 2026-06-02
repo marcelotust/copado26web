@@ -210,6 +210,7 @@
     "hard": "Hard",
     "legendary": "Legendary",
     "completed": "Completed",
+    "headerSummary": "{{completed}} of {{total}} complete",
     "progress": "{{owned}} of {{total}}",
     "modalTitle": "Challenge completed! 🎉",
     "modalShare": "Share",
@@ -668,7 +669,8 @@
       "title": "Friends",
       "addFriend": "Add friend",
       "myFriends": "My friends",
-      "empty": "No friends yet. Add someone to see trade suggestions!"
+      "empty": "No friends yet. Add someone to see trade suggestions!",
+      "subtitle": "Your friends and trade suggestions"
     },
     "requests": {
       "pending": "Pending requests",
@@ -767,7 +769,7 @@
     "emptyHint": "Keep adding stickers — when other users have duplicates you need, they'll show up here.",
     "notOptedIn": "You are not visible for trade suggestions.",
     "activateInSettings": "Enable in Settings →",
-    "findPartners": "Trade Partners →",
+    "findPartners": "Trade Partners",
     "seeCards": "See lists",
     "hideCards": "Hide lists",
     "theyHaveINeedList": "{{n}} you need (they have)",

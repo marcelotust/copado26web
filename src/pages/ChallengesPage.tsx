@@ -2,12 +2,17 @@ import { useI18n } from '../i18n'
 import { useChallengeProgress } from '../hooks/useChallengeProgress'
 import { CHALLENGES, type ChallengeDifficulty } from '../data/challenges'
 import ChallengeCard from '../components/ChallengeCard'
+import StickerListPageHeader from '../components/StickerListPageHeader'
+import { interpolate } from '../lib/shareText'
 
 const DIFFICULTY_ORDER: ChallengeDifficulty[] = ['easy', 'medium', 'hard', 'legendary']
 
 export default function ChallengesPage() {
   const { t } = useI18n()
   const results = useChallengeProgress()
+
+  const completedCount = results.filter(r => r.completed).length
+  const totalCount = results.length
 
   const byDifficulty = (diff: ChallengeDifficulty) =>
     CHALLENGES
@@ -17,6 +22,12 @@ export default function ChallengesPage() {
 
   return (
     <div className='flex flex-col h-full'>
+      <StickerListPageHeader
+        title={t('nav.challenges')}
+        icon='🏆'
+        accentColor='#F59E0B'
+        summary={interpolate(t('challenges.headerSummary'), { completed: String(completedCount), total: String(totalCount) })}
+      />
       <div className='flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-6'>
         {DIFFICULTY_ORDER.map(diff => {
           const all = byDifficulty(diff)
