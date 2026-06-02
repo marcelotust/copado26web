@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useI18n } from '../i18n'
 import { useFriends, useFriendRequests, useProfile } from '../state/friends'
 import FriendCard from '../components/friends/FriendCard'
-import { PendingRequestRow, AcceptedRequestRow } from '../components/friends/FriendRequestRow'
+import { PendingRequestRow } from '../components/friends/FriendRequestRow'
 import NicknameSetupModal from '../components/friends/NicknameSetupModal'
 import AddFriendDialog from '../components/friends/AddFriendDialog'
 import StickerListPageHeader from '../components/StickerListPageHeader'
@@ -36,7 +36,8 @@ export default function FriendsPage({ userId }: Props) {
   }
 
   const pending = requests?.pending ?? []
-  const recentlyAccepted = requests?.recently_accepted ?? []
+  // TODO: Handle recentlyAccepted in Task 3
+  // const recentlyAccepted = requests?.recently_accepted ?? []
   const loading = profileLoading || friendsLoading || reqLoading
 
   return (
@@ -87,7 +88,8 @@ export default function FriendsPage({ userId }: Props) {
               )}
 
               {/* Recently accepted */}
-              {recentlyAccepted.length > 0 && (
+              {/* TODO: Replace with PendingRequestRow or appropriate component in Task 3 */}
+              {/* {recentlyAccepted.length > 0 && (
                 <section className='flex flex-col gap-2'>
                   <h2 className='text-xs font-semibold text-slate-400 uppercase tracking-wide'>
                     {t('friends.requests.recentlyAccepted')}
@@ -96,7 +98,7 @@ export default function FriendsPage({ userId }: Props) {
                     <AcceptedRequestRow key={f.user_id} friend={f} />
                   ))}
                 </section>
-              )}
+              )} */}
 
               {/* Friends list */}
               <section className='flex flex-col gap-2'>
