@@ -17,9 +17,16 @@ type Props = {
   currentUserId?: string
 }
 
-export default function RankingMyRankWidget({ myRank, rankingPublic, loading, top3 = [], currentUserId }: Props) {
+export default function RankingMyRankWidget({
+  myRank,
+  rankingPublic,
+  loading,
+  top3 = [],
+  currentUserId,
+}: Props) {
   const { t } = useI18n()
 
+  // ── loading ──────────────────────────────────────────────────────────────
   if (loading) {
     return (
       <div className='rounded-xl bg-slate-800 border border-slate-700 animate-pulse overflow-hidden'>
@@ -36,10 +43,14 @@ export default function RankingMyRankWidget({ myRank, rankingPublic, loading, to
     )
   }
 
+  // ── não participando ──────────────────────────────────────────────────────
   if (!rankingPublic) {
     return (
-      <div className='px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 opacity-60'>
-        <p className='text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1'>{t('ranking.pageTitle')}</p>
+      <div className='px-4 py-3 rounded-xl bg-slate-800 border border-slate-700'>
+        <div className='flex items-center gap-2 mb-1'>
+          <span className='text-base'>🏆</span>
+          <p className='text-sm font-semibold text-white'>{t('ranking.pageTitle')}</p>
+        </div>
         <p className='text-xs text-slate-400 mb-2'>{t('ranking.notOptedIn')}</p>
         <Link to='/settings' className='text-xs text-indigo-400 hover:text-indigo-300'>
           {t('ranking.activateInSettings')}
@@ -48,10 +59,14 @@ export default function RankingMyRankWidget({ myRank, rankingPublic, loading, to
     )
   }
 
+  // ── participando ──────────────────────────────────────────────────────────
   return (
     <div className='rounded-xl bg-slate-800 border border-indigo-500/30 overflow-hidden'>
       <div className='flex items-center justify-between px-4 pt-3 pb-2'>
-        <p className='text-xs font-semibold text-slate-400 uppercase tracking-wide'>{t('ranking.pageTitle')}</p>
+        <div className='flex items-center gap-2'>
+          <span className='text-base'>🏆</span>
+          <p className='text-sm font-semibold text-white'>{t('ranking.pageTitle')}</p>
+        </div>
         <Link to='/ranking' className='text-xs text-indigo-400 hover:text-indigo-300'>
           {t('ranking.seeFullRanking')}
         </Link>
@@ -62,7 +77,9 @@ export default function RankingMyRankWidget({ myRank, rankingPublic, loading, to
         <Link
           key={entry.user_id}
           to={`/u/${entry.nickname}`}
-          className='flex items-center gap-3 px-4 py-2 hover:bg-slate-700/50 transition-colors'
+          className={`flex items-center gap-3 px-4 py-2 hover:bg-slate-700/50 transition-colors ${
+            entry.user_id === currentUserId ? 'bg-indigo-950/30' : ''
+          }`}
         >
           <span className='w-6 text-center text-base shrink-0'>{rankIcon(entry.rank)}</span>
           <div className='shrink-0 w-7 h-7 rounded-full bg-slate-700 overflow-hidden flex items-center justify-center text-sm'>
@@ -76,12 +93,14 @@ export default function RankingMyRankWidget({ myRank, rankingPublic, loading, to
         </Link>
       ))}
 
-      {/* Minha posição (se não estiver no top 3) */}
-      {myRank && myRank.rank > 3 && (
+      {/* Minha posição abaixo do top 3 */}
+      {myRank && (top3.length === 0 || myRank.rank > 3) && (
         <>
-          <div className='mx-4 my-1 border-t border-slate-700/60' />
+          {top3.length > 0 && <div className='mx-4 my-1 border-t border-slate-700/60' />}
           <div className='flex items-center gap-3 px-4 py-2'>
-            <span className='w-6 text-center text-sm font-bold text-indigo-400 shrink-0'>{rankIcon(myRank.rank)}</span>
+            <span className='w-6 text-center text-sm font-bold text-indigo-400 shrink-0'>
+              {rankIcon(myRank.rank)}
+            </span>
             <div className='shrink-0 w-7 h-7 rounded-full bg-indigo-900/60 border border-indigo-500/40 flex items-center justify-center text-sm'>
               👤
             </div>
@@ -91,9 +110,9 @@ export default function RankingMyRankWidget({ myRank, rankingPublic, loading, to
         </>
       )}
 
-      {/* Ainda não rankeado */}
-      {!myRank && (
-        <p className='px-4 pb-3 text-xs text-slate-500'>{t('ranking.noRankHint')}</p>
+      {/* Sem dados ainda */}
+      {top3.length === 0 && !myRank && (
+        <p className='px-4 pb-3 pt-1 text-sm text-slate-400'>{t('ranking.emptyState')}</p>
       )}
     </div>
   )
