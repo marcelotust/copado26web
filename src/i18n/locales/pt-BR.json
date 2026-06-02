@@ -671,15 +671,16 @@
       "addFriend": "Adicionar amigo",
       "myFriends": "Meus amigos",
       "empty": "Nenhum amigo ainda. Adicione alguém para ver sugestões de trocas!",
-      "subtitle": "Seus amigos e sugestões de trocas"
+      "subtitle": "Seus amigos e sugestões de trocas",
+      "newFriend": "Novo"
     },
     "requests": {
       "pending": "Pedidos pendentes",
-      "recentlyAccepted": "Aceitos recentemente (7 dias)",
       "accept": "Aceitar",
       "decline": "Recusar"
     },
     "removeFriend": "Remover amigo",
+    "unfriend": "Desfazer amizade",
     "removeConfirmTitle": "Remover amigo?",
     "removeConfirmDesc": "Tem certeza que quer remover {{name}} dos seus amigos?",
     "removeConfirmYes": "Sim, remover",
