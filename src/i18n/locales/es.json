@@ -752,7 +752,8 @@
     "seeFullRanking": "Ver ranking completo →",
     "of": "de {{total}} figuritas",
     "emptyState": "Ningún usuario participando todavía.",
-    "unknownUser": "Usuario"
+    "unknownUser": "Usuario",
+    "generalPosition": "en el ranking general"
   },
   "tradingPartners": {
     "pageTitle": "Socios de intercambio",

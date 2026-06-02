@@ -43,6 +43,30 @@ describe('RankingMyRankWidget', () => {
     expect(screen.getByRole('link', { name: /ranking/i })).toBeInTheDocument()
   })
 
+  it('shows ordinal for top 3 and general position text', () => {
+    renderWithProviders(
+      <RankingMyRankWidget
+        myRank={{ rank: 3, owned_count: 860, completion_pct: 86 }}
+        rankingPublic={true}
+        loading={false}
+      />
+    )
+    expect(screen.getByText('3ª')).toBeInTheDocument()
+    expect(screen.getByText(/no ranking geral/i)).toBeInTheDocument()
+  })
+
+  it('shows CTA button linking to /ranking when ranked', () => {
+    renderWithProviders(
+      <RankingMyRankWidget
+        myRank={{ rank: 5, owned_count: 700, completion_pct: 70 }}
+        rankingPublic={true}
+        loading={false}
+      />
+    )
+    const cta = screen.getByRole('link', { name: /ver ranking completo/i })
+    expect(cta).toHaveAttribute('href', '/ranking')
+  })
+
   it('shows medal emoji for top 3 positions', () => {
     const { rerender } = renderWithProviders(
       <RankingMyRankWidget
