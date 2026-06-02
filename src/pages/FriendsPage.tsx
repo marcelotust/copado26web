@@ -36,8 +36,6 @@ export default function FriendsPage({ userId }: Props) {
   }
 
   const pending = requests?.pending ?? []
-  // TODO: Handle recentlyAccepted in Task 3
-  // const recentlyAccepted = requests?.recently_accepted ?? []
   const loading = profileLoading || friendsLoading || reqLoading
 
   return (
@@ -86,19 +84,6 @@ export default function FriendsPage({ userId }: Props) {
                   ))}
                 </section>
               )}
-
-              {/* Recently accepted */}
-              {/* TODO: Replace with PendingRequestRow or appropriate component in Task 3 */}
-              {/* {recentlyAccepted.length > 0 && (
-                <section className='flex flex-col gap-2'>
-                  <h2 className='text-xs font-semibold text-slate-400 uppercase tracking-wide'>
-                    {t('friends.requests.recentlyAccepted')}
-                  </h2>
-                  {recentlyAccepted.map(f => (
-                    <AcceptedRequestRow key={f.user_id} friend={f} />
-                  ))}
-                </section>
-              )} */}
 
               {/* Friends list */}
               <section className='flex flex-col gap-2'>
