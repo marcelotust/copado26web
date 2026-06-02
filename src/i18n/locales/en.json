@@ -751,7 +751,8 @@
     "activateInSettings": "Enable in Settings →",
     "seeFullRanking": "See full ranking →",
     "of": "of {{total}} stickers",
-    "emptyState": "No users participating yet."
+    "emptyState": "No users participating yet.",
+    "unknownUser": "User"
   },
   "tradingPartners": {
     "pageTitle": "Trade Partners",

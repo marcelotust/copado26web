@@ -55,7 +55,7 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
   const socialEnabled = import.meta.env.DEV || telemetry.flag(FeatureFlag.SOCIAL_V1)
   const { myRank, loading: myRankLoading } = useMyRank()
   const { entries: rankingEntries } = usePublicRanking()
-  const { profile } = useProfile(userId)
+  const { profile, loading: profileLoading } = useProfile(userId)
 
   const albumPct     = albumTotal > 0 ? Math.round((albumCollected / albumTotal) * 100) : 0
   const totalMissing = missingGroups.reduce((acc, g) => acc + g.numbers.length, 0)
@@ -194,7 +194,7 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
           <RankingMyRankWidget
             myRank={myRank}
             rankingPublic={profile?.ranking_public ?? false}
-            loading={myRankLoading}
+            loading={myRankLoading || profileLoading}
             top3={rankingEntries}
             currentUserId={userId}
           />
