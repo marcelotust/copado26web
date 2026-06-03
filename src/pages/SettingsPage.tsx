@@ -29,7 +29,7 @@ export default function SettingsPage({
   onSignOut,
 }: SettingsPageProps) {
   const { t } = useI18n()
-  const { profile, setNickname, updateDisplayName, updateVisibility, updateSharingSettings } = useProfile(userId)
+  const { profile, setNickname, updateDisplayName, updateVisibility, updateSharingSettings, updateAvatarPalette } = useProfile(userId)
 
   return (
     <div className='flex flex-col h-full'>
@@ -41,6 +41,7 @@ export default function SettingsPage({
           onSetNickname={setNickname}
           onUpdateDisplayName={updateDisplayName}
           onUpdateVisibility={updateVisibility}
+          onUpdateAvatarPalette={updateAvatarPalette}
         />
         <SettingsSharingSection
           profile={profile}
