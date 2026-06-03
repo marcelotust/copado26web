@@ -678,6 +678,8 @@
     },
     "requests": {
       "pending": "Pedidos pendentes",
+      "sent": "Aguardando",
+      "sentSection": "Pedidos enviados",
       "accept": "Aceitar",
       "decline": "Recusar"
     },

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useI18n } from '../i18n'
-import { useFriends, useFriendRequests, useProfile } from '../state/friends'
+import { useFriends, useFriendRequests, useProfile, useSentFriendRequests } from '../state/friends'
 import FriendCard from '../components/friends/FriendCard'
 import { PendingRequestRow } from '../components/friends/FriendRequestRow'
+import SentRequestRow from '../components/friends/SentRequestRow'
 import NicknameSetupModal from '../components/friends/NicknameSetupModal'
 import AddFriendDialog from '../components/friends/AddFriendDialog'
 import StickerListPageHeader from '../components/StickerListPageHeader'
@@ -16,6 +17,7 @@ export default function FriendsPage({ userId }: Props) {
   const { profile, loading: profileLoading, setNickname } = useProfile(userId)
   const { friends, loading: friendsLoading, removeFriend, refetch: refetchFriends } = useFriends()
   const { data: requests, loading: reqLoading, acceptRequest, declineRequest, refetch: refetchRequests } = useFriendRequests()
+  const { requests: sentRequests, loading: sentLoading } = useSentFriendRequests()
   const [nicknameModalOpen, setNicknameModalOpen] = useState(false)
   const [addFriendOpen, setAddFriendOpen] = useState(false)
 
@@ -36,7 +38,7 @@ export default function FriendsPage({ userId }: Props) {
   }
 
   const pending = requests?.pending ?? []
-  const loading = profileLoading || friendsLoading || reqLoading
+  const loading = profileLoading || friendsLoading || reqLoading || sentLoading
 
   return (
     <div className='flex flex-col h-full'>
@@ -69,6 +71,18 @@ export default function FriendsPage({ userId }: Props) {
                       onAccept={async (id) => { await acceptRequest(id); await refetchFriends() }}
                       onDecline={declineRequest}
                     />
+                  ))}
+                </section>
+              )}
+
+              {/* Sent requests */}
+              {sentRequests.length > 0 && (
+                <section className='flex flex-col gap-2'>
+                  <h2 className='text-xs font-semibold text-slate-400 uppercase tracking-wide'>
+                    {t('friends.requests.sentSection')} ({sentRequests.length})
+                  </h2>
+                  {sentRequests.map(req => (
+                    <SentRequestRow key={req.to_user} request={req} />
                   ))}
                 </section>
               )}
