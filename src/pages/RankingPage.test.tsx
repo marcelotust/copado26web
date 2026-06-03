@@ -26,7 +26,10 @@ vi.mock('../state/friends', () => ({
     },
     loading: false, error: null,
   }),
+  useFriends: vi.fn().mockReturnValue({ friends: [], loading: false, error: null }),
 }))
+
+vi.mock('../lib/supabase', () => ({ supabase: { rpc: vi.fn() } }))
 
 vi.mock('../lib/telemetry', () => ({
   AnalyticsEvent: { RANKING_PAGE_VIEWED: 'ranking_page_viewed' },

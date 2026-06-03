@@ -1,20 +1,30 @@
 import { Link } from 'react-router-dom'
 import Avatar from '../friends/Avatar'
+import { useI18n } from '../../i18n'
 import type { RankingEntry } from '../../hooks/usePublicRanking'
 
 const TOTAL = 994
 
 const MEDAL: Record<number, string> = { 1: '🥇', 2: '🥈', 3: '🥉' }
 
+export type FriendStatus = 'self' | 'friend' | 'pending' | 'none'
+
 type Props = {
   entry: RankingEntry
   isCurrentUser: boolean
+  friendStatus?: FriendStatus
+  onSendRequest?: () => void
+  sending?: boolean
 }
 
-export default function RankingRow({ entry, isCurrentUser }: Props) {
+export default function RankingRow({ entry, isCurrentUser, friendStatus = 'none', onSendRequest, sending = false }: Props) {
+  const { t } = useI18n()
   const pctRounded = Math.round(entry.completion_pct)
   const missing = TOTAL - entry.owned_count
   const isMedal = entry.rank <= 3
+
+  const showAdd = friendStatus === 'none' && !isCurrentUser
+  const showPending = friendStatus === 'pending'
 
   return (
     <Link
@@ -61,6 +71,27 @@ export default function RankingRow({ entry, isCurrentUser }: Props) {
         <p className='text-[10px] text-slate-500 leading-tight'>fig. faltando</p>
         <p className='text-base font-bold text-slate-400 leading-tight'>{missing}</p>
       </div>
+
+      {/* Friend CTA */}
+      {(showAdd || showPending) && (
+        <div className='shrink-0'>
+          {showAdd ? (
+            <button
+              type='button'
+              aria-label={t('ranking.addFriend')}
+              disabled={sending}
+              onClick={e => { e.preventDefault(); e.stopPropagation(); onSendRequest?.() }}
+              className='px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors disabled:opacity-50'
+            >
+              {sending ? '…' : t('ranking.addFriend')}
+            </button>
+          ) : (
+            <span className='px-2.5 py-1 rounded-lg bg-slate-700 text-slate-400 text-xs font-semibold'>
+              {t('ranking.requestSent')}
+            </span>
+          )}
+        </div>
+      )}
     </Link>
   )
 }

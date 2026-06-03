@@ -759,7 +759,9 @@
     "of": "de {{total}} figurinhas",
     "emptyState": "Nenhum usuário participando ainda.",
     "unknownUser": "Usuário",
-    "generalPosition": "no ranking geral"
+    "generalPosition": "no ranking geral",
+    "addFriend": "+ Amigo",
+    "requestSent": "Enviado"
   },
   "tradingPartners": {
     "pageTitle": "Parceiros de troca",
