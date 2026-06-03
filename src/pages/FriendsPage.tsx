@@ -75,9 +75,6 @@ export default function FriendsPage({ userId }: Props) {
 
               {/* Friends list */}
               <section className='flex flex-col gap-2'>
-                <h2 className='text-xs font-semibold text-slate-400 uppercase tracking-wide'>
-                  {t('friends.page.myFriends')} ({friends.length})
-                </h2>
                 {profile && (
                   <div className='flex items-center gap-2'>
                     <button
@@ -99,6 +96,9 @@ export default function FriendsPage({ userId }: Props) {
                     </Link>
                   </div>
                 )}
+                <h2 className='text-xs font-semibold text-slate-400 uppercase tracking-wide'>
+                  {t('friends.page.myFriends')} ({friends.length})
+                </h2>
                 {friends.length === 0 ? (
                   <div className='px-4 py-6 rounded-xl bg-slate-800/40 text-center'>
                     <p className='text-slate-400 text-sm'>{t('friends.page.empty')}</p>
