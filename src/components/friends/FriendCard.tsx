@@ -51,7 +51,7 @@ export default function FriendCard({ friend, onRemove }: Props) {
           className='shrink-0 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 transition-colors text-xs font-semibold'
         >
           <svg className='w-3.5 h-3.5' viewBox='0 0 24 24' fill='currentColor' aria-hidden>
-            <path d='M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z' />
+            <path d='M14 8c0-2.21-1.79-4-4-4S6 5.79 6 8s1.79 4 4 4 4-1.79 4-4zm-2 0c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zM2 18v-2c0-2.66 2.67-4.67 6-4.93-.43.91-.66 1.91-.7 2.93H4v2h4v1.72C8 17.82 8 17.91 8 18H2zm9-1h6v-2h-6v2z' />
           </svg>
           {t('friends.unfriend')}
         </button>

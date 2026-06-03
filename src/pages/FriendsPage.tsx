@@ -92,8 +92,9 @@ export default function FriendsPage({ userId }: Props) {
                     </button>
                     <Link
                       to='/trading-partners'
-                      className='flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-indigo-400 hover:bg-indigo-500/15 border border-transparent hover:border-indigo-500/20 transition-colors text-xs font-semibold'
+                      className='ml-auto inline-flex items-center gap-2 rounded-lg border border-indigo-500/30 bg-indigo-500/10 px-3 py-1.5 text-xs font-semibold text-indigo-300 transition-colors hover:bg-indigo-500/20'
                     >
+                      <span aria-hidden>🤝</span>
                       {t('tradingPartners.findPartners')}
                     </Link>
                   </div>
