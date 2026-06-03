@@ -27,6 +27,8 @@ vi.mock('../state/friends', () => ({
       trading_public: true, email_trade_optin: false, is_test_user: false,
     },
     loading: false, error: null,
+    refetch: vi.fn(), setNickname: vi.fn(), updateDisplayName: vi.fn(),
+    updateVisibility: vi.fn(), updateSharingSettings: vi.fn(), updateAvatarPalette: vi.fn(),
   }),
 }))
 
@@ -51,7 +53,7 @@ describe('TradingPartnersPage', () => {
       },
       loading: false, error: null,
       refetch: vi.fn(), setNickname: vi.fn(), updateDisplayName: vi.fn(),
-      updateVisibility: vi.fn(), updateSharingSettings: vi.fn(),
+      updateVisibility: vi.fn(), updateSharingSettings: vi.fn(), updateAvatarPalette: vi.fn(),
     })
     renderWithProviders(<TradingPartnersPage userId='u2' />)
     await waitFor(() => expect(screen.getByRole('link', { name: /ativar|enable/i })).toBeInTheDocument())
