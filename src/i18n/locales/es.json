@@ -664,7 +664,8 @@
       "public": "Público",
       "friends": "Amigos",
       "private": "Privado",
-      "avatarPaletteLabel": "Color del avatar"
+      "avatarPaletteLabel": "Color del avatar",
+      "changeAvatarColor": "Cambiar color"
     },
     "page": {
       "title": "Amigos",

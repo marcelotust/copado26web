@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useI18n } from '../i18n'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import NicknameSetupModal from './friends/NicknameSetupModal'
+import AvatarPaletteModal from './friends/AvatarPaletteModal'
+import Avatar from './friends/Avatar'
 import type { CollectionVisibility, Profile } from '../state/friends'
 import { avatarColorPalette } from '../constants/avatarColorPalette'
 
@@ -22,10 +24,10 @@ const VISIBILITY_OPTIONS: { value: CollectionVisibility; labelKey: string }[] = 
 export default function SettingsProfileSection({ profile, onSetNickname, onUpdateDisplayName, onUpdateVisibility, onUpdateAvatarPalette }: Props) {
   const { t } = useI18n()
   const [nicknameModalOpen, setNicknameModalOpen] = useState(false)
+  const [paletteModalOpen, setPaletteModalOpen] = useState(false)
   const [displayNameValue, setDisplayNameValue] = useState(profile?.display_name ?? '')
   const [displayNameSaving, setDisplayNameSaving] = useState(false)
   const [visibilitySaving, setVisibilitySaving] = useState(false)
-  const [paletteSaving, setPaletteSaving] = useState(false)
 
   async function handleVisibilityChange(v: string) {
     const prev = profile?.collection_visibility
@@ -38,9 +40,7 @@ export default function SettingsProfileSection({ profile, onSetNickname, onUpdat
   }
 
   async function handlePaletteSelect(paletteId: number) {
-    setPaletteSaving(true)
     await onUpdateAvatarPalette(paletteId)
-    setPaletteSaving(false)
   }
 
   async function handleDisplayNameSave() {
@@ -120,35 +120,29 @@ export default function SettingsProfileSection({ profile, onSetNickname, onUpdat
         <p className='text-xs text-slate-500 px-1'>{t('friends.settings.visibilityHint')}</p>
       </div>
 
-      {/* Avatar color palette */}
-      <div className='flex flex-col gap-2'>
-        <p className='text-[10px] text-slate-500 uppercase tracking-widest px-1'>{t('friends.settings.avatarPaletteLabel')}</p>
-        <div className='grid grid-cols-5 gap-2'>
-          {avatarColorPalette.map(entry => {
-            const isSelected = profile?.avatar_palette_id === entry.id
-            return (
-              <button
-                key={entry.id}
-                type='button'
-                disabled={paletteSaving}
-                title={entry.name}
-                onClick={() => { void handlePaletteSelect(entry.id) }}
-                className={[
-                  'flex items-center justify-center rounded-full w-10 h-10 text-xs font-bold transition-all disabled:opacity-50 mx-auto',
-                  isSelected ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-900 scale-110' : 'opacity-80 hover:opacity-100',
-                ].join(' ')}
-                style={{
-                  background: `linear-gradient(135deg, ${entry.firstColor}, ${entry.secondColor})`,
-                  color: entry.color,
-                }}
-                aria-label={entry.name}
-                aria-pressed={isSelected}
-              >
-                {isSelected ? '✓' : ''}
-              </button>
-            )
-          })}
+      {/* Avatar color */}
+      <div className='px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-between gap-3'>
+        <div className='flex items-center gap-3 min-w-0'>
+          <Avatar
+            userId={profile?.user_id ?? ''}
+            displayName={profile?.display_name ?? ''}
+            paletteId={profile?.avatar_palette_id}
+            size='md'
+          />
+          <div className='min-w-0'>
+            <p className='text-[10px] text-slate-500 uppercase tracking-widest mb-0.5'>{t('friends.settings.avatarPaletteLabel')}</p>
+            <p className='text-white text-sm truncate'>
+              {avatarColorPalette.find(p => p.id === profile?.avatar_palette_id)?.name ?? '—'}
+            </p>
+          </div>
         </div>
+        <button
+          type='button'
+          onClick={() => setPaletteModalOpen(true)}
+          className='shrink-0 px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-xs font-semibold transition-colors'
+        >
+          {t('friends.settings.changeAvatarColor')}
+        </button>
       </div>
 
       <NicknameSetupModal
@@ -158,6 +152,14 @@ export default function SettingsProfileSection({ profile, onSetNickname, onUpdat
           const result = await onSetNickname(nickname)
           return result
         }}
+      />
+
+      <AvatarPaletteModal
+        isOpen={paletteModalOpen}
+        onClose={() => setPaletteModalOpen(false)}
+        onSave={handlePaletteSelect}
+        displayName={profile?.display_name ?? ''}
+        currentPaletteId={profile?.avatar_palette_id ?? null}
       />
     </section>
   )
