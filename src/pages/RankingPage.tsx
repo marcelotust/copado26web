@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useI18n } from '../i18n'
 import { usePublicRanking, type RankingEntry } from '../hooks/usePublicRanking'
 import { useMyRank } from '../hooks/useMyRank'
-import { useProfile, useFriends } from '../state/friends'
+import { useProfile, useFriends, useSentFriendRequests } from '../state/friends'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import { supabase } from '../lib/supabase'
 import RankingRow, { type FriendStatus } from '../components/ranking/RankingRow'
@@ -18,9 +18,12 @@ export default function RankingPage({ userId }: Props) {
   const { myRank, loading: rankLoading } = useMyRank()
   const { profile } = useProfile(userId)
   const { friends } = useFriends()
+  const { sentToIds } = useSentFriendRequests()
 
-  const [sentIds, setSentIds] = useState<Set<string>>(new Set())
+  const [localSentIds, setLocalSentIds] = useState<Set<string>>(new Set())
   const [sendingId, setSendingId] = useState<string | null>(null)
+
+  const sentIds = useMemo(() => new Set([...sentToIds, ...localSentIds]), [sentToIds, localSentIds])
 
   const rankingPublic = profile?.ranking_public ?? false
   const userInTop20 = entries.some(e => e.user_id === userId)
@@ -48,7 +51,7 @@ export default function RankingPage({ userId }: Props) {
       const { error } = await (supabase.rpc as any)('send_friend_request_by_nickname', { p_nickname: entry.nickname })
       if (error) throw error
       telemetry.track(AnalyticsEvent.FRIEND_REQUEST_SENT, { discovery_method: 'ranking' })
-      setSentIds(prev => new Set(prev).add(entry.user_id))
+      setLocalSentIds(prev => new Set(prev).add(entry.user_id))
     } catch {
       // silently restore button — user can retry
     } finally {

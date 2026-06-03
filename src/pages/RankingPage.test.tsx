@@ -27,6 +27,7 @@ vi.mock('../state/friends', () => ({
     loading: false, error: null,
   }),
   useFriends: vi.fn().mockReturnValue({ friends: [], loading: false, error: null }),
+  useSentFriendRequests: vi.fn().mockReturnValue({ sentToIds: new Set(), loading: false }),
 }))
 
 vi.mock('../lib/supabase', () => ({ supabase: { rpc: vi.fn() } }))
