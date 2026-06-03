@@ -32,7 +32,7 @@ export default function FriendCard({ friend, onRemove }: Props) {
     <>
       <div className='flex items-center gap-3 px-4 py-3 bg-slate-800/60 rounded-xl'>
         <Link to={`/u/${friend.nickname}`} className='flex items-center gap-3 flex-1 min-w-0'>
-          <Avatar userId={friend.user_id} displayName={friend.display_name} avatarUrl={friend.avatar_url} size='md' />
+          <Avatar userId={friend.user_id} displayName={friend.display_name} paletteId={friend.avatar_palette_id} avatarUrl={friend.avatar_url} size='md' />
           <div className='min-w-0'>
             <p className='text-white text-sm font-medium truncate'>{friend.display_name}</p>
             <p className='text-slate-400 text-xs flex items-center gap-1.5'>

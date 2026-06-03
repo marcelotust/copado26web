@@ -29,7 +29,7 @@ export default function PendingRequestRow({ request, onAccept, onDecline }: Prop
 
   return (
     <div className='flex items-center gap-3 px-4 py-3 bg-slate-800/60 rounded-xl'>
-      <Avatar userId={userId} displayName={displayName} size='md' />
+      <Avatar userId={userId} displayName={displayName} paletteId={request.avatar_palette_id} size='md' />
       <div className='min-w-0 flex-1'>
         <p className='text-white text-sm font-medium truncate'>{displayName}</p>
         {nickname && <p className='text-slate-400 text-xs'>@{nickname}</p>}
