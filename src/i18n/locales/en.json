@@ -663,7 +663,8 @@
       "visibilityHint": "Friends can see your duplicates to suggest trades.",
       "public": "Public",
       "friends": "Friends",
-      "private": "Private"
+      "private": "Private",
+      "avatarPaletteLabel": "Avatar color"
     },
     "page": {
       "title": "Friends",

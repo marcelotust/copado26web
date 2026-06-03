@@ -663,7 +663,8 @@
       "visibilityHint": "Los amigos pueden ver tus repetidos para sugerir intercambios.",
       "public": "Público",
       "friends": "Amigos",
-      "private": "Privado"
+      "private": "Privado",
+      "avatarPaletteLabel": "Color del avatar"
     },
     "page": {
       "title": "Amigos",
