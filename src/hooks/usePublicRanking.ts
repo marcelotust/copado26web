@@ -6,6 +6,7 @@ export type RankingEntry = {
   nickname: string
   display_name: string
   avatar_url: string | null
+  avatar_palette_id: number | null
   owned_count: number
   completion_pct: number
   rank: number

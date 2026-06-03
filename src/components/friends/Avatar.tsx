@@ -1,24 +1,15 @@
-/** Deterministic color from user_id → one of 8 palette entries. */
-const PALETTE = [
-  'bg-blue-600 text-blue-100',
-  'bg-emerald-600 text-emerald-100',
-  'bg-amber-600 text-amber-100',
-  'bg-rose-600 text-rose-100',
-  'bg-violet-600 text-violet-100',
-  'bg-cyan-600 text-cyan-100',
-  'bg-orange-600 text-orange-100',
-  'bg-pink-600 text-pink-100',
-]
+import { avatarColorPalette } from '../../constants/avatarColorPalette'
 
-function colorIndex(userId: string): number {
+function hashIndex(userId: string): number {
   let hash = 0
   for (let i = 0; i < userId.length; i++) hash = (hash * 31 + userId.charCodeAt(i)) >>> 0
-  return hash % PALETTE.length
+  return hash % avatarColorPalette.length
 }
 
 type AvatarProps = {
   userId: string
   displayName: string
+  paletteId?: number | null
   avatarUrl?: string | null
   size?: 'sm' | 'md' | 'lg'
   className?: string
@@ -26,7 +17,7 @@ type AvatarProps = {
 
 const SIZE_CLS = { sm: 'w-8 h-8 text-xs', md: 'w-10 h-10 text-sm', lg: 'w-14 h-14 text-lg' }
 
-export default function Avatar({ userId, displayName, avatarUrl, size = 'md', className = '' }: AvatarProps) {
+export default function Avatar({ userId, displayName, paletteId, avatarUrl, size = 'md', className = '' }: AvatarProps) {
   const initials = displayName
     .split(' ')
     .slice(0, 2)
@@ -34,7 +25,10 @@ export default function Avatar({ userId, displayName, avatarUrl, size = 'md', cl
     .join('') || '?'
 
   const sizeCls = SIZE_CLS[size]
-  const colorCls = PALETTE[colorIndex(userId)]
+
+  const palette = paletteId !== null && paletteId !== undefined
+    ? (avatarColorPalette.find(p => p.id === paletteId) ?? avatarColorPalette[hashIndex(userId)])
+    : avatarColorPalette[hashIndex(userId)]
 
   if (avatarUrl) {
     return (
@@ -48,7 +42,11 @@ export default function Avatar({ userId, displayName, avatarUrl, size = 'md', cl
 
   return (
     <div
-      className={`${sizeCls} ${colorCls} rounded-full flex items-center justify-center font-bold shrink-0 select-none ${className}`}
+      className={`${sizeCls} rounded-full flex items-center justify-center font-bold shrink-0 select-none ${className}`}
+      style={{
+        background: `linear-gradient(135deg, ${palette.firstColor}, ${palette.secondColor})`,
+        color: palette.color,
+      }}
       aria-label={displayName}
     >
       {initials}

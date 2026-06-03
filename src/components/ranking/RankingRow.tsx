@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import Avatar from '../friends/Avatar'
 import type { RankingEntry } from '../../hooks/usePublicRanking'
 
 const TOTAL = 994
@@ -18,18 +19,27 @@ export default function RankingRow({ entry, isCurrentUser }: Props) {
   return (
     <Link
       to={`/u/${entry.nickname}`}
-      className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-colors hover:bg-slate-800/60 ${
+      className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors hover:bg-slate-800/60 ${
         isCurrentUser ? 'border border-indigo-500/40 bg-indigo-950/30' : ''
       }`}
     >
       {/* Medal / position */}
-      <div className='shrink-0 w-12 text-center'>
+      <div className='shrink-0 w-10 text-center'>
         {isMedal ? (
-          <span className='text-4xl leading-none'>{MEDAL[entry.rank]}</span>
+          <span className='text-3xl leading-none'>{MEDAL[entry.rank]}</span>
         ) : (
-          <span className='text-lg font-bold text-slate-400'>#{entry.rank}</span>
+          <span className='text-base font-bold text-slate-400'>#{entry.rank}</span>
         )}
       </div>
+
+      {/* Avatar */}
+      <Avatar
+        userId={entry.user_id}
+        displayName={entry.display_name || entry.nickname}
+        paletteId={entry.avatar_palette_id}
+        avatarUrl={entry.avatar_url}
+        size='sm'
+      />
 
       {/* Name + nickname + progress bar */}
       <div className='flex-1 min-w-0'>

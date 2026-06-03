@@ -83,5 +83,17 @@ export function useProfile(userId: string) {
     }
   }
 
-  return { ...state, refetch: fetchProfile, setNickname, updateDisplayName, updateVisibility, updateSharingSettings }
+  async function updateAvatarPalette(paletteId: number): Promise<{ ok: boolean; error?: string }> {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase.rpc as any)('update_avatar_palette', { p_palette_id: paletteId })
+      if (error) throw error
+      setState(s => s.profile ? { ...s, profile: { ...s.profile, avatar_palette_id: paletteId } } : s)
+      return { ok: true }
+    } catch (err: unknown) {
+      return { ok: false, error: (err as { message?: string })?.message ?? String(err) }
+    }
+  }
+
+  return { ...state, refetch: fetchProfile, setNickname, updateDisplayName, updateVisibility, updateSharingSettings, updateAvatarPalette }
 }
