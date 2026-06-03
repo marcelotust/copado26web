@@ -75,22 +75,10 @@ export default function FriendsPage({ userId }: Props) {
                 </section>
               )}
 
-              {/* Sent requests */}
-              {sentRequests.length > 0 && (
-                <section className='flex flex-col gap-2'>
-                  <h2 className='text-xs font-semibold text-slate-400 uppercase tracking-wide'>
-                    {t('friends.requests.sentSection')} ({sentRequests.length})
-                  </h2>
-                  {sentRequests.map(req => (
-                    <SentRequestRow key={req.to_user} request={req} />
-                  ))}
-                </section>
-              )}
-
               {/* Friends list */}
               <section className='flex flex-col gap-2'>
                 {profile && (
-                  <div className='flex items-center gap-2'>
+                  <div className='flex items-center gap-2 mb-4'>
                     <button
                       type='button'
                       onClick={() => setAddFriendOpen(true)}
@@ -110,6 +98,19 @@ export default function FriendsPage({ userId }: Props) {
                     </Link>
                   </div>
                 )}
+
+                {/* Sent requests */}
+                {sentRequests.length > 0 && (
+                  <div className='flex flex-col gap-2 mb-4'>
+                    <h2 className='text-xs font-semibold text-slate-400 uppercase tracking-wide'>
+                      {t('friends.requests.sentSection')} ({sentRequests.length})
+                    </h2>
+                    {sentRequests.map(req => (
+                      <SentRequestRow key={req.to_user} request={req} />
+                    ))}
+                  </div>
+                )}
+
                 <h2 className='text-xs font-semibold text-slate-400 uppercase tracking-wide'>
                   {t('friends.page.myFriends')} ({friends.length})
                 </h2>
