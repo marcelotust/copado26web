@@ -5,6 +5,7 @@ import { AnalyticsEvent, telemetry } from '../../lib/telemetry'
 import { buildShareText, interpolate } from '../../lib/shareText'
 import { supabase } from '../../lib/supabase'
 import type { TradePartner } from '../../hooks/useTradePartners'
+import Avatar from '../friends/Avatar'
 
 type Detail = { they_have_i_need: string[]; i_have_they_need: string[] }
 
@@ -96,12 +97,12 @@ export default function TradePartnerCard({ partner, currentNickname }: Props) {
     <div className='rounded-xl bg-slate-800 border border-slate-700 overflow-hidden'>
       {/* header: avatar + name + share buttons */}
       <div className='flex items-center gap-3 px-4 pt-3 pb-2'>
-        <div className='shrink-0 w-10 h-10 rounded-full bg-slate-700 overflow-hidden flex items-center justify-center'>
-          {partner.avatar_url
-            ? <img src={partner.avatar_url} alt='' className='w-full h-full object-cover' />
-            : <span className='text-xl'>👤</span>
-          }
-        </div>
+        <Avatar
+          userId={partner.user_id}
+          displayName={partner.display_name || partner.nickname}
+          avatarUrl={partner.avatar_url}
+          size='md'
+        />
         <Link to={`/u/${partner.nickname}`} className='flex-1 min-w-0'>
           <p className='text-sm font-semibold text-white truncate'>{partner.display_name || partner.nickname}</p>
           <p className='text-xs text-slate-400'>@{partner.nickname} · {partner.completion_pct}%</p>
