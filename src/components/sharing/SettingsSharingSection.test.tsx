@@ -9,6 +9,7 @@ const baseProfile: Profile = {
   nickname: 'joao',
   display_name: 'João',
   avatar_url: null,
+  avatar_palette_id: null,
   collection_visibility: 'friends',
   ranking_public: false,
   trading_public: false,

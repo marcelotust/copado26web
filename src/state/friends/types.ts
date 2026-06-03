@@ -11,6 +11,7 @@ export type Profile = {
   nickname: string
   display_name: string
   avatar_url: string | null
+  avatar_palette_id: number | null
   collection_visibility: CollectionVisibility
   ranking_public: boolean
   trading_public: boolean
@@ -25,6 +26,7 @@ export type FriendEntry = {
   nickname: string
   display_name: string
   avatar_url: string | null
+  avatar_palette_id: number | null
   friendship_created_at: string
   initiated_by: string
 }
@@ -36,6 +38,7 @@ export type FriendRequest = {
   nickname: string | null
   display_name: string | null
   avatar_url: string | null
+  avatar_palette_id: number | null
 }
 
 export type FriendRequests = {

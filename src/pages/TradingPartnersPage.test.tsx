@@ -23,7 +23,7 @@ vi.mock('../state/friends', () => ({
   useProfile: vi.fn().mockReturnValue({
     profile: {
       user_id: 'u2', nickname: 'bob', display_name: 'Bob', avatar_url: null,
-      collection_visibility: 'friends', ranking_public: false,
+      avatar_palette_id: null, collection_visibility: 'friends', ranking_public: false,
       trading_public: true, email_trade_optin: false, is_test_user: false,
     },
     loading: false, error: null,
@@ -46,7 +46,7 @@ describe('TradingPartnersPage', () => {
     vi.mocked(useProfile).mockReturnValueOnce({
       profile: {
         user_id: 'u2', nickname: 'bob', display_name: 'Bob', avatar_url: null,
-        collection_visibility: 'friends', ranking_public: false,
+        avatar_palette_id: null, collection_visibility: 'friends', ranking_public: false,
         trading_public: false, email_trade_optin: false, is_test_user: false,
       },
       loading: false, error: null,
