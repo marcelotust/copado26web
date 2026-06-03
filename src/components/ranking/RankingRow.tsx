@@ -81,9 +81,15 @@ export default function RankingRow({ entry, isCurrentUser, friendStatus = 'none'
               aria-label={t('ranking.addFriend')}
               disabled={sending}
               onClick={e => { e.preventDefault(); e.stopPropagation(); onSendRequest?.() }}
-              className='px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors disabled:opacity-50'
+              className='p-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white transition-colors disabled:opacity-50'
             >
-              {sending ? '…' : t('ranking.addFriend')}
+              {sending ? (
+                <span className='block w-4 h-4 text-center text-xs leading-4'>…</span>
+              ) : (
+                <svg className='w-4 h-4' viewBox='0 0 24 24' fill='currentColor' aria-hidden>
+                  <path d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z' />
+                </svg>
+              )}
             </button>
           ) : (
             <span className='px-2.5 py-1 rounded-lg bg-slate-700 text-slate-400 text-xs font-semibold'>
