@@ -670,15 +670,16 @@
       "addFriend": "Add friend",
       "myFriends": "My friends",
       "empty": "No friends yet. Add someone to see trade suggestions!",
-      "subtitle": "Your friends and trade suggestions"
+      "subtitle": "Your friends and trade suggestions",
+      "newFriend": "New"
     },
     "requests": {
       "pending": "Pending requests",
-      "recentlyAccepted": "Recently accepted (7 days)",
       "accept": "Accept",
       "decline": "Decline"
     },
     "removeFriend": "Remove friend",
+    "unfriend": "Unfriend",
     "removeConfirmTitle": "Remove friend?",
     "removeConfirmDesc": "Are you sure you want to remove {{name}} from your friends?",
     "removeConfirmYes": "Yes, remove",

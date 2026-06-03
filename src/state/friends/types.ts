@@ -40,7 +40,6 @@ export type FriendRequest = {
 
 export type FriendRequests = {
   pending: FriendRequest[]
-  recently_accepted: FriendEntry[]
 }
 
 export type FriendProfile = {

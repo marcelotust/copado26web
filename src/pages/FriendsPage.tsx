@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useI18n } from '../i18n'
 import { useFriends, useFriendRequests, useProfile } from '../state/friends'
 import FriendCard from '../components/friends/FriendCard'
-import { PendingRequestRow, AcceptedRequestRow } from '../components/friends/FriendRequestRow'
+import { PendingRequestRow } from '../components/friends/FriendRequestRow'
 import NicknameSetupModal from '../components/friends/NicknameSetupModal'
 import AddFriendDialog from '../components/friends/AddFriendDialog'
 import StickerListPageHeader from '../components/StickerListPageHeader'
@@ -36,7 +36,6 @@ export default function FriendsPage({ userId }: Props) {
   }
 
   const pending = requests?.pending ?? []
-  const recentlyAccepted = requests?.recently_accepted ?? []
   const loading = profileLoading || friendsLoading || reqLoading
 
   return (
@@ -46,18 +45,6 @@ export default function FriendsPage({ userId }: Props) {
         icon='👥'
         accentColor='#8B5CF6'
         summary={t('friends.page.subtitle')}
-        actions={profile ? (
-          <button
-            type='button'
-            onClick={() => setAddFriendOpen(true)}
-            className='flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition-colors'
-          >
-            <svg className='w-4 h-4' viewBox='0 0 24 24' fill='currentColor' aria-hidden>
-              <path d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z' />
-            </svg>
-            {t('friends.page.addFriend')}
-          </button>
-        ) : undefined}
       />
       <div className='flex-1 overflow-y-auto'>
         <div className='max-w-md mx-auto w-full p-4 flex flex-col gap-6'>
@@ -86,23 +73,32 @@ export default function FriendsPage({ userId }: Props) {
                 </section>
               )}
 
-              {/* Recently accepted */}
-              {recentlyAccepted.length > 0 && (
-                <section className='flex flex-col gap-2'>
-                  <h2 className='text-xs font-semibold text-slate-400 uppercase tracking-wide'>
-                    {t('friends.requests.recentlyAccepted')}
-                  </h2>
-                  {recentlyAccepted.map(f => (
-                    <AcceptedRequestRow key={f.user_id} friend={f} />
-                  ))}
-                </section>
-              )}
-
               {/* Friends list */}
               <section className='flex flex-col gap-2'>
                 <h2 className='text-xs font-semibold text-slate-400 uppercase tracking-wide'>
                   {t('friends.page.myFriends')} ({friends.length})
                 </h2>
+                {profile && (
+                  <div className='flex items-center gap-2'>
+                    <button
+                      type='button'
+                      onClick={() => setAddFriendOpen(true)}
+                      className='flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors'
+                    >
+                      <svg className='w-3.5 h-3.5' viewBox='0 0 24 24' fill='currentColor' aria-hidden>
+                        <path d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z' />
+                      </svg>
+                      {t('friends.page.addFriend')}
+                    </button>
+                    <Link
+                      to='/trading-partners'
+                      className='ml-auto inline-flex items-center gap-2 rounded-lg border border-indigo-500/30 bg-indigo-500/10 px-3 py-1.5 text-xs font-semibold text-indigo-300 transition-colors hover:bg-indigo-500/20'
+                    >
+                      <span aria-hidden>🤝</span>
+                      {t('tradingPartners.findPartners')}
+                    </Link>
+                  </div>
+                )}
                 {friends.length === 0 ? (
                   <div className='px-4 py-6 rounded-xl bg-slate-800/40 text-center'>
                     <p className='text-slate-400 text-sm'>{t('friends.page.empty')}</p>
