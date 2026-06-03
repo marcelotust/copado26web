@@ -1,20 +1,30 @@
 import { Link } from 'react-router-dom'
 import Avatar from '../friends/Avatar'
+import { useI18n } from '../../i18n'
 import type { RankingEntry } from '../../hooks/usePublicRanking'
 
 const TOTAL = 994
 
 const MEDAL: Record<number, string> = { 1: '🥇', 2: '🥈', 3: '🥉' }
 
+export type FriendStatus = 'self' | 'friend' | 'pending' | 'none'
+
 type Props = {
   entry: RankingEntry
   isCurrentUser: boolean
+  friendStatus?: FriendStatus
+  onSendRequest?: () => void
+  sending?: boolean
 }
 
-export default function RankingRow({ entry, isCurrentUser }: Props) {
+export default function RankingRow({ entry, isCurrentUser, friendStatus = 'none', onSendRequest, sending = false }: Props) {
+  const { t } = useI18n()
   const pctRounded = Math.round(entry.completion_pct)
   const missing = TOTAL - entry.owned_count
   const isMedal = entry.rank <= 3
+
+  const showAdd = friendStatus === 'none' && !isCurrentUser
+  const showPending = friendStatus === 'pending'
 
   return (
     <Link
@@ -61,6 +71,38 @@ export default function RankingRow({ entry, isCurrentUser }: Props) {
         <p className='text-[10px] text-slate-500 leading-tight'>fig. faltando</p>
         <p className='text-base font-bold text-slate-400 leading-tight'>{missing}</p>
       </div>
+
+      {/* Friend CTA */}
+      {(showAdd || showPending) && (
+        <div className='shrink-0'>
+          {showAdd ? (
+            <button
+              type='button'
+              aria-label={t('ranking.addFriend')}
+              disabled={sending}
+              onClick={e => { e.preventDefault(); e.stopPropagation(); onSendRequest?.() }}
+              className='relative p-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white transition-colors disabled:opacity-50'
+            >
+              {sending ? (
+                <span className='block w-[1.125rem] h-[1.125rem] text-center text-xs leading-[1.125rem]'>…</span>
+              ) : (
+                <>
+                  <svg className='w-[1.125rem] h-[1.125rem]' viewBox='0 0 24 24' fill='currentColor' aria-hidden>
+                    <path d='M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z' />
+                  </svg>
+                  <span className='absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 text-white text-[9px] font-bold flex items-center justify-center leading-none'>
+                    +
+                  </span>
+                </>
+              )}
+            </button>
+          ) : (
+            <span className='px-2.5 py-1 rounded-lg bg-slate-700 text-slate-400 text-xs font-semibold'>
+              {t('ranking.requestSent')}
+            </span>
+          )}
+        </div>
+      )}
     </Link>
   )
 }

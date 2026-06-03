@@ -1,11 +1,12 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useI18n } from '../i18n'
-import { usePublicRanking } from '../hooks/usePublicRanking'
+import { usePublicRanking, type RankingEntry } from '../hooks/usePublicRanking'
 import { useMyRank } from '../hooks/useMyRank'
-import { useProfile } from '../state/friends'
+import { useProfile, useFriends } from '../state/friends'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
-import RankingRow from '../components/ranking/RankingRow'
+import { supabase } from '../lib/supabase'
+import RankingRow, { type FriendStatus } from '../components/ranking/RankingRow'
 import RankingMyRankWidget from '../components/ranking/RankingMyRankWidget'
 import StickerListPageHeader from '../components/StickerListPageHeader'
 
@@ -16,9 +17,14 @@ export default function RankingPage({ userId }: Props) {
   const { entries, loading: listLoading } = usePublicRanking()
   const { myRank, loading: rankLoading } = useMyRank()
   const { profile } = useProfile(userId)
+  const { friends } = useFriends()
+
+  const [sentIds, setSentIds] = useState<Set<string>>(new Set())
+  const [sendingId, setSendingId] = useState<string | null>(null)
 
   const rankingPublic = profile?.ranking_public ?? false
   const userInTop20 = entries.some(e => e.user_id === userId)
+  const friendIds = new Set(friends.map(f => f.user_id))
 
   useEffect(() => {
     telemetry.track(AnalyticsEvent.RANKING_PAGE_VIEWED, {
@@ -26,6 +32,27 @@ export default function RankingPage({ userId }: Props) {
       user_rank: myRank?.rank ?? null,
     })
   }, [rankingPublic, myRank?.rank])
+
+  function friendStatusFor(entry: RankingEntry): FriendStatus {
+    if (entry.user_id === userId) return 'self'
+    if (friendIds.has(entry.user_id)) return 'friend'
+    if (sentIds.has(entry.user_id)) return 'pending'
+    return 'none'
+  }
+
+  async function handleSendRequest(entry: RankingEntry) {
+    if (sendingId) return
+    setSendingId(entry.user_id)
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase.rpc as any)('send_friend_request_by_nickname', { p_nickname: entry.nickname })
+      if (error) throw error
+      telemetry.track(AnalyticsEvent.FRIEND_REQUEST_SENT, { discovery_method: 'ranking' })
+      setSentIds(prev => new Set(prev).add(entry.user_id))
+    } finally {
+      setSendingId(null)
+    }
+  }
 
   return (
     <div className='flex flex-col h-full'>
@@ -50,6 +77,9 @@ export default function RankingPage({ userId }: Props) {
                 key={entry.user_id}
                 entry={entry}
                 isCurrentUser={entry.user_id === userId}
+                friendStatus={friendStatusFor(entry)}
+                onSendRequest={() => { void handleSendRequest(entry) }}
+                sending={sendingId === entry.user_id}
               />
             ))
           )}
