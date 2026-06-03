@@ -37,16 +37,16 @@ describe('RankingRow', () => {
     expect(screen.queryByRole('button', { name: /amigo/i })).not.toBeInTheDocument()
   })
 
-  it('shows Enviado badge when friendStatus is pending', () => {
+  it('shows pending indicator when friendStatus is pending', () => {
     renderWithProviders(<RankingRow entry={entry} isCurrentUser={false} friendStatus='pending' />)
-    expect(screen.getByText('Enviado')).toBeInTheDocument()
+    expect(screen.getByLabelText(/enviado/i)).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /amigo/i })).not.toBeInTheDocument()
   })
 
   it('shows no CTA when friendStatus is friend', () => {
     renderWithProviders(<RankingRow entry={entry} isCurrentUser={false} friendStatus='friend' />)
     expect(screen.queryByRole('button', { name: /amigo/i })).not.toBeInTheDocument()
-    expect(screen.queryByText('Enviado')).not.toBeInTheDocument()
+    expect(screen.queryByLabelText(/enviado/i)).not.toBeInTheDocument()
   })
 
   it('calls onSendRequest and stops navigation on button click', () => {

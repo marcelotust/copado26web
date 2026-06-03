@@ -49,6 +49,8 @@ export default function RankingPage({ userId }: Props) {
       if (error) throw error
       telemetry.track(AnalyticsEvent.FRIEND_REQUEST_SENT, { discovery_method: 'ranking' })
       setSentIds(prev => new Set(prev).add(entry.user_id))
+    } catch {
+      // silently restore button — user can retry
     } finally {
       setSendingId(null)
     }
