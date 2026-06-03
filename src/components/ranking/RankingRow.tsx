@@ -81,14 +81,19 @@ export default function RankingRow({ entry, isCurrentUser, friendStatus = 'none'
               aria-label={t('ranking.addFriend')}
               disabled={sending}
               onClick={e => { e.preventDefault(); e.stopPropagation(); onSendRequest?.() }}
-              className='p-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white transition-colors disabled:opacity-50'
+              className='relative p-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white transition-colors disabled:opacity-50'
             >
               {sending ? (
-                <span className='block w-4 h-4 text-center text-xs leading-4'>…</span>
+                <span className='block w-[1.125rem] h-[1.125rem] text-center text-xs leading-[1.125rem]'>…</span>
               ) : (
-                <svg className='w-4 h-4' viewBox='0 0 24 24' fill='currentColor' aria-hidden>
-                  <path d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z' />
-                </svg>
+                <>
+                  <svg className='w-[1.125rem] h-[1.125rem]' viewBox='0 0 24 24' fill='currentColor' aria-hidden>
+                    <path d='M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z' />
+                  </svg>
+                  <span className='absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 text-white text-[9px] font-bold flex items-center justify-center leading-none'>
+                    +
+                  </span>
+                </>
               )}
             </button>
           ) : (
