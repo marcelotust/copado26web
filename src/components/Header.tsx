@@ -8,9 +8,9 @@ import BrandMark from './brand/BrandMark'
 import TradeQRModal from './TradeQRModal'
 import FriendsHeaderButton from './friends/FriendsHeaderButton'
 
-type HeaderProps = { email?: string; onLogout: () => void }
+type HeaderProps = { email?: string; onLogout: () => void; showRankingBadge?: boolean }
 
-export default function Header({ email, onLogout }: HeaderProps) {
+export default function Header({ email, onLogout, showRankingBadge = false }: HeaderProps) {
   const { t } = useI18n()
   const { total, collected } = useAlbumProgress()
   const [tradeQrOpen, setTradeQrOpen] = useState(false)
@@ -58,10 +58,17 @@ export default function Header({ email, onLogout }: HeaderProps) {
 
         <Link
           to='/ranking'
-          className='shrink-0 flex items-center justify-center w-8 h-8 rounded-lg text-indigo-400 hover:bg-indigo-500/20 transition-colors text-lg'
-          aria-label='Ranking'
+          className='shrink-0 relative flex items-center justify-center w-8 h-8 rounded-lg text-indigo-400 hover:bg-indigo-500/20 transition-colors text-lg'
+          aria-label={t('nav.ranking')}
         >
           🏅
+          {showRankingBadge && (
+            <span
+              data-testid='ranking-badge'
+              className='absolute top-0 right-0 w-2 h-2 rounded-full bg-red-500 ring-1 ring-slate-900'
+              aria-hidden
+            />
+          )}
         </Link>
 
         <Link

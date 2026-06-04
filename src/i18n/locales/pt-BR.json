@@ -137,7 +137,8 @@
     "missing": "Faltando",
     "swaps": "Repetidas",
     "challenges": "Desafios",
-    "tradeByQr": "Trocar por QR code"
+    "tradeByQr": "Trocar por QR code",
+    "ranking": "Ranking"
   },
   "trade": {
     "pageTitle": "Trocar por QR code",
