@@ -2,6 +2,7 @@ import { useI18n } from '../i18n'
 import SettingsAccountSection from '../components/SettingsAccountSection'
 import SettingsExportSection  from '../components/SettingsExportSection'
 import SettingsImportSection  from '../components/SettingsImportSection'
+import SettingsImportPasteSection from '../components/SettingsImportPasteSection'
 import SettingsSavePointsSection from '../components/SettingsSavePointsSection'
 import SettingsAnalyticsSection from '../components/SettingsAnalyticsSection'
 import SettingsDangerZone     from '../components/SettingsDangerZone'
@@ -65,6 +66,7 @@ export default function SettingsPage({
           </h2>
           <SettingsExportSection />
           <SettingsImportSection />
+          <SettingsImportPasteSection />
         </section>
         <SettingsSavePointsSection userId={userId} />
         <SettingsDangerZone />
