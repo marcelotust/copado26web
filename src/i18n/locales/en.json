@@ -136,7 +136,8 @@
     "missing": "Missing",
     "swaps": "Duplicates",
     "challenges": "Challenges",
-    "tradeByQr": "Trade by QR code"
+    "tradeByQr": "Trade by QR code",
+    "ranking": "Ranking"
   },
   "trade": {
     "pageTitle": "Trade by QR code",

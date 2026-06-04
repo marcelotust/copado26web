@@ -136,7 +136,8 @@
     "missing": "Faltantes",
     "swaps": "Repetidos",
     "challenges": "Desafíos",
-    "tradeByQr": "Cambiar por código QR"
+    "tradeByQr": "Cambiar por código QR",
+    "ranking": "Ranking"
   },
   "trade": {
     "pageTitle": "Cambiar por código QR",
