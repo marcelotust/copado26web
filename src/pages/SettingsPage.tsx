@@ -33,7 +33,8 @@ export default function SettingsPage({
 
   return (
     <div className='flex flex-col h-full'>
-      <div className='flex-1 overflow-y-auto p-6 max-w-md mx-auto w-full flex flex-col gap-6'>
+      <div className='flex-1 overflow-y-auto'>
+      <div className='mx-auto w-full max-w-6xl flex flex-col gap-6 px-3 py-6 sm:px-6'>
         <h1 className='text-xl font-bold text-white'>{t('settings.title')}</h1>
         <SettingsAccountSection email={email} onSignOut={onSignOut} />
         <SettingsProfileSection
@@ -69,6 +70,7 @@ export default function SettingsPage({
         <SettingsSavePointsSection userId={userId} />
         <SettingsDangerZone />
         <SettingsDeleteAccountSection email={email} onDeleted={onSignOut} />
+      </div>
       </div>
     </div>
   )

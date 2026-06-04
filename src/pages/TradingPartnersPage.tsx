@@ -32,7 +32,7 @@ export default function TradingPartnersPage({ userId }: Props) {
       />
 
       <div className='flex-1 overflow-y-auto px-3 py-4'>
-        <div className='mx-auto max-w-lg flex flex-col gap-3'>
+        <div className='mx-auto w-full max-w-6xl flex flex-col gap-3'>
           {!tradingPublic && (
             <div className='px-4 py-3 rounded-xl bg-slate-800/60 border border-slate-700 opacity-70'>
               <p className='text-sm text-slate-300 mb-1'>{t('tradingPartners.notOptedIn')}</p>

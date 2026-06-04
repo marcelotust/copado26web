@@ -69,7 +69,7 @@ export default function RankingPage({ userId }: Props) {
       />
 
       <div className='flex-1 overflow-y-auto px-3 py-4'>
-        <div className='mx-auto max-w-lg flex flex-col gap-2'>
+        <div className='mx-auto w-full max-w-6xl flex flex-col gap-2'>
           {listLoading ? (
             [1, 2, 3].map(i => (
               <div key={i} className='h-16 rounded-xl bg-slate-800 animate-pulse' />
