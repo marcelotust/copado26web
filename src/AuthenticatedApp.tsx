@@ -8,6 +8,7 @@ import ConsentBanner from './components/ConsentBanner'
 import { useI18n } from './i18n'
 import { useMilestoneDetector } from './hooks/useMilestoneDetector'
 import { useMilestoneBackfill } from './hooks/useMilestoneBackfill'
+import { useInactivityReload } from './hooks/useInactivityReload'
 import MilestoneModal from './components/MilestoneModal'
 import { useStickersStatus, useTeams } from './state/stickersStore'
 import { readLastAlbumSection, writeLastAlbumSection } from './lib/lastAlbumSectionStorage'
@@ -40,6 +41,7 @@ export default function AuthenticatedApp({ session, signOut }: AuthenticatedAppP
   })
   const { activeCompletion, dismissCompletion } = useChallengeCompletion(session.user.id)
   useMilestoneBackfill(session.user.id)
+  useInactivityReload(30 * 60 * 1000)
   const { profile, setNickname, updateSharingSettings } = useProfile(session.user.id)
   const { seen: sharingConsentSeen, markSeen: markSharingConsentSeen } = useDataSharingConsent(session.user.id)
   const [nicknameModalOpen, setNicknameModalOpen] = useState(false)
