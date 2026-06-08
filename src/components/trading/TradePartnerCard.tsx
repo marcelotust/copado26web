@@ -6,6 +6,9 @@ import { buildShareText, interpolate } from '../../lib/shareText'
 import { supabase } from '../../lib/supabase'
 import type { TradePartner } from '../../hooks/useTradePartners'
 import Avatar from '../friends/Avatar'
+import { useStickersContext } from '../../state/stickersStore'
+import { groupStickerIds, formatGroupedStickerText } from '../../pages/trade/groupStickerIds'
+import GroupedStickerList from './GroupedStickerList'
 
 type Detail = { they_have_i_need: string[]; i_have_they_need: string[] }
 
@@ -14,19 +17,34 @@ type Props = {
   currentNickname: string
 }
 
-function formatList(ids: string[]): string {
-  return ids.join(' · ')
-}
-
 const WA_PATH = 'M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z'
+
+const INCOMING_ICON = (
+  <svg className='w-3.5 h-3.5 shrink-0' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2.5' aria-hidden>
+    <path d='M12 3v14m-7-7 7 7 7-7' strokeLinecap='round' strokeLinejoin='round'/>
+  </svg>
+)
+
+const OUTGOING_ICON = (
+  <svg className='w-3.5 h-3.5 shrink-0' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2.5' aria-hidden>
+    <path d='M12 21V7m-7 7 7-7 7 7' strokeLinecap='round' strokeLinejoin='round'/>
+  </svg>
+)
 
 export default function TradePartnerCard({ partner, currentNickname }: Props) {
   const { t } = useI18n()
+  const { catalog, teams } = useStickersContext()
   const [expanded, setExpanded] = useState(false)
   const [detail, setDetail] = useState<Detail | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
   const [detailError, setDetailError] = useState(false)
   const [copied, setCopied] = useState(false)
+
+  function groupLabel(key: string): string {
+    return key.length === 1
+      ? `${t('sidebar.group')} ${key}`
+      : t(`sections.${key.toLowerCase()}`)
+  }
 
   async function handleExpand() {
     if (expanded) { setExpanded(false); return }
@@ -51,12 +69,14 @@ export default function TradePartnerCard({ partner, currentNickname }: Props) {
     const headline = t('tradingPartners.shareDetailHeadline')
     const theyHaveLine = interpolate(t('tradingPartners.shareDetailTheyHave'), { nickname: partner.nickname, n: String(detail.they_have_i_need.length) })
     const iHaveLine = interpolate(t('tradingPartners.shareDetailIHave'), { nickname: partner.nickname, m: String(detail.i_have_they_need.length) })
+    const theyHaveText = formatGroupedStickerText(groupStickerIds(detail.they_have_i_need, catalog, teams), groupLabel)
+    const iHaveText = formatGroupedStickerText(groupStickerIds(detail.i_have_they_need, catalog, teams), groupLabel)
     const body = [
       headline, '',
       theyHaveLine,
-      formatList(detail.they_have_i_need), '',
+      theyHaveText, '',
       iHaveLine,
-      formatList(detail.i_have_they_need), '',
+      iHaveText, '',
       `@${currentNickname} × @${partner.nickname}`,
     ].join('\n')
     return buildShareText(body, t)
@@ -136,15 +156,27 @@ export default function TradePartnerCard({ partner, currentNickname }: Props) {
         </div>
       </div>
 
-      {/* counters */}
-      <div className='flex gap-2 flex-wrap px-4 pb-2'>
-        <span className='px-2 py-1 rounded-md bg-emerald-900/40 border border-emerald-700/40 text-xs text-emerald-300 font-medium'>
-          {interpolate(t('tradingPartners.theyHaveINeed'), { n: String(partner.they_have_i_need) })}
-        </span>
-        <span className='px-2 py-1 rounded-md bg-amber-900/40 border border-amber-700/40 text-xs text-amber-300 font-medium'>
-          {interpolate(t('tradingPartners.iHaveTheyNeed'), { n: String(partner.i_have_they_need) })}
-        </span>
-      </div>
+      {/* badges — row when collapsed, move to section headers when expanded */}
+      {!expanded && (
+        <div className='flex gap-2 flex-wrap px-4 pb-2'>
+          <button
+            type='button'
+            onClick={() => void handleExpand()}
+            className='flex items-center gap-1.5 px-2 py-1 rounded-md bg-emerald-900/40 border border-emerald-700/40 text-xs text-emerald-300 font-medium hover:bg-emerald-900/60 transition-colors'
+          >
+            {interpolate(t('tradingPartners.theyHaveINeed'), { n: String(partner.they_have_i_need) })}
+            {INCOMING_ICON}
+          </button>
+          <button
+            type='button'
+            onClick={() => void handleExpand()}
+            className='flex items-center gap-1.5 px-2 py-1 rounded-md bg-amber-900/40 border border-amber-700/40 text-xs text-amber-300 font-medium hover:bg-amber-900/60 transition-colors'
+          >
+            {interpolate(t('tradingPartners.iHaveTheyNeed'), { n: String(partner.i_have_they_need) })}
+            {OUTGOING_ICON}
+          </button>
+        </div>
+      )}
 
       {/* ver listas toggle */}
       <button
@@ -156,9 +188,9 @@ export default function TradePartnerCard({ partner, currentNickname }: Props) {
         {expanded ? t('tradingPartners.hideCards') : t('tradingPartners.seeCards')}
       </button>
 
-      {/* sticker lists only */}
+      {/* sticker lists — each section led by its badge */}
       {expanded && (
-        <div className='px-4 pb-3 border-t border-slate-700'>
+        <div className='px-4 pb-4 border-t border-slate-700'>
           {detailLoading ? (
             <div className='py-4 flex justify-center'>
               <div className='w-5 h-5 rounded-full border-2 border-indigo-500 border-t-transparent animate-spin' />
@@ -168,23 +200,39 @@ export default function TradePartnerCard({ partner, currentNickname }: Props) {
           ) : detail ? (
             <div className='flex flex-col gap-3 pt-3'>
               {detail.they_have_i_need.length > 0 && (
-                <div>
-                  <p className='text-xs font-semibold text-emerald-400 mb-1'>
-                    {interpolate(t('tradingPartners.theyHaveINeedList'), { n: String(detail.they_have_i_need.length) })}
-                  </p>
-                  <p className='text-xs text-slate-300 leading-relaxed break-words'>
-                    {formatList(detail.they_have_i_need)}
-                  </p>
+                <div className='rounded-lg border border-emerald-700/40 overflow-hidden'>
+                  <div className='flex items-center gap-1.5 px-3 py-2 bg-emerald-900/40 text-emerald-300'>
+                    <span className='text-xs font-semibold flex-1'>
+                      {interpolate(t('tradingPartners.theyHaveINeed'), { n: String(detail.they_have_i_need.length) })}
+                    </span>
+                    {INCOMING_ICON}
+                  </div>
+                  <div className='px-3 py-3 bg-emerald-900/15'>
+                    <GroupedStickerList
+                      ids={detail.they_have_i_need}
+                      catalog={catalog}
+                      teams={teams}
+                      groupLabel={groupLabel}
+                    />
+                  </div>
                 </div>
               )}
               {detail.i_have_they_need.length > 0 && (
-                <div>
-                  <p className='text-xs font-semibold text-amber-400 mb-1'>
-                    {interpolate(t('tradingPartners.iHaveTheyNeedList'), { n: String(detail.i_have_they_need.length) })}
-                  </p>
-                  <p className='text-xs text-slate-300 leading-relaxed break-words'>
-                    {formatList(detail.i_have_they_need)}
-                  </p>
+                <div className='rounded-lg border border-amber-700/40 overflow-hidden'>
+                  <div className='flex items-center gap-1.5 px-3 py-2 bg-amber-900/40 text-amber-300'>
+                    <span className='text-xs font-semibold flex-1'>
+                      {interpolate(t('tradingPartners.iHaveTheyNeed'), { n: String(detail.i_have_they_need.length) })}
+                    </span>
+                    {OUTGOING_ICON}
+                  </div>
+                  <div className='px-3 py-3 bg-amber-900/15'>
+                    <GroupedStickerList
+                      ids={detail.i_have_they_need}
+                      catalog={catalog}
+                      teams={teams}
+                      groupLabel={groupLabel}
+                    />
+                  </div>
                 </div>
               )}
             </div>

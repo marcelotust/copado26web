@@ -37,6 +37,10 @@ vi.mock('../lib/telemetry', () => ({
   telemetry: { track: vi.fn() },
 }))
 
+vi.mock('../state/stickersStore', () => ({
+  useStickersContext: vi.fn().mockReturnValue({ catalog: new Map(), teams: [] }),
+}))
+
 describe('TradingPartnersPage', () => {
   it('renders partner cards', async () => {
     renderWithProviders(<TradingPartnersPage userId='u2' />)
