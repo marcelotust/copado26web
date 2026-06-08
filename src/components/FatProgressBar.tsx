@@ -5,6 +5,7 @@ type Props = {
   label?: string
   valueLabel?: string
   height?: string
+  textSize?: string
 }
 
 export default function FatProgressBar({
@@ -14,13 +15,14 @@ export default function FatProgressBar({
   label,
   valueLabel,
   height = 'h-7',
+  textSize = 'text-xs',
 }: Props) {
   const clamped = Math.max(0, Math.min(100, pct))
   const pctLabel = valueLabel ?? `${clamped}%`
   const textLayout = label ? 'justify-between' : 'justify-end'
 
-  const labelClass = 'text-xs font-bold uppercase tracking-wide truncate min-w-0 select-none leading-none'
-  const valueClass = 'text-xs font-bold uppercase tabular-nums shrink-0 select-none leading-none'
+  const labelClass = `${textSize} font-bold uppercase tracking-wide truncate min-w-0 select-none leading-none`
+  const valueClass = `${textSize} font-bold uppercase tabular-nums shrink-0 select-none leading-none`
 
   return (
     <div className={`relative ${height} rounded-full overflow-hidden ${track}`}>
