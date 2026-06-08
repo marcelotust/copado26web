@@ -159,14 +159,22 @@ export default function TradePartnerCard({ partner, currentNickname }: Props) {
       {/* badges — row when collapsed, move to section headers when expanded */}
       {!expanded && (
         <div className='flex gap-2 flex-wrap px-4 pb-2'>
-          <span className='flex items-center gap-1.5 px-2 py-1 rounded-md bg-emerald-900/40 border border-emerald-700/40 text-xs text-emerald-300 font-medium'>
+          <button
+            type='button'
+            onClick={() => void handleExpand()}
+            className='flex items-center gap-1.5 px-2 py-1 rounded-md bg-emerald-900/40 border border-emerald-700/40 text-xs text-emerald-300 font-medium hover:bg-emerald-900/60 transition-colors'
+          >
             {interpolate(t('tradingPartners.theyHaveINeed'), { n: String(partner.they_have_i_need) })}
             {INCOMING_ICON}
-          </span>
-          <span className='flex items-center gap-1.5 px-2 py-1 rounded-md bg-amber-900/40 border border-amber-700/40 text-xs text-amber-300 font-medium'>
+          </button>
+          <button
+            type='button'
+            onClick={() => void handleExpand()}
+            className='flex items-center gap-1.5 px-2 py-1 rounded-md bg-amber-900/40 border border-amber-700/40 text-xs text-amber-300 font-medium hover:bg-amber-900/60 transition-colors'
+          >
             {interpolate(t('tradingPartners.iHaveTheyNeed'), { n: String(partner.i_have_they_need) })}
             {OUTGOING_ICON}
-          </span>
+          </button>
         </div>
       )}
 
