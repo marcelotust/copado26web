@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { teamColors } from '../utils'
+import { displayTeamCode } from '../lib/stickerDisplay'
 
 type StickerCodeGroupProps = {
   teamCode: string
@@ -35,7 +36,7 @@ export default function StickerCodeGroup({
           className='ml-auto shrink-0 text-xs font-bold'
           style={{ color: primary }}
         >
-          {teamCode}
+          {displayTeamCode(teamCode)}
         </span>
       </div>
       <div
