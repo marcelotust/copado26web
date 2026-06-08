@@ -222,6 +222,16 @@ export default function LandingPage() {
             <ul className='flex gap-4 list-none'>
               <li><Link to='/privacidade' className={`hover:text-slate-400 transition-colors ${FOCUS_RING}`}>{t('landing.footer.privacy')}</Link></li>
               <li><Link to='/termos'      className={`hover:text-slate-400 transition-colors ${FOCUS_RING}`}>{t('landing.footer.terms')}</Link></li>
+              <li>
+                <a
+                  href='https://www.instagram.com/meualbum2026.app/'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className={`hover:text-slate-400 transition-colors ${FOCUS_RING}`}
+                >
+                  {t('landing.footer.contact')}
+                </a>
+              </li>
             </ul>
           </nav>
         </div>
