@@ -1,6 +1,7 @@
 import { useTeam, useSectionStickers, useSectionProgress } from '../state/stickersStore'
 import { teamColors } from '../utils'
 import { useI18n } from '../i18n'
+import { displayTeamCode } from '../lib/stickerDisplay'
 import StickerCard from '../components/StickerCard'
 import type { Sticker } from '../types/database'
 
@@ -53,7 +54,7 @@ export default function AlbumPage({ sectionCode }: { sectionCode: string }) {
         <div className='flex-1 min-w-0'>
           <h2 className='text-white font-bold text-lg leading-tight truncate'>{name}</h2>
           <p className='text-slate-400 text-xs'>
-            {team.code} · {conf}
+            {displayTeamCode(team.code)} · {conf}
           </p>
         </div>
         <div className='text-right shrink-0'>

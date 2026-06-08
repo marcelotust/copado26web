@@ -1,5 +1,6 @@
 import { pad } from '../lib/shareText'
 import { teamColors } from '../utils'
+import { displayTeamCode } from '../lib/stickerDisplay'
 
 type MissingStickerTileProps = {
   teamCode: string
@@ -17,10 +18,10 @@ export default function MissingStickerTile({ teamCode, number }: MissingStickerT
         borderColor: `${primary}35`,
         backgroundImage: `linear-gradient(155deg, ${primary}18, ${secondary}10 70%, rgba(15, 23, 42, 0.72))`,
       }}
-      title={`${teamCode} ${numLabel}`}
+      title={`${displayTeamCode(teamCode)} ${numLabel}`}
     >
       <span className='block text-[0.65rem] font-bold leading-none text-slate-400'>
-        {teamCode}
+        {displayTeamCode(teamCode)}
       </span>
       <span className='mt-1 block font-mono text-xl font-black leading-none text-white'>
         {numLabel}

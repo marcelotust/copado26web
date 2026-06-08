@@ -5,6 +5,7 @@ import { readableTeamAccent, teamColors } from '../utils'
 import type { Sticker } from '../types/database'
 import ConfirmModal from './ConfirmModal'
 import StickerButtons from './StickerButtons'
+import { displayTeamCode } from '../lib/stickerDisplay'
 
 type SwapStickerTileProps = {
   sticker: Sticker
@@ -26,7 +27,7 @@ export default function SwapStickerTile({ sticker, teamCode }: SwapStickerTilePr
   } = useStickerActions(sticker)
   const numLabel = pad(sticker.number)
   const extras = Math.max(qty - 1, 1)
-  const label = `${teamCode} ${numLabel}`
+  const label = `${displayTeamCode(teamCode)} ${numLabel}`
 
   return (
     <div
@@ -43,7 +44,7 @@ export default function SwapStickerTile({ sticker, teamCode }: SwapStickerTilePr
       <div className='flex min-h-[4rem] flex-col px-2 py-2'>
         <div className='flex items-start justify-between gap-1'>
           <span className='text-[0.65rem] font-bold leading-none text-slate-400'>
-            {teamCode}
+            {displayTeamCode(teamCode)}
           </span>
           <span
             className='rounded border px-1.5 py-0.5 text-[0.625rem] font-black leading-none'

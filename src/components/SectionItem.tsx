@@ -1,6 +1,7 @@
 import { forwardRef } from 'react'
 import { teamColor } from '../utils'
 import { useI18n } from '../i18n'
+import { displayTeamCode } from '../lib/stickerDisplay'
 import { formatMessage } from '../lib/formatMessage'
 import { useSectionProgress, useSectionSwapCount } from '../state/stickersStore'
 import type { Team } from '../types/database'
@@ -71,7 +72,7 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
                 active ? `text-${color}-300` : 'text-slate-500',
               ].join(' ')}
             >
-              {team.code}
+              {displayTeamCode(team.code)}
             </span>
           </div>
           <div
@@ -99,7 +100,7 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
             active ? `text-${color}-300` : 'text-slate-400',
           ].join(' ')}
         >
-          {team.code}
+          {displayTeamCode(team.code)}
         </span>
         <span className='text-[12px] text-slate-500 truncate block leading-tight mt-0.5'>
           {name}

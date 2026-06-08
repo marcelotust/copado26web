@@ -1,6 +1,7 @@
 import type { MissingGroup } from '../state/stickersStore'
 import { drawShareFooter } from './brand/shareFooter'
 import { interpolate, pad } from './shareText'
+import { displayTeamCode } from './stickerDisplay'
 
 export { pad } from './shareText'
 
@@ -52,7 +53,7 @@ export async function buildShareImage(
     ctx.fillText(`${teamFlag(teamCode)} ${teamName(teamCode)} (${numbers.length})`, 80, y)
     ctx.font = '36px monospace'
     ctx.fillStyle = '#64748b'
-    const preview = numbers.slice(0, 9).map(n => `${teamCode} ${pad(n)}`).join(' · ')
+    const preview = numbers.slice(0, 9).map(n => `${displayTeamCode(teamCode)} ${pad(n)}`).join(' · ')
     const overflow = numbers.length > 9 ? ` +${numbers.length - 9}` : ''
     ctx.fillText(preview + overflow, 80, y + 44)
     y += 108

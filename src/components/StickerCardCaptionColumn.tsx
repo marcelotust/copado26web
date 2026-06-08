@@ -1,5 +1,6 @@
 import StickerFace from "./StickerFace";
 import MarqueeText from "./MarqueeText";
+import { displayTeamCode } from '../lib/stickerDisplay';
 
 type AlbumFace = "featured-wide" | "default";
 
@@ -65,7 +66,7 @@ export default function StickerCardCaptionColumn({
               fontFamily: "'Bebas Neue', Impact, sans-serif",
             }}
           >
-            {teamCode}
+            {displayTeamCode(teamCode)}
           </span>
           <span
             className='text-[22px] font-black leading-none tracking-wide whitespace-nowrap'
@@ -87,7 +88,7 @@ export default function StickerCardCaptionColumn({
           style={{ background: collected ? activeLabelBg : inactiveLabelBg }}
         >
           <MarqueeText
-            label={displayLabel ?? teamCode}
+            label={displayLabel ?? displayTeamCode(teamCode)}
             color={textColor}
           />
         </div>
