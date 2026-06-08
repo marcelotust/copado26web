@@ -768,8 +768,8 @@
   "tradingPartners": {
     "pageTitle": "Socios de intercambio",
     "subtitle": "Usuarios con los que puedes intercambiar",
-    "theyHaveINeed": "{{n}} figuritas que necesito y mi socio/a tiene",
-    "iHaveTheyNeed": "{{n}} figuritas que mi socio/a necesita y yo tengo",
+    "theyHaveINeed": "{{n}} fig. necesito, socio/a tiene",
+    "iHaveTheyNeed": "{{n}} fig. socio/a necesita, yo tengo",
     "share": "Compartir",
     "shareText": "@{{nickname}} tiene {{m}} figuritas que necesitas y tú tienes {{n}} que él necesita. ¡Intercambiemos! meualbum2026.app",
     "copied": "¡Copiado!",

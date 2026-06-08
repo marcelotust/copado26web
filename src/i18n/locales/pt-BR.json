@@ -791,8 +791,8 @@
   "tradingPartners": {
     "pageTitle": "Parceiros de troca",
     "subtitle": "Usuários com quem você pode trocar",
-    "theyHaveINeed": "{{n}} figurinhas que eu preciso e o(a) parceiro(a) tem",
-    "iHaveTheyNeed": "{{n}} figurinhas que o(a) parceiro(a) precisa e eu tenho",
+    "theyHaveINeed": "{{n}} fig. eu preciso, parceiro/a tem",
+    "iHaveTheyNeed": "{{n}} fig. parceiro/a precisa, eu tenho",
     "share": "Compartilhar",
     "shareText": "@{{nickname}} tem {{m}} figurinhas que você precisa e você tem {{n}} que ele precisa. Vamos trocar? meualbum2026.app",
     "copied": "Copiado!",

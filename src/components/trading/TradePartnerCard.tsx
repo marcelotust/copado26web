@@ -160,12 +160,12 @@ export default function TradePartnerCard({ partner, currentNickname }: Props) {
       {!expanded && (
         <div className='flex gap-2 flex-wrap px-4 pb-2'>
           <span className='flex items-center gap-1.5 px-2 py-1 rounded-md bg-emerald-900/40 border border-emerald-700/40 text-xs text-emerald-300 font-medium'>
-            {INCOMING_ICON}
             {interpolate(t('tradingPartners.theyHaveINeed'), { n: String(partner.they_have_i_need) })}
+            {INCOMING_ICON}
           </span>
           <span className='flex items-center gap-1.5 px-2 py-1 rounded-md bg-amber-900/40 border border-amber-700/40 text-xs text-amber-300 font-medium'>
-            {OUTGOING_ICON}
             {interpolate(t('tradingPartners.iHaveTheyNeed'), { n: String(partner.i_have_they_need) })}
+            {OUTGOING_ICON}
           </span>
         </div>
       )}
@@ -194,10 +194,10 @@ export default function TradePartnerCard({ partner, currentNickname }: Props) {
               {detail.they_have_i_need.length > 0 && (
                 <div>
                   <div className='flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-900/40 border border-emerald-700/40 text-emerald-300 mb-3'>
-                    {INCOMING_ICON}
                     <span className='text-xs font-semibold'>
                       {interpolate(t('tradingPartners.theyHaveINeed'), { n: String(detail.they_have_i_need.length) })}
                     </span>
+                    {INCOMING_ICON}
                   </div>
                   <GroupedStickerList
                     ids={detail.they_have_i_need}
@@ -210,10 +210,10 @@ export default function TradePartnerCard({ partner, currentNickname }: Props) {
               {detail.i_have_they_need.length > 0 && (
                 <div>
                   <div className='flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-900/40 border border-amber-700/40 text-amber-300 mb-3'>
-                    {OUTGOING_ICON}
                     <span className='text-xs font-semibold'>
                       {interpolate(t('tradingPartners.iHaveTheyNeed'), { n: String(detail.i_have_they_need.length) })}
                     </span>
+                    {OUTGOING_ICON}
                   </div>
                   <GroupedStickerList
                     ids={detail.i_have_they_need}
