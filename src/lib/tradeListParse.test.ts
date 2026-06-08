@@ -26,6 +26,20 @@ BRA 01 · BRA 13`
     expect(parseTradeList('BRASIL 03')).toEqual([])
     expect(parseTradeList('BRA123')).toEqual([])
   })
+
+  describe('FWC 00-08 alias (seção Abertura)', () => {
+    it('maps FWC 00-08 tokens to WAP equivalents', () => {
+      expect(parseTradeList('FWC 00 · FWC 05 · FWC 08')).toEqual(['WAP-00', 'WAP-05', 'WAP-08'])
+    })
+
+    it('does not remap FWC 09 and above', () => {
+      expect(parseTradeList('FWC 09 · FWC 19')).toEqual(['FWC-09', 'FWC-19'])
+    })
+
+    it('handles mixed FWC: alias tokens alongside real catalog tokens', () => {
+      expect(parseTradeList('FWC 01 · FWC 09')).toEqual(['WAP-01', 'FWC-09'])
+    })
+  })
 })
 
 describe('analyzeTradeListPaste', () => {

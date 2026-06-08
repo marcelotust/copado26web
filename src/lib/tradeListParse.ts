@@ -4,6 +4,12 @@
  */
 const STICKER_TOKEN_RE = /(?:^|[\s·])([A-Z]{2,3})[\s-](\d{1,2})(?=(?:\s|·|×|$))/g
 
+function normalizeTradeId(id: string): string {
+  const [team, num] = id.split('-')
+  if (team === 'FWC' && Number(num) <= 8) return `WAP-${num}`
+  return id
+}
+
 const APP_SHARE_MARKERS = [
   /meualbum/i,
   /meu\s*álbum/i,
@@ -37,7 +43,7 @@ export type TradeListAnalysis = {
 /** Parses pasted lists (WhatsApp share, manual) into catalog ids like `BRA-03`. */
 export function parseTradeList(text: string): string[] {
   const matches = text.toUpperCase().matchAll(STICKER_TOKEN_RE)
-  return [...matches].map(([, team, num]) => `${team}-${num.padStart(2, '0')}`)
+  return [...matches].map(([, team, num]) => normalizeTradeId(`${team}-${num.padStart(2, '0')}`))
 }
 
 export function analyzeTradeListPaste(
