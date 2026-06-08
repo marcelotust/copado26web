@@ -190,37 +190,41 @@ export default function TradePartnerCard({ partner, currentNickname }: Props) {
           ) : detailError ? (
             <p className='py-3 text-xs text-slate-400'>{t('tradingPartners.detailError')}</p>
           ) : detail ? (
-            <div className='flex flex-col gap-4 pt-3'>
+            <div className='flex flex-col gap-3 pt-3'>
               {detail.they_have_i_need.length > 0 && (
-                <div>
-                  <div className='flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-900/40 border border-emerald-700/40 text-emerald-300 mb-3'>
-                    <span className='text-xs font-semibold'>
+                <div className='rounded-lg border border-emerald-700/40 overflow-hidden'>
+                  <div className='flex items-center gap-1.5 px-3 py-2 bg-emerald-900/40 text-emerald-300'>
+                    <span className='text-xs font-semibold flex-1'>
                       {interpolate(t('tradingPartners.theyHaveINeed'), { n: String(detail.they_have_i_need.length) })}
                     </span>
                     {INCOMING_ICON}
                   </div>
-                  <GroupedStickerList
-                    ids={detail.they_have_i_need}
-                    catalog={catalog}
-                    teams={teams}
-                    groupLabel={groupLabel}
-                  />
+                  <div className='px-3 py-3 bg-emerald-900/15'>
+                    <GroupedStickerList
+                      ids={detail.they_have_i_need}
+                      catalog={catalog}
+                      teams={teams}
+                      groupLabel={groupLabel}
+                    />
+                  </div>
                 </div>
               )}
               {detail.i_have_they_need.length > 0 && (
-                <div>
-                  <div className='flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-900/40 border border-amber-700/40 text-amber-300 mb-3'>
-                    <span className='text-xs font-semibold'>
+                <div className='rounded-lg border border-amber-700/40 overflow-hidden'>
+                  <div className='flex items-center gap-1.5 px-3 py-2 bg-amber-900/40 text-amber-300'>
+                    <span className='text-xs font-semibold flex-1'>
                       {interpolate(t('tradingPartners.iHaveTheyNeed'), { n: String(detail.i_have_they_need.length) })}
                     </span>
                     {OUTGOING_ICON}
                   </div>
-                  <GroupedStickerList
-                    ids={detail.i_have_they_need}
-                    catalog={catalog}
-                    teams={teams}
-                    groupLabel={groupLabel}
-                  />
+                  <div className='px-3 py-3 bg-amber-900/15'>
+                    <GroupedStickerList
+                      ids={detail.i_have_they_need}
+                      catalog={catalog}
+                      teams={teams}
+                      groupLabel={groupLabel}
+                    />
+                  </div>
                 </div>
               )}
             </div>
