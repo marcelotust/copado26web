@@ -100,7 +100,7 @@ const SectionItem = forwardRef<HTMLButtonElement, SectionItemProps>(function Sec
             active ? `text-${color}-300` : 'text-slate-400',
           ].join(' ')}
         >
-          {team.code}
+          {displayTeamCode(team.code)}
         </span>
         <span className='text-[12px] text-slate-500 truncate block leading-tight mt-0.5'>
           {name}
