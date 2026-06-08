@@ -155,12 +155,12 @@ describe('challenges catalog audit', () => {
     expect(r.owned).toBe(0)
   })
 
-  it('all-foil requires all 130 special stickers', () => {
+  it('all-foil requires WAP (9) + shield stickers (48) + FWC 09-19 (11) = 68 foil stickers', () => {
     const c = CHALLENGES.find(ch => ch.id === 'all-foil')!
-    expect(c.targetIds).toHaveLength(130)
+    expect(c.targetIds).toHaveLength(68)
     // With 0 stickers, owned = 0
     const r = resolveChallengeProgress(c, teams, byTeam, new Map(), 0)
-    expect(r.total).toBe(130)
+    expect(r.total).toBe(68)
     expect(r.owned).toBe(0)
   })
 })

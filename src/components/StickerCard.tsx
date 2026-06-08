@@ -42,7 +42,10 @@ export default function StickerCard({ sticker, teamCode, albumCell }: StickerCar
     ?? (sticker.is_special && sticker.number === 1 ? t('sticker.shield') : null)
     ?? (sticker.is_special && sticker.number === 13 ? t('sticker.teamPhoto') : null)
 
-  const isFoil = teamCode === 'WAP' || (sticker.is_special && sticker.number === 1)
+  const isFoil =
+    teamCode === 'WAP' ||
+    (sticker.is_special && sticker.number === 1) ||
+    (teamCode === 'FWC' && sticker.number >= 9 && sticker.number <= 19)
 
   const fillsAlbumSpan = albumCell === 'featured-wide'
 
