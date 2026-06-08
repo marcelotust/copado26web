@@ -18,6 +18,21 @@ vi.mock('../../lib/supabase', () => ({
   },
 }))
 
+vi.mock('../../state/stickersStore', () => ({
+  useStickersContext: vi.fn().mockReturnValue({
+    catalog: new Map([
+      ['BRA-01', { id: 'BRA-01', team_code: 'BRA', number: 1, player_name: null, is_special: false, sort_order: 1 }],
+      ['ARG-02', { id: 'ARG-02', team_code: 'ARG', number: 2, player_name: null, is_special: false, sort_order: 2 }],
+      ['GER-03', { id: 'GER-03', team_code: 'GER', number: 3, player_name: null, is_special: false, sort_order: 3 }],
+    ]),
+    teams: [
+      { code: 'ARG', name_key: 'team.arg', flag: '🇦🇷', conf: 'CONMEBOL', group_letter: 'C', sort_order: 1 },
+      { code: 'BRA', name_key: 'team.bra', flag: '🇧🇷', conf: 'CONMEBOL', group_letter: 'C', sort_order: 2 },
+      { code: 'GER', name_key: 'team.ger', flag: '🇩🇪', conf: 'UEFA', group_letter: 'D', sort_order: 3 },
+    ],
+  }),
+}))
+
 const partner: TradePartner = {
   user_id: 'u1', nickname: 'alice', display_name: 'Alice',
   avatar_url: null, completion_pct: 75, they_have_i_need: 15, i_have_they_need: 8,
@@ -31,11 +46,12 @@ describe('TradePartnerCard', () => {
     expect(screen.getByText(/8/)).toBeInTheDocument()
   })
 
-  it('expands to show sticker lists on click', async () => {
+  it('expands to show sticker lists grouped by team', async () => {
     renderWithProviders(<TradePartnerCard partner={partner} currentNickname='me' />)
     fireEvent.click(screen.getByRole('button', { name: /ver listas|see lists/i }))
     await waitFor(() => {
-      expect(screen.getByText(/BRA-01/)).toBeInTheDocument()
+      expect(screen.getByText('BRA')).toBeInTheDocument()
+      expect(screen.getByText('ARG')).toBeInTheDocument()
     })
   })
 
@@ -48,7 +64,7 @@ describe('TradePartnerCard', () => {
     renderWithProviders(<TradePartnerCard partner={partner} currentNickname='me' />)
     // expand to reveal share buttons
     fireEvent.click(screen.getByRole('button', { name: /ver listas|see lists/i }))
-    await waitFor(() => screen.getByText(/BRA-01/))
+    await waitFor(() => screen.getByText('BRA'))
     fireEvent.click(screen.getByRole('button', { name: /compartilh|share/i }))
     await waitFor(() => {
       expect(navigator.clipboard.writeText).toHaveBeenCalled()
