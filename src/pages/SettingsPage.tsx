@@ -7,6 +7,7 @@ import SettingsSavePointsSection from '../components/SettingsSavePointsSection'
 import SettingsAnalyticsSection from '../components/SettingsAnalyticsSection'
 import SettingsDangerZone     from '../components/SettingsDangerZone'
 import SettingsDeleteAccountSection from '../components/SettingsDeleteAccountSection'
+import SettingsContactSection from '../components/SettingsContactSection'
 import SettingsProfileSection from '../components/SettingsProfileSection'
 import SettingsSharingSection from '../components/sharing/SettingsSharingSection'
 import { useProfile } from '../state/friends'
@@ -70,6 +71,7 @@ export default function SettingsPage({
           <SettingsImportPasteSection />
         </section>
         <SettingsSavePointsSection userId={userId} />
+        <SettingsContactSection />
         <SettingsDangerZone />
         <SettingsDeleteAccountSection email={email} onDeleted={onSignOut} />
       </div>

@@ -436,7 +436,9 @@
     "deleteAccountPhraseMismatch": "A frase não confere.",
     "deleteAccountConfirmYes": "Sim, excluir conta",
     "deleteAccountConfirmNo": "Cancelar",
-    "deletingAccount": "Excluindo…"
+    "deletingAccount": "Excluindo…",
+    "contact": "Fale conosco",
+    "contactInstagram": "Fale conosco no Instagram"
   },
   "missing": {
     "sticker": "figurinha",
@@ -629,7 +631,8 @@
       "legalNavAria": "Links legais",
       "privacy": "Privacidade",
       "terms": "Termos",
-      "disclaimer": "Não afiliado com FIFA™, Panini™ ou qualquer de suas subsidiárias. Projeto independente de fãs."
+      "disclaimer": "Não afiliado com FIFA™, Panini™ ou qualquer de suas subsidiárias. Projeto independente de fãs.",
+      "contact": "Fale conosco"
     }
   },
   "legal": {
