@@ -85,4 +85,35 @@ describe('text share builders end with share.signature', () => {
     const out = buildMilestoneShareText({ kind: 'album', pct: 100 }, t(I18N_EN))
     expect(out.endsWith(`\n\n${I18N_EN['share.signature']}`)).toBe(true)
   })
+
+  it('WAP group emits FWC tokens in missing share', () => {
+    const groups: MissingGroup[] = [{ teamCode: 'WAP', numbers: [1, 5, 8] }]
+    const out = buildMissingShareText(
+      groups,
+      (c) => (c === 'WAP' ? 'Abertura' : c),
+      () => '⚪',
+      3,
+      t(I18N_PT),
+    )
+    expect(out).toContain('FWC 01')
+    expect(out).toContain('FWC 05')
+    expect(out).toContain('FWC 08')
+    expect(out).not.toContain('WAP 01')
+  })
+
+  it('WAP group emits FWC tokens in swaps share', () => {
+    const stickers: Sticker[] = [
+      { id: 'WAP-02', team_code: 'WAP', number: 2, quantity: 2 } as Sticker,
+    ]
+    const groups: SwapGroup[] = [{ teamCode: 'WAP', stickers }]
+    const out = buildSwapsShareText(
+      groups,
+      (c) => (c === 'WAP' ? 'Abertura' : c),
+      () => '⚪',
+      1,
+      t(I18N_PT),
+    )
+    expect(out).toContain('FWC 02')
+    expect(out).not.toContain('WAP 02')
+  })
 })

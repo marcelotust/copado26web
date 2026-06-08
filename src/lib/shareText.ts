@@ -2,6 +2,7 @@ import type { Challenge } from '../data/challenges'
 import type { MissingGroup, SwapGroup } from '../state/stickersTypes'
 import { getShareSignature } from './brand/shareFooter'
 import { challengeTitle } from './challengeI18n'
+import { displayTeamCode } from './stickerDisplay'
 
 export function pad(n: number): string {
   return String(n).padStart(2, '0')
@@ -32,7 +33,7 @@ export function buildMissingShareBody(
 ): string {
   const lines = groups.flatMap(({ teamCode, numbers }) => [
     `${teamFlag(teamCode)} ${teamName(teamCode)} (${numbers.length})`,
-    numbers.map(n => `${teamCode} ${pad(n)}`).join(' · '),
+    numbers.map(n => `${displayTeamCode(teamCode)} ${pad(n)}`).join(' · '),
     '',
   ])
   return lines.join('\n').trim()
@@ -59,7 +60,7 @@ export function buildSwapsShareBody(
     const teamExtras = stickers.reduce((acc, s) => acc + (s.quantity - 1), 0)
     const codes = stickers.map((s) => {
       const extra = s.quantity - 1
-      return `${teamCode} ${pad(s.number)}${extra > 1 ? ` ×${extra}` : ''}`
+      return `${displayTeamCode(teamCode)} ${pad(s.number)}${extra > 1 ? ` ×${extra}` : ''}`
     })
     return [
       `${teamFlag(teamCode)} ${teamName(teamCode)} (${teamExtras})`,
