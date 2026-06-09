@@ -784,6 +784,14 @@
     "shareDetailHeadline": "⚽ Copa del Mundo 2026 — ¿intercambiamos figuritas?",
     "shareDetailTheyHave": "@{{nickname}} tiene {{n}} que necesitas:",
     "shareDetailIHave": "Tú tienes {{m}} que @{{nickname}} necesita:",
-    "detailError": "No se pudieron cargar las listas. Intenta de nuevo."
+    "detailError": "No se pudieron cargar las listas. Intenta de nuevo.",
+    "fair": {
+      "toggleLabel": "Solo intercambios justos",
+      "toggleHint": "Oculta figuritas sin peer equivalente",
+      "fairBadge": "Justas",
+      "unfairBadge": "Ojo",
+      "unfairHint": "Sin peer equivalente del otro lado",
+      "emptyAfterFilter": "Sin intercambios justos con este socio"
+    }
   }
 }
