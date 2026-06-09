@@ -1,10 +1,18 @@
-import type { TelemetryAnalyticsPort, TelemetryErrorPort } from './types'
+import type {
+  TelemetryAnalyticsPort,
+  TelemetryErrorPort,
+  TelemetryFlagsPort,
+} from './types'
 
-export const noopAnalytics: TelemetryAnalyticsPort = {
-  track() { /* noop */ },
+export const noopFlags: TelemetryFlagsPort = {
   flag: () => false,
   variant: () => null,
   onFeatureFlags: () => () => {},
+}
+
+export const noopAnalytics: TelemetryAnalyticsPort = {
+  ...noopFlags,
+  track() { /* noop */ },
   setUser() { /* noop */ },
   reset() { /* noop */ },
 }

@@ -115,6 +115,21 @@ Convenção: `snake_case`, propriedades estáveis, sem dados pessoais.
 | `friends_v1` | `true` / `false` | Liga nickname, amizades, perfil público e sugestões de troca entre amigos. Pré-requisito para `social_v1`. |
 | `social_v1` | `true` / `false` | Liga ranking público, parceiros de troca e modal de consentimento de compartilhamento. Requer `friends_v1` ativo (usuário precisa ter nickname criado). |
 
+#### Avaliação de feature flag x consentimento de analytics
+
+Feature flags são avaliadas **antes** do usuário decidir sobre o banner de consentimento de analytics. Isso é uma decisão consciente: bloquear flag-eval no decline (ou no estado "ainda não decidiu") fazia features inteiras ficarem invisíveis para uma fatia grande da audiência mesmo quando o produto queria entregá-las.
+
+Implementação: `bootstrapPostHogFlags` (em `src/lib/telemetry/posthog.ts`) inicializa a SDK com `opt_out_capturing_by_default: true` e `bootstrap: { distinctID }` assim que o `userId` autenticado fica disponível. A única chamada de rede que sai pré-consent é o POST a `posthog.com/flags`, carregando:
+
+- `api_key` (token público do projeto);
+- `distinct_id` opaco (SHA-256 do `meualbum2026:user:<supabase_uuid>`, ver `userIdentity.ts`) — não-reversível pra usuário, não-PII.
+
+Não saem: nenhum `capture()`, nenhum `identify(traits)`, nenhuma person property, nenhum evento de comportamento. `opt_in_capturing()` + `identify()` só rodam depois do `grant` explícito. `decline` mantém a SDK carregada para flag-eval mas garante que captura permaneça desligada (sem `client.reset()` no decline, justamente pra preservar o `distinct_id` bootstrappado — quem foi targetado por uma flag continua recebendo a variante correta).
+
+**Dados transportados:** o IP do cliente é necessariamente exposto a PostHog (subprocessor US, `us.i.posthog.com`) como efeito colateral da chamada HTTPS — PostHog atua como operador dos dados. O contador interno `$feature_flag_called` pode ser registrado no servidor; retenção segue a política padrão da plataforma (atualmente 7 anos pra eventos, 1 ano pra session recording — recording está desabilitado neste projeto via `autocapture: false` + ausência de `session_recording.recordingPolicy`).
+
+Base legal LGPD: execução de contrato (Art. 7º V) — a avaliação serve pra entregar a variante de produto correta ao usuário, sem agregar comportamento. Avaliação de impacto resumida: **baixo risco** — dado pseudonimizado (hash SHA-256 sem sal de namespace fixo), sem agregação comportamental pré-consent, opt-out total disponível como follow-up via env var caso reviewer peça.
+
 Eventos de ativação/retenção derivados no analytics (primeiro `sticker_quantity_changed`, retorno em D1/D7) usam os eventos acima; não exigem SDK extra no MVP. Definições operacionais e leitura na Vercel: [`mvp-activation-retention.md`](./mvp-activation-retention.md).
 
 ## Mapa de issues no GitHub
