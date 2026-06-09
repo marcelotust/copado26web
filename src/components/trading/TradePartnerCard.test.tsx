@@ -5,7 +5,10 @@ import TradePartnerCard from './TradePartnerCard'
 import type { TradePartner } from '../../hooks/useTradePartners'
 
 vi.mock('../../lib/telemetry', () => ({
-  AnalyticsEvent: { TRADE_PARTNER_SHARE: 'trade_partner_share' },
+  AnalyticsEvent: {
+    TRADE_PARTNER_SHARE: 'trade_partner_share',
+    TRADE_FAIR_SECTION_VIEWED: 'trade_fair_section_viewed',
+  },
   telemetry: { track: vi.fn() },
 }))
 
@@ -40,14 +43,14 @@ const partner: TradePartner = {
 
 describe('TradePartnerCard', () => {
   it('renders partner name and counters', () => {
-    renderWithProviders(<TradePartnerCard partner={partner} currentNickname='me' />)
+    renderWithProviders(<TradePartnerCard partner={partner} currentNickname='me' fairOnly={false} />)
     expect(screen.getByText('Alice')).toBeInTheDocument()
     expect(screen.getByText(/15/)).toBeInTheDocument()
     expect(screen.getByText(/8/)).toBeInTheDocument()
   })
 
   it('expands to show sticker lists grouped by team', async () => {
-    renderWithProviders(<TradePartnerCard partner={partner} currentNickname='me' />)
+    renderWithProviders(<TradePartnerCard partner={partner} currentNickname='me' fairOnly={false} />)
     fireEvent.click(screen.getByRole('button', { name: /ver listas|see lists/i }))
     await waitFor(() => {
       expect(screen.getByText('BRA')).toBeInTheDocument()
@@ -61,7 +64,7 @@ describe('TradePartnerCard', () => {
       value: { writeText: vi.fn().mockResolvedValue(undefined) },
       configurable: true,
     })
-    renderWithProviders(<TradePartnerCard partner={partner} currentNickname='me' />)
+    renderWithProviders(<TradePartnerCard partner={partner} currentNickname='me' fairOnly={false} />)
     // expand to reveal share buttons
     fireEvent.click(screen.getByRole('button', { name: /ver listas|see lists/i }))
     await waitFor(() => screen.getByText('BRA'))
