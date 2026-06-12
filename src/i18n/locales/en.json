@@ -765,7 +765,10 @@
     "unknownUser": "User",
     "generalPosition": "in the overall ranking",
     "completedBadge": "Album Complete!",
-    "missing": "stickers missing"
+    "missing": "stickers missing",
+    "filterAll": "All",
+    "filterFriends": "Friends",
+    "friendsEmptyState": "None of your friends are in the ranking yet. Add friends to compare here!"
   },
   "tradingPartners": {
     "pageTitle": "Trade Partners",

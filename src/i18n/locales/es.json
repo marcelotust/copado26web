@@ -765,7 +765,10 @@
     "unknownUser": "Usuario",
     "generalPosition": "en el ranking general",
     "completedBadge": "¡Álbum Completo!",
-    "missing": "fig. faltantes"
+    "missing": "fig. faltantes",
+    "filterAll": "Todos",
+    "filterFriends": "Amigos",
+    "friendsEmptyState": "Ningún amigo en el ranking todavía. ¡Agrega amigos para comparar aquí!"
   },
   "tradingPartners": {
     "pageTitle": "Socios de intercambio",

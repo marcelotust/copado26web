@@ -788,7 +788,10 @@
     "addFriend": "Adicionar amigo",
     "requestSent": "Enviado",
     "completedBadge": "Álbum Completo!",
-    "missing": "fig. faltando"
+    "missing": "fig. faltando",
+    "filterAll": "Todos",
+    "filterFriends": "Amigos",
+    "friendsEmptyState": "Nenhum amigo no ranking ainda. Adicione amigos para ver a comparação aqui!"
   },
   "tradingPartners": {
     "pageTitle": "Parceiros de troca",
