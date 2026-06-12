@@ -21,6 +21,7 @@ export default function RankingRow({ entry, isCurrentUser, friendStatus = 'none'
   const { t } = useI18n()
   const pctRounded = Math.round(entry.completion_pct)
   const missing = TOTAL - entry.owned_count
+  const isCompleted = entry.owned_count >= TOTAL
   const isMedal = entry.rank <= 3
 
   const showAdd = friendStatus === 'none' && !isCurrentUser
@@ -31,7 +32,7 @@ export default function RankingRow({ entry, isCurrentUser, friendStatus = 'none'
       to={`/u/${entry.nickname}`}
       className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors hover:bg-slate-800/60 ${
         isCurrentUser ? 'border border-indigo-500/40 bg-indigo-950/30' : ''
-      }`}
+      } ${isCompleted ? 'bg-gradient-to-r from-amber-950/20 to-yellow-950/10' : ''}`}
     >
       {/* Medal / position */}
       <div className='shrink-0 w-10 text-center'>
@@ -59,18 +60,26 @@ export default function RankingRow({ entry, isCurrentUser, friendStatus = 'none'
         <p className='text-xs text-slate-400 mb-1'>@{entry.nickname}</p>
         <div className='h-1.5 rounded-full bg-slate-700 overflow-hidden'>
           <div
-            className='h-full rounded-full bg-emerald-500 transition-all'
+            className={`h-full rounded-full transition-all ${isCompleted ? 'bg-gradient-to-r from-amber-400 to-yellow-300' : 'bg-emerald-500'}`}
             style={{ width: `${pctRounded}%` }}
           />
         </div>
       </div>
 
-      {/* Stats: pct + missing */}
-      <div className='shrink-0 text-right min-w-[3.5rem]'>
-        <p className='text-sm font-bold text-white'>{pctRounded}%</p>
-        <p className='text-[10px] text-slate-500 leading-tight'>fig. faltando</p>
-        <p className='text-base font-bold text-slate-400 leading-tight'>{missing}</p>
-      </div>
+      {/* Stats: completed badge OR pct + missing */}
+      {isCompleted ? (
+        <div className='shrink-0 text-right'>
+          <span className='inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-gradient-to-r from-amber-500/20 to-yellow-500/20 border border-amber-500/30 text-amber-300 text-xs font-bold whitespace-nowrap'>
+            🏆 {t('ranking.completedBadge')}
+          </span>
+        </div>
+      ) : (
+        <div className='shrink-0 text-right min-w-[3.5rem]'>
+          <p className='text-sm font-bold text-white'>{pctRounded}%</p>
+          <p className='text-[10px] text-slate-500 leading-tight'>{t('ranking.missing')}</p>
+          <p className='text-base font-bold text-slate-400 leading-tight'>{missing}</p>
+        </div>
+      )}
 
       {/* Friend CTA */}
       {(showAdd || showPending) && (

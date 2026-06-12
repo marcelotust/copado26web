@@ -10,6 +10,7 @@ export type RankingEntry = {
   owned_count: number
   completion_pct: number
   rank: number
+  completed_at: string | null
 }
 
 type State = { entries: RankingEntry[]; loading: boolean; error: string | null }

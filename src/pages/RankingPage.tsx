@@ -26,7 +26,7 @@ export default function RankingPage({ userId }: Props) {
   const sentIds = useMemo(() => new Set([...sentToIds, ...localSentIds]), [sentToIds, localSentIds])
 
   const rankingPublic = profile?.ranking_public ?? false
-  const userInTop20 = entries.some(e => e.user_id === userId)
+  const userInList = entries.some(e => e.user_id === userId)
   const friendIds = new Set(friends.map(f => f.user_id))
 
   useEffect(() => {
@@ -89,7 +89,7 @@ export default function RankingPage({ userId }: Props) {
             ))
           )}
 
-          {rankingPublic && !userInTop20 && (
+          {rankingPublic && !userInList && (
             <div className='mt-4'>
               <RankingMyRankWidget
                 myRank={myRank}

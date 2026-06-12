@@ -752,7 +752,7 @@
   },
   "ranking": {
     "pageTitle": "Ranking",
-    "subtitle": "Top 20 collectors",
+    "subtitle": "Full collector leaderboard",
     "myRank": "Your ranking",
     "rank": "#{{n}}",
     "noRank": "You're not in the ranking",
@@ -763,7 +763,9 @@
     "of": "of {{total}} stickers",
     "emptyState": "No users participating yet.",
     "unknownUser": "User",
-    "generalPosition": "in the overall ranking"
+    "generalPosition": "in the overall ranking",
+    "completedBadge": "Album Complete!",
+    "missing": "stickers missing"
   },
   "tradingPartners": {
     "pageTitle": "Trade Partners",

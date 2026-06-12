@@ -773,7 +773,7 @@
   },
   "ranking": {
     "pageTitle": "Ranking",
-    "subtitle": "Top 20 colecionadores",
+    "subtitle": "Ranking completo de colecionadores",
     "myRank": "Seu ranking",
     "rank": "#{{n}}",
     "noRank": "Você não está no ranking",
@@ -786,7 +786,9 @@
     "unknownUser": "Usuário",
     "generalPosition": "no ranking geral",
     "addFriend": "Adicionar amigo",
-    "requestSent": "Enviado"
+    "requestSent": "Enviado",
+    "completedBadge": "Álbum Completo!",
+    "missing": "fig. faltando"
   },
   "tradingPartners": {
     "pageTitle": "Parceiros de troca",
