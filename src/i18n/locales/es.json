@@ -752,7 +752,7 @@
   },
   "ranking": {
     "pageTitle": "Ranking",
-    "subtitle": "Top 20 coleccionistas",
+    "subtitle": "Ranking completo de coleccionistas",
     "myRank": "Tu ranking",
     "rank": "#{{n}}",
     "noRank": "No estás en el ranking",
@@ -763,7 +763,12 @@
     "of": "de {{total}} figuritas",
     "emptyState": "Ningún usuario participando todavía.",
     "unknownUser": "Usuario",
-    "generalPosition": "en el ranking general"
+    "generalPosition": "en el ranking general",
+    "completedBadge": "¡Álbum Completo!",
+    "missing": "fig. faltantes",
+    "filterAll": "Todos",
+    "filterFriends": "Amigos",
+    "friendsEmptyState": "Ningún amigo en el ranking todavía. ¡Agrega amigos para comparar aquí!"
   },
   "tradingPartners": {
     "pageTitle": "Socios de intercambio",

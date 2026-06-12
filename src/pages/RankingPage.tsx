@@ -7,7 +7,6 @@ import { useProfile, useFriends, useSentFriendRequests } from '../state/friends'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import { supabase } from '../lib/supabase'
 import RankingRow, { type FriendStatus } from '../components/ranking/RankingRow'
-import RankingMyRankWidget from '../components/ranking/RankingMyRankWidget'
 import StickerListPageHeader from '../components/StickerListPageHeader'
 
 type Props = { userId: string }
@@ -15,19 +14,26 @@ type Props = { userId: string }
 export default function RankingPage({ userId }: Props) {
   const { t } = useI18n()
   const { entries, loading: listLoading } = usePublicRanking()
-  const { myRank, loading: rankLoading } = useMyRank()
+  const { myRank } = useMyRank()
   const { profile } = useProfile(userId)
   const { friends } = useFriends()
   const { sentToIds } = useSentFriendRequests()
 
   const [localSentIds, setLocalSentIds] = useState<Set<string>>(new Set())
   const [sendingId, setSendingId] = useState<string | null>(null)
+  const [friendsOnly, setFriendsOnly] = useState(false)
 
   const sentIds = useMemo(() => new Set([...sentToIds, ...localSentIds]), [sentToIds, localSentIds])
+  const friendIds = useMemo(() => new Set(friends.map(f => f.user_id)), [friends])
 
   const rankingPublic = profile?.ranking_public ?? false
-  const userInTop20 = entries.some(e => e.user_id === userId)
-  const friendIds = new Set(friends.map(f => f.user_id))
+
+  const displayedEntries = useMemo(
+    () => friendsOnly
+      ? entries.filter(e => e.user_id === userId || friendIds.has(e.user_id))
+      : entries,
+    [friendsOnly, entries, userId, friendIds],
+  )
 
   useEffect(() => {
     telemetry.track(AnalyticsEvent.RANKING_PAGE_VIEWED, {
@@ -59,6 +65,33 @@ export default function RankingPage({ userId }: Props) {
     }
   }
 
+  const filterToggle = (
+    <div className='flex items-center gap-0.5 rounded-lg bg-slate-800 border border-slate-700 p-0.5'>
+      <button
+        type='button'
+        onClick={() => setFriendsOnly(false)}
+        className={`px-3 py-1 rounded-md text-xs font-semibold transition-colors ${
+          !friendsOnly
+            ? 'bg-slate-700 text-white shadow-sm'
+            : 'text-slate-400 hover:text-slate-300'
+        }`}
+      >
+        {t('ranking.filterAll')}
+      </button>
+      <button
+        type='button'
+        onClick={() => setFriendsOnly(true)}
+        className={`flex items-center gap-1 px-3 py-1 rounded-md text-xs font-semibold transition-colors ${
+          friendsOnly
+            ? 'bg-slate-700 text-white shadow-sm'
+            : 'text-slate-400 hover:text-slate-300'
+        }`}
+      >
+        👥 {t('ranking.filterFriends')}
+      </button>
+    </div>
+  )
+
   return (
     <div className='flex flex-col h-full'>
       <StickerListPageHeader
@@ -66,6 +99,7 @@ export default function RankingPage({ userId }: Props) {
         icon='🏅'
         accentColor='#6366F1'
         summary={t('ranking.subtitle')}
+        actions={filterToggle}
       />
 
       <div className='flex-1 overflow-y-auto px-3 py-4'>
@@ -74,10 +108,12 @@ export default function RankingPage({ userId }: Props) {
             [1, 2, 3].map(i => (
               <div key={i} className='h-16 rounded-xl bg-slate-800 animate-pulse' />
             ))
-          ) : entries.length === 0 ? (
-            <p className='text-sm text-slate-400 text-center py-10'>{t('ranking.emptyState')}</p>
+          ) : displayedEntries.length === 0 ? (
+            <p className='text-sm text-slate-400 text-center py-10'>
+              {friendsOnly ? t('ranking.friendsEmptyState') : t('ranking.emptyState')}
+            </p>
           ) : (
-            entries.map(entry => (
+            displayedEntries.map(entry => (
               <RankingRow
                 key={entry.user_id}
                 entry={entry}
@@ -87,16 +123,6 @@ export default function RankingPage({ userId }: Props) {
                 sending={sendingId === entry.user_id}
               />
             ))
-          )}
-
-          {rankingPublic && !userInTop20 && (
-            <div className='mt-4'>
-              <RankingMyRankWidget
-                myRank={myRank}
-                rankingPublic={rankingPublic}
-                loading={rankLoading}
-              />
-            </div>
           )}
 
           {!rankingPublic && (

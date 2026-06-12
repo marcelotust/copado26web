@@ -14,6 +14,7 @@ const entry: RankingEntry = {
   owned_count: 900,
   completion_pct: 90.5,
   rank: 1,
+  completed_at: null,
 }
 
 describe('RankingRow', () => {

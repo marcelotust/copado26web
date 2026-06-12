@@ -6,7 +6,7 @@ import RankingPage from './RankingPage'
 vi.mock('../hooks/usePublicRanking', () => ({
   usePublicRanking: vi.fn().mockReturnValue({
     entries: [
-      { user_id: 'u1', nickname: 'alice', display_name: 'Alice', avatar_url: null, owned_count: 900, completion_pct: 90.5, rank: 1 },
+      { user_id: 'u1', nickname: 'alice', display_name: 'Alice', avatar_url: null, avatar_palette_id: null, owned_count: 900, completion_pct: 90.5, rank: 1, completed_at: null },
     ],
     loading: false,
     error: null,
@@ -46,7 +46,7 @@ describe('RankingPage', () => {
   it('highlights current user row when user is in top 20', async () => {
     const { usePublicRanking } = await import('../hooks/usePublicRanking')
     vi.mocked(usePublicRanking).mockReturnValue({
-      entries: [{ user_id: 'u2', nickname: 'bob', display_name: 'Bob', avatar_url: null, avatar_palette_id: null, owned_count: 800, completion_pct: 80.5, rank: 1 }],
+      entries: [{ user_id: 'u2', nickname: 'bob', display_name: 'Bob', avatar_url: null, avatar_palette_id: null, owned_count: 800, completion_pct: 80.5, rank: 1, completed_at: null }],
       loading: false, error: null,
     })
     renderWithProviders(<RankingPage userId='u2' />)
