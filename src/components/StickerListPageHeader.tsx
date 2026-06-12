@@ -41,7 +41,7 @@ export default function StickerListPageHeader({
         </div>
 
         {actions && (
-          <div className='shrink-0 sm:pl-4'>
+          <div className='shrink-0 self-end sm:self-auto sm:pl-4'>
             {actions}
           </div>
         )}
