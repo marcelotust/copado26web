@@ -7,7 +7,6 @@ import { useProfile, useFriends, useSentFriendRequests } from '../state/friends'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import { supabase } from '../lib/supabase'
 import RankingRow, { type FriendStatus } from '../components/ranking/RankingRow'
-import RankingMyRankWidget from '../components/ranking/RankingMyRankWidget'
 import StickerListPageHeader from '../components/StickerListPageHeader'
 
 type Props = { userId: string }
@@ -15,7 +14,7 @@ type Props = { userId: string }
 export default function RankingPage({ userId }: Props) {
   const { t } = useI18n()
   const { entries, loading: listLoading } = usePublicRanking()
-  const { myRank, loading: rankLoading } = useMyRank()
+  const { myRank } = useMyRank()
   const { profile } = useProfile(userId)
   const { friends } = useFriends()
   const { sentToIds } = useSentFriendRequests()
@@ -26,7 +25,6 @@ export default function RankingPage({ userId }: Props) {
   const sentIds = useMemo(() => new Set([...sentToIds, ...localSentIds]), [sentToIds, localSentIds])
 
   const rankingPublic = profile?.ranking_public ?? false
-  const userInList = entries.some(e => e.user_id === userId)
   const friendIds = new Set(friends.map(f => f.user_id))
 
   useEffect(() => {
@@ -87,16 +85,6 @@ export default function RankingPage({ userId }: Props) {
                 sending={sendingId === entry.user_id}
               />
             ))
-          )}
-
-          {rankingPublic && !userInList && (
-            <div className='mt-4'>
-              <RankingMyRankWidget
-                myRank={myRank}
-                rankingPublic={rankingPublic}
-                loading={rankLoading}
-              />
-            </div>
           )}
 
           {!rankingPublic && (

@@ -31,8 +31,12 @@ export default function RankingRow({ entry, isCurrentUser, friendStatus = 'none'
     <Link
       to={`/u/${entry.nickname}`}
       className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors hover:bg-slate-800/60 ${
-        isCurrentUser ? 'border border-indigo-500/40 bg-indigo-950/30' : ''
-      } ${isCompleted ? 'bg-gradient-to-r from-amber-950/20 to-yellow-950/10' : ''}`}
+        isCompleted
+          ? 'border border-amber-400/50 bg-gradient-to-r from-amber-950/30 to-yellow-950/15'
+          : isCurrentUser
+          ? 'border border-indigo-500/40 bg-indigo-950/30'
+          : ''
+      }`}
     >
       {/* Medal / position */}
       <div className='shrink-0 w-10 text-center'>
@@ -52,24 +56,26 @@ export default function RankingRow({ entry, isCurrentUser, friendStatus = 'none'
         size='sm'
       />
 
-      {/* Name + nickname + progress bar */}
+      {/* Name + nickname (no progress bar for completed) */}
       <div className='flex-1 min-w-0'>
         <p className='text-sm font-semibold text-white truncate'>
           {entry.display_name || entry.nickname}
         </p>
-        <p className='text-xs text-slate-400 mb-1'>@{entry.nickname}</p>
-        <div className='h-1.5 rounded-full bg-slate-700 overflow-hidden'>
-          <div
-            className={`h-full rounded-full transition-all ${isCompleted ? 'bg-gradient-to-r from-amber-400 to-yellow-300' : 'bg-emerald-500'}`}
-            style={{ width: `${pctRounded}%` }}
-          />
-        </div>
+        <p className='text-xs text-slate-400'>@{entry.nickname}</p>
+        {!isCompleted && (
+          <div className='mt-1 h-1.5 rounded-full bg-slate-700 overflow-hidden'>
+            <div
+              className='h-full rounded-full bg-emerald-500 transition-all'
+              style={{ width: `${pctRounded}%` }}
+            />
+          </div>
+        )}
       </div>
 
       {/* Stats: completed badge OR pct + missing */}
       {isCompleted ? (
         <div className='shrink-0 text-right'>
-          <span className='inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-gradient-to-r from-amber-500/20 to-yellow-500/20 border border-amber-500/30 text-amber-300 text-xs font-bold whitespace-nowrap'>
+          <span className='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500/25 to-yellow-500/25 border border-amber-400/50 text-amber-300 text-sm font-bold whitespace-nowrap shadow-sm shadow-amber-900/20'>
             🏆 {t('ranking.completedBadge')}
           </span>
         </div>
