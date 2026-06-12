@@ -75,7 +75,7 @@ export default function RankingRow({ entry, isCurrentUser, friendStatus = 'none'
       {/* Stats: completed badge OR pct + missing */}
       {isCompleted ? (
         <div className='shrink-0 text-right'>
-          <span className='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500/25 to-yellow-500/25 border border-amber-400/50 text-amber-300 text-sm font-bold whitespace-nowrap shadow-sm shadow-amber-900/20'>
+          <span className='inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-gradient-to-r from-amber-500/25 to-yellow-500/25 border border-amber-400/50 text-amber-300 text-[10px] font-bold whitespace-nowrap shadow-sm shadow-amber-900/20 sm:gap-1.5 sm:px-3 sm:py-1.5 sm:text-sm'>
             🏆 {t('ranking.completedBadge')}
           </span>
         </div>
