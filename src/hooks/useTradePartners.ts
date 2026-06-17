@@ -25,7 +25,13 @@ export function useTradePartners() {
         const { data, error } = await (supabase.rpc as any)('get_best_trade_partners')
         if (cancelled) return
         if (error) throw error
-        setState({ partners: (data as TradePartner[]) ?? [], loading: false, error: null })
+        const partners = ((data as TradePartner[]) ?? [])
+          .slice()
+          .sort((a, b) =>
+            b.they_have_i_need - a.they_have_i_need
+            || b.i_have_they_need - a.i_have_they_need,
+          )
+        setState({ partners, loading: false, error: null })
       } catch (err) {
         if (!cancelled) setState({ partners: [], loading: false, error: String(err) })
       }
