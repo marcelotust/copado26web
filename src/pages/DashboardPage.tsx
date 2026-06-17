@@ -141,7 +141,8 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
 
   return (
     <div className='flex flex-col h-full'>
-      <div className='flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-6'>
+      <div className='flex-1 overflow-y-auto px-4 py-4'>
+        <div className='mx-auto w-full max-w-6xl flex flex-col gap-6'>
 
         {/* 1 — Global progress: 3-column stat grid */}
         <section className='flex flex-col gap-3'>
@@ -343,6 +344,7 @@ export default function DashboardPage({ userId, onShowMilestone, onNavigateToTea
           </div>
         </section>
 
+        </div>
       </div>
     </div>
   )
