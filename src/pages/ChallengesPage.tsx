@@ -28,7 +28,8 @@ export default function ChallengesPage() {
         accentColor='#F59E0B'
         summary={interpolate(t('challenges.headerSummary'), { completed: String(completedCount), total: String(totalCount) })}
       />
-      <div className='flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-6'>
+      <div className='flex-1 overflow-y-auto px-4 py-4'>
+        <div className='mx-auto w-full max-w-6xl flex flex-col gap-6'>
         {DIFFICULTY_ORDER.map(diff => {
           const all = byDifficulty(diff)
           if (all.length === 0) return null
@@ -44,6 +45,7 @@ export default function ChallengesPage() {
             </section>
           )
         })}
+        </div>
       </div>
     </div>
   )
