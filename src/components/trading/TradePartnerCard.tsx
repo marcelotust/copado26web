@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useI18n } from '../../i18n'
 import { AnalyticsEvent, telemetry } from '../../lib/telemetry'
@@ -9,12 +9,14 @@ import Avatar from '../friends/Avatar'
 import { useStickersContext } from '../../state/stickersStore'
 import { groupStickerIds, formatGroupedStickerText } from '../../pages/trade/groupStickerIds'
 import GroupedStickerList from './GroupedStickerList'
+import { partitionByFairness, type FairnessPartition } from '../../lib/fairTrade'
 
 type Detail = { they_have_i_need: string[]; i_have_they_need: string[] }
 
 type Props = {
   partner: TradePartner
   currentNickname: string
+  fairOnly: boolean
 }
 
 const WA_PATH = 'M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z'
@@ -31,7 +33,13 @@ const OUTGOING_ICON = (
   </svg>
 )
 
-export default function TradePartnerCard({ partner, currentNickname }: Props) {
+const WARN_ICON = (
+  <svg className='w-3.5 h-3.5 shrink-0' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2.5' aria-hidden>
+    <path d='M12 9v4m0 4h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z' strokeLinecap='round' strokeLinejoin='round'/>
+  </svg>
+)
+
+export default function TradePartnerCard({ partner, currentNickname, fairOnly }: Props) {
   const { t } = useI18n()
   const { catalog, teams } = useStickersContext()
   const [expanded, setExpanded] = useState(false)
@@ -39,6 +47,25 @@ export default function TradePartnerCard({ partner, currentNickname }: Props) {
   const [detailLoading, setDetailLoading] = useState(false)
   const [detailError, setDetailError] = useState(false)
   const [copied, setCopied] = useState(false)
+  const sectionViewedFired = useRef(false)
+
+  const partition: FairnessPartition | null = useMemo(() => {
+    if (!detail) return null
+    return partitionByFairness(detail.they_have_i_need, detail.i_have_they_need, catalog)
+  }, [detail, catalog])
+
+  useEffect(() => {
+    if (!expanded) { sectionViewedFired.current = false; return }
+    if (!partition || sectionViewedFired.current) return
+    sectionViewedFired.current = true
+    telemetry.track(AnalyticsEvent.TRADE_FAIR_SECTION_VIEWED, {
+      fair_in: partition.theyHave.fair.length,
+      unfair_in: partition.theyHave.unfair.length,
+      fair_out: partition.iHave.fair.length,
+      unfair_out: partition.iHave.unfair.length,
+      fair_only: fairOnly,
+    })
+  }, [expanded, partition, fairOnly])
 
   function groupLabel(key: string): string {
     return key.length === 1
@@ -66,11 +93,13 @@ export default function TradePartnerCard({ partner, currentNickname }: Props) {
 
   function buildDetailShareText(): string {
     if (!detail) return ''
+    const theyHaveIds = fairOnly && partition ? partition.theyHave.fair : detail.they_have_i_need
+    const iHaveIds = fairOnly && partition ? partition.iHave.fair : detail.i_have_they_need
     const headline = t('tradingPartners.shareDetailHeadline')
-    const theyHaveLine = interpolate(t('tradingPartners.shareDetailTheyHave'), { nickname: partner.nickname, n: String(detail.they_have_i_need.length) })
-    const iHaveLine = interpolate(t('tradingPartners.shareDetailIHave'), { nickname: partner.nickname, m: String(detail.i_have_they_need.length) })
-    const theyHaveText = formatGroupedStickerText(groupStickerIds(detail.they_have_i_need, catalog, teams), groupLabel)
-    const iHaveText = formatGroupedStickerText(groupStickerIds(detail.i_have_they_need, catalog, teams), groupLabel)
+    const theyHaveLine = interpolate(t('tradingPartners.shareDetailTheyHave'), { nickname: partner.nickname, n: String(theyHaveIds.length) })
+    const iHaveLine = interpolate(t('tradingPartners.shareDetailIHave'), { nickname: partner.nickname, m: String(iHaveIds.length) })
+    const theyHaveText = formatGroupedStickerText(groupStickerIds(theyHaveIds, catalog, teams), groupLabel)
+    const iHaveText = formatGroupedStickerText(groupStickerIds(iHaveIds, catalog, teams), groupLabel)
     const body = [
       headline, '',
       theyHaveLine,
@@ -197,45 +226,95 @@ export default function TradePartnerCard({ partner, currentNickname }: Props) {
             </div>
           ) : detailError ? (
             <p className='py-3 text-xs text-slate-400'>{t('tradingPartners.detailError')}</p>
-          ) : detail ? (
-            <div className='flex flex-col gap-3 pt-3'>
-              {detail.they_have_i_need.length > 0 && (
-                <div className='rounded-lg border border-emerald-700/40 overflow-hidden'>
-                  <div className='flex items-center gap-1.5 px-3 py-2 bg-emerald-900/40 text-emerald-300'>
-                    <span className='text-xs font-semibold flex-1'>
-                      {interpolate(t('tradingPartners.theyHaveINeed'), { n: String(detail.they_have_i_need.length) })}
-                    </span>
-                    {INCOMING_ICON}
-                  </div>
-                  <div className='px-3 py-3 bg-emerald-900/15'>
-                    <GroupedStickerList
-                      ids={detail.they_have_i_need}
-                      catalog={catalog}
-                      teams={teams}
-                      groupLabel={groupLabel}
-                    />
-                  </div>
+          ) : detail && partition ? (
+            (() => {
+              const inFair = partition.theyHave.fair
+              const inUnfair = fairOnly ? [] : partition.theyHave.unfair
+              const outFair = partition.iHave.fair
+              const outUnfair = fairOnly ? [] : partition.iHave.unfair
+              const total = inFair.length + inUnfair.length + outFair.length + outUnfair.length
+              if (total === 0) {
+                return (
+                  <p className='py-3 text-xs text-slate-400'>
+                    {t('tradingPartners.fair.emptyAfterFilter')}
+                  </p>
+                )
+              }
+              return (
+                <div className='flex flex-col gap-3 pt-3'>
+                  {inFair.length > 0 && (
+                    <div className='rounded-lg border border-emerald-700/40 overflow-hidden'>
+                      <div className='flex items-center gap-1.5 px-3 py-2 bg-emerald-900/40 text-emerald-300'>
+                        <span className='text-xs font-semibold flex-1'>
+                          {interpolate(t('tradingPartners.theyHaveINeed'), { n: String(inFair.length) })}
+                        </span>
+                        <span className='text-[10px] uppercase tracking-wider font-bold opacity-80'>
+                          {t('tradingPartners.fair.fairBadge')}
+                        </span>
+                        {INCOMING_ICON}
+                      </div>
+                      <div className='px-3 py-3 bg-emerald-900/15'>
+                        <GroupedStickerList ids={inFair} catalog={catalog} teams={teams} groupLabel={groupLabel} />
+                      </div>
+                    </div>
+                  )}
+                  {inUnfair.length > 0 && (
+                    <div className='rounded-lg border border-dashed border-amber-700/40 overflow-hidden'>
+                      <div className='flex items-center gap-1.5 px-3 py-2 bg-slate-800/60 text-amber-300'>
+                        {WARN_ICON}
+                        <span className='text-xs font-semibold flex-1'>
+                          {interpolate(t('tradingPartners.theyHaveINeed'), { n: String(inUnfair.length) })}
+                        </span>
+                        <span className='text-[10px] uppercase tracking-wider font-bold opacity-80'>
+                          {t('tradingPartners.fair.unfairBadge')}
+                        </span>
+                      </div>
+                      <div className='px-3 py-3 bg-slate-900/40'>
+                        <p className='text-[11px] text-amber-300/70 mb-2'>
+                          {t('tradingPartners.fair.unfairHint')}
+                        </p>
+                        <GroupedStickerList ids={inUnfair} catalog={catalog} teams={teams} groupLabel={groupLabel} />
+                      </div>
+                    </div>
+                  )}
+                  {outFair.length > 0 && (
+                    <div className='rounded-lg border border-amber-700/40 overflow-hidden'>
+                      <div className='flex items-center gap-1.5 px-3 py-2 bg-amber-900/40 text-amber-300'>
+                        <span className='text-xs font-semibold flex-1'>
+                          {interpolate(t('tradingPartners.iHaveTheyNeed'), { n: String(outFair.length) })}
+                        </span>
+                        <span className='text-[10px] uppercase tracking-wider font-bold opacity-80'>
+                          {t('tradingPartners.fair.fairBadge')}
+                        </span>
+                        {OUTGOING_ICON}
+                      </div>
+                      <div className='px-3 py-3 bg-amber-900/15'>
+                        <GroupedStickerList ids={outFair} catalog={catalog} teams={teams} groupLabel={groupLabel} />
+                      </div>
+                    </div>
+                  )}
+                  {outUnfair.length > 0 && (
+                    <div className='rounded-lg border border-dashed border-amber-700/40 overflow-hidden'>
+                      <div className='flex items-center gap-1.5 px-3 py-2 bg-slate-800/60 text-amber-300'>
+                        {WARN_ICON}
+                        <span className='text-xs font-semibold flex-1'>
+                          {interpolate(t('tradingPartners.iHaveTheyNeed'), { n: String(outUnfair.length) })}
+                        </span>
+                        <span className='text-[10px] uppercase tracking-wider font-bold opacity-80'>
+                          {t('tradingPartners.fair.unfairBadge')}
+                        </span>
+                      </div>
+                      <div className='px-3 py-3 bg-slate-900/40'>
+                        <p className='text-[11px] text-amber-300/70 mb-2'>
+                          {t('tradingPartners.fair.unfairHint')}
+                        </p>
+                        <GroupedStickerList ids={outUnfair} catalog={catalog} teams={teams} groupLabel={groupLabel} />
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
-              {detail.i_have_they_need.length > 0 && (
-                <div className='rounded-lg border border-amber-700/40 overflow-hidden'>
-                  <div className='flex items-center gap-1.5 px-3 py-2 bg-amber-900/40 text-amber-300'>
-                    <span className='text-xs font-semibold flex-1'>
-                      {interpolate(t('tradingPartners.iHaveTheyNeed'), { n: String(detail.i_have_they_need.length) })}
-                    </span>
-                    {OUTGOING_ICON}
-                  </div>
-                  <div className='px-3 py-3 bg-amber-900/15'>
-                    <GroupedStickerList
-                      ids={detail.i_have_they_need}
-                      catalog={catalog}
-                      teams={teams}
-                      groupLabel={groupLabel}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
+              )
+            })()
           ) : null}
         </div>
       )}

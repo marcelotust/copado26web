@@ -791,6 +791,14 @@
     "shareDetailHeadline": "⚽ World Cup 2026 — want to trade stickers?",
     "shareDetailTheyHave": "@{{nickname}} has {{n}} you need:",
     "shareDetailIHave": "You have {{m}} @{{nickname}} needs:",
-    "detailError": "Could not load the lists. Please try again."
+    "detailError": "Could not load the lists. Please try again.",
+    "fair": {
+      "toggleLabel": "Fair trades only",
+      "toggleHint": "Hides stickers without an equivalent peer",
+      "fairBadge": "Fair",
+      "unfairBadge": "Watch out",
+      "unfairHint": "No equivalent peer on the other side",
+      "emptyAfterFilter": "No fair trades with this partner"
+    }
   }
 }
