@@ -31,7 +31,7 @@ export default function TradeSuggestionList({ friendUserId }: Props) {
 
   if (loading) {
     return (
-      <div className='mt-6 animate-pulse'>
+      <div className='animate-pulse'>
         <div className='h-4 bg-slate-800 rounded w-1/2 mb-3' />
         <div className='h-20 bg-slate-800 rounded-xl' />
       </div>
@@ -45,7 +45,7 @@ export default function TradeSuggestionList({ friendUserId }: Props) {
   if (!data.ok) {
     if (data.reason === 'collection_private') {
       return (
-        <div className='mt-6 px-4 py-3 rounded-xl bg-slate-800/60 text-slate-400 text-sm text-center'>
+        <div className='px-4 py-3 rounded-xl bg-slate-800/60 text-slate-400 text-sm text-center'>
           {t('friends.trades.private')}
         </div>
       )
@@ -56,7 +56,7 @@ export default function TradeSuggestionList({ friendUserId }: Props) {
   const hasMatches = data.they_have_i_need.length > 0 || data.i_have_they_need.length > 0
 
   return (
-    <section className='mt-6'>
+    <section>
       <h3 className='text-sm font-semibold text-slate-300 mb-3'>{t('friends.trades.title')}</h3>
 
       {!hasMatches ? (

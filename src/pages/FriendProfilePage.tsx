@@ -34,9 +34,12 @@ export default function FriendProfilePage({ currentUserId }: Props) {
   if (resolving || loading) {
     return (
       <div className='flex flex-col h-full'>
-        <div className='max-w-md mx-auto w-full p-4 flex flex-col gap-4'>
-          <div className='h-20 rounded-xl bg-slate-800 animate-pulse' />
-          <div className='h-40 rounded-xl bg-slate-800 animate-pulse' />
+        <div className='max-w-6xl mx-auto w-full p-4 flex flex-col gap-4'>
+          <div className='h-20 rounded-2xl bg-slate-800 animate-pulse' />
+          <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
+            <div className='lg:col-span-2 h-40 rounded-xl bg-slate-800 animate-pulse' />
+            <div className='h-40 rounded-xl bg-slate-800 animate-pulse' />
+          </div>
         </div>
       </div>
     )
@@ -55,7 +58,7 @@ export default function FriendProfilePage({ currentUserId }: Props) {
   return (
     <div className='flex flex-col h-full'>
       <div className='flex-1 overflow-y-auto'>
-        <div className='max-w-md mx-auto w-full p-4 flex flex-col gap-6'>
+        <div className='max-w-6xl mx-auto w-full p-4 flex flex-col gap-6'>
           {/* Back */}
           <button
             type='button'
@@ -106,59 +109,66 @@ export default function FriendProfilePage({ currentUserId }: Props) {
           )}
 
           {canSeeCollection && (
-            <>
-              <section>
-                <h2 className='text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2'>
-                  {t('friends.profile.collected')} ({collected.length})
-                </h2>
-                <div className='flex flex-wrap gap-1'>
-                  {collected.slice(0, 60).map(id => (
-                    <span key={id} className='px-1.5 py-0.5 rounded bg-slate-700 text-slate-300 text-xs font-mono'>
-                      {id}
-                    </span>
-                  ))}
-                  {collected.length > 60 && (
-                    <span className='text-slate-500 text-xs self-center'>+{collected.length - 60}</span>
-                  )}
-                </div>
-              </section>
-
-              {missing.length > 0 && (
+            <div className='grid grid-cols-1 lg:grid-cols-3 gap-x-6 gap-y-6 items-start'>
+              {/* Collection lists — main column on desktop */}
+              <div className={`${isOwn ? 'lg:col-span-3' : 'lg:col-span-2'} flex flex-col gap-6 min-w-0`}>
                 <section>
                   <h2 className='text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2'>
-                    {t('friends.profile.missing')} ({missing.length})
+                    {t('friends.profile.collected')} ({collected.length})
                   </h2>
                   <div className='flex flex-wrap gap-1'>
-                    {missing.slice(0, 60).map(id => (
-                      <span key={id} className='px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 text-xs font-mono border border-slate-700/50'>
+                    {collected.slice(0, 60).map(id => (
+                      <span key={id} className='px-1.5 py-0.5 rounded bg-slate-700 text-slate-300 text-xs font-mono'>
                         {id}
                       </span>
                     ))}
-                    {missing.length > 60 && (
-                      <span className='text-slate-500 text-xs self-center'>+{missing.length - 60}</span>
+                    {collected.length > 60 && (
+                      <span className='text-slate-500 text-xs self-center'>+{collected.length - 60}</span>
                     )}
                   </div>
                 </section>
-              )}
 
-              {duplicates.length > 0 && (
-                <section>
-                  <h2 className='text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2'>
-                    {t('friends.profile.duplicates')} ({duplicates.length})
-                  </h2>
-                  <div className='flex flex-wrap gap-1'>
-                    {duplicates.map(id => (
-                      <span key={id} className='px-1.5 py-0.5 rounded bg-amber-900/40 text-amber-300 text-xs font-mono border border-amber-700/30'>
-                        {id}
-                      </span>
-                    ))}
-                  </div>
-                </section>
-              )}
+                {missing.length > 0 && (
+                  <section>
+                    <h2 className='text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2'>
+                      {t('friends.profile.missing')} ({missing.length})
+                    </h2>
+                    <div className='flex flex-wrap gap-1'>
+                      {missing.slice(0, 60).map(id => (
+                        <span key={id} className='px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 text-xs font-mono border border-slate-700/50'>
+                          {id}
+                        </span>
+                      ))}
+                      {missing.length > 60 && (
+                        <span className='text-slate-500 text-xs self-center'>+{missing.length - 60}</span>
+                      )}
+                    </div>
+                  </section>
+                )}
 
-              {/* Trade suggestions — only for friends, not own profile */}
-              {!isOwn && <TradeSuggestionList friendUserId={profile.user_id} />}
-            </>
+                {duplicates.length > 0 && (
+                  <section>
+                    <h2 className='text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2'>
+                      {t('friends.profile.duplicates')} ({duplicates.length})
+                    </h2>
+                    <div className='flex flex-wrap gap-1'>
+                      {duplicates.map(id => (
+                        <span key={id} className='px-1.5 py-0.5 rounded bg-amber-900/40 text-amber-300 text-xs font-mono border border-amber-700/30'>
+                          {id}
+                        </span>
+                      ))}
+                    </div>
+                  </section>
+                )}
+              </div>
+
+              {/* Trade suggestions — sidebar on desktop; only for friends, not own profile */}
+              {!isOwn && (
+                <div className='min-w-0 lg:sticky lg:top-4'>
+                  <TradeSuggestionList friendUserId={profile.user_id} />
+                </div>
+              )}
+            </div>
           )}
         </div>
       </div>
