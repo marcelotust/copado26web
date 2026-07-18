@@ -13,14 +13,28 @@ export type TelemetryConsentState = 'granted' | 'declined' | null
  */
 export type TelemetryTrackOptions = { timestamp?: Date }
 
-export type TelemetryAnalyticsPort = {
-  track: (event: string, props?: TelemetryProperties, options?: TelemetryTrackOptions) => void
+/**
+ * Read-only flag evaluation. Loaded as soon as we have a `userId`, independent
+ * of analytics consent — so a user who declined (or hasn't decided yet) still
+ * gets feature gating without their behaviour being captured.
+ */
+export type TelemetryFlagsPort = {
   flag: (key: string) => boolean
   variant: (key: string) => string | null
   onFeatureFlags: (listener: TelemetryFeatureFlagsListener) => () => void
+}
+
+/**
+ * Event capture + identify. Gated by consent — never activated until the user
+ * accepts the analytics banner.
+ */
+export type TelemetryCapturePort = {
+  track: (event: string, props?: TelemetryProperties, options?: TelemetryTrackOptions) => void
   setUser: (userId: string, traits?: TelemetryProperties) => void
   reset: () => void
 }
+
+export type TelemetryAnalyticsPort = TelemetryFlagsPort & TelemetryCapturePort
 
 export type TelemetryErrorPort = {
   capture: (err: Error, context?: TelemetryProperties) => void
