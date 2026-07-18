@@ -104,6 +104,8 @@ Convenção: `snake_case`, propriedades estáveis, sem dados pessoais.
 | `ranking_page_viewed` | Página `/ranking` aberta | `user_opted_in` (boolean), `user_rank` (number \| null) |
 | `trading_partners_page_viewed` | Página `/trading-partners` aberta | `partner_count` (number) |
 | `trade_partner_share` | Botão compartilhar acionado em card de parceiro de troca | `channel` (`native_share` \| `clipboard`) |
+| `trade_fair_filter_toggled` | Toggle "Só trocas justas" alternado | `enabled` (boolean) |
+| `trade_fair_section_viewed` | Card de parceiro expandido com partição justa/cuidado calculada | `fair_in`, `unfair_in`, `fair_out`, `unfair_out` (number), `fair_only` (boolean) |
 
 > Eventos `friends_v1` e `social_v1`: apelidos, pedidos de amizade, ranking e parceiros de troca. Sem PII — apenas enums, contagens e booleanos. Gated por consentimento como os demais.
 

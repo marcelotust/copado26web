@@ -68,6 +68,8 @@ export const AnalyticsEvent = {
   RANKING_PAGE_VIEWED:                    'ranking_page_viewed',
   TRADING_PARTNERS_PAGE_VIEWED:           'trading_partners_page_viewed',
   TRADE_PARTNER_SHARE:                    'trade_partner_share',
+  TRADE_FAIR_FILTER_TOGGLED:              'trade_fair_filter_toggled',
+  TRADE_FAIR_SECTION_VIEWED:              'trade_fair_section_viewed',
 } as const
 
 /** PostHog feature-flag keys used by the app. Centralized so search-by-key works. */

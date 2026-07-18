@@ -33,7 +33,10 @@ vi.mock('../state/friends', () => ({
 }))
 
 vi.mock('../lib/telemetry', () => ({
-  AnalyticsEvent: { TRADING_PARTNERS_PAGE_VIEWED: 'trading_partners_page_viewed' },
+  AnalyticsEvent: {
+    TRADING_PARTNERS_PAGE_VIEWED: 'trading_partners_page_viewed',
+    TRADE_FAIR_FILTER_TOGGLED: 'trade_fair_filter_toggled',
+  },
   telemetry: { track: vi.fn() },
 }))
 
