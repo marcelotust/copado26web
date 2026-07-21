@@ -315,7 +315,10 @@
     "empty": "¡Sin duplicados aún!",
     "emptyDesc": "Sigue coleccionando y tus extras aparecerán aquí.",
     "share": "Compartir",
-    "copied": "¡Copiado!"
+    "copied": "¡Copiado!",
+    "searchPlaceholder": "Buscar por selección (ej.: BRA, Qatar)",
+    "searchLabel": "Buscar duplicados por selección",
+    "searchEmpty": "No se encontró ninguna selección para esta búsqueda."
   },
   "login": {
     "tagline": "Tu asistente para completar el álbum de cromos del Mundial más grande de todos los tiempos",
