@@ -315,7 +315,10 @@
     "empty": "No duplicates yet!",
     "emptyDesc": "Keep collecting stickers and your extras will appear here.",
     "share": "Share",
-    "copied": "Copied!"
+    "copied": "Copied!",
+    "searchPlaceholder": "Search by team (e.g. BRA, Qatar)",
+    "searchLabel": "Search duplicates by team",
+    "searchEmpty": "No team found for this search."
   },
   "login": {
     "tagline": "Your assistant to complete the greatest World Cup sticker album of all time",

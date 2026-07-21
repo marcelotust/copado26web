@@ -316,7 +316,10 @@
     "empty": "Nenhuma duplicata ainda!",
     "emptyDesc": "Continue coletando e seus extras aparecerão aqui.",
     "share": "Compartilhar",
-    "copied": "Copiado!"
+    "copied": "Copiado!",
+    "searchPlaceholder": "Buscar por seleção (ex.: BRA, Qatar)",
+    "searchLabel": "Buscar repetidas por seleção",
+    "searchEmpty": "Nenhuma seleção encontrada para esta busca."
   },
   "login": {
     "tagline": "Seu assistente para completar o maior álbum de Copa do Mundo de todos os tempos",

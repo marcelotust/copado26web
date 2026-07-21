@@ -6,10 +6,12 @@ import SwapTeamGroup from '../components/SwapTeamGroup'
 import SwapsShareButtons from '../components/SwapsShareButtons'
 import StickerListPageHeader from '../components/StickerListPageHeader'
 import TradeQRModal from '../components/TradeQRModal'
+import { filterSwapGroups } from '../lib/swapSearch'
 
 export default function SwapsPage() {
   const { t } = useI18n()
   const [scanOpen, setScanOpen] = useState(false)
+  const [query, setQuery] = useState('')
   const teams = useTeams()
   const { swapsByTeam, total } = useSwaps()
   const stickerWord = total === 1 ? t('swaps.sticker') : t('swaps.stickers')
@@ -18,6 +20,8 @@ export default function SwapsPage() {
     const team = teams.find(team => team.code === code)
     return team ? t(team.name_key) : code
   }
+
+  const visibleGroups = filterSwapGroups(swapsByTeam, query, teamName)
 
   function teamFlag(code: string): string {
     return teams.find(team => team.code === code)?.flag ?? ''
@@ -69,9 +73,23 @@ export default function SwapsPage() {
                 {t('tradingPartners.findPartners')}
               </Link>
             </div>
-            {swapsByTeam.map(({ teamCode, stickers }) => (
-              <SwapTeamGroup key={teamCode} teamCode={teamCode} stickers={stickers} />
-            ))}
+            <input
+              type='search'
+              value={query}
+              onChange={event => setQuery(event.target.value)}
+              placeholder={t('swaps.searchPlaceholder')}
+              aria-label={t('swaps.searchLabel')}
+              className='w-full rounded-lg border border-slate-700 bg-slate-800/60 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500'
+            />
+            {visibleGroups.length === 0 ? (
+              <div className='py-10 text-center'>
+                <p className='text-sm text-slate-300'>{t('swaps.searchEmpty')}</p>
+              </div>
+            ) : (
+              visibleGroups.map(({ teamCode, stickers }) => (
+                <SwapTeamGroup key={teamCode} teamCode={teamCode} stickers={stickers} />
+              ))
+            )}
           </div>
         )}
       </div>
