@@ -792,6 +792,12 @@
     "shareDetailHeadline": "⚽ Copa del Mundo 2026 — ¿intercambiamos figuritas?",
     "shareDetailTheyHave": "@{{nickname}} tiene {{n}} que necesitas:",
     "shareDetailIHave": "Tú tienes {{m}} que @{{nickname}} necesita:",
-    "detailError": "No se pudieron cargar las listas. Intenta de nuevo."
+    "detailError": "No se pudieron cargar las listas. Intenta de nuevo.",
+    "searchPlaceholder": "Buscar compañero por nombre o @usuario",
+    "searchLabel": "Buscar compañeros de cambio",
+    "searchEmpty": "No se encontró ningún compañero para esta búsqueda.",
+    "sortLabel": "Ordenar compañeros",
+    "sortBest": "Mejor cambio",
+    "sortAlpha": "A–Z"
   }
 }

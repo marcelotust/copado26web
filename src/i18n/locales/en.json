@@ -794,6 +794,12 @@
     "shareDetailHeadline": "⚽ World Cup 2026 — want to trade stickers?",
     "shareDetailTheyHave": "@{{nickname}} has {{n}} you need:",
     "shareDetailIHave": "You have {{m}} @{{nickname}} needs:",
-    "detailError": "Could not load the lists. Please try again."
+    "detailError": "Could not load the lists. Please try again.",
+    "searchPlaceholder": "Search partner by name or @username",
+    "searchLabel": "Search trade partners",
+    "searchEmpty": "No partner found for this search.",
+    "sortLabel": "Sort partners",
+    "sortBest": "Best trade",
+    "sortAlpha": "A–Z"
   }
 }
