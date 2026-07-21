@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useI18n } from '../i18n'
 import { useTradePartners } from '../hooks/useTradePartners'
@@ -6,6 +6,11 @@ import { useProfile } from '../state/friends'
 import { AnalyticsEvent, telemetry } from '../lib/telemetry'
 import TradePartnerCard from '../components/trading/TradePartnerCard'
 import StickerListPageHeader from '../components/StickerListPageHeader'
+import {
+  filterTradePartners,
+  sortTradePartners,
+  type TradePartnerSort,
+} from '../lib/tradePartnerFilter'
 
 type Props = { userId: string }
 
@@ -13,8 +18,15 @@ export default function TradingPartnersPage({ userId }: Props) {
   const { t } = useI18n()
   const { partners, loading } = useTradePartners()
   const { profile } = useProfile(userId)
+  const [query, setQuery] = useState('')
+  const [sort, setSort] = useState<TradePartnerSort>('best')
 
   const tradingPublic = profile?.trading_public ?? false
+
+  const visiblePartners = useMemo(
+    () => sortTradePartners(filterTradePartners(partners, query), sort),
+    [partners, query, sort],
+  )
 
   useEffect(() => {
     telemetry.track(AnalyticsEvent.TRADING_PARTNERS_PAGE_VIEWED, {
@@ -52,13 +64,48 @@ export default function TradingPartnersPage({ userId }: Props) {
               <p className='text-xs text-slate-500'>{t('tradingPartners.emptyHint')}</p>
             </div>
           ) : (
-            partners.map(partner => (
-              <TradePartnerCard
-                key={partner.user_id}
-                partner={partner}
-                currentNickname={profile?.nickname ?? ''}
-              />
-            ))
+            <>
+              <div className='flex flex-col gap-2 sm:flex-row sm:items-center'>
+                <input
+                  type='search'
+                  value={query}
+                  onChange={event => setQuery(event.target.value)}
+                  placeholder={t('tradingPartners.searchPlaceholder')}
+                  aria-label={t('tradingPartners.searchLabel')}
+                  className='w-full flex-1 rounded-lg border border-slate-700 bg-slate-800/60 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500'
+                />
+                <div className='flex shrink-0 rounded-lg border border-slate-700 bg-slate-800/60 p-0.5' role='group' aria-label={t('tradingPartners.sortLabel')}>
+                  {(['best', 'alpha'] as const).map(option => (
+                    <button
+                      key={option}
+                      type='button'
+                      onClick={() => setSort(option)}
+                      aria-pressed={sort === option}
+                      className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
+                        sort === option
+                          ? 'bg-indigo-600 text-white'
+                          : 'text-slate-300 hover:text-white'
+                      }`}
+                    >
+                      {option === 'best' ? t('tradingPartners.sortBest') : t('tradingPartners.sortAlpha')}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {visiblePartners.length === 0 ? (
+                <div className='py-10 text-center'>
+                  <p className='text-sm text-slate-300'>{t('tradingPartners.searchEmpty')}</p>
+                </div>
+              ) : (
+                visiblePartners.map(partner => (
+                  <TradePartnerCard
+                    key={partner.user_id}
+                    partner={partner}
+                    currentNickname={profile?.nickname ?? ''}
+                  />
+                ))
+              )}
+            </>
           )}
         </div>
       </div>
