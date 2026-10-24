@@ -1,32 +1,44 @@
 import { AnalyticsEvent, sanitizeAnalyticsProps } from './events'
-import { noopAnalytics, noopErrors } from './noop'
-import { activatePostHogAnalytics, deactivatePostHog } from './posthog'
+import { noopAnalytics, noopErrors, noopFlags } from './noop'
+import {
+  activatePostHogCapture,
+  bootstrapPostHogFlags,
+  deactivatePostHogCapture,
+  resetPostHogClient,
+} from './posthog'
 import { drainQueuedEvents, queueingAnalytics } from './queue'
 import { vercelAnalytics } from './vercelAdapter'
 import { activateSentryErrors, deactivateSentryUser } from './sentry'
 import { telemetryUserId } from './userIdentity'
 import type {
   TelemetryAnalyticsPort,
+  TelemetryCapturePort,
   TelemetryConsentState,
   TelemetryErrorPort,
   TelemetryFeatureFlagsListener,
+  TelemetryFlagsPort,
   TelemetryProperties,
 } from './types'
 
-// Default to the queueing impl so anon events fired before consent (e.g. on the
-// landing page) are kept around and replayed once the SDK activates. If consent
-// is declined, we swap to the true noop and discard whatever was buffered.
-let analyticsImpl: TelemetryAnalyticsPort = queueingAnalytics
+// Flags load as soon as we have a `userId`, independent of consent. The
+// `/flags` POST sends only the opaque `distinct_id` — see docs/mvp-quality-and-observability.md.
+let flagsImpl: TelemetryFlagsPort = noopFlags
+
+// Capture starts buffering anon events (landing CTAs etc.) and is swapped to
+// either the PostHog capture adapter (grant), Vercel-only (PostHog blocked),
+// or noop (decline).
+let captureImpl: TelemetryCapturePort = queueingAnalytics
 let errorsImpl: TelemetryErrorPort = noopErrors
+
 const flagListeners = new Set<TelemetryFeatureFlagsListener>()
 let detachFlagBridge: (() => void) | null = null
 
 /** Bumps when consent changes or `reset()` runs so in-flight init never swaps backends late. */
 let generation = 0
 
-async function deactivateAll(): Promise<void> {
-  await Promise.all([deactivatePostHog(), deactivateSentryUser()])
-}
+/** Tracks the pseudonymous id used for the current bootstrap, so consent activation reuses it. */
+let mountedTelemetryId: string | null = null
+let mountInFlight: Promise<void> | null = null
 
 function notifyFlagListeners(): void {
   flagListeners.forEach((listener) => listener())
@@ -34,45 +46,83 @@ function notifyFlagListeners(): void {
 
 function attachFlagBridge(): void {
   detachFlagBridge?.()
-  detachFlagBridge = analyticsImpl.onFeatureFlags(notifyFlagListeners)
+  detachFlagBridge = flagsImpl.onFeatureFlags(notifyFlagListeners)
   notifyFlagListeners()
 }
 
 /**
- * Keeps providers aligned with `useAnalyticsConsent`: nothing loads until `granted`.
- * Safe to call on every render from a `useEffect` — stale async work is ignored.
+ * Loads PostHog with capture disabled so feature flags resolve before the user
+ * decides on consent. Idempotent. Call this once `userId` is available
+ * (typically right after auth completes), independent of consent state.
+ */
+export function mountTelemetryFlags(userId: string): Promise<void> {
+  if (mountInFlight) return mountInFlight
+  const myGen = generation
+  mountInFlight = (async () => {
+    try {
+      const userTelemetryId = await telemetryUserId(userId)
+      if (myGen !== generation) return
+      const flags = await bootstrapPostHogFlags(userTelemetryId)
+      if (myGen !== generation) return
+      mountedTelemetryId = userTelemetryId
+      if (flags) {
+        flagsImpl = flags
+        attachFlagBridge()
+      }
+    } catch {
+      /* SDK blocked / network — keep noop flags */
+    } finally {
+      mountInFlight = null
+    }
+  })()
+  return mountInFlight
+}
+
+async function deactivateCaptureAll(): Promise<void> {
+  deactivatePostHogCapture()
+  await deactivateSentryUser()
+}
+
+/**
+ * Aligns capture-side providers with `useAnalyticsConsent`. Flags are
+ * mounted separately via `mountTelemetryFlags` and stay live regardless.
  */
 export function syncTelemetryConsent(opts: { userId: string; consent: TelemetryConsentState }): void {
   const myGen = ++generation
+  // Make sure flag-eval is mounted even if consent never lands.
+  void mountTelemetryFlags(opts.userId)
 
   if (opts.consent !== 'granted') {
-    void deactivateAll()
-    // Drop any anon events that accumulated while we waited for a decision —
-    // declined means the user does not want them sent anywhere.
-    drainQueuedEvents()
-    analyticsImpl = noopAnalytics
+    void deactivateCaptureAll()
+    // Decline = drop anything the queue accumulated. Null (not decided yet)
+    // is handled below by keeping the queueing capture impl active.
+    if (opts.consent === 'declined') {
+      drainQueuedEvents()
+      captureImpl = noopAnalytics
+    } else {
+      captureImpl = queueingAnalytics
+    }
     errorsImpl = noopErrors
     return
   }
 
   void (async () => {
     try {
-      const userTelemetryId = await telemetryUserId(opts.userId)
-      const [analytics, errors] = await Promise.all([
-        activatePostHogAnalytics(userTelemetryId),
-        activateSentryErrors(userTelemetryId),
-      ])
-      if (myGen !== generation) {
-        return
-      }
-      analyticsImpl = analytics ?? vercelAnalytics
+      // Wait for flag-mount to finish so the PostHog client exists before we
+      // opt in to capture — otherwise we silently downgrade to Vercel-only.
+      await mountTelemetryFlags(opts.userId)
+      if (myGen !== generation) return
+      const userTelemetryId = mountedTelemetryId ?? (await telemetryUserId(opts.userId))
+      const phCapture = activatePostHogCapture(userTelemetryId)
+      const errors = await activateSentryErrors(userTelemetryId)
+      if (myGen !== generation) return
+      captureImpl = phCapture ?? vercelAnalytics
       errorsImpl = errors ?? noopErrors
-      attachFlagBridge()
       try {
         const pending = sessionStorage.getItem('analytics_consent_pending')
         if (pending === 'granted') {
           sessionStorage.removeItem('analytics_consent_pending')
-          analyticsImpl.track(AnalyticsEvent.CONSENT_ANALYTICS_UPDATED, { granted: true })
+          captureImpl.track(AnalyticsEvent.CONSENT_ANALYTICS_UPDATED, { granted: true })
         }
       } catch { /* private mode */ }
       // Flush events buffered during the anonymous phase (landing page,
@@ -81,15 +131,14 @@ export function syncTelemetryConsent(opts: { userId: string; consent: TelemetryC
       // backdating, the post-consent flush time would put everything after
       // `auth_signed_in` and the funnel would record zero conversions.
       for (const queued of drainQueuedEvents()) {
-        analyticsImpl.track(queued.event, queued.props, {
+        captureImpl.track(queued.event, queued.props, {
           timestamp: new Date(queued.timestamp),
         })
       }
     } catch {
       if (myGen === generation) {
-        analyticsImpl = noopAnalytics
+        captureImpl = noopAnalytics
         errorsImpl = noopErrors
-        attachFlagBridge()
       }
     }
   })()
@@ -101,21 +150,21 @@ export const telemetry = {
     const myGen = generation
     void telemetryUserId(userId).then((userTelemetryId) => {
       if (myGen !== generation) return
-      analyticsImpl.setUser(userTelemetryId, traits)
+      captureImpl.setUser(userTelemetryId, traits)
       errorsImpl.setUser(userTelemetryId)
     })
   },
 
   track(event: string, props?: TelemetryProperties): void {
-    analyticsImpl.track(event, sanitizeAnalyticsProps(props))
+    captureImpl.track(event, sanitizeAnalyticsProps(props))
   },
 
   flag(key: string): boolean {
-    return analyticsImpl.flag(key)
+    return flagsImpl.flag(key)
   },
 
   variant(key: string): string | null {
-    return analyticsImpl.variant(key)
+    return flagsImpl.variant(key)
   },
 
   onFeatureFlags(listener: TelemetryFeatureFlagsListener): () => void {
@@ -133,20 +182,27 @@ export const telemetry = {
   reset(): void {
     generation++
     try {
-      analyticsImpl.reset()
+      captureImpl.reset()
       errorsImpl.reset()
     } catch {
       /* noop */
     }
-    // Back to buffering — if the user re-enters an anonymous flow (e.g. signs
-    // out and lands on the public landing again), we want their events kept
-    // until they decide on consent again.
-    analyticsImpl = queueingAnalytics
+    flagsImpl = noopFlags
+    captureImpl = queueingAnalytics
     errorsImpl = noopErrors
+    mountedTelemetryId = null
+    mountInFlight = null
     attachFlagBridge()
-    void deactivateAll()
+    // Hard-reset the PostHog client so a new sign-in re-bootstraps with the
+    // new user's distinct_id instead of inheriting the previous session's.
+    resetPostHogClient()
+    void deactivateSentryUser()
   },
 }
+
+// `TelemetryAnalyticsPort` is still re-exported through `types` for tests that
+// build a full adapter; the runtime uses the split ports.
+export type { TelemetryAnalyticsPort }
 
 export { AnalyticsEvent, FeatureFlag, sanitizeAnalyticsProps } from './events'
 export type { AnalyticsEventName, FeatureFlagKey } from './events'

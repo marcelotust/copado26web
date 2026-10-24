@@ -1,8 +1,10 @@
 import type { PostHog } from 'posthog-js'
-import { withVercelAnalytics } from './composite'
 import { sanitizeAnalyticsProps } from './events'
 import { scrubPosthogProperties } from './urlScrub'
-import type { TelemetryAnalyticsPort } from './types'
+import type {
+  TelemetryCapturePort,
+  TelemetryFlagsPort,
+} from './types'
 
 let client: PostHog | null = null
 
@@ -24,17 +26,8 @@ function readVariant(ph: PostHog, key: string): string | null {
   }
 }
 
-function createAdapter(ph: PostHog): TelemetryAnalyticsPort {
+function createFlagsAdapter(ph: PostHog): TelemetryFlagsPort {
   return {
-    track(event, props, options) {
-      try {
-        const safe = sanitizeAnalyticsProps(props)
-        const captureOpts = options?.timestamp ? { timestamp: options.timestamp } : undefined
-        ph.capture(event, safe as Record<string, unknown> | undefined, captureOpts)
-      } catch {
-        /* ad-block / private mode */
-      }
-    },
     flag: (key) => readFlag(ph, key),
     variant: (key) => readVariant(ph, key),
     onFeatureFlags(listener) {
@@ -44,6 +37,20 @@ function createAdapter(ph: PostHog): TelemetryAnalyticsPort {
         return unsubscribe
       } catch {
         return () => {}
+      }
+    },
+  }
+}
+
+function createCaptureAdapter(ph: PostHog): TelemetryCapturePort {
+  return {
+    track(event, props, options) {
+      try {
+        const safe = sanitizeAnalyticsProps(props)
+        const captureOpts = options?.timestamp ? { timestamp: options.timestamp } : undefined
+        ph.capture(event, safe as Record<string, unknown> | undefined, captureOpts)
+      } catch {
+        /* ad-block / private mode */
       }
     },
     setUser(userId, traits) {
@@ -64,10 +71,18 @@ function createAdapter(ph: PostHog): TelemetryAnalyticsPort {
 }
 
 /**
- * Loads PostHog only after consent. Dynamic import keeps the chunk optional and
- * lets ad-blockers fail without breaking the app.
+ * Loads the PostHog SDK with **capture disabled** so feature flags can be
+ * evaluated before the user decides on analytics consent. The `/flags` POST
+ * carries the opaque `distinct_id` derived from a one-way hash of the
+ * Supabase user id (see `userIdentity.ts`) — no PII, no behaviour data, no
+ * identifier reversible to the user. Capture + identify only run after
+ * `activatePostHogCapture` is called from the consent grant path.
+ *
+ * LGPD: rationale is documented in `docs/mvp-quality-and-observability.md`.
  */
-export async function activatePostHogAnalytics(userTelemetryId: string): Promise<TelemetryAnalyticsPort | null> {
+export async function bootstrapPostHogFlags(
+  userTelemetryId: string,
+): Promise<TelemetryFlagsPort | null> {
   if (import.meta.env.DEV) return null
   const key = import.meta.env.VITE_POSTHOG_KEY
   if (!key) return null
@@ -81,41 +96,64 @@ export async function activatePostHogAnalytics(userTelemetryId: string): Promise
         api_host: host,
         person_profiles: 'identified_only',
         capture_pageview: false,
-        // The app routes every meaningful event through manual capture(), so
-        // disable autocapture entirely — keeps stray clicks on sticker tiles,
-        // friend cards, etc. out of the funnel and removes another channel
-        // that could leak DOM text.
         autocapture: false,
-        // Every $current_url / $pathname / $referrer goes through this scrubber
-        // so trade payloads, nicknames and Supabase auth tokens never reach the
-        // backend (still applied to manual capture() calls).
         sanitize_properties: scrubPosthogProperties,
         persistence: 'localStorage+cookie',
-        loaded: (ph) => {
-          try {
-            ph.identify(userTelemetryId)
-          } catch {
-            /* noop */
-          }
+        // Critical: defer capture until consent grant. The SDK still calls
+        // `/flags` (needed for feature gating), but suppresses every
+        // `capture()` and `identify()` until `opt_in_capturing()` runs.
+        opt_out_capturing_by_default: true,
+        bootstrap: {
+          distinctID: userTelemetryId,
         },
       })
       client = posthog
-    } else {
-      try {
-        client.opt_in_capturing()
-        client.identify(userTelemetryId)
-      } catch {
-        /* noop */
-      }
     }
 
-    return withVercelAnalytics(createAdapter(client))
+    return createFlagsAdapter(client)
   } catch {
     return null
   }
 }
 
-export async function deactivatePostHog(): Promise<void> {
+/**
+ * Turns on event capture and identifies the user. Must be called only after
+ * the user explicitly grants analytics consent. Idempotent: safe to call
+ * multiple times.
+ */
+export function activatePostHogCapture(userTelemetryId: string): TelemetryCapturePort | null {
+  if (!client) return null
+  try {
+    client.opt_in_capturing()
+    client.identify(userTelemetryId)
+  } catch {
+    /* noop */
+  }
+  return createCaptureAdapter(client)
+}
+
+/**
+ * Stops event capture without unloading the SDK. **Does not** call
+ * `client.reset()` — that would wipe the bootstrapped `distinct_id` and a user
+ * who declines would lose the targeted-flags they were eligible for. Capture
+ * stays off until `activatePostHogCapture` runs; flag-eval keeps working.
+ */
+export function deactivatePostHogCapture(): void {
+  if (!client) return
+  try {
+    client.opt_out_capturing()
+  } catch {
+    /* noop */
+  }
+}
+
+/**
+ * Hard-resets the PostHog client (clears distinct_id, persisted state) and
+ * forgets the module-level singleton so a fresh bootstrap can run with a new
+ * `distinct_id`. Called from `telemetry.reset()` on sign-out, so the next
+ * sign-in doesn't inherit the previous user's id.
+ */
+export function resetPostHogClient(): void {
   if (!client) return
   try {
     client.opt_out_capturing()
@@ -123,4 +161,5 @@ export async function deactivatePostHog(): Promise<void> {
   } catch {
     /* noop */
   }
+  client = null
 }
